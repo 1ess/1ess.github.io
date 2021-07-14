@@ -1,0 +1,128 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="了解了 Web API 如何将 HTTP 请求路由到 Controller 和 Action 方法。我们将再看看 Web API 如何将 HTTP 请求数据绑定到操作方法的参数。
+Model Binding
+Web API 将操作方法​​参数与 URL 的 Query String 或 Reques"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>了解了 Web API 如何将 HTTP 请求路由到 Controller 和 Action 方法。我们将再看看 Web API 如何将 HTTP 请求数据绑定到操作方法的参数。</p>
+<h2 id="Model-Binding"><a href="#Model-Binding" class="headerlink" title="Model Binding"></a>Model Binding</h2><hr>
+<p>Web API 将操作方法​​参数与 URL 的 Query String 或 Request Body 绑定，具体取决于参数类型。<br>默认情况下，如果参数类型是 .NET 基本类型，则它从 Query String 设置参数的值，如果参数类型是复杂类型，则 Web API 会尝试默认从 Request Body 中获取值。</p>
+<h3 id="默认-Binding-规则"><a href="#默认-Binding-规则" class="headerlink" title="默认 Binding 规则"></a>默认 Binding 规则</h3><table>
+<thead>
+<tr>
+<th>HTTP Method</th>
+<th>Query String</th>
+<th>Request Body</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td>Primitive Type，Complex Type</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>Primitive Type</td>
+<td>Complex Type</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>Primitive Type</td>
+<td>Complex Type</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>Primitive Type</td>
+<td>Complex Type</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Primitive Type，Complex Type</td>
+<td>NA</td>
+</tr>
+</tbody></table>
+<h3 id="FromUri-和-FromBody"><a href="#FromUri-和-FromBody" class="headerlink" title="[FromUri] 和 [FromBody]"></a>[FromUri] 和 [FromBody]</h3><p>使用 [FromUri] 特性强制 Web API 从 Query String 获取复杂类型的值，[FromBody] 特性从 Request Body 获取基本类型的值。</p>
+<p>注意: FromBody 特性只能应用于 Action 方法的一个基本参数。它不能应用于同一个 Action 方法的多个原始参数。</p>
+<p>注意与 Web MVC 的区别:<br>Web MVC 中，不论是复杂类型还是简单类型，只要是 Get 请求，都从 Query String 获取值，只要是 Post 请求，都从 Request Body 中获取值。<br>Web API 中，默认情况，简单类型从 Query String 中获取值，复杂类型根据请求方法: Get请求，从 Query String 获取值，Post 请求从 Request Body 获取值。<br>我们可以使用 [FromUri] 和 [FromBody] 特性强制 Post 请求中简单类型可以从 Request Body 获取，复杂类型可以从 Query String 获取。</p>
+<h2 id="Action-方法返回类型"><a href="#Action-方法返回类型" class="headerlink" title="Action 方法返回类型"></a>Action 方法返回类型</h2><hr>
+<p>Web API Action 方法可以具有以下返回类型: </p>
+<ul>
+<li>void</li>
+<li>原始类型或复杂类型</li>
+<li>HttpResponseMessage</li>
+<li>IHttpActionResult</li>
+</ul>
+<h3 id="void"><a href="#void" class="headerlink" title="void"></a>void</h3><p>并非所有 Action 方法都必须返回某些内容。它可以有 void 返回类型。</p>
+<h3 id="原始类型或复杂类型"><a href="#原始类型或复杂类型" class="headerlink" title="原始类型或复杂类型"></a>原始类型或复杂类型</h3><p>Action 方法可以返回原始或其他自定义复杂类型。</p>
+<h3 id="HttpResponseMessage"><a href="#HttpResponseMessage" class="headerlink" title="HttpResponseMessage"></a>HttpResponseMessage</h3><p>Web API Controller 始终将 HttpResponseMessage 的对象返回到托管基础结构.<br>从 Action 方法发送 HttpResponseMessage 响应的优点是可以按照自己的方式配置响应。如状态码或错误消息等。</p>
+<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token keyword">public</span> HttpResponseMessage <span class="token function">Get</span><span class="token punctuation">(</span><span class="token keyword">int</span> id<span class="token punctuation">)</span>
+<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> foo <span class="token operator">=</span> <span class="token function">GetFooFromDB</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>foo <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+    <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> Request<span class="token punctuation">.</span><span class="token function">CreateResponse</span><span class="token punctuation">(</span>HttpStatusCode<span class="token punctuation">.</span>NotFound<span class="token punctuation">,</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> Request<span class="token punctuation">.</span><span class="token function">CreateResponse</span><span class="token punctuation">(</span>HttpStatusCode<span class="token punctuation">.</span>OK<span class="token punctuation">,</span> foo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="IHttpActionResult"><a href="#IHttpActionResult" class="headerlink" title="IHttpActionResult"></a>IHttpActionResult</h3><p>IHttpActionResult 是在 Web API 2(.NET 4.5)中引入的。 Web API 2 中的 Action 方法可以返回IHttpActionResult 类的实现，类似于 MVC 中的 ActionResult。</p>
+<p>我们可以创建自己的类来实现 IHttpActionResult 或者使用 ApiController 类方法返回 IHttpActionResult 的对象。</p>
+<p>下面是 ApiController 类方法，它返回实现 IHttpActionResult 接口的类的对象。</p>
+<table>
+<thead>
+<tr>
+<th>ApiController Method</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BadRequest()</td>
+<td>创建一个 BadRequestResult 对象，状态码 400.</td>
+</tr>
+<tr>
+<td>Conflict()</td>
+<td>创建一个 ConflictResult 对象，状态码 409.</td>
+</tr>
+<tr>
+<td>Content()</td>
+<td>创建一个特殊状态码和内容的 NegotiatedContentResult 对象</td>
+</tr>
+<tr>
+<td>Created()</td>
+<td>创建一个 CreatedNegotiatedContentResult 对象，状态码 201</td>
+</tr>
+<tr>
+<td>CreatedAtRoute()</td>
+<td>创建一个 CreatedAtRouteNegotiatedContentResult 对象，状态码 201</td>
+</tr>
+<tr>
+<td>InternalServerError()</td>
+<td>创建一个 InternalServerErrorResult  对象，状态码 500 Internal server error.</td>
+</tr>
+<tr>
+<td>NotFound()</td>
+<td>创建一个 NotFoundResult 对象，状态码 404</td>
+</tr>
+<tr>
+<td>Ok()</td>
+<td>创建一个 OkResult 对象，状态码 200</td>
+</tr>
+<tr>
+<td>Redirect()</td>
+<td>创建一个 RedirectResult 对象，状态码 302</td>
+</tr>
+<tr>
+<td>RedirectToRoute()</td>
+<td>创建一个 RedirectToRouteResult 对象，状态码 302</td>
+</tr>
+<tr>
+<td>ResponseMessage()</td>
+<td>创建一个特殊的 HttpResponseMessage 的 ResponseMessageResult 对象</td>
+</tr>
+<tr>
+<td>StatusCode()</td>
+<td>创建一个特殊状态码的 StatusCodeResult</td>
+</tr>
+<tr>
+<td>Unauthorized()</td>
+<td>创建一个 UnauthorizedResult 对象，状态码 401</td>
+</tr>
+</tbody></table>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/ASP.Net%20API(%E4%BA%8C)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/ASP.Net%20API(%E5%9B%9B)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

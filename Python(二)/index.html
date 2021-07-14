@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="上篇我们说了 Python 中的一些基本数据类型，本篇我们来说说 Python 内置数据结构。
+Python 中有四种内置的数据结构 —— 列表(List)、元组(Tuple)、字典(Dictionary)和集合(Set)。
+列表(List)
+列表 是一种用于保存一系列有序项目的集合。使用方括号将数"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>上篇我们说了 Python 中的一些基本数据类型，本篇我们来说说 Python 内置数据结构。</p>
+<p>Python 中有四种内置的数据结构 —— 列表(List)、元组(Tuple)、字典(Dictionary)和集合(Set)。</p>
+<h2 id="列表-List"><a href="#列表-List" class="headerlink" title="列表(List)"></a>列表(List)</h2><hr>
+<p>列表 是一种用于保存一系列有序项目的集合。使用方括号将数据元素包裹表示，我们可以添加或删除项目，所以说列表是一种可变的(Mutable)数据类型。<br>Python 中的 list 里面的元素的数据类型也可以不同</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><pre class="line-numbers language-python"><code class="language-python">shoplist <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'apple'</span><span class="token punctuation">,</span> <span class="token string">'mango'</span><span class="token punctuation">,</span> <span class="token string">'carrot'</span><span class="token punctuation">,</span> <span class="token string">'banana'</span><span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># ['apple', 'mango', 'carrot', 'banana']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="len-函数"><a href="#len-函数" class="headerlink" title="len() 函数"></a>len() 函数</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'I have'</span><span class="token punctuation">,</span> len<span class="token punctuation">(</span>shoplist<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'items to purchase.'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 4</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>用索引来访问 list 中每一个位置的元素，与之前说过的语言一样，索引是从 0 开始的: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'The first item I will buy is'</span><span class="token punctuation">,</span> shoplist<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># The first item I will buy is apple</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>当索引超出了范围时，Python 会报一个 IndexError 错误。</p>
+<p>如果要取最后一个元素，除了计算索引位置外，还可以用 -1 做索引，直接获取最后一个元素: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'The last item I will buy is'</span><span class="token punctuation">,</span> shoplist<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># banana</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>以此类推，可以获取倒数第 2 个、倒数第 3 个，并且也要注意越界问题。</p>
+<h3 id="extend-函数"><a href="#extend-函数" class="headerlink" title="extend() 函数"></a>extend() 函数</h3><p>我们可以使用扩展函数来扩展数组: </p>
+<pre class="line-numbers language-python"><code class="language-python">list1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span>
+list2 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">,</span> <span class="token string">'d'</span><span class="token punctuation">]</span>
+list1<span class="token punctuation">.</span>extend<span class="token punctuation">(</span>list2<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>list1<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [1, 2, 3, 4, 5, 'a', 'b', 'c', 'd']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="append-函数"><a href="#append-函数" class="headerlink" title="append() 函数"></a>append() 函数</h3><p>list 是一个可变的有序表，所以，可以往 list 中追加元素到末尾: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'\nI also have to buy rice.'</span><span class="token punctuation">)</span>
+shoplist<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'rice'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'My shopping list is now'</span><span class="token punctuation">,</span> shoplist<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># My shopping list is now ['apple', 'mango', 'carrot', 'banana', 'rice']</span>
+
+list1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span>
+list2 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">,</span> <span class="token string">'d'</span><span class="token punctuation">]</span>
+list1<span class="token punctuation">.</span>append<span class="token punctuation">(</span>list2<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>list1<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [1, 2, 3, 4, 5, ['a', 'b', 'c', 'd']]</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意: append() 函数与 extend() 函数的区别。</p>
+<h3 id="insert-函数"><a href="#insert-函数" class="headerlink" title="insert() 函数"></a>insert() 函数</h3><p>也可以往 list 中追加元素到任意位置: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'\nI have to buy coco first.'</span><span class="token punctuation">)</span>
+shoplist<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'coco'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'My shopping list is now'</span><span class="token punctuation">,</span> shoplist<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># My shopping list is now ['coco', 'apple', 'mango', 'carrot', 'banana', 'rice']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="pop-函数"><a href="#pop-函数" class="headerlink" title="pop() 函数"></a>pop() 函数</h3><p>要删除 list 末尾的元素，用 pop() 方法: </p>
+<pre class="line-numbers language-python"><code class="language-python">old <span class="token operator">=</span> shoplist<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'I bought the '</span><span class="token punctuation">,</span> old<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># rich</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>要删除指定位置的元素，用 pop(i) 方法，其中 i 是索引位置: </p>
+<pre class="line-numbers language-python"><code class="language-python">old <span class="token operator">=</span> shoplist<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'I bought the '</span><span class="token punctuation">,</span> old<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># coco</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>注意: 我们还可以使用 del 来删除数据元素: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">del</span> shoplist<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># coco</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="remove-函数"><a href="#remove-函数" class="headerlink" title="remove() 函数"></a>remove() 函数</h3><p>remove() 函数可以移除某一元素: </p>
+<pre class="line-numbers language-python"><code class="language-python">list1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">,</span> <span class="token string">'d'</span><span class="token punctuation">]</span>
+list1<span class="token punctuation">.</span>remove<span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>list1<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ['a', 'b', 'd']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="clear-函数"><a href="#clear-函数" class="headerlink" title="clear() 函数"></a>clear() 函数</h3><p>clear() 函数可以清空列表: </p>
+<pre class="line-numbers language-python"><code class="language-python">list1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span>
+list1<span class="token punctuation">.</span>clear<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>list1<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># []</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h3><p>要把某个元素替换成别的元素，可以直接赋值给对应的索引位置: </p>
+<pre class="line-numbers language-python"><code class="language-python">shoplist<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> orange
+<span class="token comment" spellcheck="true"># ['orange', 'apple', 'mango', 'carrot', 'banana', 'rice']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="sort-函数"><a href="#sort-函数" class="headerlink" title="sort() 函数"></a>sort() 函数</h3><p>我们对列表使用 sort 方法进行排序，在这里要着重理解到这一方法影响到的是列表本身，而不会返回一个修改过的列表 —— 这与修改字符串的方式并不相同。同时，这也是我们所说的，列表是可变的(Mutable)而字符串是不可变的(Immutable)。</p>
+<pre class="line-numbers language-python"><code class="language-python">shoplist<span class="token punctuation">.</span>sort<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Sorted shopping list is'</span><span class="token punctuation">,</span> shoplist<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Sorted shopping list is ['apple', 'banana', 'carrot', 'mango', 'orange', 'rice']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>我们可以传递 reverse=True 使得按字母顺序反序排序: </p>
+<pre class="line-numbers language-python"><code class="language-python">shoplist<span class="token punctuation">.</span>sort<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Sorted shopping list is'</span><span class="token punctuation">,</span> shoplist<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Sorted shopping list is ['rice', 'orange', 'mango', 'carrot', 'banana', 'apple']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="reverse-函数"><a href="#reverse-函数" class="headerlink" title="reverse() 函数"></a>reverse() 函数</h3><p>我们使用 reverse() 函数反转列表: </p>
+<pre class="line-numbers language-python"><code class="language-python">shoplist<span class="token punctuation">.</span>reverse<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Reverse shopping list is'</span><span class="token punctuation">,</span> shoplist<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Reverse shopping list is ['banana', 'carrot', 'mango', 'apple']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="copy-函数"><a href="#copy-函数" class="headerlink" title="copy() 函数"></a>copy() 函数</h3><p>copy() 函数对列表执行深拷贝: </p>
+<pre class="line-numbers language-python"><code class="language-python">list1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">,</span> <span class="token string">'d'</span><span class="token punctuation">]</span>
+list2 <span class="token operator">=</span> list2<span class="token punctuation">.</span>copy<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+list2<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'e'</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>list1<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ['a', 'b', 'c', 'd']</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>list2<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ['e', 'b', 'c', 'd']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="列表推导式"><a href="#列表推导式" class="headerlink" title="列表推导式"></a>列表推导式</h3><p>列表推导式将 for 循环与创建新元素代码合并成一行，并自动附加新元素: </p>
+<pre class="line-numbers language-python"><code class="language-python">squares <span class="token operator">=</span> <span class="token punctuation">[</span>value <span class="token operator">**</span> <span class="token number">2</span> <span class="token keyword">for</span> value <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>squares<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]</span>
+
+items <span class="token operator">=</span> <span class="token punctuation">[</span>x <span class="token operator">**</span> <span class="token number">2</span> <span class="token keyword">for</span> x <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span> <span class="token keyword">if</span> x <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># [4, 16, 36, 64, 100]</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>基本语法是: 指定一个左方括号，并定义一个表达式，用于生成你要存储到列表中的值，如: value ** 2，接下来编写一个 for 循环，用于给表达式提供值，还可以提供一个可选条件，再加上右方括号。</p>
+<h2 id="元组-Tuple"><a href="#元组-Tuple" class="headerlink" title="元组(Tuple)"></a>元组(Tuple)</h2><hr>
+<p>元组(Tuple)用于将多个对象保存到一起。你可以将它们近似地看作列表，但是元组不能提供列表类能够提供给你的广泛的功能。元组的一大特征类似于字符串，它们是不可变的，也就是说，你不能编辑或更改元组。使用小括号将数据元素包裹表示，尽管括号是一个可选选项。<br>不可变的 tuple 有什么意义？因为 tuple 不可变，所以代码更安全。如果可能，能用 tuple 代替 list 就尽量用 tuple。</p>
+<h3 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h3><pre class="line-numbers language-python"><code class="language-python">zoo <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token string">'python'</span><span class="token punctuation">,</span> <span class="token string">'elephant'</span><span class="token punctuation">,</span> <span class="token string">'penguin'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ('python', 'elephant', 'penguin')</span>
+new_zoo <span class="token operator">=</span> <span class="token string">'monkey'</span><span class="token punctuation">,</span> <span class="token string">'camel'</span><span class="token punctuation">,</span> zoo
+<span class="token comment" spellcheck="true"># ('monkey', 'camel', ('python', 'elephant', 'penguin'))</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>一个只拥有一个项目的元组并不像这样简单。你必须在第一个(也是唯一一个)项目的后面加上一个逗号来指定它，如此一来 Python 才可以识别出在这个表达式想表达的究竟是一个元组还是只是一个被括号所环绕的对象: </p>
+<pre class="line-numbers language-python"><code class="language-python">singleton <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="len-函数-1"><a href="#len-函数-1" class="headerlink" title="len() 函数"></a>len() 函数</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Number of animals in the zoo is'</span><span class="token punctuation">,</span> len<span class="token punctuation">(</span>zoo<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Number of animals in the zoo is 3</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Number of cages in the new zoo is'</span><span class="token punctuation">,</span> len<span class="token punctuation">(</span>new_zoo<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Number of cages in the new zoo is 3</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="索引-1"><a href="#索引-1" class="headerlink" title="索引"></a>索引</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Animals brought from old zoo are'</span><span class="token punctuation">,</span> new_zoo<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#Animals brought from old zoo are ('python', 'elephant', 'penguin')</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Last animal brought from old zoo is'</span><span class="token punctuation">,</span> new_zoo<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Last animal brought from old zoo is penguin</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="字典-Dictionary"><a href="#字典-Dictionary" class="headerlink" title="字典(Dictionary)"></a>字典(Dictionary)</h2><hr>
+<p>字典在其他语言中也称为 map，使用键-值(key-value)存储。<br>要注意的是你只能使用不可变的对象(如字符串)作为字典的键值，但是你可以使用可变或不可变的对象作为字典中的值。基本上这段话也可以翻译为你只能使用简单对象作为键值。</p>
+<p>在字典中，你可以通过使用符号构成 d = {key : value1 , key2 : value2} 这样的形式，来成对地指定键值与值。在这里要注意到成对的键值与值之间使用冒号分隔，而每一对键值与值则使用逗号进行区分，它们全都由一对花括号括起。</p>
+<h3 id="初始化-2"><a href="#初始化-2" class="headerlink" title="初始化"></a>初始化</h3><pre class="line-numbers language-python"><code class="language-python">ab <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
+    <span class="token string">'Swaroop'</span><span class="token punctuation">:</span> <span class="token string">'swaroop@swaroopch.com'</span><span class="token punctuation">,</span>
+    <span class="token string">'Larry'</span><span class="token punctuation">:</span> <span class="token string">'larry@wall.org'</span><span class="token punctuation">,</span>
+    <span class="token string">'Matsumoto'</span><span class="token punctuation">:</span> <span class="token string">'matz@ruby-lang.org'</span><span class="token punctuation">,</span>
+    <span class="token string">'Spammer'</span><span class="token punctuation">:</span> <span class="token string">'spammer@hotmail.com'</span>
+<span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="len-函数-2"><a href="#len-函数-2" class="headerlink" title="len() 函数"></a>len() 函数</h3><p>len() 函数用来获取键值对数目: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'\nThere are &amp;#123;&amp;#125; contacts in the address-book\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>len<span class="token punctuation">(</span>ab<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># There are 3 contacts in the address-book</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="查找与赋值"><a href="#查找与赋值" class="headerlink" title="查找与赋值"></a>查找与赋值</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Swaroop's address is"</span><span class="token punctuation">,</span> ab<span class="token punctuation">[</span><span class="token string">'Swaroop'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Swaroop's address is swaroop@swaroopch.com</span>
+
+<span class="token comment" spellcheck="true"># 添加一对键值—值配对</span>
+ab<span class="token punctuation">[</span><span class="token string">'Guido'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'guido@python.org'</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意: 如果 key 不存在，Python 会报一个 KeyError 错误。</p>
+<p>要避免 key 不存在的错误，有两种办法，<br>一是通过 in 判断 key 是否存在: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">if</span> <span class="token string">'Guido'</span> <span class="token keyword">in</span> ab<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Guido's address is"</span><span class="token punctuation">,</span> ab<span class="token punctuation">[</span><span class="token string">'Guido'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># Guido's address is guido@python.org</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>二是通过 dict 提供的 get() 方法，如果 key 不存在，可以返回 None，或者自己指定的 value: </p>
+<pre class="line-numbers language-python"><code class="language-python">ab<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'Bob'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># None</span>
+
+ab<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'Bob'</span><span class="token punctuation">,</span> <span class="token string">'Name is not exist'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 'Name is not exist'</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="pop-函数-1"><a href="#pop-函数-1" class="headerlink" title="pop() 函数"></a>pop() 函数</h3><p>要删除一个 key，用 pop(key) 方法，对应的 value 也会从 dict 中删除: </p>
+<pre class="line-numbers language-python"><code class="language-python">ab<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token string">'Spammer'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># spammer@hotmail.com</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>同 list 一样，也可以使用 del 删除一对键值对: </p>
+<pre class="line-numbers language-python"><code class="language-python">s <span class="token operator">=</span> <span class="token keyword">del</span> ab<span class="token punctuation">[</span><span class="token string">'Spammer'</span><span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># spammer@hotmail.com</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="字典推导式"><a href="#字典推导式" class="headerlink" title="字典推导式"></a>字典推导式</h3><p>与列表推导式类似，字典也可以使用推导式: </p>
+<pre class="line-numbers language-python"><code class="language-python">items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">]</span>
+dic <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;x: 0 for x in items&amp;#125;</span>
+<span class="token comment" spellcheck="true"># &amp;#123;'a': 0, 'b': 0, 'c': 0&amp;#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h2><hr>
+<p>列表、元组和字符串可以看作序列(Sequence)的某种表现形式。序列的主要功能是资格测试(也就是 in 与 not in 表达式)和索引操作(Indexing Operations)，它们能够允许我们直接获取序列中的特定项目。</p>
+<p>上面所提到的序列的三种形态 —— 列表、元组与字符串，同样拥有一种切片(Slicing)运算符，它能够允许我们序列中的某段切片 —— 也就是序列之中的一部分。</p>
+<p>使用切片操作来生成一份序列的副本。</p>
+<pre class="line-numbers language-python"><code class="language-python">shoplist <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'apple'</span><span class="token punctuation">,</span> <span class="token string">'mango'</span><span class="token punctuation">,</span> <span class="token string">'carrot'</span><span class="token punctuation">,</span> <span class="token string">'banana'</span><span class="token punctuation">]</span>
+
+<span class="token comment" spellcheck="true"># Slicing on a list #</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Item 1 to 3 is'</span><span class="token punctuation">,</span> shoplist<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Item 1 to 3 is ['mango', 'carrot']</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Item 2 to end is'</span><span class="token punctuation">,</span> shoplist<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Item 2 to end is ['carrot', 'banana']</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Item 1 to -1 is'</span><span class="token punctuation">,</span> shoplist<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Item 1 to -1 is ['mango', 'carrot']</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Item start to end is'</span><span class="token punctuation">,</span> shoplist<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Item start to end is ['apple', 'mango', 'carrot', 'banana']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-python"><code class="language-python">name <span class="token operator">=</span> <span class="token string">'swaroop'</span>
+
+<span class="token comment" spellcheck="true"># 从某一字符串中切片 #</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'characters 1 to 3 is'</span><span class="token punctuation">,</span> name<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># characters 1 to 3 is wa</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'characters 2 to end is'</span><span class="token punctuation">,</span> name<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># characters 2 to end is aroop</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'characters 1 to -1 is'</span><span class="token punctuation">,</span> name<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># characters 1 to -1 is waroo</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'characters start to end is'</span><span class="token punctuation">,</span> name<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># characters start to end is swaroop</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在切片操作中，第一个数字(冒号前面的那位)指的是切片开始的位置，第二个数字(冒号后面的那位)指的是切片结束的位置。如果第一位数字没有指定，Python 将会从序列的起始处开始操作。如果第二个数字留空，Python 将会在序列的末尾结束操作。要注意的是切片操作会在开始处返回 start，并在 end 前面的位置结束工作。也就是说，序列切片将包括起始位置，但不包括结束位置。</p>
+<p>你同样可以在切片操作中提供第三个参数，这一参数将被视为切片的步长(Step)(在默认情况下，步长大小为 1): </p>
+<pre class="line-numbers language-python"><code class="language-python">shoplist <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'apple'</span><span class="token punctuation">,</span> <span class="token string">'mango'</span><span class="token punctuation">,</span> <span class="token string">'carrot'</span><span class="token punctuation">,</span> <span class="token string">'banana'</span><span class="token punctuation">]</span>
+shoplist<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># ['apple', 'mango', 'carrot', 'banana']</span>
+shoplist<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># ['apple', 'carrot']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="集合-Set"><a href="#集合-Set" class="headerlink" title="集合(Set)"></a>集合(Set)</h2><hr>
+<p>集合(Set)是简单对象的无序集合(Collection)。当集合中的项目存在与否比起次序或其出现次数更加重要时，我们就会使用集合。</p>
+<h3 id="初始化-3"><a href="#初始化-3" class="headerlink" title="初始化"></a>初始化</h3><p>要创建一个 set，需要提供一个 list 作为输入集合: </p>
+<pre class="line-numbers language-python"><code class="language-python">bri <span class="token operator">=</span> set<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'brazil'</span><span class="token punctuation">,</span> <span class="token string">'russia'</span><span class="token punctuation">,</span> <span class="token string">'india'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &amp;#123;'russia', 'brazil', 'india'&amp;#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>重复元素在set中自动被过滤: </p>
+<pre class="line-numbers language-python"><code class="language-python">bri <span class="token operator">=</span> set<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'brazil'</span><span class="token punctuation">,</span> <span class="token string">'russia'</span><span class="token punctuation">,</span> <span class="token string">'india'</span><span class="token punctuation">,</span> <span class="token string">'brazil'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &amp;#123;'russia', 'brazil', 'india'&amp;#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="add-key-函数"><a href="#add-key-函数" class="headerlink" title="add(key) 函数"></a>add(key) 函数</h3><p>通过 add(key) 方法可以添加元素到 set 中，可以重复添加，但不会有效果: </p>
+<pre class="line-numbers language-python"><code class="language-python">bric<span class="token punctuation">.</span>add<span class="token punctuation">(</span><span class="token string">'china'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &amp;#123;'russia', 'brazil', 'india', 'china'&amp;#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="remove-key-函数"><a href="#remove-key-函数" class="headerlink" title="remove(key) 函数"></a>remove(key) 函数</h3><p>通过 remove(key) 方法可以删除元素: </p>
+<pre class="line-numbers language-python"><code class="language-python">bric<span class="token punctuation">.</span>remvoe<span class="token punctuation">(</span><span class="token string">'china'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &amp;#123;'russia', 'brazil', 'india'&amp;#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h3><p>set 可以看成数学意义上的无序和无重复元素的集合，因此，两个 set 可以做数学意义上的交集、并集等操作: </p>
+<pre class="line-numbers language-python"><code class="language-python">s1 <span class="token operator">=</span> set<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+s2 <span class="token operator">=</span> set<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+s1 <span class="token operator">&amp;</span> s2
+<span class="token comment" spellcheck="true"># &amp;#123;2, 3&amp;#125;</span>
+
+s1 <span class="token operator">|</span> s2
+<span class="token comment" spellcheck="true"># &amp;#123;1, 2, 3, 4&amp;#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意: set 不可以放入可变对象。因为无法判断两个可变对象是否相等，也就无法保证 set 内部”不会有重复元素”。</p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><hr>
+<p>早些时候我们已经详细讨论过了字符串，我们在介绍一些常用函数。</p>
+<h3 id="startswith-函数"><a href="#startswith-函数" class="headerlink" title="startswith() 函数"></a>startswith() 函数</h3><pre class="line-numbers language-python"><code class="language-python">name <span class="token operator">=</span> <span class="token string">'Swaroop'</span>
+
+<span class="token keyword">if</span> name<span class="token punctuation">.</span>startswith<span class="token punctuation">(</span><span class="token string">'Swa'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Yes, the string starts with "Swa"'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># Yes, the string starts with "Swa"</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="find-函数"><a href="#find-函数" class="headerlink" title="find() 函数"></a>find() 函数</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">if</span> name<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token string">'war'</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Yes, it contains the string "war"'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># Yes, it contains the string "war"</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="join-函数"><a href="#join-函数" class="headerlink" title="join() 函数"></a>join() 函数</h3><pre class="line-numbers language-python"><code class="language-python">delimiter <span class="token operator">=</span> <span class="token string">'_*_'</span>
+mylist <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Brazil'</span><span class="token punctuation">,</span> <span class="token string">'Russia'</span><span class="token punctuation">,</span> <span class="token string">'India'</span><span class="token punctuation">,</span> <span class="token string">'China'</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>delimiter<span class="token punctuation">.</span>join<span class="token punctuation">(</span>mylist<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Brazil_*_Russia_*_India_*_China</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="title-函数"><a href="#title-函数" class="headerlink" title="title() 函数"></a>title() 函数</h3><p>title() 函数以首字母大写方式显示每个单词: </p>
+<pre class="line-numbers language-python"><code class="language-python">name <span class="token operator">=</span> <span class="token string">'ada lovelace'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span>title<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Ada Lovelace</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="lower-和-upper-函数"><a href="#lower-和-upper-函数" class="headerlink" title="lower() 和 upper() 函数"></a>lower() 和 upper() 函数</h3><p>lower() 函数使得字符串全部转为小写字母，upper() 函数使得字符串全部转为大写字母: </p>
+<pre class="line-numbers language-python"><code class="language-python">name <span class="token operator">=</span> <span class="token string">'Ada Lovelace'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ada lovelace</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span>upper<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ADA LOVELACE</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="strip-函数"><a href="#strip-函数" class="headerlink" title="strip() 函数"></a>strip() 函数</h3><p>strip() 函数可以删除字符串两侧的空白: </p>
+<pre class="line-numbers language-python"><code class="language-python">favorite_language <span class="token operator">=</span> <span class="token string">'  python  '</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>favorite_language<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 'python'</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>favorite_language<span class="token punctuation">.</span>lstrip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 'python  '</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>favorite_language<span class="token punctuation">.</span>rstrip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># '  python'</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="split-函数"><a href="#split-函数" class="headerlink" title="split() 函数"></a>split() 函数</h3><p>split() 函数可以根据指定字符串将源串分割为数组: </p>
+<pre class="line-numbers language-python"><code class="language-python">country <span class="token operator">=</span> <span class="token string">'Brazil Russia India China'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>country<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ['Brazil', 'Russia', 'India', 'China']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="index-函数"><a href="#index-函数" class="headerlink" title="index() 函数"></a>index() 函数</h3><p>index() 函数可以查找字符串所在索引位置: </p>
+<pre class="line-numbers language-python"><code class="language-python">country <span class="token operator">=</span> <span class="token string">'Brazil Russia India China'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>country<span class="token punctuation">.</span>index<span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 2</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="replace-函数"><a href="#replace-函数" class="headerlink" title="replace() 函数"></a>replace() 函数</h3><p>replace() 函数可以替换字符串: </p>
+<pre class="line-numbers language-python"><code class="language-python">country <span class="token operator">=</span> <span class="token string">'Brazil Russia India China'</span>
+new_country <span class="token operator">=</span> country<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">'India'</span><span class="token punctuation">,</span> <span class="token string">'USA'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>new_country<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Brazil Russia USA China</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Python(%E4%B8%80)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/HTML(%E4%B8%80)/" title="HTML(一)">下一篇: HTML(一)&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

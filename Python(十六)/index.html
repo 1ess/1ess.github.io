@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="接下来的几篇，我们将介绍一下最流行的爬虫框架 Scrapy。本篇，我们会介绍一下 Scrapy 的基本使用。
+基本命令
+# scrapy startproject [文件夹名]
+scrapy startproject quotetutorial
+
+# 进入项目文件夹
+cd quotetutorial"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>接下来的几篇，我们将介绍一下最流行的爬虫框架 Scrapy。本篇，我们会介绍一下 Scrapy 的基本使用。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/scrapy/scrapy_architecture_02.png"></p>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><hr>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># scrapy startproject [文件夹名]</span>
+scrapy startproject quotetutorial
+
+<span class="token comment" spellcheck="true"># 进入项目文件夹</span>
+<span class="token function">cd</span> quotetutorial
+
+<span class="token comment" spellcheck="true"># scrapy genspider [项目名] [目标爬取网址]</span>
+scrapy genspider quotes quotes.toscrape.com
+
+<span class="token comment" spellcheck="true"># scrapy crawl [项目名]</span>
+scrapy crawl quotes 
+
+<span class="token comment" spellcheck="true"># scrapy crawl [项目名] -o [保存的文件名]</span>
+scrapy crawl quotes -o quotes.json
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Scrapy-中的-Selector"><a href="#Scrapy-中的-Selector" class="headerlink" title="Scrapy 中的 Selector"></a>Scrapy 中的 Selector</h2><hr>
+<p>scrapy 的 Selector 支持两种方式提取内容: </p>
+<ol>
+<li>xpath()</li>
+<li>css()</li>
+</ol>
+<p>xpath() 和 css() 的返回结果也是 Selector 对象列表，列表元素可以继续链式调用 xpath() 和 css()，获取 Selector 对象之后可以使用 get() 或 getall() 获取想要提取的内容或内容列表。<br>我个人更习惯 css() 方法: </p>
+<pre class="line-numbers language-python"><code class="language-python">response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'#images img::attr(src)'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getall<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ['image1_thumb.jpg', 'image2_thumb.jpg', 'image3_thumb.jpg', 'image4_thumb.jpg', 'image5_thumb.jpg']</span>
+
+response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'a[href*=image]::attr(href)'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getall<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ['image1.html', 'image2.html', 'image3.html', 'image4.html', 'image5.html']</span>
+
+response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'a[href*=image] img::attr()'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们还可以使用 re() 或 re_first() 方法进行一些匹配字符串处理: </p>
+<pre class="line-numbers language-python"><code class="language-python">response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'a[href*=image]::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getall<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ['Name: My image 1 ', 'Name: My image 2 ', 'Name: My image 3 ', 'Name: My image 4 ', 'Name: My image 5 ']</span>
+
+response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'a[href*=image]::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>re<span class="token punctuation">(</span><span class="token string">'Name\:(.*)'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [' My image 1 ', ' My image 2 ', ' My image 3 ', ' My image 4 ', ' My image 5 ']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意: </p>
+<ul>
+<li>我们可以使用 response.selector 获取 Selector 对象调用 xpath() 和 css()，也可以更方便的使用 response 对象直接调用 xpath() 和 css()</li>
+<li>我们可能还见过 extract() 和 extract_first()，这两个方法虽然没有被废弃，但是还是不建议使用，因为 get()和 getall()方法的输出更具可预测性</li>
+</ul>
+<h2 id="Scrapy-中的-Spider"><a href="#Scrapy-中的-Spider" class="headerlink" title="Scrapy 中的 Spider"></a>Scrapy 中的 Spider</h2><hr>
+<p>Spider 主要用来完成爬取逻辑和网页数据的解析: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> scrapy
+<span class="token keyword">from</span> quotetutorial<span class="token punctuation">.</span>items <span class="token keyword">import</span> QuoteItem
+
+<span class="token keyword">class</span> <span class="token class-name">QuotesSpider</span><span class="token punctuation">(</span>scrapy<span class="token punctuation">.</span>Spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> <span class="token string">'quotes'</span>
+    allowed_domains <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'quotes.toscrape.com'</span><span class="token punctuation">]</span>
+    start_urls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'http://quotes.toscrape.com/'</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true"># 覆盖 settings.py 文件</span>
+    custom_settings <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
+        <span class="token string">'USER_AGENT'</span><span class="token punctuation">:</span> <span class="token string">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'</span>
+    <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
+
+    <span class="token comment" spellcheck="true"># parse 方法为默认的回调方法，通常使用 Selector 进行数据解析并返回 Item</span>
+    <span class="token comment" spellcheck="true"># 内部还可以使用 yield scrapy.Request() 方法返回多个 Request </span>
+    <span class="token keyword">def</span> <span class="token function">parse</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        quotes <span class="token operator">=</span> response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.quote'</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> quote <span class="token keyword">in</span> quotes<span class="token punctuation">:</span>
+            item <span class="token operator">=</span> QuoteItem<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            text <span class="token operator">=</span> quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.text::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            author <span class="token operator">=</span> quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.author::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            tags <span class="token operator">=</span> quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.tags .tag::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getall<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            item<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span> <span class="token operator">=</span> text
+            item<span class="token punctuation">[</span><span class="token string">'author'</span><span class="token punctuation">]</span> <span class="token operator">=</span> author
+            item<span class="token punctuation">[</span><span class="token string">'tags'</span><span class="token punctuation">]</span> <span class="token operator">=</span> tags
+            <span class="token keyword">yield</span> item
+
+        next <span class="token operator">=</span> response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.pager .next a::attr(href)'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        url <span class="token operator">=</span> response<span class="token punctuation">.</span>urljoin<span class="token punctuation">(</span>next<span class="token punctuation">)</span>
+        <span class="token keyword">yield</span> scrapy<span class="token punctuation">.</span>Request<span class="token punctuation">(</span>url<span class="token operator">=</span>url<span class="token punctuation">,</span> callback<span class="token operator">=</span>self<span class="token punctuation">.</span>parse<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Spider 还可以接收修改其行为的参数，在命令行可以使用 -a 参数: </p>
+<pre class="line-numbers language-bash"><code class="language-bash">scrapy crawl quotes -a category<span class="token operator">=</span>electronics
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在 Spider 的构造函数中可以接收该参数: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> scrapy
+<span class="token keyword">from</span> quotetutorial<span class="token punctuation">.</span>items <span class="token keyword">import</span> QuoteItem
+
+<span class="token keyword">class</span> <span class="token class-name">QuotesSpider</span><span class="token punctuation">(</span>scrapy<span class="token punctuation">.</span>Spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> <span class="token string">'quotes'</span>
+    allowed_domains <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'quotes.toscrape.com'</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> category<span class="token operator">=</span>None<span class="token punctuation">,</span> <span class="token operator">*</span>args<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        super<span class="token punctuation">(</span>QuotesSpider<span class="token punctuation">,</span> self<span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token operator">*</span>args<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>start_urls <span class="token operator">=</span> <span class="token punctuation">[</span>f<span class="token string">'http://quotes.toscrape.com/category=&amp;#123;category&amp;#125;'</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">def</span> <span class="token function">parse</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Scrapy-中的-Item"><a href="#Scrapy-中的-Item" class="headerlink" title="Scrapy 中的 Item"></a>Scrapy 中的 Item</h2><hr>
+<p>为了定义通用输出数据格式，Scrapy 提供了 Item 类。它们提供类似字典的 API，并具有用于声明其可用字段的方便语法: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> scrapy
+
+<span class="token keyword">class</span> <span class="token class-name">QuoteItem</span><span class="token punctuation">(</span>scrapy<span class="token punctuation">.</span>Item<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># define the fields for your item here like:</span>
+    name <span class="token operator">=</span> scrapy<span class="token punctuation">.</span>Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    author <span class="token operator">=</span> scrapy<span class="token punctuation">.</span>Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    tags <span class="token operator">=</span> scrapy<span class="token punctuation">.</span>Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Scrapy-中的-Pipelinie"><a href="#Scrapy-中的-Pipelinie" class="headerlink" title="Scrapy 中的 Pipelinie"></a>Scrapy 中的 Pipelinie</h2><hr>
+<p>Pipeline 可以对抓取下来的 Item 进行进一步处理: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> pymongo
+<span class="token keyword">from</span> scrapy<span class="token punctuation">.</span>exceptions <span class="token keyword">import</span> DropItem
+
+<span class="token keyword">class</span> <span class="token class-name">TextPipeline</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>limit <span class="token operator">=</span> <span class="token number">50</span>
+
+    <span class="token comment" spellcheck="true"># process_item 返回 item 或 DropItem 对象</span>
+    <span class="token keyword">def</span> <span class="token function">process_item</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> item<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> item<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> len<span class="token punctuation">(</span>item<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">></span> self<span class="token punctuation">.</span>limit<span class="token punctuation">:</span>
+                item<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span> <span class="token operator">=</span> item<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span>self<span class="token punctuation">.</span>limit<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">'...'</span>
+            <span class="token keyword">return</span> item
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> DropItem<span class="token punctuation">(</span><span class="token string">'Missing Text'</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">class</span> <span class="token class-name">MongoPipeline</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> mongo_uri<span class="token punctuation">,</span> mongo_db<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>mongo_uri <span class="token operator">=</span> mongo_uri
+        self<span class="token punctuation">.</span>mongo_db <span class="token operator">=</span> mongo_db
+
+    @classmethod
+    <span class="token keyword">def</span> <span class="token function">from_crawler</span><span class="token punctuation">(</span>cls<span class="token punctuation">,</span> crawler<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> cls<span class="token punctuation">(</span>
+            mongo_db <span class="token operator">=</span> crawler<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'MONGO_DB'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            mongo_uri <span class="token operator">=</span> crawler<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'MONGO_URI'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">open_spider</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>client <span class="token operator">=</span> pymongo<span class="token punctuation">.</span>MongoClient<span class="token punctuation">(</span>self<span class="token punctuation">.</span>mongo_uri<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>db <span class="token operator">=</span> self<span class="token punctuation">.</span>client<span class="token punctuation">[</span>self<span class="token punctuation">.</span>mongo_db<span class="token punctuation">]</span>
+
+    <span class="token keyword">def</span> <span class="token function">close_spider</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>client<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">process_item</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> item<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        name <span class="token operator">=</span> item<span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__name__
+        self<span class="token punctuation">.</span>db<span class="token punctuation">[</span>name<span class="token punctuation">]</span><span class="token punctuation">.</span>insert<span class="token punctuation">(</span>dict<span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> item
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Scrapy-中的-Settings"><a href="#Scrapy-中的-Settings" class="headerlink" title="Scrapy 中的 Settings"></a>Scrapy 中的 Settings</h2><hr>
+<p>settings.py 为 Scrapy 中的配置文件，进行项目的配置工作: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># Obey robots.txt rules</span>
+ROBOTSTXT_OBEY <span class="token operator">=</span> <span class="token boolean">True</span>
+
+<span class="token comment" spellcheck="true"># 配置变量</span>
+MONGO_DB <span class="token operator">=</span> <span class="token string">'quotetutorial'</span>
+MONGO_URI <span class="token operator">=</span> <span class="token string">'localhost'</span>
+
+<span class="token comment" spellcheck="true"># user-agent</span>
+USER_AGENT<span class="token punctuation">:</span> <span class="token string">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'</span>
+
+<span class="token comment" spellcheck="true"># Override the default request headers</span>
+DEFAULT_REQUEST_HEADERS <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
+  <span class="token string">'Accept'</span><span class="token punctuation">:</span> <span class="token string">'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'</span><span class="token punctuation">,</span>
+  <span class="token string">'Accept-Language'</span><span class="token punctuation">:</span> <span class="token string">'en'</span>
+<span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
+
+<span class="token comment" spellcheck="true"># Configure item pipelines</span>
+<span class="token comment" spellcheck="true"># 管道优先级范围 0 - 1000，数字越小，优先级越高</span>
+ITEM_PIPELINES <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
+   <span class="token string">'quotetutorial.pipelines.TextPipeline'</span><span class="token punctuation">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+   <span class="token string">'quotetutorial.pipelines.MongoPipeline'</span><span class="token punctuation">:</span> <span class="token number">400</span>
+<span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
+
+<span class="token comment" spellcheck="true"># Enable or disable downloader middlewares</span>
+<span class="token comment" spellcheck="true"># 可以在这个配置中关闭不需要的默认中间件</span>
+DOWNLOADER_MIDDLEWARES <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
+    <span class="token string">'httpbintest.middlewares.ProxyMiddleware'</span><span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+    <span class="token string">'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware'</span><span class="token punctuation">:</span> None<span class="token punctuation">,</span>
+    <span class="token string">'scrapy.downloadermiddlewares.retry.RetryMiddleware'</span><span class="token punctuation">:</span> None
+<span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Scrapy-中的-Downloader-Middleware"><a href="#Scrapy-中的-Downloader-Middleware" class="headerlink" title="Scrapy 中的 Downloader Middleware"></a>Scrapy 中的 Downloader Middleware</h2><hr>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">ProxyMiddleware</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token comment" spellcheck="true"># Called for each request that goes through the downloader</span>
+    <span class="token comment" spellcheck="true"># middleware.</span>
+
+    <span class="token comment" spellcheck="true"># Must either:</span>
+    <span class="token comment" spellcheck="true"># - return None: continue processing this request</span>
+    <span class="token comment" spellcheck="true"># - or return a Response object</span>
+    <span class="token comment" spellcheck="true"># - or return a Request object</span>
+    <span class="token comment" spellcheck="true"># - or raise IgnoreRequest: process_exception() methods of</span>
+    <span class="token comment" spellcheck="true">#   installed downloader middleware will be called</span>
+    <span class="token keyword">def</span> <span class="token function">process_request</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        spider<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'Using Proxy'</span><span class="token punctuation">)</span>
+        request<span class="token punctuation">.</span>meta<span class="token punctuation">[</span><span class="token string">'proxy'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'https://46.10.240.182:55878'</span>
+        <span class="token keyword">return</span> None
+
+
+    <span class="token comment" spellcheck="true"># Called with the response returned from the downloader.</span>
+
+    <span class="token comment" spellcheck="true"># Must either;</span>
+    <span class="token comment" spellcheck="true"># - return a Response object</span>
+    <span class="token comment" spellcheck="true"># - return a Request object</span>
+    <span class="token comment" spellcheck="true"># - or raise IgnoreRequest</span>
+    <span class="token keyword">def</span> <span class="token function">process_response</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">,</span> response<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        response<span class="token punctuation">.</span>status <span class="token operator">=</span> <span class="token number">201</span>
+        <span class="token keyword">return</span> response
+
+    <span class="token comment" spellcheck="true"># Called when a download handler or a process_request()</span>
+    <span class="token comment" spellcheck="true"># (from other downloader middleware) raises an exception.</span>
+
+    <span class="token comment" spellcheck="true"># Must either:</span>
+    <span class="token comment" spellcheck="true"># - return None: continue processing this exception</span>
+    <span class="token comment" spellcheck="true"># - return a Response object: stops process_exception() chain</span>
+    <span class="token comment" spellcheck="true"># - return a Request object: stops process_exception() chain</span>
+    <span class="token keyword">def</span> <span class="token function">process_exception</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">,</span> exception<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        spider<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>debug<span class="token punctuation">(</span><span class="token string">'Get Exception'</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> request
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Python(%E5%8D%81%E4%BA%94)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Linux(%E4%B8%80)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

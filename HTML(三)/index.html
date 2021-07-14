@@ -1,0 +1,276 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="本篇我们将介绍图片，超链接，列表表格以及表单等元素。
+img 元素(Image)
+img 标记可以定义一个插入到页面的图片。有两个重要属性: 
+
+src 属性用来标识图片资源位置，可以是相对路径，也可以是绝对路径
+alt 属性用来标识图片加载失败时显示的文本内容
+
+img 还有 width 和 he"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>本篇我们将介绍图片，超链接，列表表格以及表单等元素。</p>
+<h2 id="img-元素-Image"><a href="#img-元素-Image" class="headerlink" title="img 元素(Image)"></a>img 元素(Image)</h2><hr>
+<p>img 标记可以定义一个插入到页面的图片。<br>有两个重要属性: </p>
+<ol>
+<li>src 属性用来标识图片资源位置，可以是相对路径，也可以是绝对路径</li>
+<li>alt 属性用来标识图片加载失败时显示的文本内容</li>
+</ol>
+<p>img 还有 width 和 height 属性来表示图片的宽高，但通常我们不使用这两个属性来更改图片尺寸，只是起到页面内占位的作用。<br><strong>注意区分下面 4 种写法的异同</strong></p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><img src="https://example.com/a.jpg" alt="a">
+<img src="img/a.jpg" alt="a">
+<img src="/img/a.jpg" alt="a">
+<img src="//abc.com/img/a.jpg" alt="a">
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="a-元素-anchor"><a href="#a-元素-anchor" class="headerlink" title="a 元素(anchor)"></a>a 元素(anchor)</h2><hr>
+<p>a 标记的作用是设置链接，既可以用于文档外链接，也可以用于文档内导航。<br>有两个重要属性: </p>
+<ol>
+<li>href 属性用于标识链接位置，可以是相对路径，也可以是绝对路径。</li>
+<li>target 属性用于指定打开帧的状态，有四个值: </li>
+</ol>
+<ul>
+<li>_blank，新窗口打开</li>
+<li>_parent，父窗口打开</li>
+<li>_self，自窗口打开(default)</li>
+<li>_top，顶层窗口打开</li>
+</ul>
+<h3 id="文档外链接"><a href="#文档外链接" class="headerlink" title="文档外链接"></a>文档外链接</h3><pre class="line-numbers language-HTML"><code class="language-HTML"><a target="_blank" rel="noopener" href="https://github.com/1ess">github</a>
+<a href="/demo/index.html" target="_blank">demo</a>
+<a href="mailto://xxx@gmail.com">email me</a>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="文档内导航"><a href="#文档内导航" class="headerlink" title="文档内导航"></a>文档内导航</h3><pre class="line-numbers language-HTML"><code class="language-HTML"><a href="#faq">常见问题</a>
+<a href="#">回顶部</a>
+<a target="_blank" rel="noopener" href="http://abc.com/course/abc#faq">常见问题</a>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="列表元素"><a href="#列表元素" class="headerlink" title="列表元素"></a>列表元素</h2><hr>
+<p>列表元素用来表示线性数据结构，如一组数据内容，导航栏的各个子项等。<br>li 元素(List item)可以嵌套在 ol 或 ul 元素内部。</p>
+<h3 id="无序列表-ul-Unordered-list"><a href="#无序列表-ul-Unordered-list" class="headerlink" title="无序列表 ul(Unordered list)"></a>无序列表 ul(Unordered list)</h3><pre class="line-numbers language-HTML"><code class="language-HTML"><ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+</ul>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="有序列表-ol-Ordered-list"><a href="#有序列表-ol-Ordered-list" class="headerlink" title="有序列表 ol(Ordered list)"></a>有序列表 ol(Ordered list)</h3><p>常用属性: </p>
+<ul>
+<li>start: 制定第一个元素的序号</li>
+<li>reversed: 布尔属性，倒序显示</li>
+<li>type: 列表标记样式(1，a，A，I)</li>
+</ul>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><ol start="3" type="a">
+    <li>Item 1</li>
+    <li>Item 2</li>
+</ol>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意: ol 与 ul 默认上下外边距 1em，左内边距 40px。</p>
+<h3 id="定义列表-dl-Definition-list"><a href="#定义列表-dl-Definition-list" class="headerlink" title="定义列表 dl(Definition list)"></a>定义列表 dl(Definition list)</h3><p>定义列表用于名词解释。<br>基本标记包括: </p>
+<ul>
+<li>dl(Definition  list)</li>
+<li>dt(Definition  term)</li>
+<li>dd(Definition  description)</li>
+</ul>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><dl>
+    <dt>html</dt>
+    <dd>网页文档根要素</dd>
+    <dt>head</dt>
+    <dd>网页头部信息描述区域</dd>
+    <dt>body</dt>
+    <dd>网页具体内容部分</dd>
+</dl>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="table-元素-Table"><a href="#table-元素-Table" class="headerlink" title="table 元素(Table)"></a>table 元素(Table)</h2><hr>
+<p>table 元素用来表示二维数据结构。<br>基本标记包括: </p>
+<ul>
+<li>table</li>
+<li>caption</li>
+<li>tr: table row</li>
+<li>th: table head</li>
+<li>td: table data</li>
+<li>thead</li>
+<li>tbody</li>
+<li>tfoot</li>
+</ul>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><table>
+    <caption>成绩</caption>
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>语文</th>
+            <th>数学</th>
+            <th>英语</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>张三</td>
+            <td>100</td>
+            <td>99</td>
+            <td>98</td>
+        </tr>
+        <tr>
+            <td>李四</td>
+            <td>100</td>
+            <td>99</td>
+            <td>98</td>
+        </tr>
+        <tr>
+            <td>王五</td>
+            <td>100</td>
+            <td>99</td>
+            <td>98</td>
+        </tr>
+    </tbody>
+</table>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="容器元素"><a href="#容器元素" class="headerlink" title="容器元素"></a>容器元素</h2><hr>
+<h3 id="div-元素-Block-container"><a href="#div-元素-Block-container" class="headerlink" title="div 元素(Block container)"></a>div 元素(Block container)</h3><pre class="line-numbers language-HTML"><code class="language-HTML"><div lang="ja" class="japanese-part">
+    無限大な夢のあとの 何もない世の中じゃ
+</div>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="span-元素-Inline-container"><a href="#span-元素-Inline-container" class="headerlink" title="span 元素(Inline container)"></a>span 元素(Inline container)</h3><pre class="line-numbers language-HTML"><code class="language-HTML"><p>I Love<span class="love-person">U</span></p>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>Block 和 Inline 的区别我们在 CSS 在具体讲解。</p>
+<h2 id="form-元素-Form"><a href="#form-元素-Form" class="headerlink" title="form 元素(Form)"></a>form 元素(Form)</h2><hr>
+<p>form 元素为用户输入创建表单，用于向服务器提交数据。<br>三个重要的属性: </p>
+<ul>
+<li>action: 对应的服务器脚本</li>
+<li>method: 提交的 HTTP 请求方法</li>
+<li>enctype: 编码方式 content-type</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/html3/form-action-attribute-68258a.png"></p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><form action="/index.do" method="POST" enctype="multipart/form-data">
+    <label for="name">name: <input type="text" id="name" name="user"></label><br>
+    <label for="password">password: <input type="password" id="password" name="password"></label><br>
+
+    <label for="bike">Bike <input type="checkbox" id="bike" name="bike"></label>
+    <label for="car">Car <input type="checkbox" id="car" name="car"></label><br>
+
+    <label for="male">Male <input type="radio" name="Sex" id="male" checked></label>
+    <label for="female">Female <input type="radio" name="Sex" id="female"></label><br>
+
+    <select name="cars" id="cars">
+        <option value="volvo">Volvo</option>
+        <option value="fiat">Fiat</option>
+        <option value="audi">Audi</option>
+    </select><br>
+
+    <textarea name="cat" id="cat" cols="30" rows="10">The cat was playing in the garden.</textarea><br>
+    
+    <input type="button" value="Hello world!"><br>
+    <input type="submit" value="Hello world!"><br>
+
+</form>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="语义化元素"><a href="#语义化元素" class="headerlink" title="语义化元素"></a>语义化元素</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/html3/html-sectioning-elements-00c3fd.png"><br>语义化的作用，简单说来就是让机器可以读懂内容。<br>包括: </p>
+<ul>
+<li>main 元素</li>
+<li>article 元素</li>
+<li>section 元素</li>
+<li>nav 元素</li>
+<li>aside 元素</li>
+<li>header 元素</li>
+<li>footer 元素</li>
+</ul>
+<h3 id="main-元素-Main"><a href="#main-元素-Main" class="headerlink" title="main 元素(Main)"></a>main 元素(Main)</h3><p>main 标记描述文章的主要内容。</p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><body>
+<main role="main">
+    <article>
+        <h1>文章标题</h1>
+        <p>文章内容</p>
+    </article>
+</main>
+</body>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="article-元素-Article"><a href="#article-元素-Article" class="headerlink" title="article 元素(Article)"></a>article 元素(Article)</h3><p>article 元素表示网页独立内容区域。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/html3/html-article-element-82490e.png"></p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><article>
+    <h1>First Post</h1>
+    <p>Some content</p>
+</article>
+<article>
+    <h1>Second Post</h1>
+    <p>Some more content</p>
+    <h2>Subsection</h2>
+    <p>Some details</p>
+</article>
+<article>
+    <h1>Last Post</h1>
+    <p>Final bit of content</p>
+</article>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="section-元素-Section"><a href="#section-元素-Section" class="headerlink" title="section 元素(Section)"></a>section 元素(Section)</h3><p>section 元素表示文章段落部分。与 article 元素配合使用。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/html3/html-section-element-92a4d1.png"></p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><section>
+    <h2>The Document Outline</h2>
+    <p>HTML5 includes several "sectioning content" elements that affect the document outline.</p>
+
+    <h3>Headers</h3>
+    <p>The
+        <code>&lt;header&gt;</code> element is one such sectioning element.
+    </p>
+
+    <h3>Footers</h3>
+    <p>And so is the
+        <code>&lt;footer&gt;</code> element.</p>
+</section>
+
+<section>
+    <h2>Inline Semantic HTML</h2>
+    <p>The
+        <code>&lt;time&gt;</code> element is semantic, but it's not sectioning content.</p>
+</section>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="nav-元素-Navigation"><a href="#nav-元素-Navigation" class="headerlink" title="nav 元素(Navigation)"></a>nav 元素(Navigation)</h3><p>用于页面导航，如页面导航条。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/html3/html-nav-element-d1e716.png"></p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><h1>Interneting Is Easy!</h1>
+<nav>
+    <ul>
+        <li><a href='#'>Home</a></li>
+        <li><a href='#'>About</a></li>
+        <li><a href='#'>Blog</a></li>
+        <li><a href='#'>Sign Up</a></li>
+    </ul>
+</nav>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="aside-元素-Aside"><a href="#aside-元素-Aside" class="headerlink" title="aside 元素(Aside)"></a>aside 元素(Aside)</h3><p>用于页面附加性内容。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/html3/html-aside-element-ce120b.png"></p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><aside>
+    <h3>解释</h3>
+    <p>解释文字</p>
+</aside>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="header-元素-Header"><a href="#header-元素-Header" class="headerlink" title="header 元素(Header)"></a>header 元素(Header)</h3><p>header 标记用于文章或区块头部。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/html3/html-header-element-7b4e01.png"></p>
+<h4 id="文章头部"><a href="#文章头部" class="headerlink" title="文章头部"></a>文章头部</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><article>
+    <header>
+        <h1>Semantic HTML</h1>
+        <p>By Troy McClure. Published January 3rd</p>
+    </header>
+    <p>This is an example web page explaining HTML5 semantic markup.</p>
+</article>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="导航头部"><a href="#导航头部" class="headerlink" title="导航头部"></a>导航头部</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><body>
+<header>
+    <h1>Interneting Is Easy!</h1>
+    <nav>
+        <ul>
+            <li><a href='#'>Home</a></li>
+            <li><a href='#'>About</a></li>
+            <li><a href='#'>Blog</a></li>
+            <li><a href='#'>Sign Up</a></li>
+        </ul>
+    </nav>
+</header>
+</body>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="footer-元素-Footer"><a href="#footer-元素-Footer" class="headerlink" title="footer 元素(Footer)"></a>footer 元素(Footer)</h3><p>footer 标记用于文章或区块脚部。如作者信息，文章出处等。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/html3/html-footer-element-0c927a.png"></p>
+<h4 id="文章脚部"><a href="#文章脚部" class="headerlink" title="文章脚部"></a>文章脚部</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><article>
+    <header>
+        <h1>Semantic HTML</h1>
+        <p>By Troy McClure. Published January 3rd</p>
+    </header>
+    <p>This is an example web page explaining HTML5 semantic markup.</p>
+    <footer>
+        <p>This fake article was written by somebody at InternetingIsHard.com, which is a pretty decent place to learn how
+            to become a web developer. This footer is only for the containing
+            <code>&lt;article&gt;</code> element.</p>
+    </footer>
+
+</article>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="页脚"><a href="#页脚" class="headerlink" title="页脚"></a>页脚</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><footer>
+  <p>&copy; 2017 InternetingIsHard.com</p>
+</footer>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/HTML(%E4%BA%8C)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/HTML(%E5%9B%9B)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

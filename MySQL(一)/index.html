@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="从本篇开始，我们来说说最流行的数据库 —— 关于 MySQL 的那些事儿。
+数据库概念
+数据库(Database)是按照数据结构来组织、存储和管理数据的建立在计算机存储设备上的仓库。
+
+人们通常用数据库这个术语来代表他们使用的数据库软件。这是不正确的，它是引起混淆的根源。确切地说，数据库软件应称为 "><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>从本篇开始，我们来说说最流行的数据库 —— 关于 MySQL 的那些事儿。</p>
+<h2 id="数据库概念"><a href="#数据库概念" class="headerlink" title="数据库概念"></a>数据库概念</h2><hr>
+<p>数据库(Database)是按照数据结构来组织、存储和管理数据的建立在计算机存储设备上的仓库。</p>
+<blockquote>
+<p>人们通常用数据库这个术语来代表他们使用的数据库软件。这是不正确的，它是引起混淆的根源。确切地说，数据库软件应称为 DBMS(数据库管理系统)。数据库是通过 DBMS 创建和操纵的容器。数据库可以是保存在硬设备上的文件，但也可以不是。在很大程度上说，数据库究竟是文件还是别的什么东西并不重要，因为你并不直接访问数据库; 你使用的是 DBMS，它替你访问数据库。</p>
+</blockquote>
+<h3 id="数据库分类"><a href="#数据库分类" class="headerlink" title="数据库分类"></a>数据库分类</h3><ul>
+<li>关系数据库(Relational Database)</li>
+<li>非关系数据库(NoSQL)</li>
+</ul>
+<h3 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>关系型数据库是创建在关系模型基础上的数据库，借助于集合代数等数学概念和方法来处理数据库中的数据。现实世界中的各种实体以及实体之间的各种联系均用关系模型来表示。现如今虽然对此模型有一些批评意见，但它还是数据存储的传统标准。</p>
+<p>关系模型由<strong>关系数据结构</strong>、<strong>关系操作集合</strong>、<strong>关系完整性约束</strong>三部分组成。</p>
+<p>标准数据查询语言 SQL 就是一种基于关系数据库的语言，这种语言执行对关系数据库中数据的检索和操作。</p>
+<p>典型的关系型数据库: </p>
+<ul>
+<li>MySQL</li>
+<li>PostgreSQL</li>
+<li>SQL Server</li>
+<li>Oracle</li>
+<li>Sqlite</li>
+<li>DB2</li>
+</ul>
+<p>几乎所有的数据库管理系统都配备了一个开放式数据库连接(ODBC)驱动程序，令各个数据库之间得以互相集成。</p>
+<h3 id="非关系型数据库"><a href="#非关系型数据库" class="headerlink" title="非关系型数据库"></a>非关系型数据库</h3><p>NoSQL 一词最早出现于1998年，是 Carlo Strozzi 开发的一个轻量、开源、不提供 SQL 功能的关系数据库。当代典型的关系数据库在一些数据敏感的应用中表现了糟糕的性能，例如为巨量文档创建索引、高流量网站的网页服务，以及发送流式媒体。关系型数据库的典型实现主要被调整用于执行规模小而读写频繁，或者大批量极少写访问的事务。</p>
+<p>典型的非关系型数据库: </p>
+<ol>
+<li>Key/value 硬盘存储</li>
+</ol>
+<ul>
+<li>LevelDB</li>
+<li>MemcacheDB</li>
+</ul>
+<ol start="2">
+<li>Key/value RAM 存储</li>
+</ol>
+<ul>
+<li>Redis</li>
+<li>memcached</li>
+</ul>
+<h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><hr>
+<p>结构化查询语言(Structured Query Language)简称 SQL，是一种特殊的编程语言，是一种数据库查询和程序设计语言，用于存储、查询、更新数据和管理关系数据库系统，同时也是数据库脚本文件的扩展名。</p>
+<h3 id="SQL-分类"><a href="#SQL-分类" class="headerlink" title="SQL 分类"></a>SQL 分类</h3><ol>
+<li>数据查询语言(Data Query Language，DQL): 代表指令 SELECT/SHOW</li>
+<li>数据操作语言(Data Manipulation Language，DML): 代表指令 INSERT/UPDATE/DELETE</li>
+<li>事务处理语言(Transaction Process Language，TPL): 代表指令 BEGIN TRANSACTION/COMMIT/ROLLBACK</li>
+<li>数据控制语言(Data Control Language，DCL): 代表指令 GRANT/REVOKE</li>
+<li>数据定义语言(Data Definition Language，DDL): 代表指令 CREATE/DROP</li>
+</ol>
+<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><hr>
+<p>MySQL 是一种关系型数据库管理系统，目前属于 Oracle 旗下产品。</p>
+<h3 id="安装-MySQL"><a href="#安装-MySQL" class="headerlink" title="安装 MySQL"></a>安装 MySQL</h3><h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><ol>
+<li>直接去<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/installer/">官网</a>下载 MySQL，双击安装</li>
+<li>配置环境变量，指向 mysql 的 bin 目录(默认路径: C:\Program Files\MySQL\MySQL Server 8.0\bin)</li>
+<li>配置初始化的 my.ini 配置文件</li>
+</ol>
+<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token punctuation">[</span>mysqld<span class="token punctuation">]</span>
+<span class="token preprocessor property"># 设置3306端口</span>
+port<span class="token operator">=</span><span class="token number">3306</span>
+<span class="token preprocessor property"># 设置mysql的安装目录</span>
+basedir<span class="token operator">=</span>C<span class="token punctuation">:</span>\Program Files\MySQL\MySQL Server <span class="token number">8.0</span>\
+<span class="token preprocessor property"># 设置mysql数据库的数据的存放目录</span>
+datadir<span class="token operator">=</span>C<span class="token punctuation">:</span>\Program Files\MySQL\MySQL Server <span class="token number">8.0</span>\Data
+<span class="token preprocessor property"># 允许最大连接数</span>
+max_connections<span class="token operator">=</span><span class="token number">200</span>
+<span class="token preprocessor property"># 允许连接失败的次数。</span>
+max_connect_errors<span class="token operator">=</span><span class="token number">10</span>
+<span class="token preprocessor property"># 服务端使用的字符集默认为UTF8</span>
+character<span class="token operator">-</span><span class="token keyword">set</span><span class="token operator">-</span>server<span class="token operator">=</span>utf8
+<span class="token preprocessor property"># 创建新表时将使用的默认存储引擎</span>
+<span class="token keyword">default</span><span class="token operator">-</span>storage<span class="token operator">-</span>engine<span class="token operator">=</span>INNODB
+<span class="token preprocessor property"># 默认使用</span><span class="token string">"mysql_native_password"</span>插件认证
+<span class="token preprocessor property">#mysql_native_password</span>
+default_authentication_plugin<span class="token operator">=</span>mysql_native_password
+<span class="token punctuation">[</span>mysql<span class="token punctuation">]</span>
+<span class="token preprocessor property"># 设置mysql客户端默认字符集</span>
+<span class="token keyword">default</span><span class="token operator">-</span>character<span class="token operator">-</span><span class="token keyword">set</span><span class="token operator">=</span>utf8
+<span class="token punctuation">[</span>client<span class="token punctuation">]</span>
+<span class="token preprocessor property"># 设置mysql客户端连接服务端时默认使用的端口</span>
+port<span class="token operator">=</span><span class="token number">3306</span>
+<span class="token keyword">default</span><span class="token operator">-</span>character<span class="token operator">-</span><span class="token keyword">set</span><span class="token operator">=</span>utf8
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol start="4">
+<li>在 MySQL 的安装目录的仓目录下执行命令: </li>
+</ol>
+<pre class="line-numbers language-sh"><code class="language-sh">mysqld --initialize --console
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol start="5">
+<li>在管理员权限下执行命令: </li>
+</ol>
+<pre class="line-numbers language-sh"><code class="language-sh">mysqld --install
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>注意: 如果提示服务已存在，则需要执行命令: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">sc delete mysql
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h4><p>我们直接使用 homebrew 安装: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">brew install mysql
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>与 Windows 类似，我们还可以修改 Mysql 中配置文件，位于目录 /usr/bin/etc/my.cnf。</p>
+<h3 id="启动和停止-MySQL-服务"><a href="#启动和停止-MySQL-服务" class="headerlink" title="启动和停止 MySQL 服务"></a>启动和停止 MySQL 服务</h3><p>MySQL 是一种 C/S 架构，包括客户端和服务端。<br>服务端对应的软件: mysqld.exe<br>客户端对应的软件: mysql.exe</p>
+<h4 id="Windows-1"><a href="#Windows-1" class="headerlink" title="Windows"></a>Windows</h4><h5 id="命令行方式"><a href="#命令行方式" class="headerlink" title="命令行方式"></a>命令行方式</h5><pre class="line-numbers language-sh"><code class="language-sh"># 启动 mysql 服务
+net start mysql
+
+# 关闭 mysql 服务
+net stop mysql
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="系统服务方式"><a href="#系统服务方式" class="headerlink" title="系统服务方式"></a>系统服务方式</h5><p>在计算机管理-服务(services.msc)中操作 mysql 服务。</p>
+<h4 id="Mac-1"><a href="#Mac-1" class="headerlink" title="Mac"></a>Mac</h4><pre class="line-numbers language-sh"><code class="language-sh"># 启动 mysql 服务
+brew services start mysql
+
+# 关闭 mysql 服务
+brew services stop mysql
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="登录和退出-MySQL-系统"><a href="#登录和退出-MySQL-系统" class="headerlink" title="登录和退出 MySQL 系统"></a>登录和退出 MySQL 系统</h3><p>通过客户端 mysql.exe 与服务器连接认证。</p>
+<h4 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h4><p>连接认证语法: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">mysql -h&#123;ip地址或域名&#125; -P&#123;mysql 监听端口，通常3306&#125; -u&#123;用户名&#125; -p
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="退出"><a href="#退出" class="headerlink" title="退出"></a>退出</h4><p>我们使用完 mysql 之后，由于连接数量有限，所以注意一定要断开连接。</p>
+<pre class="line-numbers language-sh"><code class="language-sh">\q
+\quit
+exit
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>注意: Mysql 8.0 版本和 Mysql 5.7 版本的身份验证插件不同: </p>
+<ul>
+<li>Mysql 8.0 身份验证插件为 caching_sha2_password</li>
+<li>Mysql 5.7 身份验证插件为 mysql_native_password</li>
+</ul>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/%E7%AE%97%E6%B3%95(%E4%BA%8C)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/MySQL(%E4%BA%8C)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

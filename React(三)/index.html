@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="这一篇，我们看看组件对于数据的处理以及组件的生命周期。
+props
+props 作用: 
+
+传入变量
+传入函数
+传入组件
+props.children
+
+props 其实就是属性 Properties 的缩写。在形式上，props 之于 JSX 就相当于 attributes 之于 HTML。从写法"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>这一篇，我们看看组件对于数据的处理以及组件的生命周期。</p>
+<h2 id="props"><a href="#props" class="headerlink" title="props"></a>props</h2><hr>
+<p>props 作用: </p>
+<ul>
+<li>传入变量</li>
+<li>传入函数</li>
+<li>传入组件</li>
+<li>props.children</li>
+</ul>
+<p>props 其实就是属性 Properties 的缩写。<br>在形式上，props 之于 JSX 就相当于 attributes 之于 HTML。从写法上来看呢，我们为组件传入 props 就可以像为 HTML 标签添加属性一样: </p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">const</span> SimpleButton <span class="token operator">=</span> props <span class="token operator">=</span><span class="token operator">></span> 
+<span class="token punctuation">(</span> 
+  <span class="token operator">&lt;</span>button className<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>props<span class="token punctuation">.</span>className<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token operator">></span>
+    <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>props<span class="token punctuation">.</span>buttonTitle<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token operator">&lt;</span>SimpleButton  className<span class="token operator">=</span><span class="token string">"sb"</span> buttonTitle<span class="token operator">=</span><span class="token string">"SimpleButton"</span> <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'container'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="props-是只读的"><a href="#props-是只读的" class="headerlink" title="props 是只读的"></a>props 是只读的</h3><p>在 React 中，props 都是自上向下传递，从父组件传入子组件。并且 props 是只读的，我们不能在组件中直接修改 props 的内容。</p>
+<h3 id="props-类型检查"><a href="#props-类型检查" class="headerlink" title="props 类型检查"></a>props 类型检查</h3><p>正是因为 props 的强大，什么类型的内容都可以传递，所以在开发过程中，为了避免错误类型的内容传入，我们可以为 props 添加类型检查。</p>
+<h3 id="props-默认值"><a href="#props-默认值" class="headerlink" title="props 默认值"></a>props 默认值</h3><p>由于 props 是只读的，我们不能直接为 props 赋值。React 专门准备了一个方法定义 props 的默认值。</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">const</span> SimpleButton <span class="token operator">=</span> props <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>
+  <span class="token operator">&lt;</span>button className<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>props<span class="token punctuation">.</span>className<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token operator">></span>
+    <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>props<span class="token punctuation">.</span>buttonTitle<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+SimpleButton<span class="token punctuation">.</span>defaultProps <span class="token operator">=</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    className<span class="token punctuation">:</span> <span class="token string">"defaultClassName"</span><span class="token punctuation">,</span>
+    buttonTitle<span class="token punctuation">:</span> <span class="token string">"defaultButtonTitle"</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+
+SimpleButton<span class="token punctuation">.</span>propTypes <span class="token operator">=</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    className<span class="token punctuation">:</span> PropTypes<span class="token punctuation">.</span>string<span class="token punctuation">.</span>isRequired<span class="token punctuation">,</span>
+    buttonTitle<span class="token punctuation">:</span> PropTypes<span class="token punctuation">.</span>string<span class="token punctuation">.</span>isRequired
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="state"><a href="#state" class="headerlink" title="state"></a>state</h2><hr>
+<ul>
+<li>初始化</li>
+<li>setState 方法</li>
+<li>向下传递数据</li>
+</ul>
+<p>在 React 中 state 也是我们进行数据交互的地方，又或者叫做 state management 状态管理。<br>一个应用需要进行数据交互，比如同服务器之间的交互，同用户输入进行交互。或者反过来，从 API 获取数据，处理用户输入也就是我们需要用到 state 的时候。</p>
+<p>在新版本的 React 当中，我们通过类定义组件来声明一个有状态组件，之后在它的构造方法中初始化组件的 state，我们可以先赋予它默认值。</p>
+<p>之后就可以在组件中通过 this.state 来访问它，和之前的 props 一样，初始化 state 之后，如果我们想改变它，是不可以直接对其赋值的，直接修改 state 的值没有任何意义，因为这样的操作脱离了 React 运行的逻辑，不会触发组件的重新渲染。所以需要 this.setState 这个方法，在改变 state 的同时，触发 React 内部的一系列函数，最后在页面上重新渲染出组件。</p>
+<p>随着我们开发应用的逐步扩展，state 也会变得越来越庞大复杂，假如分散到各个组件当中，对于日后应用的维护者来说将是一个噩梦。怎么处理怎么储存应用的 state 非常值得我们深入去思考，由此也就引发了一个问题——状态管理。这也正是 Redux 要解决的问题。</p>
+<h2 id="React-是如何渲染组件的"><a href="#React-是如何渲染组件的" class="headerlink" title="React 是如何渲染组件的"></a>React 是如何渲染组件的</h2><hr>
+<p>我们按照平时书写 React 代码的顺序来理清 React 把组件代码渲染到最终的真实 DOM 中的流程。<br>一般来讲，我们都会先定义一个组件。我们如果想要在页面中看到这个组件的渲染结果，就需要以 JSX 的形式将组件传入 ReactDOM.render 方法的第一个参数，我们一直说，这里的 JSX 经过 React 内部的转译，将 JSX 转换为 React.createElement 方法来创建的 React 元素。render 方法获取到 React 元素之后会将它实例化，之后它会根据实例化的 React 元素创建出真实的 DOM 元素，再根据第二个参数的指向，将创建好的元素插入到目标 DOM 容器当中。</p>
+<p>在新版本的 React 当中，将 React 应用界面更新的过程分为了两个主要的部分: </p>
+<ul>
+<li>调度过程</li>
+<li>执行过程</li>
+</ul>
+<p>在调度过程中，有 4 个生命周期函数会被触发: </p>
+<ul>
+<li>componentWillMount</li>
+<li>componentWillReceiveProps</li>
+<li>shouldComponentUpdate</li>
+<li>componentWillUpdate</li>
+</ul>
+<p>在执行过程中，有 3 个生命周期函数会被触发: </p>
+<ul>
+<li>componentDidMount</li>
+<li>componentDidUpdate</li>
+<li>componentWillUnmount</li>
+</ul>
+<p>官方推荐在 componentDidMount 函数中进行一些例如 ajax 请求的操作，所以它也是我们最经常使用的生命周期函数。</p>
+<h2 id="表单及事件处理"><a href="#表单及事件处理" class="headerlink" title="表单及事件处理"></a>表单及事件处理</h2><hr>
+<p>之前说过受控组件与非受控组件的概念。受控与非受控组件就是专门适用于 React 当中的表单元素的。<br>在 HTML 中，表单元素与其他元素最大的不同是它自带值或数据，而且在我们的应用中，只要是有表单出现的地方，就会有用户输入，就会有表单事件触发，就会涉及的数据处理。</p>
+<p>为了更好地管理应用中的数据，响应用户的输入，编写组件的时候，我们就会运用到受控组件与非受控组件这两个概念。</p>
+<p>React 推荐我们在绝大多数情况下都使用受控组件。这样可以保证表单的数据在组件的 state 管理之下，而不是各自独立保有各自的数据。</p>
+<h3 id="表单元素"><a href="#表单元素" class="headerlink" title="表单元素"></a>表单元素</h3><p>我们在组件中声明表单元素时，一般都要为表单元素传入应用状态中的值，可以通过 state 也可以通过 props 传递，之后需要为其绑定相关事件，例如表单提交、输入改变等。在相关事件触发的处理函数中，我们需要根据表单元素中用户的输入，对应用数据进行相应的操作和改变: </p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">class</span> <span class="token class-name">ControlledInput</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+            value<span class="token punctuation">:</span> <span class="token string">""</span>
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+    handlerChange <span class="token operator">=</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+            value<span class="token punctuation">:</span> e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+    <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            <span class="token operator">&lt;</span>div<span class="token operator">></span>
+                <span class="token operator">&lt;</span>input type<span class="token operator">=</span><span class="token string">"text"</span> value<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>value<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> onChange<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span><span class="token keyword">this</span><span class="token punctuation">.</span>handlerChange<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token operator">/</span><span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//或者使用如下写法(属性初始化器语法)，我们通常建议在构造函数中绑定或使用属性初始化器语法来避免性能问题。</span>
+    handlerChange <span class="token operator">=</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+            value<span class="token punctuation">:</span> e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            <span class="token operator">&lt;</span>div<span class="token operator">></span>
+                <span class="token operator">&lt;</span>input type<span class="token operator">=</span><span class="token string">"text"</span> value<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>value<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> onChange<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span><span class="token keyword">this</span><span class="token punctuation">.</span>handlerChange<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token operator">/</span><span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token operator">&lt;</span>ControlledInput <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'container'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用受控组件和非受控组件都是有相应的适用场景的，就拿 input 来讲，比方说它是一个搜索框，我们需要在应用中实现根据搜索框内容输入异步返回相关搜索建议的功能，那么此处的 input 就应该是受控组件。而假如它是 Todo 应用中用来添加新事项的输入框，我们就没有特别的理由需要实时获取其中的数据，只需要在添加事项的事件触发时获取输入框中的值即可，这个地方就可以使用非受控组件。</p>
+<h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><p>React 元素的事件属性几乎与 HTML 中的事件相关属性相同，不过在 React 当中，事件相关的属性是以小驼峰的方式命名的。<br>新版本的 React 中，我们可以通过类和函数声明 React 组件，在这两种形式的声明当中，我们都可以为其定义事件处理函数，函数定义的组件只需要在其方法内部再定义事件触发的函数即可，而如果是类声明组件，就像我们在之前的课程中已经强调过的，类定义组件中的自定义方法默认是没有绑定 this 的，因此假如我们需要在事件处理函数中调用 this.setState 一类的方法，就必须要在构造函数中手动将 this 绑定在相应的事件处理函数上。(箭头函数不用)。</p>
+<h3 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h3><p>我们可以使用与运算符 &amp;&amp; 进行条件渲染: </p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">Mailbox</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> unreadMessages <span class="token operator">=</span> props<span class="token punctuation">.</span>unreadMessages<span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>
+      <span class="token operator">&lt;</span>h1<span class="token operator">></span>Hello<span class="token operator">!</span><span class="token operator">&lt;</span><span class="token operator">/</span>h1<span class="token operator">></span>
+      <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        unreadMessages<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span>
+        <span class="token operator">&lt;</span>h2<span class="token operator">></span>
+          You have <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>unreadMessages<span class="token punctuation">.</span>length<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> unread messages<span class="token punctuation">.</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>h2<span class="token operator">></span>
+      <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> messages <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'React'</span><span class="token punctuation">,</span> <span class="token string">'Re: React'</span><span class="token punctuation">,</span> <span class="token string">'Re:Re: React'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+  <span class="token operator">&lt;</span>Mailbox unreadMessages<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>messages<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span>
+  document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>之所以能这样做，是因为在 JavaScript 中，true &amp;&amp; expression 总是返回 expression，而 false &amp;&amp; expression 总是返回 false。<br>因此，如果条件是 true，&amp;&amp; 右侧的元素就会被渲染，如果是 false，React 会忽略并跳过它。</p>
+<h3 id="阻止组件渲染"><a href="#阻止组件渲染" class="headerlink" title="阻止组件渲染"></a>阻止组件渲染</h3><p>在极少数情况下，你可能希望隐藏组件，如下方法可以实现: </p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token operator">&lt;</span>React<span class="token punctuation">.</span>Fragment<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>React<span class="token punctuation">.</span>Fragment<span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="列表组件"><a href="#列表组件" class="headerlink" title="列表组件"></a>列表组件</h2><hr>
+<p>通常，我们使用 Javascript 中的 map() 方法遍历数组。对数组中的每个元素返回 li 标签，最后我们得到一个数组 listItems: </p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> listItems <span class="token operator">=</span> numbers<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>number <span class="token operator">=</span><span class="token operator">></span>
+  <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>number<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们把整个 listItems 插入到 ul 元素中，然后渲染进 DOM:</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript">ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+  <span class="token operator">&lt;</span>ul<span class="token operator">></span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>listItems<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span><span class="token punctuation">,</span>
+  document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们可以把前面的例子重构成一个组件。这个组件接收 numbers 数组作为参数，输出一个无序列表: </p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">NumberList</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> numbers <span class="token operator">=</span> props<span class="token punctuation">.</span>numbers<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> listItems <span class="token operator">=</span> numbers<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>number <span class="token operator">=</span><span class="token operator">></span>
+    <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>number<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>ul<span class="token operator">></span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>listItems<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+  <span class="token operator">&lt;</span>NumberList numbers<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>numbers<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span>
+  document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当我们运行这段代码，将会看到一个警告 a key should be provided for list items，意思是当你创建一个元素时，必须包括一个特殊的 key 属性。我们来给每个列表元素分配一个 key 来解决上面的那个警告: </p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">NumberList</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> numbers <span class="token operator">=</span> props<span class="token punctuation">.</span>numbers<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> listItems <span class="token operator">=</span> numbers<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>number <span class="token operator">=</span><span class="token operator">></span>
+    <span class="token punctuation">(</span>  
+      <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>number<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token operator">></span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>number<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>ul<span class="token operator">></span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>listItems<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+  <span class="token operator">&lt;</span>NumberList numbers<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>numbers<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span>
+  document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Keys"><a href="#Keys" class="headerlink" title="Keys"></a>Keys</h3><p>Keys 可以在 DOM中 的某些元素被增加或删除的时候帮助 React 识别哪些元素发生了变化。因此你应当给数组中的每一个元素赋予一个确定的标识。<br>一个元素的 key 最好是这个元素在列表中拥有的一个独一无二的字符串。通常，我们使用来自数据的 id 作为元素的 key:</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">const</span> todoItems <span class="token operator">=</span> todos<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>todo<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>todo<span class="token punctuation">.</span>id<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token operator">></span>
+    <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>todo<span class="token punctuation">.</span>text<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当元素没有确定的 id 时，你可以使用他的序列号索引 index 作为 key。如果列表可以重新排序，我们不建议使用索引来进行排序，因为这会导致渲染变得很慢。<br>注意: 如果你提取出一个 ListItem 组件，你应该把 key 保存在数组中的这个<ListItem />元素上，而不是放在 ListItem 组件中的 li 元素上: </p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">ListItem</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 对啦！这里不需要指定key:</span>
+  <span class="token keyword">return</span> <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>props<span class="token punctuation">.</span>value<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">NumberList</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> numbers <span class="token operator">=</span> props<span class="token punctuation">.</span>numbers<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> listItems <span class="token operator">=</span> numbers<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>number<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span>
+    <span class="token comment" spellcheck="true">// 又对啦！key应该在数组的上下文中被指定</span>
+    <span class="token operator">&lt;</span>ListItem key<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>number<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+              value<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>number<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token operator">/</span><span class="token operator">></span>
+
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>ul<span class="token operator">></span>
+      <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>listItems<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+  <span class="token operator">&lt;</span>NumberList numbers<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>numbers<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span>
+  document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意: 当你在 map() 方法的内部调用元素时，你最好随时记得为每一个元素加上一个独一无二的 key。<br>数组元素中使用的 key 在其兄弟之间应该是独一无二的。然而，它们不需要是全局唯一的。</p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/React(%E4%BA%8C)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/%E6%9D%82(%E4%B8%80)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

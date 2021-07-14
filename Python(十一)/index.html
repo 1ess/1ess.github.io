@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="字符串是编程时涉及到的最多的一种数据结构，对字符串进行操作的需求几乎无处不在。正则表达式是一种用来匹配字符串的强有力的武器。
+基本
+在正则表达式中，如果直接给出字符，就是精确匹配。用 \d 可以匹配一个数字，\w 可以匹配一个字母或数字。例如: 
+
+‘00\d’ 可以匹配 ‘001’，但是不能匹配 "><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>字符串是编程时涉及到的最多的一种数据结构，对字符串进行操作的需求几乎无处不在。正则表达式是一种用来匹配字符串的强有力的武器。</p>
+<h2 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h2><hr>
+<p>在正则表达式中，如果直接给出字符，就是精确匹配。用 \d 可以匹配一个数字，\w 可以匹配一个字母或数字。例如: </p>
+<ul>
+<li>‘00\d’ 可以匹配 ‘001’，但是不能匹配 ‘00A’</li>
+<li>‘\d\d\d’ 可以匹配 ‘123’</li>
+<li>‘\w\w\d’ 可以匹配 ‘py3’</li>
+</ul>
+<p>. 可以匹配任意字符: </p>
+<ul>
+<li>‘py.’ 可以匹配 ‘py3’，也可以匹配 ‘py2’ 或者 ‘pyx’ 等等</li>
+</ul>
+<p>要匹配变长的字符，在正则表达式中，用 * 表示任意个字符(包括 0 个)，用 + 表示至少一个字符，用 ? 表示 0 个或 1 个字符，用 {n} 表示 n 个字符，用 {n,m} 表示 n-m 个字符，来看一个复杂例子: ‘\d{3}\s+\d{3,8}’</p>
+<ul>
+<li>‘\d{3}’ 表示匹配三个数字，如: ‘001’</li>
+<li>‘\s+’ \s 表示匹配空格，那么 ‘\s+’ 就表示至少匹配一个空格，如: ‘ ‘</li>
+<li>‘\d{3,8}’ 表示匹配 3 到 8 个数字，如: ‘123456’</li>
+</ul>
+<p>一些特殊字符如: - _ 等需要转义使用。</p>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><hr>
+<p>要做更精确地匹配，可以用 [] 表示范围。</p>
+<ul>
+<li>[0-9a-zA-Z_] 可以匹配一个数字或字母或下划线</li>
+<li>[0-9a-zA-Z_]+ 可以匹配至少由一个数字字母或下划线组成的字符串</li>
+<li>[a-zA-Z_][0-9a-zA-Z_]* 可以匹配由字母或下划线开头，后跟任意个数字字母或下划线组成的字符串</li>
+<li>[a-zA-Z_][0-9a-zA-Z_]{0,19} 可以匹配 1 到 20 个由字母或下划线开头，后跟数字字母或下划线组成的字符串</li>
+</ul>
+<p>A|a 表示匹配字母 A 或 a<br>^ 表示开头，如: ‘^\d’ 表示必须由数字开头<br>$ 表示结尾，如: ‘\d$’ 表示必须由数字结尾</p>
+<h2 id="re-模块"><a href="#re-模块" class="headerlink" title="re 模块"></a>re 模块</h2><p>Python 提供 re 模块，包含所有正则表达式的功能。需要注意: 我们应使用 r’’ 或者 r”” 来使用正则而不考虑转义的问题。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> re
+re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>r<span class="token string">'^\d&amp;#123;3&amp;#125;\-\d&amp;#123;3,8&amp;#125;'</span><span class="token punctuation">,</span> <span class="token string">'010-12345678'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>match() 方法判断是否匹配，如果匹配成功，返回一个 Match 对象，否则返回 None。</p>
+<h3 id="切分字符串"><a href="#切分字符串" class="headerlink" title="切分字符串"></a>切分字符串</h3><p>用正则表达式切分字符串比用固定的字符更灵活: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token string">'a b   c'</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ['a', 'b', '', '', 'c']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>无法识别出连续的空格，还可以使用正则进行切割: </p>
+<pre class="line-numbers language-python"><code class="language-python">re<span class="token punctuation">.</span>split<span class="token punctuation">(</span>r<span class="token string">'\s+'</span><span class="token punctuation">,</span> <span class="token string">'a b  c'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ['a, 'b', 'c']</span>
+
+re<span class="token punctuation">.</span>split<span class="token punctuation">(</span>r<span class="token string">'[\s\,]+'</span><span class="token punctuation">,</span> <span class="token string">'a, b  c'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ['a', 'b', 'c']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h3><p>正则表达式还有提取子串的强大功能。用 () 表示的就是要提取的分组: </p>
+<pre class="line-numbers language-python"><code class="language-python">m <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>r<span class="token string">'(\d&amp;#123;3&amp;#125;)\-(\d&amp;#123;3,8&amp;#125;)'</span><span class="token punctuation">,</span> <span class="token string">'010-1234'</span><span class="token punctuation">)</span>
+m<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># group(0) 永远是原始字符串</span>
+<span class="token comment" spellcheck="true"># 010-1234</span>
+
+m<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 010</span>
+
+m<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 1234</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Python(%E5%8D%81)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Python(%E5%8D%81%E4%BA%8C)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

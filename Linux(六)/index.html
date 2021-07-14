@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="本篇，我们在来说一下在 Linux 下，有关软件管理的相关知识。
+软件包管理器包管理器是方便软件安装，卸载，解决软件依赖关系的工具。
+
+RHEL 和 CentOS 中使用 yum 包管理器，软件包格式为 rpm
+Debian 和 Ubuntu 中使用 apt 包管理器，软件包格式为 deb
+
+rpm"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>本篇，我们在来说一下在 Linux 下，有关软件管理的相关知识。</p>
+<h3 id="软件包管理器"><a href="#软件包管理器" class="headerlink" title="软件包管理器"></a>软件包管理器</h3><p>包管理器是方便软件安装，卸载，解决软件依赖关系的工具。</p>
+<ul>
+<li>RHEL 和 CentOS 中使用 yum 包管理器，软件包格式为 rpm</li>
+<li>Debian 和 Ubuntu 中使用 apt 包管理器，软件包格式为 deb</li>
+</ul>
+<h3 id="rpm-包"><a href="#rpm-包" class="headerlink" title="rpm 包"></a>rpm 包</h3><p>rpm 包格式:<br><strong>软件名称-软件版本.系统版本.平台.rpm</strong><br>如:<br>vim-common-7.4.10-5.el7.x86-64.rpm</p>
+<h4 id="rpm-命令"><a href="#rpm-命令" class="headerlink" title="rpm 命令"></a>rpm 命令</h4><p>常用参数: </p>
+<ul>
+<li>q: 查询软件包</li>
+<li>i: 安装软件包</li>
+<li>e: 卸载软件包</li>
+</ul>
+<h3 id="yum-仓库"><a href="#yum-仓库" class="headerlink" title="yum 仓库"></a>yum 仓库</h3><p>使用 rpm 会有很多依赖关系需要处理，所有出现了 yum。<br>通常默认源在国外，因为众所周知的原因，我们会先换成国内阿里源。</p>
+<pre class="line-numbers language-sh"><code class="language-sh"># 首先备份
+mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+
+# 换源
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+
+# 更新缓存
+yum makecache
+
+# 有时我们会找不到某些库，可以先安装企业扩展
+yum install epel-release 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>常用参数: </p>
+<ul>
+<li>install: 安装软件包</li>
+<li>remove: 卸载软件包</li>
+<li>update: 升级软件包</li>
+<li>list installed: 查看已安装软件包</li>
+</ul>
+<h3 id="源码编译安装"><a href="#源码编译安装" class="headerlink" title="源码编译安装"></a>源码编译安装</h3><pre class="line-numbers language-sh"><code class="language-sh"># 先下载压缩包
+wget https://..../.....tar.gz
+
+# 解压
+tar -xvzf ...tar.gz
+
+# 进入解压目录
+cd ...
+
+# 执行 configure
+./configure --prefix=/usr/local/...
+# 如果报错命令未找到，先执行 yum -y install 安装
+
+# 多核编译
+# gmake -j2
+
+# 安装
+# gmake install
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="内核升级"><a href="#内核升级" class="headerlink" title="内核升级"></a>内核升级</h3><h4 id="yum-升级"><a href="#yum-升级" class="headerlink" title="yum 升级"></a>yum 升级</h4><pre class="line-numbers language-sh"><code class="language-sh"># 查看内核版本
+uname -r
+# 3.10.0-957.27.2.el7.x86_64
+
+# 升级内核
+yum install kernel-3.10.0
+
+# 升级依赖
+yum update
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="源码编译升级"><a href="#源码编译升级" class="headerlink" title="源码编译升级"></a>源码编译升级</h4><pre class="line-numbers language-sh"><code class="language-sh"># 安装依赖包
+yum install gcc gcc-c++ make ncurses-devel openssl-devel elfutils-libelf-devel bison flex
+
+# 下载并解压缩 https://www.kernel.org
+wget https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.2.9.tar.xz
+# wget https://mirror.bjtu.edu.cn/kernel/linux/kernel/v5.x/linux-5.2.9.tar.xz
+tar xvf linux-5.1.10.tar.xz -C /usr/src/kernels
+
+# 配置内核编译参数
+cd /usr/src/kernels/linux-5.1.10
+make menuconfig
+
+# 使用内核配置
+cp /boot/config-kernelversion.platform /usr/src/kernels/linux-5.1.10/.config
+
+# 编译
+make -j2 all
+
+# 安装内核模块
+make modules_install
+
+# 安装内核
+make install
+
+# 重启
+reboot
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Linux(%E4%BA%94)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Linux(%E4%B8%83)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

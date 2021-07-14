@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="本篇，我们说说 Python 中的面向对象高级编程的基本概念。
+数据封装、继承和多态只是面向对象程序设计中最基础的 3 个概念。在 Python 中，面向对象还有很多高级特性，允许我们写出非常强大的功能。本篇，我们会说说多重继承、定制类等概念。
+__slots__
+正常情况下，当我们定义了一个 cl"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>本篇，我们说说 Python 中的面向对象高级编程的基本概念。</p>
+<p>数据封装、继承和多态只是面向对象程序设计中最基础的 3 个概念。在 Python 中，面向对象还有很多高级特性，允许我们写出非常强大的功能。本篇，我们会说说多重继承、定制类等概念。</p>
+<h2 id="slots"><a href="#slots" class="headerlink" title="__slots__"></a>__slots__</h2><hr>
+<p>正常情况下，当我们定义了一个 class，创建了一个 class 的实例后，我们可以给该实例绑定任何属性和方法: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># 给实例绑定一个属性</span>
+p <span class="token operator">=</span> Person<span class="token punctuation">(</span><span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'Michael'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Michael</span>
+
+<span class="token comment" spellcheck="true"># 给实例绑定一个方法</span>
+<span class="token keyword">def</span> <span class="token function">set_age</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> age<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># 定义一个函数作为实例方法</span>
+    self<span class="token punctuation">.</span>age <span class="token operator">=</span> age
+<span class="token keyword">from</span> types <span class="token keyword">import</span> MethodType
+p<span class="token punctuation">.</span>set_age <span class="token operator">=</span> MethodType<span class="token punctuation">(</span>set_age<span class="token punctuation">,</span> p<span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>set_age<span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span>age<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 20</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>但是，给一个实例绑定的方法，对另一个实例是不起作用的，为了给所有实例都绑定方法，可以给 class 绑定方法: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">set_score</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> score<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    self<span class="token punctuation">.</span>score <span class="token operator">=</span> score
+Person<span class="token punctuation">.</span>set_score <span class="token operator">=</span> set_score
+<span class="token comment" spellcheck="true"># 所有实例均可调用</span>
+p1<span class="token punctuation">.</span>set_score<span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p1<span class="token punctuation">.</span>score<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 100</span>
+
+p2<span class="token punctuation">.</span>set_score<span class="token punctuation">(</span><span class="token number">90</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>score<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 90</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>为了达到限制的目的，Python 允许在定义 class 的时候，定义一个特殊的 __slots__ 变量，来限制该 class 实例能添加的属性: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token punctuation">:</span>
+    __slots__ <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token string">'name'</span><span class="token punctuation">,</span> <span class="token string">'age'</span><span class="token punctuation">)</span>
+
+p <span class="token operator">=</span> Person<span class="token punctuation">(</span><span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'Michael'</span>
+p<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">20</span>
+p<span class="token punctuation">.</span>score <span class="token operator">=</span> <span class="token number">100</span> <span class="token comment" spellcheck="true"># AttributeError</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>试图绑定 __slots__ 元组中不存在的字段名，将得到 AttributeError 的错误。</p>
+<p>注意: __slots__ 定义的属性仅对当前类实例起作用，对继承的子类是不起作用的。</p>
+<h2 id="property"><a href="#property" class="headerlink" title="@property"></a>@property</h2><hr>
+<p>Python 内置的 @property 装饰器就是负责把一个方法变成属性调用: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token punctuation">:</span>
+    @property
+    <span class="token keyword">def</span> <span class="token function">score</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>_score
+
+    @score<span class="token punctuation">.</span>setter
+    <span class="token keyword">def</span> <span class="token function">score</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token operator">not</span> type<span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token operator">==</span> int<span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> ValueError<span class="token punctuation">(</span><span class="token string">'score must be an integer!'</span><span class="token punctuation">)</span>
+        <span class="token keyword">elif</span> value <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">or</span> value <span class="token operator">></span> <span class="token number">100</span><span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> ValueError<span class="token punctuation">(</span><span class="token string">'score must between 0 ~ 100!'</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>_score <span class="token operator">=</span> value
+
+p <span class="token operator">=</span> Person<span class="token punctuation">(</span><span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>score <span class="token operator">=</span> <span class="token number">200</span> <span class="token comment" spellcheck="true"># score must between 0 ~ 100!</span>
+p<span class="token punctuation">.</span>score <span class="token operator">=</span> <span class="token string">'200'</span> <span class="token comment" spellcheck="true"># score must be an integer!</span>
+p<span class="token punctuation">.</span>score <span class="token operator">=</span> <span class="token number">90</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span>score<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 90</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>把一个 getter 方法变成属性，只需要加上 @property 就可以了，此时，@property 本身又创建了另一个装饰器 @score.setter，负责把一个 setter 方法变成属性赋值，还可以定义只读属性，只定义 getter 方法，不定义 setter 方法就是一个只读属性。</p>
+<h2 id="多重继承"><a href="#多重继承" class="headerlink" title="多重继承"></a>多重继承</h2><hr>
+<p>通过多重继承，一个子类就可以同时获得多个父类的所有功能。<br>在设计类的继承关系时，通常，主线都是单一继承下来的，但是，如果需要”混入”额外的功能，通过多重继承就可以实现，这种设计通常称之为 MixIn。</p>
+<p>Python 自带的很多库也使用了 MixIn。举个例子，Python 自带了 TCPServer 和 UDPServer 这两类网络服务，而要同时服务多个用户就必须使用多进程或多线程模型，这两种模型由 ForkingMixIn 和 ThreadingMixIn 提供。通过组合，我们就可以创造出合适的服务来。</p>
+<h2 id="定制类"><a href="#定制类" class="headerlink" title="定制类"></a>定制类</h2><hr>
+<p>看到类似 __slots__ 这种形如 __xxx__ 的变量或者函数名就要注意，这些在 Python 中是有特殊用途的。<br>__slots__ 我们已经知道怎么用了，__len__() 方法我们也知道是为了能让 class 作用于 len() 函数。<br>除此之外，Python 的 class 中还有许多这样有特殊用途的函数，可以帮助我们定制类。</p>
+<h3 id="str"><a href="#str" class="headerlink" title="__str__"></a>__str__</h3><p>__str__ 就相当于 Objective-C 中的 Description 方法或 C# 中的 toString() 方法。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>_name <span class="token operator">=</span> name
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>Person<span class="token punctuation">(</span><span class="token string">'Michael'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;__main__.Person object at 0x000001644DFB28D0></span>
+
+<span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>_name <span class="token operator">=</span> name
+
+    <span class="token keyword">def</span> <span class="token function">__str__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string">'Person object name is &amp;#123;&amp;#125;'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>self<span class="token punctuation">.</span>_name<span class="token punctuation">)</span>
+
+    __repr__ <span class="token operator">=</span> __str__
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>Person<span class="token punctuation">(</span><span class="token string">'Michael'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Person object name is Michael</span>
+
+Person<span class="token punctuation">(</span><span class="token string">'Michael'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Person object name is Michael</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="iter-和-next"><a href="#iter-和-next" class="headerlink" title="__iter__ 和 __next__"></a>__iter__ 和 __next__</h3><p>果一个类想被用于 for … in 循环，类似 list 或 tuple，就必须实现一个 __iter__() 方法，该方法返回一个迭代对象，然后，Python 的 for 循环就会不断调用该迭代对象的 __next__() 方法拿到循环的下一个值，直到遇到 StopIteration 错误时退出循环。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Fib</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token number">0</span>
+            self<span class="token punctuation">.</span>b <span class="token operator">=</span> <span class="token number">1</span>
+    <span class="token keyword">def</span> <span class="token function">__iter__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> self
+    <span class="token keyword">def</span> <span class="token function">__next__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>a<span class="token punctuation">,</span> self<span class="token punctuation">.</span>b <span class="token operator">=</span> self<span class="token punctuation">.</span>b<span class="token punctuation">,</span> self<span class="token punctuation">.</span>a <span class="token operator">+</span> self<span class="token punctuation">.</span>b <span class="token comment" spellcheck="true"># Pythonic</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>a <span class="token operator">></span> <span class="token number">10000</span><span class="token punctuation">:</span>
+                    <span class="token keyword">raise</span> StopIteration<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> self<span class="token punctuation">.</span>a
+<span class="token keyword">for</span> n <span class="token keyword">in</span> Fib<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># 1</span>
+    <span class="token comment" spellcheck="true"># 2</span>
+    <span class="token comment" spellcheck="true"># 3</span>
+    <span class="token comment" spellcheck="true"># 5</span>
+    <span class="token comment" spellcheck="true"># 8</span>
+    <span class="token comment" spellcheck="true"># 13</span>
+    <span class="token comment" spellcheck="true"># 21</span>
+    <span class="token comment" spellcheck="true"># 34</span>
+    <span class="token comment" spellcheck="true"># 55</span>
+    <span class="token comment" spellcheck="true"># 89</span>
+    <span class="token comment" spellcheck="true"># 144</span>
+    <span class="token comment" spellcheck="true"># 233</span>
+    <span class="token comment" spellcheck="true"># 377</span>
+    <span class="token comment" spellcheck="true"># 610</span>
+    <span class="token comment" spellcheck="true"># 987</span>
+    <span class="token comment" spellcheck="true"># 1597</span>
+    <span class="token comment" spellcheck="true"># 2584</span>
+    <span class="token comment" spellcheck="true"># 4181</span>
+    <span class="token comment" spellcheck="true"># 6765</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="getitem"><a href="#getitem" class="headerlink" title="__getitem__"></a>__getitem__</h3><p>Fib 实例虽然能作用于 for 循环，看起来和 list 有点像，但是，把它当成 list 来使用还是不行，比如，取第 5 个元素: </p>
+<pre class="line-numbers language-python"><code class="language-python">Fib<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># TypeError: 'Fib' object does not support indexing</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>要表现得像 list 那样按照下标取出元素，需要实现 __getitem__() 方法: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Fib</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__getitem__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> isinstance<span class="token punctuation">(</span>n<span class="token punctuation">,</span> int<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># n是索引</span>
+            a<span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span>
+            <span class="token keyword">for</span> x <span class="token keyword">in</span> range<span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                a<span class="token punctuation">,</span> b <span class="token operator">=</span> b<span class="token punctuation">,</span> a <span class="token operator">+</span> b
+            <span class="token keyword">return</span> a
+        <span class="token keyword">if</span> isinstance<span class="token punctuation">(</span>n<span class="token punctuation">,</span> slice<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># n是切片</span>
+            start <span class="token operator">=</span> n<span class="token punctuation">.</span>start
+            stop <span class="token operator">=</span> n<span class="token punctuation">.</span>stop
+            <span class="token keyword">if</span> start <span class="token keyword">is</span> None<span class="token punctuation">:</span>
+                start <span class="token operator">=</span> <span class="token number">0</span>
+            a<span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span>
+            L <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+            <span class="token keyword">for</span> x <span class="token keyword">in</span> range<span class="token punctuation">(</span>stop<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> x <span class="token operator">>=</span> start<span class="token punctuation">:</span>
+                    L<span class="token punctuation">.</span>append<span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+                a<span class="token punctuation">,</span> b <span class="token operator">=</span> b<span class="token punctuation">,</span> a <span class="token operator">+</span> b
+            <span class="token keyword">return</span> L
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="getattr"><a href="#getattr" class="headerlink" title="__getattr__"></a>__getattr__</h3><p>之前说过，当我们调用类的方法或属性时，如果不存在，就会报错。<br>Python 有一个机制，那就是写一个 __getattr__() 方法，动态返回一个属性: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'Michael'</span>
+
+    <span class="token keyword">def</span> <span class="token function">__getattr__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> attr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> attr<span class="token operator">==</span><span class="token string">'score'</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token number">99</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当调用不存在的属性时，比如 score，Python 解释器会试图调用 __getattr__(self, ‘score’) 来尝试获得属性，这样，我们就有机会返回 score 的值。</p>
+<p>注意，只有在没有找到属性的情况下，才调用 __getattr__，已有的属性，比如 name，不会在 __getattr__ 中查找。</p>
+<h2 id="枚举类"><a href="#枚举类" class="headerlink" title="枚举类"></a>枚举类</h2><hr>
+<p>Python 提供了 Enum 类来实现其它语言的枚举: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">from</span> enum <span class="token keyword">import</span> Enum
+
+Month <span class="token operator">=</span> Enum<span class="token punctuation">(</span><span class="token string">'Month'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">'Jan'</span><span class="token punctuation">,</span> <span class="token string">'Feb'</span><span class="token punctuation">,</span> <span class="token string">'Mar'</span><span class="token punctuation">,</span> <span class="token string">'Apr'</span><span class="token punctuation">,</span> <span class="token string">'May'</span><span class="token punctuation">,</span> <span class="token string">'Jun'</span><span class="token punctuation">,</span> <span class="token string">'Jul'</span><span class="token punctuation">,</span> <span class="token string">'Aug'</span><span class="token punctuation">,</span> <span class="token string">'Sep'</span><span class="token punctuation">,</span> <span class="token string">'Oct'</span><span class="token punctuation">,</span> <span class="token string">'Nov'</span><span class="token punctuation">,</span> <span class="token string">'Dec'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> name<span class="token punctuation">,</span> member <span class="token keyword">in</span> Month<span class="token punctuation">.</span>__members__<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> <span class="token string">'=>'</span><span class="token punctuation">,</span> member<span class="token punctuation">,</span> <span class="token string">','</span><span class="token punctuation">,</span> member<span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># value 属性则是自动赋给成员的 int 常量，默认从 1 开始计数。</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果需要更精确地控制枚举类型，可以从 Enum 派生出自定义类: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">from</span> enum <span class="token keyword">import</span> Enum<span class="token punctuation">,</span> unique
+
+@unique
+<span class="token keyword">class</span> <span class="token class-name">Weekday</span><span class="token punctuation">(</span>Enum<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    Sun <span class="token operator">=</span> <span class="token number">0</span> <span class="token comment" spellcheck="true"># Sun 的 value 被设定为 0</span>
+    Mon <span class="token operator">=</span> <span class="token number">1</span>
+    Tue <span class="token operator">=</span> <span class="token number">2</span>
+    Wed <span class="token operator">=</span> <span class="token number">3</span>
+    Thu <span class="token operator">=</span> <span class="token number">4</span>
+    Fri <span class="token operator">=</span> <span class="token number">5</span>
+    Sat <span class="token operator">=</span> <span class="token number">6</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>@unique 装饰器可以帮助我们检查保证没有重复值。<br>访问这些枚举类型可以有若干种方法: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span>Weekday<span class="token punctuation">.</span>Tue<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Weekday.Tue</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>Weekday<span class="token punctuation">[</span><span class="token string">'Tue'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Weekday.Tue</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>Weekday<span class="token punctuation">.</span>Tue<span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 2</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>Weekday<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Weekday.Mon</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Python(%E4%BA%94)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Python(%E4%B8%83)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

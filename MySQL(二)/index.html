@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="本篇，我们来说说 SQL 的基本操作 —— 库操作、表操作以及数据操作。
+库操作
+创建数据库基本语法: create database {数据库名} [库选项];
+-- 创建数据库
+create database mydatabase;
+
+库选项: 
+
+字符集: charset {指定字符集}，不指"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>本篇，我们来说说 SQL 的基本操作 —— 库操作、表操作以及数据操作。</p>
+<h2 id="库操作"><a href="#库操作" class="headerlink" title="库操作"></a>库操作</h2><hr>
+<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><p>基本语法: create database {数据库名} [库选项];</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 创建数据库</span>
+<span class="token keyword">create</span> <span class="token keyword">database</span> mydatabase<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>库选项: </p>
+<ul>
+<li>字符集: charset {指定字符集}，不指定则采用安装时默认字符集</li>
+<li>校对集: collate {指定校对集}</li>
+</ul>
+<h3 id="显示数据库"><a href="#显示数据库" class="headerlink" title="显示数据库"></a>显示数据库</h3><h4 id="显示全部"><a href="#显示全部" class="headerlink" title="显示全部"></a>显示全部</h4><p>基本语法: show databases;</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 显示全部数据库</span>
+<span class="token keyword">show</span> <span class="token keyword">databases</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="显示部分"><a href="#显示部分" class="headerlink" title="显示部分"></a>显示部分</h4><p>基本语法: show databases like ‘{模式匹配}’;</p>
+<ul>
+<li>_: 匹配当前位置单个字符</li>
+<li>%: 匹配指定位置多个字符</li>
+</ul>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 显示部分数据库</span>
+<span class="token keyword">show</span> <span class="token keyword">databases</span> <span class="token operator">like</span> <span class="token string">'my%'</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="显示数据库创建语句"><a href="#显示数据库创建语句" class="headerlink" title="显示数据库创建语句"></a>显示数据库创建语句</h4><p>基本语法: show create database {数据库名};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 显示数据库创建语句</span>
+<span class="token keyword">show</span> <span class="token keyword">create</span> <span class="token keyword">database</span> mydatabase<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h3><p>基本语法: use {数据库名};<br>在命令行会出现: Database changed</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 选择数据库</span>
+<span class="token keyword">use</span> mydatabase<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="修改数据库"><a href="#修改数据库" class="headerlink" title="修改数据库"></a>修改数据库</h3><p>5.5 版本之后，只能修改库选项，不能再修改库名了。<br>基本语法: alter databse {数据库名} {库选项};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 修改库选项</span>
+<span class="token keyword">alter</span> <span class="token keyword">database</span> mydatabase <span class="token keyword">charset</span> gbk<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h3><p>基本语法: drop database {数据库名};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 删除数据库</span>
+<span class="token keyword">drop</span> <span class="token keyword">database</span> mydatabase<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="表操作"><a href="#表操作" class="headerlink" title="表操作"></a>表操作</h2><hr>
+<h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><h4 id="普通创建表"><a href="#普通创建表" class="headerlink" title="普通创建表"></a>普通创建表</h4><p>基本语法: create table {表名}(字段 字段类型 [字段属性], …) [表选项];</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 普通创建表</span>
+<span class="token keyword">create</span> <span class="token keyword">table</span> mydatabase<span class="token punctuation">.</span>class<span class="token punctuation">(</span>name <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">-- 或者</span>
+<span class="token keyword">use</span> mydatabase<span class="token punctuation">;</span>
+<span class="token keyword">create</span> <span class="token keyword">table</span> class<span class="token punctuation">(</span>name <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意: 表必须放在对应的数据库之下，有两种方式: </p>
+<ol>
+<li>在表名前加上数据库名，用”.”连接</li>
+<li>在创建表之前，先选择数据库(即 use {数据库名};)</li>
+</ol>
+<p>表选项与库选项类似，包括: </p>
+<ol>
+<li>存储引擎: engine {引擎名}</li>
+<li>字符集: charset {字符集}</li>
+<li>校对集: collate {校对集}</li>
+</ol>
+<h4 id="复制已存在表结构"><a href="#复制已存在表结构" class="headerlink" title="复制已存在表结构"></a>复制已存在表结构</h4><p>基本语法: create table {表名} like {表名};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 复制表结构</span>
+<span class="token keyword">create</span> <span class="token keyword">table</span> mydatabase<span class="token punctuation">.</span>test <span class="token operator">like</span> mydatabase2<span class="token punctuation">.</span>class<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="显示数据表"><a href="#显示数据表" class="headerlink" title="显示数据表"></a>显示数据表</h3><h4 id="显示全部-1"><a href="#显示全部-1" class="headerlink" title="显示全部"></a>显示全部</h4><p>基本语法: show tables;</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 显示全部数据表</span>
+<span class="token keyword">show</span> <span class="token keyword">tables</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="显示部分-1"><a href="#显示部分-1" class="headerlink" title="显示部分"></a>显示部分</h4><p>基本语法: show tables like ‘{模式匹配}’;</p>
+<ul>
+<li>_: 匹配当前位置单个字符</li>
+<li>%: 匹配指定位置多个字符</li>
+</ul>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 显示部分数据表</span>
+<span class="token keyword">show</span> <span class="token keyword">tables</span> <span class="token operator">like</span> <span class="token string">'c%'</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="显示表结构-字段名，字段类型，字段属性等"><a href="#显示表结构-字段名，字段类型，字段属性等" class="headerlink" title="显示表结构(字段名，字段类型，字段属性等)"></a>显示表结构(字段名，字段类型，字段属性等)</h4><p>基本语法: desc {表名};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 显示表结构</span>
+<span class="token keyword">desc</span> test<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="修改数据表"><a href="#修改数据表" class="headerlink" title="修改数据表"></a>修改数据表</h3><h4 id="修改表属性"><a href="#修改表属性" class="headerlink" title="修改表属性"></a>修改表属性</h4><p>基本语法: alter table {表名} {表选项};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 修改表选项</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> test <span class="token keyword">engine</span> <span class="token keyword">innodb</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="修改表结构"><a href="#修改表结构" class="headerlink" title="修改表结构"></a>修改表结构</h4><h5 id="修改表名"><a href="#修改表名" class="headerlink" title="修改表名"></a>修改表名</h5><p>基本语法: rename table {旧表名} to {新表名};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 修改表名</span>
+<span class="token keyword">rename</span> <span class="token keyword">table</span> test <span class="token keyword">to</span> test1<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h5 id="新增字段"><a href="#新增字段" class="headerlink" title="新增字段"></a>新增字段</h5><p>基本语法: alter table {表名} add {字段名} {字段类型} [字段属性];</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 新增字段</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> test1 <span class="token keyword">add</span> age <span class="token keyword">int</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h5 id="修改字段名"><a href="#修改字段名" class="headerlink" title="修改字段名"></a>修改字段名</h5><p>基本语法: alter table {表名} change {旧字段名} {新字段名} {字段类型} [字段属性];</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 修改字段名</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> test1 change age new_age <span class="token keyword">int</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h5 id="修改字段类型或属性"><a href="#修改字段类型或属性" class="headerlink" title="修改字段类型或属性"></a>修改字段类型或属性</h5><p>基本语法: alter table {表名} modify {字段名} {新字段类型} [新字段属性];</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 修改字段类型或属性</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> test1 <span class="token keyword">modify</span> name <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h5 id="删除字段"><a href="#删除字段" class="headerlink" title="删除字段"></a>删除字段</h5><p>基本语法: alter table {表名} drop {字段名};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 删除字段</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> test1 <span class="token keyword">drop</span> new_age<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="删除数据表"><a href="#删除数据表" class="headerlink" title="删除数据表"></a>删除数据表</h4><p>基本语法: drop table {表名};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 删除数据表</span>
+<span class="token keyword">drop</span> <span class="token keyword">table</span> test1<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h2><hr>
+<h3 id="插入数据操作"><a href="#插入数据操作" class="headerlink" title="插入数据操作"></a>插入数据操作</h3><p>基本语法: insert into {表名} [({字段1}, {字段2}, …)] values({字段值1}, {字段值2}, …); </p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 插入数据</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> test <span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token keyword">values</span><span class="token punctuation">(</span><span class="token string">'Tom'</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">-- 或者</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> test <span class="token keyword">values</span><span class="token punctuation">(</span><span class="token string">'Lisi'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="查询数据操作"><a href="#查询数据操作" class="headerlink" title="查询数据操作"></a>查询数据操作</h3><p>基本语法: select * from {表名} [where 字段名 =/like 字段值];</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 查询数据</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> test<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">-- 或者</span>
+<span class="token keyword">select</span> name<span class="token punctuation">,</span> age <span class="token keyword">from</span> test <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'Lisi'</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="删除数据操作"><a href="#删除数据操作" class="headerlink" title="删除数据操作"></a>删除数据操作</h3><p>基本语法: delete from {表名} [where 字段名 =/like 字段值];</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 删除数据</span>
+<span class="token keyword">delete</span> <span class="token keyword">from</span> test <span class="token keyword">where</span> age<span class="token operator">>=</span><span class="token number">20</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="更新数据操作"><a href="#更新数据操作" class="headerlink" title="更新数据操作"></a>更新数据操作</h3><p>基本语法: update {表名} set {字段名}={新值} [where 字段名 =/like 字段值];</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 更新操作</span>
+<span class="token keyword">update</span> test <span class="token keyword">set</span> age<span class="token operator">=</span><span class="token number">30</span> <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'Lisi'</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="其他常见命令"><a href="#其他常见命令" class="headerlink" title="其他常见命令"></a>其他常见命令</h2><h3 id="查看-MySQL-服务端版本"><a href="#查看-MySQL-服务端版本" class="headerlink" title="查看 MySQL 服务端版本"></a>查看 MySQL 服务端版本</h3><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> version<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">--  +-----------+</span>
+<span class="token comment" spellcheck="true">--  | version() |</span>
+<span class="token comment" spellcheck="true">--  +-----------+</span>
+<span class="token comment" spellcheck="true">--  | 8.0.16    |</span>
+<span class="token comment" spellcheck="true">--  +-----------+</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="查看当前选择的数据库"><a href="#查看当前选择的数据库" class="headerlink" title="查看当前选择的数据库"></a>查看当前选择的数据库</h3><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token keyword">database</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">--  +------------+</span>
+<span class="token comment" spellcheck="true">--  | database() |</span>
+<span class="token comment" spellcheck="true">--  +------------+</span>
+<span class="token comment" spellcheck="true">--  | test       |</span>
+<span class="token comment" spellcheck="true">--  +------------+</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/MySQL(%E4%B8%80)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/MySQL(%E4%B8%89)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

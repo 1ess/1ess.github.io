@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="这一篇，我们再回来说说最后一种类型: 接口(interface)。
+什么是接口接口是指定一组函数成员而不实现他们的引用类型。
+interface IInfo
+&amp;amp;#123;
+    string GetName();
+    string GetAge();
+&amp;amp;#125;
+
+我们可以用"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>这一篇，我们再回来说说最后一种类型: 接口(interface)。</p>
+<h3 id="什么是接口"><a href="#什么是接口" class="headerlink" title="什么是接口"></a>什么是接口</h3><p>接口是指定一组函数成员而不实现他们的引用类型。</p>
+<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token keyword">interface</span> <span class="token class-name">IInfo</span>
+<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token keyword">string</span> <span class="token function">GetName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">string</span> <span class="token function">GetAge</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们可以用类或结构来实现接口。</p>
+<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token keyword">class</span> <span class="token class-name">MyCls</span><span class="token punctuation">:</span> IComparable
+<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> TheValue<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span>  <span class="token function">CompareTo</span><span class="token punctuation">(</span><span class="token keyword">object</span> obj<span class="token punctuation">)</span>
+    <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        MyCls cls <span class="token operator">=</span> <span class="token punctuation">(</span>MyCls<span class="token punctuation">)</span>obj<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>TheValue <span class="token operator">></span> cls<span class="token punctuation">.</span>TheValue<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>TheValue <span class="token operator">&lt;</span> cls<span class="token punctuation">.</span>TheValue<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="接口声明"><a href="#接口声明" class="headerlink" title="接口声明"></a>接口声明</h3><ul>
+<li><p>接口声明不能包含数据成员和静态成员</p>
+</li>
+<li><p>接口只能包含如下非静态成员: </p>
+<ol>
+<li>方法</li>
+<li>属性</li>
+<li>事件</li>
+<li>索引器</li>
+</ol>
+</li>
+<li><p>接口应该以大写字母 I 开始</p>
+</li>
+</ul>
+<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">IMyInterface</span>
+<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//注意: 接口函数成员不能有访问修饰符</span>
+    <span class="token keyword">int</span> <span class="token function">DoStuff</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="实现接口"><a href="#实现接口" class="headerlink" title="实现接口"></a>实现接口</h3><p>要实现接口: </p>
+<ul>
+<li>与继承类似，类或结构后跟冒号，再跟接口名</li>
+<li>为每一个接口成员提供实现</li>
+</ul>
+<p>注意: 如果有继承，并实现接口，基类名必须出现在接口之前: </p>
+<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token keyword">class</span> <span class="token class-name">Derived</span> <span class="token punctuation">:</span> BaseClass<span class="token punctuation">,</span> IIfc1<span class="token punctuation">,</span> IIfc2
+<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//...</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="实现多个接口"><a href="#实现多个接口" class="headerlink" title="实现多个接口"></a>实现多个接口</h3><ul>
+<li>类或结构可以实现任意数量的接口</li>
+<li>所有实现的接口，必须列在基类列表以逗号分隔</li>
+</ul>
+<h3 id="接口可以继承接口"><a href="#接口可以继承接口" class="headerlink" title="接口可以继承接口"></a>接口可以继承接口</h3><p>与类的继承不同，接口可以多继承。</p>
+<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token keyword">interface</span> <span class="token class-name">IData</span> <span class="token punctuation">:</span> IDataR<span class="token punctuation">,</span> IDataS
+<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//...</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/C#(%E4%B9%9D)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/C#(%E5%8D%81%E4%B8%80)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

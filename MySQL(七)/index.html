@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="本篇是 MySQL 的最后一篇，我们最后讲讲变量、函数、存储过程和触发器。
+变量
+MySQL 需要很多变量来保存数据。
+系统变量系统内部定义的变量，系统变量针对所有用户有效。
+查看系统变量基本语法: show variables [{模式匹配}];
+show variables like 'auto"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>本篇是 MySQL 的最后一篇，我们最后讲讲变量、函数、存储过程和触发器。</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><hr>
+<p>MySQL 需要很多变量来保存数据。</p>
+<h3 id="系统变量"><a href="#系统变量" class="headerlink" title="系统变量"></a>系统变量</h3><p>系统内部定义的变量，系统变量针对所有用户有效。</p>
+<h4 id="查看系统变量"><a href="#查看系统变量" class="headerlink" title="查看系统变量"></a>查看系统变量</h4><p>基本语法: show variables [{模式匹配}];</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">show</span> variables <span class="token operator">like</span> <span class="token string">'autocommit'</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="查看系统变量实际值"><a href="#查看系统变量实际值" class="headerlink" title="查看系统变量实际值"></a>查看系统变量实际值</h4><p>基本语法: select @@{变量名};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> @<span class="token variable">@autocommit</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="修改系统变量"><a href="#修改系统变量" class="headerlink" title="修改系统变量"></a>修改系统变量</h4><h5 id="局部修改"><a href="#局部修改" class="headerlink" title="局部修改"></a>局部修改</h5><p>只针对当前客户端的本次连接。<br>基本语法: set {变量名} = {新变量值};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> autocommit <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h5 id="全局修改"><a href="#全局修改" class="headerlink" title="全局修改"></a>全局修改</h5><p>针对”所有”客户端”所有”时刻。<br>基本语法: set global {变量名} = {新变量值}; 或者 set @@global.{变量名} = {新变量值};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> <span class="token keyword">global</span> autocommit <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">-- 或者</span>
+<span class="token keyword">set</span> @<span class="token variable">@global.autocommit</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>注意: 全局修改只针对新客户端有效。</p>
+<h3 id="会话变量"><a href="#会话变量" class="headerlink" title="会话变量"></a>会话变量</h3><p>会话变量又称为用户变量，只针对当前用户使用的当前客户端有效。</p>
+<h4 id="定义用户变量"><a href="#定义用户变量" class="headerlink" title="定义用户变量"></a>定义用户变量</h4><p>基本语法: set @{变量名} = {变量值};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> <span class="token variable">@name</span> :<span class="token operator">=</span> <span class="token string">'Hello world'</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>注意: 使用 := 是因为 MySQL 中 = 还有比较的含义，为了避免搞混，可以使用 := 来进行赋值操作。</p>
+<h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><p>局部变量使用 declare 关键字声明，并且出现在 begin 和 end 语句之间。<br>基本语法: declare {变量名} {数据类型};</p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><hr>
+<p>所有函数都是使用: select 函数名(参数列表);</p>
+<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><ul>
+<li>char_length(): 判断字符数</li>
+<li>length(): 判断字节数(与字符集有关)</li>
+<li>concat(): 连接字符串</li>
+<li>instr(): 判断字符在目标字符串中是否存在，存在返回位置(从 1 开始)，不存在返回 0</li>
+<li>lcase(): 全部小写</li>
+<li>left(): 从左侧开始截取到指定位置字符串</li>
+<li>ltrim(): 清除左侧空格</li>
+<li>mid(): 从指定位置开始截取字符串到最后</li>
+</ul>
+<h4 id="时间"><a href="#时间" class="headerlink" title="时间"></a>时间</h4><ul>
+<li>now(): 返回当前时间，日期和时间</li>
+<li>curdate(): 返回当前日期</li>
+<li>curtime(): 返回当前时间</li>
+<li>datediff(): 判断两日期天数差距</li>
+<li>date_add(): 进行时间增加</li>
+<li>unix_timestamp(): 获取时间戳(10 位)</li>
+<li>from_unixtime(): 从时间戳转为日期时间</li>
+</ul>
+<h4 id="数学"><a href="#数学" class="headerlink" title="数学"></a>数学</h4><ul>
+<li>abs(): 绝对值</li>
+<li>ceiling(): 向上取整</li>
+<li>floor(): 向下取整</li>
+<li>pow(): 求指数</li>
+<li>rand(): 取随机数</li>
+<li>round(): 四舍五入</li>
+</ul>
+<h2 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h2><p>简称过程(procedure)，是一组为了完成特定功能的 SQL 语句集。并且在一次编译之后无需再次编译，效率较高。</p>
+<h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><h4 id="创建过程"><a href="#创建过程" class="headerlink" title="创建过程"></a>创建过程</h4><p>基本语法:<br>create procedure {过程名}([参数列表])<br> begin<br>  {过程体}<br> end<br>{结束符};</p>
+<p>如果过程体中只有一条语句，可以省略 begin 和 end。</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">procedure</span> my_proc<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> my_student<span class="token punctuation">;</span>
+
+<span class="token keyword">delimiter</span> $$
+<span class="token keyword">create</span> <span class="token keyword">procedure</span> my_proc<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">begin</span>
+    <span class="token keyword">declare</span> i <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">set</span> <span class="token variable">@sum</span> :<span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> i <span class="token operator">&lt;=</span> <span class="token number">100</span> <span class="token keyword">do</span>
+     <span class="token keyword">set</span> <span class="token variable">@sum</span> <span class="token operator">=</span> <span class="token variable">@sum</span> <span class="token operator">+</span> i<span class="token punctuation">;</span>
+     <span class="token keyword">set</span> i <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+     <span class="token keyword">end</span> <span class="token keyword">while</span><span class="token punctuation">;</span>
+     <span class="token keyword">select</span> <span class="token variable">@sum</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span>
+$$
+<span class="token keyword">delimiter</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="查看过程"><a href="#查看过程" class="headerlink" title="查看过程"></a>查看过程</h4><p>基本语法: show procedure stutas;</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">show</span> <span class="token keyword">procedure</span> stutas<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="调用过程"><a href="#调用过程" class="headerlink" title="调用过程"></a>调用过程</h4><p>基本语法: call {过程名}([参数列表]);</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">call</span> my_proc<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="删除过程"><a href="#删除过程" class="headerlink" title="删除过程"></a>删除过程</h4><p>基本语法: drop procedure {过程名};</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">drop</span> <span class="token keyword">procedure</span> my_proc<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><hr>
+<p>触发器(trigger)是一种特殊类型的存储过程。触发器通过事件触发而被执行。</p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ol>
+<li>在写入数据表之前，强制检验或转换数据</li>
+<li>触发器发生错误，异动的结果会被撤销</li>
+</ol>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><ul>
+<li>优点</li>
+</ul>
+<ol>
+<li>可以实现表的级联更改</li>
+</ol>
+<ul>
+<li>缺点</li>
+</ul>
+<ol>
+<li>对触发器过分依赖，会影响数据库结构，增加维护的复杂程度</li>
+<li>造成数据在程序层面不可控</li>
+</ol>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/MySQL(%E5%85%AD)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/%E4%B9%9D%E4%B9%9D%E5%BD%92%E4%B8%80/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

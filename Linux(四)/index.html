@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="滚滚长江东逝水，浪花淘尽英雄，是非成败转头空，青山依旧在，几度夕阳红。白发渔樵江渚上，惯看秋月春风，一壶浊酒喜相逢，古今多少事，都付笑谈中。
+
+&amp;mdash; 杨慎《临江仙》
+
+
+本篇，我们在来说一下在 Linux 下，有关权限的相关知识。
+Linux 下的权限
+权限设置的目的: 是想让某个用户由权"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><blockquote>
+<p>滚滚长江东逝水，浪花淘尽英雄，是非成败转头空，青山依旧在，几度夕阳红。<br>白发渔樵江渚上，惯看秋月春风，一壶浊酒喜相逢，古今多少事，都付笑谈中。</p>
+<blockquote>
+<p>&mdash; 杨慎《临江仙》</p>
+</blockquote>
+</blockquote>
+<p>本篇，我们在来说一下在 Linux 下，有关权限的相关知识。</p>
+<h2 id="Linux-下的权限"><a href="#Linux-下的权限" class="headerlink" title="Linux 下的权限"></a>Linux 下的权限</h2><hr>
+<p>权限设置的目的: 是想让某个用户由权利操作某文件。<br>注意: 权限是设置在文件上的，而不是用户。</p>
+<h2 id="普通权限"><a href="#普通权限" class="headerlink" title="普通权限"></a>普通权限</h2><hr>
+<h3 id="rwx"><a href="#rwx" class="headerlink" title="rwx"></a>rwx</h3><ol>
+<li>读权限 r(数值: 4)</li>
+</ol>
+<ul>
+<li>针对目录: 一个目录拥有 r 权限，说明可以查看该目录的内容(ls)</li>
+<li>针对文件: 一个文件拥有 r 权限，说明可以查看该文件的内容(cat/less/more/tail/head)</li>
+</ul>
+<ol start="2">
+<li>写权限 w(数值: 2)</li>
+</ol>
+<ul>
+<li>针对目录: 一个目录拥有 w 权限，说明可以在该目录内执行 mkdir，touch，mv，rm 等操作</li>
+<li>针对文件: 一个文件拥有 w 权限，说明可以修改该文件的内容</li>
+</ul>
+<ol start="3">
+<li>执行权限 x(数值: 1)</li>
+</ol>
+<ul>
+<li>针对目录: 一个目录拥有 x 权限，说明可以进入该目录(cd)</li>
+<li>针对文件: 一个文件拥有 x 权限，说明可以执行该文件，一般是程序文件或脚本文件</li>
+</ul>
+<ol start="4">
+<li>没有权限 -(数值: 0)</li>
+</ol>
+<h3 id="UGO"><a href="#UGO" class="headerlink" title="UGO"></a>UGO</h3><p>UGO 指用户身份，每个字母代表不同身份。</p>
+<ol>
+<li>U: 文件拥有者</li>
+<li>G: 文件所属组的其他用户</li>
+<li>O: 其他用户</li>
+</ol>
+<p>权限及用户总共 9 位表示，3 格一组进行分割，用户依次为 UGO，权限依次为 rwx，第一位位文件类型，如下: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">-rw-r--r--    1 1ess  staff     271  8 10 10:33 .vimrc
+-rw-r--r--    1 1ess  staff    3601  8 21 16:00 .zshrc
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="修改文件普通权限-chmod"><a href="#修改文件普通权限-chmod" class="headerlink" title="修改文件普通权限(chmod)"></a>修改文件普通权限(chmod)</h3><p>格式: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">chmod [选项] [模式] [文件名]
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>常见选项: </p>
+<ul>
+<li>R: 递归修改权限</li>
+</ul>
+<h4 id="字母形式修改权限"><a href="#字母形式修改权限" class="headerlink" title="字母形式修改权限"></a>字母形式修改权限</h4><pre class="line-numbers language-sh"><code class="language-sh">chmod u+x,g+w,o-r ./*
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="数字形式修改权限"><a href="#数字形式修改权限" class="headerlink" title="数字形式修改权限"></a>数字形式修改权限</h4><pre class="line-numbers language-sh"><code class="language-sh">chmod 760 ./*
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="修改文件属主和属组-chown"><a href="#修改文件属主和属组-chown" class="headerlink" title="修改文件属主和属组(chown)"></a>修改文件属主和属组(chown)</h3><p>格式: </p>
+<pre class="line-numbers language-sh"><code class="language-sh"># 只修改属主
+chown [用户名] [文件名]
+
+# 只修改属组
+chown .[组名] [文件名]
+
+# 同时修改属主属组
+chown [用户名].[组名] [文件名]
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>常见选项: </p>
+<ul>
+<li>R: 递归修改属主和属组</li>
+</ul>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Linux(%E4%B8%89)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Linux(%E4%BA%94)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

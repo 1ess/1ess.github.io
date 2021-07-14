@@ -1,0 +1,147 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="正则表达式(Regular Expression)是对字符串操作的一种逻辑公式。之前的章节我们已经提到过正则表达式，本篇我们就对正则表达式做一个详细的介绍。
+re.match
+re.match 尝试从字符串的起始位置匹配一个模式，如果匹配不成功，则返回 None。
+最常规匹配import re
+
+c"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>正则表达式(Regular Expression)是对字符串操作的一种逻辑公式。之前的章节我们已经提到过正则表达式，本篇我们就对正则表达式做一个详细的介绍。</p>
+<h2 id="re-match"><a href="#re-match" class="headerlink" title="re.match"></a>re.match</h2><hr>
+<p>re.match 尝试从字符串的起始位置匹配一个模式，如果匹配不成功，则返回 None。</p>
+<h3 id="最常规匹配"><a href="#最常规匹配" class="headerlink" title="最常规匹配"></a>最常规匹配</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> re
+
+content <span class="token operator">=</span> <span class="token string">'Hello 123 4567 Regex Demo'</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>r<span class="token string">'^Hello\s\d\d\d\s\d&amp;#123;4&amp;#125;\s\w&amp;#123;5&amp;#125;.*Demo$'</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;re.Match object; span=(0, 25), match='Hello 123 4567 Regex Demo'></span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 'Hello 123 4567 Regex Demo'</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>span<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># (0, 25)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="泛匹配"><a href="#泛匹配" class="headerlink" title="泛匹配"></a>泛匹配</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> re
+
+content <span class="token operator">=</span> <span class="token string">'Hello 123 4567 Regex Demo'</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>r<span class="token string">'^Hello.*Demo$'</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;re.Match object; span=(0, 25), match='Hello 123 4567 Regex Demo'></span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 'Hello 123 4567 Regex Demo'</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>span<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># (0, 25)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="匹配目标"><a href="#匹配目标" class="headerlink" title="匹配目标"></a>匹配目标</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> re
+
+content <span class="token operator">=</span> <span class="token string">'BIT 150001'</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>r<span class="token string">'1\d&amp;#123;5&amp;#125;'</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;re.Match object; span=(4, 10), match='150001'></span>
+ 
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># group(0) 取到的是第一个匹配字符串</span>
+<span class="token comment" spellcheck="true"># '150001'</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># group(1) 取到的是第一个分组匹配的字符串，如果没有括号分组，group(0) 与 group(1) 相同</span>
+<span class="token comment" spellcheck="true"># '150001'</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>span<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># (4, 10)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="贪婪匹配"><a href="#贪婪匹配" class="headerlink" title="贪婪匹配"></a>贪婪匹配</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> re
+
+content <span class="token operator">=</span> <span class="token string">'PYANBNCN'</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>r<span class="token string">'PY.*N'</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># 贪婪匹配总是尽可能匹配多</span>
+<span class="token comment" spellcheck="true"># 'PYANBNCN'</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="非贪婪匹配"><a href="#非贪婪匹配" class="headerlink" title="非贪婪匹配"></a>非贪婪匹配</h3><p>非贪婪匹配可用于的操作符有: </p>
+<ul>
+<li>*?</li>
+<li>+?</li>
+<li>??</li>
+<li>{m,n}?</li>
+</ul>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> re
+
+content <span class="token operator">=</span> <span class="token string">'PYANBNCN'</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>r<span class="token string">'PY.*?N'</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># 非贪婪匹配总是尽可能匹配少，? 我们可以看作是优先级的意思</span>
+<span class="token comment" spellcheck="true"># 'PYAN'</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="匹配模式"><a href="#匹配模式" class="headerlink" title="匹配模式"></a>匹配模式</h3><p>常见的匹配模式有: </p>
+<ul>
+<li>re.I: 忽略大小写，即 [a-z] 也可以匹配大写字母</li>
+<li>re.M: 当有多行文本，^ 每一行都会进行匹配</li>
+<li>re.S: . 可以忽略换行符进行匹配</li>
+</ul>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> re
+
+content <span class="token operator">=</span> <span class="token triple-quoted-string string">"""Hello 1234567 
+Regex Demo
+"""</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>r<span class="token string">'He.*?(\d+).*?Demo$'</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># . 匹配除换行之外的任意字符</span>
+<span class="token comment" spellcheck="true"># None</span>
+
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>r<span class="token string">'He.*?(\d+).*?Demo$'</span><span class="token punctuation">,</span> content<span class="token punctuation">,</span> re<span class="token punctuation">.</span>S<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;re.Match object; span=(0, 24), match='Hello 1234567\nRegex Demo'></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="转义"><a href="#转义" class="headerlink" title="转义"></a>转义</h3><p>我们在使用正则表达式时，最好使用原生字符串: </p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> re
+
+content <span class="token operator">=</span> <span class="token string">'price is $5.00'</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span><span class="token string">'price is $5.00'</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># None</span>
+
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span><span class="token string">'price is \$5\.00'</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;re.Match object; span=(0, 14), match='price is $5.00'></span>
+
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>r<span class="token string">'price is $5.00'</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;re.Match object; span=(0, 14), match='price is $5.00'></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="常见示例"><a href="#常见示例" class="headerlink" title="常见示例"></a>常见示例</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># IP 地址匹配</span>
+ip_pattern <span class="token operator">=</span> r<span class="token string">'(([1-9]?[0-9]|1\d&amp;#123;2&amp;#125;|2[0-4]\d|25[0-5]).)&amp;#123;3&amp;#125;([1-9]?[0-9]|1\d&amp;#123;2&amp;#125;|2[0-4]\d|25[0-5])'</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="re-search"><a href="#re-search" class="headerlink" title="re.search"></a>re.search</h2><hr>
+<p>re.search 会扫描整个字符串并返回第一个成功的匹配。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> re
+
+content <span class="token operator">=</span> <span class="token string">'ABC Hello 1234567 Regex Demo DEF'</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>search<span class="token punctuation">(</span>r<span class="token string">'He.*?(\d+)\s.*Demo'</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;re.Match object; span=(4, 28), match='Hello 1234567 Regex Demo'></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="re-findall"><a href="#re-findall" class="headerlink" title="re.findall"></a>re.findall</h2><hr>
+<p>re.findall 扫描整个字符串，以列表的形式返回所有匹配的子串。</p>
+<pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> r<span class="token triple-quoted-string string">'''&lt;html>
+    &lt;li>
+        &lt;a href="/1.mp3">偏偏喜欢你&lt;/a>
+    &lt;/li>
+    &lt;li>&lt;a href="/2.mp3">山丘&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="/3.mp3">领悟&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="/4.mp3">BUGs&lt;/a>&lt;/li>
+&lt;html>'''</span>
+
+results <span class="token operator">=</span> re<span class="token punctuation">.</span>findall<span class="token punctuation">(</span>r<span class="token string">'&lt;a\shref="(.*?)">(.*?)&lt;/a>'</span><span class="token punctuation">,</span> html<span class="token punctuation">,</span> re<span class="token punctuation">.</span>S<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [('/1.mp3', '偏偏喜欢你'), ('/2.mp3', '山丘'), ('/3.mp3', '领悟'), ('/4.mp3', 'BUGs')]</span>
+<span class="token keyword">for</span> result <span class="token keyword">in</span> results<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> result<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="re-compile"><a href="#re-compile" class="headerlink" title="re.compile"></a>re.compile</h2><hr>
+<p>将正则字符串编译成正则表达式对象，便于复用。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> re
+
+content <span class="token operator">=</span> <span class="token string">'ABC Hello 1234567 Regex Demo DEF'</span>
+
+pattern <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span>r<span class="token string">'Hello.*Demo'</span><span class="token punctuation">,</span> re<span class="token punctuation">.</span>S<span class="token punctuation">)</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>search<span class="token punctuation">(</span>pattern<span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;re.Match object; span=(4, 28), match='Hello 1234567 Regex Demo'></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Python(%E5%8D%81%E4%B8%89)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Python(%E5%8D%81%E4%BA%94)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

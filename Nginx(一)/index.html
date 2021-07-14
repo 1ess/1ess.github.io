@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="Nginx 现在已经是在 Web 开发中必不可少的技能了，我们通过几篇文章，来总结一下有关 Nginx 的知识。
+简介
+Nginx 是异步框架的 Web 服务器，内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。也可以用作反向代理、负载平衡器和 HTTP 缓存。Nginx 使用异步事件驱动"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>Nginx 现在已经是在 Web 开发中必不可少的技能了，我们通过几篇文章，来总结一下有关 Nginx 的知识。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><hr>
+<p>Nginx 是异步框架的 Web 服务器，内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。也可以用作反向代理、负载平衡器和 HTTP 缓存。<br>Nginx 使用异步事件驱动的方法来处理请求。Nginx 的模块化事件驱动架构可以在高负载下提供更可预测的性能。<br>在 Nginx 官方测试的结果中，能够支持五万个并行连接，在实际的运行中，可以支持二万至四万个并行连接。<br>整体采用模块化设计是 Nginx 的一个重大特点，甚至 http 服务器核心功能也是一个模块。旧版本的 Nginx 的模块是静态的，添加和删除模块都要对 Nginx 进行重新编译，1.9.11 以及更新的版本已经支持动态模块加载。</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ol>
+<li>静态资源服务</li>
+<li>反向代理服务</li>
+<li>API 服务</li>
+</ol>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>Nginx 安装与其他软件相同: </p>
+<pre class="line-numbers language-sh"><code class="language-sh"># 我们可以使用 --help 查看帮助
+./configure --help | less
+
+# 配置
+./configure --prefix=/usr/local/nginx
+
+# 编译
+make
+
+# 安装
+make install
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><ol>
+<li>二进制可执行文件: 由各模块源码编译出的一个文件</li>
+<li>nginx.conf: nginx 的配置文件</li>
+<li>access.log: 记录每一条 http 请求信息</li>
+<li>error.log: 错误日志</li>
+</ol>
+<h2 id="Nginx-命令"><a href="#Nginx-命令" class="headerlink" title="Nginx 命令"></a>Nginx 命令</h2><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>执行命令: </p>
+<pre class="line-numbers language-sh"><code class="language-sh"># -c 制定配置文件
+/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>启动之后可以使用 ps 命令查看进程，我们会发现有两个进程: master 和 worker 进程。</p>
+<h3 id="热更新"><a href="#热更新" class="headerlink" title="热更新"></a>热更新</h3><pre class="line-numbers language-sh"><code class="language-sh">/usr/local/nginx/sbin/nginx -s reload
+# 或者
+kill HUP [master 进程 id]
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>使用该命令可以在不停止服务的情况重新加载 nginx.conf 配置。</p>
+<h3 id="热部署"><a href="#热部署" class="headerlink" title="热部署"></a>热部署</h3><pre class="line-numbers language-sh"><code class="language-sh"># 将更新版本 nginx 编译好的二进制文件复制到 /usr/local/nginx/sbin/ 下，覆盖原版本，我们可以先重名了之前版本的 nginx
+mv nginx nginx.old
+
+cp /nginx-1.xx.xx/objs/nginx /usr/local/nginx/sbin/nginx
+
+# 重新启动 nginx 的 master 进程，旧 master 进程不再监听原端口，新的连接只会进入新的 worker 进程
+kill USR2 [旧 master 进程 id]
+
+# 优雅关闭所有旧的 worker 进程
+kill WINCH [旧 master 进程 id]
+
+# 旧的 master 进程现在仍没有关闭，使得我们可以回退
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="日志切割"><a href="#日志切割" class="headerlink" title="日志切割"></a>日志切割</h3><p>我们可以将日志备份，然后重新生成日志: </p>
+<pre class="line-numbers language-sh"><code class="language-sh"># 备份日志
+cp access1.log bak.log
+
+# 重新生成日志
+/usr/local/nginx/sbin/nginx -s reopen
+
+# 或者使用 kill USR1 重新生成日志
+kill USR1 [master 进程 id]
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>一般的，我们可以写一个定时任务，定时备份我们的日志文件。</p>
+<h3 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h3><pre class="line-numbers language-sh"><code class="language-sh">kill QUIT [master 进程 id]
+# 或者
+kill INT [master 进程 id]
+# 或者
+kill -9 [master 进程 id]
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们一般使用 QUIT 和 INT 信号来平缓停止和快速停止 Nginx 服务，而不是用 -9 来停止服务。</p>
+<p>进程 id 可以使用 ps 查看，也可以查看 /usr/local/nginx/log/nginx.pid 文件，文件内容就是 master 进程的 pid。</p>
+<h3 id="配置检查"><a href="#配置检查" class="headerlink" title="配置检查"></a>配置检查</h3><pre class="line-numbers language-sh"><code class="language-sh"># -t 进行配置检查
+/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf -t
+
+# nginx: the configuration file /usr/local/nginx/conf/nginx.conf syntax is ok
+# nginx: configuration file /usr/local/nginx/conf/nginx.conf test is successful
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="显示-Nginx-版本"><a href="#显示-Nginx-版本" class="headerlink" title="显示 Nginx 版本"></a>显示 Nginx 版本</h3><pre class="line-numbers language-sh"><code class="language-sh"># -v: 显示 nginx 版本
+# -V: 显示 nginx 版本，编译器版本和配置文件以及插件信息
+usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf -v 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="Nginx-服务可接收信号"><a href="#Nginx-服务可接收信号" class="headerlink" title="Nginx 服务可接收信号"></a>Nginx 服务可接收信号</h3><table>
+<thead>
+<tr>
+<th>信号</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>INT</td>
+<td>快速停止 Nginx 服务</td>
+</tr>
+<tr>
+<td>QUIT</td>
+<td>平缓停止 Nginx 服务</td>
+</tr>
+<tr>
+<td>USR1</td>
+<td>重新打开日志文件</td>
+</tr>
+<tr>
+<td>USR2</td>
+<td>使用新版本的 Nginx 文件启动服务，之后停止原有 Nginx 进程，平滑升级</td>
+</tr>
+<tr>
+<td>WINCH</td>
+<td>平缓停止原有工作进程，与 USR2 配合使用</td>
+</tr>
+<tr>
+<td>HUP</td>
+<td>使用新的配置文件启动服务，之后平缓停止原有进程，平滑重启</td>
+</tr>
+</tbody></table>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Linux(%E5%85%AB)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Nginx(%E4%BA%8C)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

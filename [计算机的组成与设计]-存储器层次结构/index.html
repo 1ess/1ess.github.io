@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>『计算机的组成与设计』-存储器层次结构 · A Sort Of A Blog</title><meta name="description" content="不要低估一辆载满磁带飞奔的货车的带宽。
+
+局部性原理
+局部性原理表明了在任何时间内，程序访问的只是地址空间相对较小的一部分内容。  
+
+时间局部性: 如果某个数据被访问，那么在不久的将来他可能再次被访问
+空间局部性: 如果某个数据被访问，与他地址相邻的数据可能很快被访问
+
+我们利用局部性原理将计算机"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>『计算机的组成与设计』-存储器层次结构</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-05-20</span></p><p class="post-abstract"><blockquote>
+<p>不要低估一辆载满磁带飞奔的货车的带宽。</p>
+</blockquote>
+<h2 id="局部性原理"><a href="#局部性原理" class="headerlink" title="局部性原理"></a>局部性原理</h2><hr>
+<p>局部性原理表明了在任何时间内，程序访问的只是地址空间相对较小的一部分内容。  </p>
+<ul>
+<li>时间局部性: 如果某个数据被访问，那么在不久的将来他可能再次被访问</li>
+<li>空间局部性: 如果某个数据被访问，与他地址相邻的数据可能很快被访问</li>
+</ul>
+<p>我们利用局部性原理将计算机存储器组织成为<strong>存储器层次结构</strong>(memory hierarchy)。存储器层次结构由不同速度和容量的多级存储器构成。<br>如果存储器需要的数据存放在高层存储器中的某个块中，则称为一次<strong>命中</strong>。命中率是在高层次存储器中找到数据的存储访问比例，是存储器层次结构性能的重要衡量指标。</p>
+<h2 id="存储器技术"><a href="#存储器技术" class="headerlink" title="存储器技术"></a>存储器技术</h2><hr>
+<p>目前，构建存储器层次结构主要有四种技术。</p>
+<ul>
+<li>主存由 DRAM 实现</li>
+<li>cache 由 SRAM 实现</li>
+<li>闪存非易失性存储器用作个人移动设备中的二级存储器</li>
+<li>磁盘通常是服务器中容量最大速度最慢的一层</li>
+</ul>
+<h2 id="存储器的层次结构"><a href="#存储器的层次结构" class="headerlink" title="存储器的层次结构"></a>存储器的层次结构</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/memory/memory-hierarchy.png"></p>
+<h2 id="SRAM"><a href="#SRAM" class="headerlink" title="SRAM"></a>SRAM</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/memory/SRAM.png"></p>
+<p>上图是 6 晶体管 SRAM 的一个单元。核心是 4 个晶体管 M1-M4，它们组成两个交叉耦合的反相器。它们有两个稳定的状态，分别代表 0 和 1。</p>
+<h2 id="DRAM"><a href="#DRAM" class="headerlink" title="DRAM"></a>DRAM</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/memory/DRAM.png"></p>
+<p>动态 RAM 比静态 RAM 要简单得多。上图展示了一种普通 DRAM 的结构。它只含有一个晶体管和一个电容器。</p>
+<h2 id="主存"><a href="#主存" class="headerlink" title="主存"></a>主存</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/memory/RAM.jpg"></p>
+<p>上图就是一个内存模组(memory module)，模组上面的一个个黑色芯片就是 DRAM 芯片。就构成了我们说的内存条。通常用于 PC 上，在移动设备上，内存通常集成于 SoC。</p>
+<h3 id="DDR"><a href="#DDR" class="headerlink" title="DDR"></a>DDR</h3><p><strong>双倍数据传输率</strong>(Double Date Rate)严格的说 DDR 应该叫 DDR SDRAM，人们习惯称为 DDR。<br>DDR 内存是在 SDRAM 内存基础上发展而来的，仍然沿用 SDRAM 生产体系，因此对于内存厂商 而言，只需对制造普通 SDRAM 的设备稍加改进，即可实现 DDR 内存的生产，可有效的降低成本。<br>DDR 系统时脉为 100 或 133MHz，但是数据传输速率为系统时脉的两倍，即 200 或 266 MHz，系统使用 3.3 或 3.5V 的电压。因为 DDR SDRAM 的速度增加，因此它的传输效能比同步动态随机存取内存(SDRAM)好。SDRAM 在一个时钟周期内只传输一次数据，它是在时钟的上升期进行数据传输；而 DDR 内存则是一个时钟周期内传输两次次数据，它能够在时钟的上升期和下降期各传输一次数据，因此称为双倍速率同步动态随机存储器。DDR 内存可以在与 SDRAM 相同的总线频率下达到更高的数据传输率。</p>
+<h3 id="双通道"><a href="#双通道" class="headerlink" title="双通道"></a>双通道</h3><p><strong>双通道</strong>(Dual-channel)是一种能够让电脑性能增加的技术，这种技术将多个内存由串联方式改良为并联方式，以得到更大的频宽。</p>
+<h2 id="高速缓存"><a href="#高速缓存" class="headerlink" title="高速缓存"></a>高速缓存</h2><hr>
+<h3 id="Cache-对空间局部性的利用"><a href="#Cache-对空间局部性的利用" class="headerlink" title="Cache 对空间局部性的利用"></a>Cache 对空间局部性的利用</h3><ul>
+<li>从主存中取回带访问数据时，会同时取回与位置相邻的主存单元的数据</li>
+<li>以<strong>块</strong>(Block)为单位和主存进行数据交换</li>
+</ul>
+<h3 id="Cache-对时间局部性的利用"><a href="#Cache-对时间局部性的利用" class="headerlink" title="Cache 对时间局部性的利用"></a>Cache 对时间局部性的利用</h3><ul>
+<li>保存近期被频繁访问的主存单元的数据。</li>
+</ul>
+<h3 id="Cache-的访问过程"><a href="#Cache-的访问过程" class="headerlink" title="Cache 的访问过程"></a>Cache 的访问过程</h3><ol>
+<li>CPU 向 Cache 发出读请求</li>
+<li>首先判断数据是否位于 Cache，若位于 Cache 中，则称为 <strong>Cache Hit</strong>，返回数据；若 Cache 中不存在，则称为 <strong>Cache Miss</strong>，并向主存发出读请求。(这一过程 CPU 不参与)</li>
+<li>从主存中读取数据，更新 Cache 并返回数据</li>
+</ol>
+<h3 id="Cache-的写策略"><a href="#Cache-的写策略" class="headerlink" title="Cache 的写策略"></a>Cache 的写策略</h3><ul>
+<li>Cache 命中时的写策略</li>
+</ul>
+<ol>
+<li>写穿透(Write Through): 数据同时写入 Cache 和主存</li>
+<li>写返回(Write Back): 数据只写入 Cache，仅当该数据块被替换时才将数据写回主存</li>
+</ol>
+<ul>
+<li>Cache 失效时的写策略</li>
+</ul>
+<ol>
+<li>写不分配(Write Non-Allocate): 直接将数据写入主存</li>
+<li>写分配(Write Allocate): 将该数据所在的块读入 Cache 后，再将数据写入 Cache</li>
+</ol>
+<p>少量对性能要求不高的系统采用<strong>写穿透-写不分配</strong>的策略，大多数都采用<strong>写返回-写分配</strong>的策略。</p>
+<h3 id="Cache-失效的原因"><a href="#Cache-失效的原因" class="headerlink" title="Cache 失效的原因"></a>Cache 失效的原因</h3><p><strong>注意: 提高一点命中率，访存性能提升很高。</strong>    </p>
+<ul>
+<li>义务失效<br>第一次访问某一块数据，也成为冷启动(Cold Start Miss)。(无法避免)</li>
+<li>容量失效<br>Cache 无法保存程序访问所需的所有的数据块。(可通过过增加 Cache 容量解决)</li>
+<li>冲突失效<br>多个存储器位置映射到同一 Cache 位置。</li>
+</ul>
+<h3 id="Cache-映射策略"><a href="#Cache-映射策略" class="headerlink" title="Cache 映射策略"></a>Cache 映射策略</h3><ul>
+<li>直接映射 Cache</li>
+<li>组相联 Cache</li>
+</ul>
+<h3 id="Cache-替换算法"><a href="#Cache-替换算法" class="headerlink" title="Cache 替换算法"></a>Cache 替换算法</h3><ul>
+<li>随机</li>
+<li>轮转</li>
+<li>LRU</li>
+</ul>
+<p><strong>对于现在的多级高速缓存，如 Core I7，L1 Cache 会采用指令和数据分离的 Cache，L2 和 L3 则不分离。</strong></p>
+<h2 id="存储容量的计算"><a href="#存储容量的计算" class="headerlink" title="存储容量的计算"></a>存储容量的计算</h2><hr>
+<h3 id="单位前缀"><a href="#单位前缀" class="headerlink" title="单位前缀"></a>单位前缀</h3><ul>
+<li>高速缓存: 32KB = 32 x 1024Byte(K: 2<sup>10</sup>，M: 2<sup>20</sup>，G: 2<sup>30</sup>)</li>
+<li>内存: 4GB = 4 x 1024<sup>3</sup>Byte</li>
+<li>U盘: 4GB =  4 x 1000<sup>3</sup>Byte</li>
+<li>硬盘: 1TB =  1 x 1000<sup>4</sup>Byte</li>
+</ul>
+<p><strong>注意: 内部存储器使用 1024，而外部存储器使用 1000。</strong></p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/%E8%87%AA%E7%94%B1/" title="自由"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: 自由</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/%5B%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E8%AE%BE%E8%AE%A1%5D-%E5%A4%84%E7%90%86%E5%99%A8/" title="『计算机的组成与设计』-处理器">下一篇: 『计算机的组成与设计』-处理器&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

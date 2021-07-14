@@ -1,0 +1,339 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="本篇，我们来介绍一下 BeautifulSoup，使用它可以灵活又方便的进行网页解析，支持多种解析器，即使不编写正则表达式也可以进行网页信息的提取。
+安装pip install beautifulsoup4
+
+解析器Python 标准库BeautifulSoup(markup, 'html.pars"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>本篇，我们来介绍一下 BeautifulSoup，使用它可以灵活又方便的进行网页解析，支持多种解析器，即使不编写正则表达式也可以进行网页信息的提取。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre class="line-numbers language-python"><code class="language-python">pip install beautifulsoup4
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="解析器"><a href="#解析器" class="headerlink" title="解析器"></a>解析器</h3><h4 id="Python-标准库"><a href="#Python-标准库" class="headerlink" title="Python 标准库"></a>Python 标准库</h4><pre class="line-numbers language-python"><code class="language-python">BeautifulSoup<span class="token punctuation">(</span>markup<span class="token punctuation">,</span> <span class="token string">'html.parser'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="lxml-HTML-解析器-推荐"><a href="#lxml-HTML-解析器-推荐" class="headerlink" title="lxml HTML 解析器(推荐)"></a>lxml HTML 解析器(推荐)</h4><pre class="line-numbers language-python"><code class="language-python">BeautifulSoup<span class="token punctuation">(</span>markup<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="lxml-XML-解析器"><a href="#lxml-XML-解析器" class="headerlink" title="lxml XML 解析器"></a>lxml XML 解析器</h4><pre class="line-numbers language-python"><code class="language-python">BeautifulSoup<span class="token punctuation">(</span>markup<span class="token punctuation">,</span> <span class="token string">'xml'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="html5lib"><a href="#html5lib" class="headerlink" title="html5lib"></a>html5lib</h4><pre class="line-numbers language-python"><code class="language-python">BeautifulSoup<span class="token punctuation">(</span>markup<span class="token punctuation">,</span> <span class="token string">'html5lib'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+&lt;html>
+    &lt;head>
+        &lt;title>1ess's title&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;p class="title" name="1ess">&lt;b>1ess's title&lt;/b>&lt;/p>
+        &lt;p class="story">no content&lt;/p>
+        &lt;a href="https://github.com/1ess" class="sister" id="link1">A&lt;/a>
+        &lt;a href="https://0xfee1dead.cn" class="sister" id="link2">B&lt;/a>
+    &lt;/body>
+&lt;/html>
+"""</span>
+<span class="token keyword">import</span> lxml
+<span class="token keyword">from</span> bs4 <span class="token keyword">import</span> BeautifulSoup
+
+soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>prettify<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>title<span class="token punctuation">.</span>string<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &lt;html></span>
+<span class="token comment" spellcheck="true">#  &lt;head></span>
+<span class="token comment" spellcheck="true">#   &lt;title></span>
+<span class="token comment" spellcheck="true">#    1ess's title</span>
+<span class="token comment" spellcheck="true">#   &lt;/title></span>
+<span class="token comment" spellcheck="true">#  &lt;/head></span>
+<span class="token comment" spellcheck="true">#  &lt;body></span>
+<span class="token comment" spellcheck="true">#   &lt;p class="title" name="1ess"></span>
+<span class="token comment" spellcheck="true">#    &lt;b></span>
+<span class="token comment" spellcheck="true">#     1ess's title</span>
+<span class="token comment" spellcheck="true">#    &lt;/b></span>
+<span class="token comment" spellcheck="true">#   &lt;/p></span>
+<span class="token comment" spellcheck="true">#   &lt;p class="story"></span>
+<span class="token comment" spellcheck="true">#    no content</span>
+<span class="token comment" spellcheck="true">#   &lt;/p></span>
+<span class="token comment" spellcheck="true">#   &lt;a class="sister" href="https://github.com/1ess" id="link1"></span>
+<span class="token comment" spellcheck="true">#    A</span>
+<span class="token comment" spellcheck="true">#   &lt;/a></span>
+<span class="token comment" spellcheck="true">#   &lt;a class="sister" href="https://0xfee1dead.cn" id="link2"></span>
+<span class="token comment" spellcheck="true">#    B</span>
+<span class="token comment" spellcheck="true">#   &lt;/a></span>
+<span class="token comment" spellcheck="true">#  &lt;/body></span>
+<span class="token comment" spellcheck="true"># &lt;/html></span>
+
+<span class="token comment" spellcheck="true"># 1ess's title</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="标签选择器"><a href="#标签选择器" class="headerlink" title="标签选择器"></a>标签选择器</h3><h4 id="选择元素"><a href="#选择元素" class="headerlink" title="选择元素"></a>选择元素</h4><pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+&lt;html>
+    &lt;head>
+        &lt;title>1ess's title&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;p class="title" name="1ess">&lt;b>1ess's title&lt;/b>&lt;/p>
+        &lt;p class="story">no content&lt;/p>
+        &lt;a href="https://github.com/1ess" class="sister" id="link1">A&lt;/a>
+        &lt;a href="https://0xfee1dead.cn" class="sister" id="link2">B&lt;/a>
+    &lt;/body>
+&lt;/html>
+"""</span>
+<span class="token keyword">import</span> lxml
+<span class="token keyword">from</span> bs4 <span class="token keyword">import</span> BeautifulSoup
+
+soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>title<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;title>1ess's title&lt;/title></span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>type<span class="token punctuation">(</span>soup<span class="token punctuation">.</span>title<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;class 'bs4.element.Tag'></span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>head<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;head> &lt;title>1ess's title&lt;/title> &lt;/head></span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>p<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;p class="title" name="1ess">&lt;b>1ess's title&lt;/b>&lt;/p></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="获取名称"><a href="#获取名称" class="headerlink" title="获取名称"></a>获取名称</h4><pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+&lt;html>
+    &lt;head>
+        &lt;title>1ess's title&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;p class="title" name="1ess">&lt;b>1ess's title&lt;/b>&lt;/p>
+        &lt;p class="story">no content&lt;/p>
+        &lt;a href="https://github.com/1ess" class="sister" id="link1">A&lt;/a>
+        &lt;a href="https://0xfee1dead.cn" class="sister" id="link2">B&lt;/a>
+    &lt;/body>
+&lt;/html>
+"""</span>
+<span class="token keyword">import</span> lxml
+<span class="token keyword">from</span> bs4 <span class="token keyword">import</span> BeautifulSoup
+
+soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>title<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># title</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="获取属性"><a href="#获取属性" class="headerlink" title="获取属性"></a>获取属性</h4><pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+&lt;html>
+    &lt;head>
+        &lt;title>1ess's title&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;p class="title" name="1ess">&lt;b>1ess's title&lt;/b>&lt;/p>
+        &lt;p class="story">no content&lt;/p>
+        &lt;a href="https://github.com/1ess" class="sister" id="link1">A&lt;/a>
+        &lt;a href="https://0xfee1dead.cn" class="sister" id="link2">B&lt;/a>
+    &lt;/body>
+&lt;/html>
+"""</span>
+<span class="token keyword">import</span> lxml
+<span class="token keyword">from</span> bs4 <span class="token keyword">import</span> BeautifulSoup
+
+soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>p<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 1ess</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>p<span class="token punctuation">.</span>attrs<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 1ess</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="获取内容"><a href="#获取内容" class="headerlink" title="获取内容"></a>获取内容</h4><pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+&lt;html>
+    &lt;head>
+        &lt;title>1ess's title&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;p class="title" name="1ess">&lt;b>1ess's title&lt;/b>&lt;/p>
+        &lt;p class="story">no content&lt;/p>
+        &lt;a href="https://github.com/1ess" class="sister" id="link1">A&lt;/a>
+        &lt;a href="https://0xfee1dead.cn" class="sister" id="link2">B&lt;/a>
+    &lt;/body>
+&lt;/html>
+"""</span>
+<span class="token keyword">import</span> lxml
+<span class="token keyword">from</span> bs4 <span class="token keyword">import</span> BeautifulSoup
+
+soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>p<span class="token punctuation">.</span>string<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 1ess's title</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="嵌套选择"><a href="#嵌套选择" class="headerlink" title="嵌套选择"></a>嵌套选择</h4><pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+&lt;html>
+    &lt;head>
+        &lt;title>1ess's title&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;p class="title" name="1ess">&lt;b>1ess's title&lt;/b>&lt;/p>
+        &lt;p class="story">no content&lt;/p>
+        &lt;a href="https://github.com/1ess" class="sister" id="link1">A&lt;/a>
+        &lt;a href="https://0xfee1dead.cn" class="sister" id="link2">B&lt;/a>
+    &lt;/body>
+&lt;/html>
+"""</span>
+<span class="token keyword">import</span> lxml
+<span class="token keyword">from</span> bs4 <span class="token keyword">import</span> BeautifulSoup
+
+soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>head<span class="token punctuation">.</span>title<span class="token punctuation">.</span>string<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 1ess's title</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="子节点和父节点"><a href="#子节点和父节点" class="headerlink" title="子节点和父节点"></a>子节点和父节点</h4><pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+&lt;html>
+    &lt;head>
+        &lt;title>1ess's title&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;p class="title" name="1ess">&lt;b>1ess's title&lt;/b>&lt;/p>
+        &lt;p class="story">no content&lt;/p>
+        &lt;a href="https://github.com/1ess" class="sister" id="link1">A&lt;/a>
+        &lt;a href="https://0xfee1dead.cn" class="sister" id="link2">B&lt;/a>
+    &lt;/body>
+&lt;/html>
+"""</span>
+<span class="token keyword">import</span> lxml
+<span class="token keyword">from</span> bs4 <span class="token keyword">import</span> BeautifulSoup
+
+soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>body<span class="token punctuation">.</span>contents<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [' ', &lt;p class="title" name="1ess">&lt;b>1ess's title&lt;/b>&lt;/p>, ' ', &lt;p class="story">no content&lt;/p>, ' ', &lt;a class="sister" href="https://github.com/1ess" id="link1">A&lt;/a>, ' ', &lt;a class="sister" href="https://0xfee1dead.cn" id="link2">B&lt;/a>, ' ']</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>a<span class="token punctuation">.</span>parent<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;body> &lt;p class="title" name="1ess">&lt;b>1ess's title&lt;/b>&lt;/p> &lt;p class="story">no content&lt;/p> &lt;a class="sister" href="https://github.com/1ess" id="link1">A&lt;/a> &lt;a class="sister" href="https://0xfee1dead.cn" id="link2">B&lt;/a> &lt;/body></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="标准选择器"><a href="#标准选择器" class="headerlink" title="标准选择器"></a>标准选择器</h3><h4 id="find-all"><a href="#find-all" class="headerlink" title="find_all"></a>find_all</h4><p>find_all(name, attrs, recursive, text, **kwargs) 可根据标签名，属性，内容查找文档。</p>
+<h5 id="name"><a href="#name" class="headerlink" title="name"></a>name</h5><pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+&lt;div class="panel">
+    &lt;div class="panel-heading">
+        &lt;h4>Hello&lt;/h4>
+    &lt;/div>
+    &lt;div class="panel-body">
+        &lt;ul class="list" id="list-1">
+            &lt;li class="element">Foo&lt;/li>
+            &lt;li class="element">Bar&lt;/li>
+            &lt;li class="element">Jay&lt;/li>
+        &lt;/ul>
+        &lt;ul class="list list-small" id="list-2">
+            &lt;li class="element">Foo&lt;/li>
+            &lt;li class="element">Bar&lt;/li>
+        &lt;/ul>
+    &lt;/div>
+&lt;/div>
+"""</span>
+
+<span class="token keyword">import</span> lxml
+<span class="token keyword">from</span> bs4 <span class="token keyword">import</span> BeautifulSoup
+
+soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>find_all<span class="token punctuation">(</span><span class="token string">'ul'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [&lt;ul class="list" id="list-1"> &lt;li class="element">Foo&lt;/li> &lt;li class="element">Bar&lt;/li> &lt;li class="element">Jay&lt;/li> &lt;/ul>, &lt;ul class="list list-small" id="list-2"> &lt;li class="element">Foo&lt;/li> &lt;li class="element">Bar&lt;/li> &lt;/ul>]</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>type<span class="token punctuation">(</span>soup<span class="token punctuation">.</span>find_all<span class="token punctuation">(</span><span class="token string">'ul'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;class 'bs4.element.Tag'></span>
+
+<span class="token keyword">for</span> ul <span class="token keyword">in</span> soup<span class="token punctuation">.</span>find_all<span class="token punctuation">(</span><span class="token string">'ul'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> li <span class="token keyword">in</span> ul<span class="token punctuation">.</span>find_all<span class="token punctuation">(</span><span class="token string">'li'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>li<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &lt;li class="element">Foo&lt;/li></span>
+<span class="token comment" spellcheck="true"># &lt;li class="element">Bar&lt;/li></span>
+<span class="token comment" spellcheck="true"># &lt;li class="element">Jay&lt;/li></span>
+<span class="token comment" spellcheck="true"># &lt;li class="element">Foo&lt;/li></span>
+<span class="token comment" spellcheck="true"># &lt;li class="element">Bar&lt;/li></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="attrs"><a href="#attrs" class="headerlink" title="attrs"></a>attrs</h5><pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+&lt;div class="panel">
+    &lt;div class="panel-heading">
+        &lt;h4>Hello&lt;/h4>
+    &lt;/div>
+    &lt;div class="panel-body">
+        &lt;ul class="list" id="list-1">
+            &lt;li class="element">Foo&lt;/li>
+            &lt;li class="element">Bar&lt;/li>
+            &lt;li class="element">Jay&lt;/li>
+        &lt;/ul>
+        &lt;ul class="list list-small" id="list-2">
+            &lt;li class="element">Foo&lt;/li>
+            &lt;li class="element">Bar&lt;/li>
+        &lt;/ul>
+    &lt;/div>
+&lt;/div>
+"""</span>
+
+<span class="token keyword">import</span> lxml
+<span class="token keyword">from</span> bs4 <span class="token keyword">import</span> BeautifulSoup
+
+soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>find_all<span class="token punctuation">(</span>attrs<span class="token operator">=</span><span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;'id': 'list-1'&amp;#125;))</span>
+<span class="token comment" spellcheck="true"># [&lt;ul class="list" id="list-1"> &lt;li class="element">Foo&lt;/li> &lt;li class="element">Bar&lt;/li> &lt;li class="element">Jay&lt;/li> &lt;/ul>]</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>find_all<span class="token punctuation">(</span>attrs<span class="token operator">=</span><span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;'class': 'element'&amp;#125;))</span>
+<span class="token comment" spellcheck="true"># [&lt;li class="element">Foo&lt;/li>, &lt;li class="element">Bar&lt;/li>, &lt;li class="element">Jay&lt;/li>, &lt;li class="element">Foo&lt;/li>, &lt;li class="element">Bar&lt;/li>]</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>find_all<span class="token punctuation">(</span>id<span class="token operator">=</span><span class="token string">'list-1'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [&lt;ul class="list" id="list-1"> &lt;li class="element">Foo&lt;/li> &lt;li class="element">Bar&lt;/li> &lt;li class="element">Jay&lt;/li> &lt;/ul>]</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>find_all<span class="token punctuation">(</span>class_<span class="token operator">=</span><span class="token string">'element'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [&lt;li class="element">Foo&lt;/li>, &lt;li class="element">Bar&lt;/li>, &lt;li class="element">Jay&lt;/li>, &lt;li class="element">Foo&lt;/li>, &lt;li class="element">Bar&lt;/li>]</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="text"><a href="#text" class="headerlink" title="text"></a>text</h5><pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+&lt;div class="panel">
+    &lt;div class="panel-heading">
+        &lt;h4>Hello&lt;/h4>
+    &lt;/div>
+    &lt;div class="panel-body">
+        &lt;ul class="list" id="list-1">
+            &lt;li class="element">Foo&lt;/li>
+            &lt;li class="element">Bar&lt;/li>
+            &lt;li class="element">Jay&lt;/li>
+        &lt;/ul>
+        &lt;ul class="list list-small" id="list-2">
+            &lt;li class="element">Foo&lt;/li>
+            &lt;li class="element">Bar&lt;/li>
+        &lt;/ul>
+    &lt;/div>
+&lt;/div>
+"""</span>
+
+<span class="token keyword">import</span> lxml
+<span class="token keyword">from</span> bs4 <span class="token keyword">import</span> BeautifulSoup
+
+soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>find_all<span class="token punctuation">(</span>text<span class="token operator">=</span><span class="token string">'Foo'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ['Foo', 'Foo']</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="CSS-选择器"><a href="#CSS-选择器" class="headerlink" title="CSS 选择器"></a>CSS 选择器</h3><p>通过 select() 直接传入 CSS 选择器即可完成选择。</p>
+<pre class="line-numbers language-python"><code class="language-python">html <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+&lt;div class="panel">
+    &lt;div class="panel-heading">
+        &lt;h4>Hello&lt;/h4>
+    &lt;/div>
+    &lt;div class="panel-body">
+        &lt;ul class="list" id="list-1">
+            &lt;li class="element">Foo&lt;/li>
+            &lt;li class="element">Bar&lt;/li>
+            &lt;li class="element">Jay&lt;/li>
+        &lt;/ul>
+        &lt;ul class="list list-small" id="list-2">
+            &lt;li class="element">Foo&lt;/li>
+            &lt;li class="element">Bar&lt;/li>
+        &lt;/ul>
+    &lt;/div>
+&lt;/div>
+"""</span>
+
+<span class="token keyword">import</span> lxml
+<span class="token keyword">from</span> bs4 <span class="token keyword">import</span> BeautifulSoup
+
+soup <span class="token operator">=</span> BeautifulSoup<span class="token punctuation">(</span>html<span class="token punctuation">,</span> <span class="token string">'lxml'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>select<span class="token punctuation">(</span><span class="token string">'.panel .panel-heading'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [&lt;div class="panel-heading"> &lt;h4>Hello&lt;/h4> &lt;/div>]</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>select<span class="token punctuation">(</span><span class="token string">'ul li'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [&lt;li class="element">Foo&lt;/li>, &lt;li class="element">Bar&lt;/li>, &lt;li class="element">Jay&lt;/li>, &lt;li class="element">Foo&lt;/li>, &lt;li class="element">Bar&lt;/li>]</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>select<span class="token punctuation">(</span><span class="token string">'#list-2 .element'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [&lt;li class="element">Foo&lt;/li>, &lt;li class="element">Bar&lt;/li>]</span>
+
+<span class="token keyword">for</span> li <span class="token keyword">in</span> soup<span class="token punctuation">.</span>select<span class="token punctuation">(</span><span class="token string">'ul li'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>li<span class="token punctuation">.</span>get_text<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Foo</span>
+<span class="token comment" spellcheck="true"># Bar</span>
+<span class="token comment" spellcheck="true"># Jay</span>
+<span class="token comment" spellcheck="true"># Foo</span>
+<span class="token comment" spellcheck="true"># Bar</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Python(%E5%8D%81%E5%9B%9B)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Python(%E5%8D%81%E5%85%AD)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

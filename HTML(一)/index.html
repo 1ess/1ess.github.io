@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>HTML(一) · A Sort Of A Blog</title><meta name="description" content="从这篇开始，通过几篇的介绍，了解常用的 HTML 标记，熟悉每个标签在浏览器中的默认样式。
+HTML 基本结构
+
+HTML 元素
+普通元素
+自闭合元素
+注意: 在 HTML5 中，自闭合元素 opening tag 末尾的 ‘/‘ 可以省略。
+HTML 属性
+HTML 文档中包含了各种各样的元素，同"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>HTML(一)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-06-14</span></p><p class="post-abstract"><p>从这篇开始，通过几篇的介绍，了解常用的 HTML 标记，熟悉每个标签在浏览器中的默认样式。</p>
+<h2 id="HTML-基本结构"><a href="#HTML-基本结构" class="headerlink" title="HTML 基本结构"></a>HTML 基本结构</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/html1/basic-web-pages-f786d5.png"></p>
+<h2 id="HTML-元素"><a href="#HTML-元素" class="headerlink" title="HTML 元素"></a>HTML 元素</h2><hr>
+<p>普通元素<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/html1/Basic-Anatomy-of-HTML-Elements1.png"></p>
+<p>自闭合元素<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/html1/Basic-Anatomy-of-HTML-Elements2.png"></p>
+<p><strong>注意: 在 HTML5 中，自闭合元素 opening tag 末尾的 ‘/‘ 可以省略。</strong></p>
+<h2 id="HTML-属性"><a href="#HTML-属性" class="headerlink" title="HTML 属性"></a>HTML 属性</h2><hr>
+<p>HTML 文档中包含了各种各样的元素，同时元素还可以用属性(attribute)进行配置，一个元素可以配置一个或者多个属性，如上图。</p>
+<h3 id="布尔属性"><a href="#布尔属性" class="headerlink" title="布尔属性"></a>布尔属性</h3><p>布尔属性只需要将属性名称添加到元素 opening tag 中即可: </p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><input disabled>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>也可以为布尔属性指定一个空字符串(“”)或属性名称字符串作为其值也有同样的效果: </p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><input disabled="">
+<input disabled="disabled">
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h3><p>用户也可以自定义属性(或者扩展属性)，自定义属性必须以 data- 开头。</p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><input  data-creator="1ess" data-purpose="collection">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>HTML 通常会忽略这些自定义属性，在属性名称之前添加前缀 data- 是为了避免与 HTML 的未来版本中可能增加的属性名冲突。自定义属性通常与 CSS 和 JavaScript 结合使用。</p>
+<h3 id="局部属性"><a href="#局部属性" class="headerlink" title="局部属性"></a>局部属性</h3><p>局部属性通常和每个元素对应，每个局部属性都可以用来控制元素都有都有行为的某个方面。在介绍每个元素时再做介绍。</p>
+<h3 id="全局属性"><a href="#全局属性" class="headerlink" title="全局属性"></a>全局属性</h3><p>全局属性用来配置所有元素的共有的行为，可以用在任何一个元素身上。</p>
+<h4 id="class-属性"><a href="#class-属性" class="headerlink" title="class 属性"></a>class 属性</h4><p>class 属性用来将元素归类，方便找出文档中某一类元素或为某一类元素应用 CSS 样式。</p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><a class="class1 class2" target="_blank" rel="noopener" href="https://github.com/1ess">Github</a>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>一个元素可以被归入多个类别，类名间用空格分隔。</p>
+<h4 id="contenteditable-布尔属性"><a href="#contenteditable-布尔属性" class="headerlink" title="contenteditable 布尔属性"></a>contenteditable 布尔属性</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><p contenteditable>content is editable</p>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="dir-属性"><a href="#dir-属性" class="headerlink" title="dir 属性"></a>dir 属性</h4><p>该属性用来规定元素中文字的方向，有效值有: ltr(用于从左到右的文字)和 rtl(用于从右到左的文字)。</p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><p dir="rtl">This is right-to-left</p>
+<p dir="ltr">This is left-to-right</p>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="draggable-属性"><a href="#draggable-属性" class="headerlink" title="draggable 属性"></a>draggable 属性</h4><p>是 HTML5 支持拖放操作的方式之一，用来表示元素是否可被拖放。</p>
+<h4 id="dropzone-属性"><a href="#dropzone-属性" class="headerlink" title="dropzone 属性"></a>dropzone 属性</h4><p>也是 HTML5 支持拖放操作的方式之一，与 draggable 属性搭配使用。</p>
+<h4 id="hidden-布尔属性"><a href="#hidden-布尔属性" class="headerlink" title="hidden 布尔属性"></a>hidden 布尔属性</h4><p>表示相关元素当前毋需关注，浏览器通常是隐藏相关元素。</p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><p hidden>hidden</p>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="id-属性"><a href="#id-属性" class="headerlink" title="id 属性"></a>id 属性</h4><p>用来给元素分配一个唯一的标识符，标识符通常被用于应用样式或者 JavaScript 逻辑到该元素。</p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><a id="github" target="_blank" rel="noopener" href="https://github.com/1ess">Github</a>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="lang-属性"><a href="#lang-属性" class="headerlink" title="lang 属性"></a>lang 属性</h4><p>说明元素使用的语言。</p>
+<h4 id="title-属性"><a href="#title-属性" class="headerlink" title="title 属性"></a>title 属性</h4><p>title 属性提供了元素的额外信息，浏览器通常用它显示工具提示。悬停时会显示。</p>
+<h4 id="style-属性"><a href="#style-属性" class="headerlink" title="style 属性"></a>style 属性</h4><p>用于直接在元素身上定义 CSS 样式。</p>
+<h2 id="HTML-文档类型、文档模式、注释"><a href="#HTML-文档类型、文档模式、注释" class="headerlink" title="HTML 文档类型、文档模式、注释"></a>HTML 文档类型、文档模式、注释</h2><hr>
+<h3 id="文档类型"><a href="#文档类型" class="headerlink" title="文档类型"></a>文档类型</h3><p>!doctype 声明必须是 HTML 文档的<strong>第一行</strong>，位于 &lt;html&gt; 标记之前。在所有 HTML 文档中规定 DOCTYPE 是非常重要的，这样浏览器就能了解预期的文档类型，告诉浏览器要通过哪一种规范解析文档。<br><strong>注意: !doctype 声明不属于 HTML 标签，它是一条指令，告诉浏览器编写页面所用的标记的版本。</strong>  </p>
+<p>HTML 4.01 中的 doctype 需要对 DTD 进行引用，因为 HTML 4.01 基于 SGML。而 HTML 5 不基于<br> SGML，因此不需要对 DTD 进行引用，并且 HTML5 中的 !doctype 是不区分大小写的。<br><strong>所以在现代 HTML5 规范规定: 仅需要在最前面声明 !doctype html 即可。</strong></p>
+<h3 id="文档模式"><a href="#文档模式" class="headerlink" title="文档模式"></a>文档模式</h3><p>现代的浏览器需要不同模式，既要呈现久远的 HTML 界面，不至于界面结构混乱不堪，也需要呈现 W3C 标准的界面: </p>
+<ol>
+<li>标准的显示方式就是 – -标准模式(strict)</li>
+<li>不标准的显示方式 — 怪异模式(没定义 doctype 或者 doctype 错误等情况，都会让界面进入 quirk 模式)</li>
+</ol>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>HTML 的注释: </p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><!– comments -->
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="HTML-head-相关-tag"><a href="#HTML-head-相关-tag" class="headerlink" title="HTML head 相关 tag"></a>HTML head 相关 tag</h2><hr>
+<p>head 内部元素通常包括指定页面标题，为搜索引擎提供关于页面本身的信息，加载样式表，以及加载 JavaScript 文件(出于性能考虑，多数时候放在页面底部 body 标签结束前加载 JavaScript 或使用 async)。除了 title，head 里的内容对页面访问者来说都是不可见的。</p>
+<h3 id="title-元素"><a href="#title-元素" class="headerlink" title="title 元素"></a>title 元素</h3><p>head 元素中必须包含一个 title 元素，该元素内容会出现在浏览器的标签页中或者出现在浏览器窗口的顶部，作为网页标题，和浏览器相关。</p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><title>Your page title</title>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="meta-元素"><a href="#meta-元素" class="headerlink" title="meta 元素"></a>meta 元素</h3><p>meta 元素用来定义文档的各种元数据，meta 元素可以有多种用途，但每个 meta 元素只能用于一种用途，如果需要使用不止一种，就需要在 head 元素中添加多个 meta 元素。</p>
+<h4 id="作者信息"><a href="#作者信息" class="headerlink" title="作者信息"></a>作者信息</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><meta name="author" content="1ess">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="SEO"><a href="#SEO" class="headerlink" title="SEO"></a>SEO</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><meta name="description" content="页面描述信息">
+<meta name="keywords" content="页面关键字">
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="Robots-元数据"><a href="#Robots-元数据" class="headerlink" title="Robots 元数据"></a>Robots 元数据</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><meta name="robots" content="noindex">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>该属性有三个大多数搜索引擎都认识的值: </p>
+<ol>
+<li>noindex: 不要索引本页；</li>
+<li>noarchive: 不要将本页存档或缓存；</li>
+<li>nofollow: 不要顺着本页中的链接继续搜索下去。</li>
+</ol>
+<h4 id="响应式布局"><a href="#响应式布局" class="headerlink" title="响应式布局"></a>响应式布局</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><meta charset="utf-8">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="模拟-HTTP-标头字段"><a href="#模拟-HTTP-标头字段" class="headerlink" title="模拟 HTTP 标头字段"></a>模拟 HTTP 标头字段</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><meta http-equiv="refresh" content="5;https://github.com/1ess">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>http-equiv 属性的可选值如下: </p>
+<ol>
+<li>refresh: 以秒为单位指定一个时间间隔，在此时间过去之后将从服务器重新载入当前页面。</li>
+<li>default-style: 指定页面优先使用的样式表，content属性的值必须是同一文档中某个style元素或link元素的title属性值。</li>
+<li>content-type: 另一种声明HTML页面所用字符编码的方法，如: </li>
+</ol>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><meta http-equiv="content-type" content="text/html charset=UTF-8">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol start="4">
+<li>X-UA-Compatible: 声明渲染方式，content 取值为 IE=edge, chrome=1。表示当有 webkit 内核浏览器，使用 webkit 内核渲染，否则使用 IE 最高版本渲染。</li>
+</ol>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="base-元素"><a href="#base-元素" class="headerlink" title="base 元素"></a>base 元素</h3><p>定义页面上相对 URL 的基准 URL。</p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><base target="_blank" href="http://www.example.com/">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="style-元素"><a href="#style-元素" class="headerlink" title="style 元素"></a>style 元素</h3><pre class="line-numbers language-HTML"><code class="language-HTML"><style type="text/css">
+    a&#123;
+        background-color: grey;
+        color: white;
+        padding: 0.5em;
+    &#125;
+</style>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="link-元素"><a href="#link-元素" class="headerlink" title="link 元素"></a>link 元素</h3><p>用来在 HTML 文档和外部资源(如 CSS 样式表)之间建立联系。</p>
+<h4 id="载入外部样式表"><a href="#载入外部样式表" class="headerlink" title="载入外部样式表"></a>载入外部样式表</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><link rel="stylesheet" type="text/css" href="styles.css">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="为页面定义网站标志"><a href="#为页面定义网站标志" class="headerlink" title="为页面定义网站标志"></a>为页面定义网站标志</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><link rel="shortcut icon" type="image/x-icon"  href="favicon.ico">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><small>如果网站标志文件位于/favicon.ico(即 Web 服务器的根目录)，那就不必用到 link 元素，大多数浏览器在载入页面时都会自动请求这个文件，就算没有 link 元素也是如此。</small></p>
+<h4 id="预先获取资源"><a href="#预先获取资源" class="headerlink" title="预先获取资源"></a>预先获取资源</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><link rel="prefetch" href="/index.html">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="script-元素"><a href="#script-元素" class="headerlink" title="script 元素"></a>script 元素</h3><p>用于在页面中加入脚本，可以直接在文档中定义脚本和引用外部文件中的脚本。</p>
+<h4 id="定义文档内嵌脚本"><a href="#定义文档内嵌脚本" class="headerlink" title="定义文档内嵌脚本"></a>定义文档内嵌脚本</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><script>
+    document.write("This is from the script");
+</script>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h4 id="推迟脚本的执行"><a href="#推迟脚本的执行" class="headerlink" title="推迟脚本的执行"></a>推迟脚本的执行</h4><p>使用 async 和 defer 属性可以对脚本的执行方式加以控制。  </p>
+<ul>
+<li>defer 属性告诉浏览器要等页面载入和解析完成后才能执行脚本: </li>
+</ul>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><script defer src="index.js"></script>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ul>
+<li>async 属性可以在浏览器解析 HTML 文档时异步加载和执行脚本: </li>
+</ul>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><script async src="index.js"></script>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="noscript-元素"><a href="#noscript-元素" class="headerlink" title="noscript 元素"></a>noscript 元素</h3><p>noscript 元素用来向禁用了 JavaScript 或浏览器不支持 JavaScript 的用户显示一些内容。</p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><noscript>
+    <h1>JavaScript is required!</h1>
+    <p>You cannot use this page without JavaScript</p>
+</noscript>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="符合规范"><a href="#符合规范" class="headerlink" title="符合规范"></a>符合规范</h2><hr>
+<p>注意: 许多人通过查看源代码，然后复制粘贴来学习 HTML、CSS 及 JavaScript。然而他们并没有考虑到原本的网站，是否符合规范。如: </p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>相当于 meta 元素的</p>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><meta charset="utf-8">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>我们一定要注意编写符合当前规范的 HTML。之后的所有讲解都是基于规范，当出现不在建议使用的元素时会提示。</p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Python(%E4%BA%8C)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/%E5%89%8D%E7%AB%AF-%E6%A6%82%E8%BF%B0/" title="前端-概述">下一篇: 前端-概述&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

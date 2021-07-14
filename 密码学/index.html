@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>密码学 · A Sort Of A Blog</title><meta name="description" content="讲到计算机密码学，就不得不从网络的发展说起，网络初期，主要用于科学研究，只在几个大学之间互联网络，使得设计之初并没有考虑到数据传输安全问题。随着网络发展，特别是从网络应用于军事，再到后来进入人们的日常生活，网络安全问题日益突出，从而发展出计算机密码学。到目前为止，不论是系统开发还是应用开发，只要有网"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>密码学</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-03-30</span></p><p class="post-abstract"><p>讲到计算机密码学，就不得不从网络的发展说起，网络初期，主要用于科学研究，只在几个大学之间互联网络，使得设计之初并没有考虑到数据传输安全问题。<br>随着网络发展，特别是从网络应用于军事，再到后来进入人们的日常生活，网络安全问题日益突出，从而发展出计算机密码学。<br>到目前为止，不论是系统开发还是应用开发，只要有网络通信，很多信息都需要进行加密，以防止被截取、篡改。所以了解密码学的相关知识，了解在何时使用何种密码技术，已经成为开发人员必不可少的知识。<br>本篇文章将会科普一下有关密码学的相关知识。</p>
+<h2 id="基本术语"><a href="#基本术语" class="headerlink" title="基本术语"></a>基本术语</h2><hr>
+<ol>
+<li>明文: 原始信息</li>
+<li>密文: 加密之后的信息</li>
+<li>加密: 将明文转换成密文的过程</li>
+<li>解密: 将密文转换成明文的过程</li>
+<li>加密算法: 用于加密的算法</li>
+<li>密钥: 用于加密或解密的工具</li>
+</ol>
+<h2 id="密码学发展阶段"><a href="#密码学发展阶段" class="headerlink" title="密码学发展阶段"></a>密码学发展阶段</h2><hr>
+<ul>
+<li>第一阶段</li>
+</ul>
+<ol>
+<li>密码学在这一阶段不是科学，是艺术</li>
+<li>特点是数据的安全基于<strong>算法</strong>的保密</li>
+</ol>
+<ul>
+<li>第二阶段</li>
+</ul>
+<ol>
+<li>计算机使得基于复杂计算的密码成为可能</li>
+<li>特点是数据的安全基于<strong>密钥</strong>的保密  </li>
+</ol>
+<ul>
+<li>第三阶段</li>
+</ul>
+<ol>
+<li>提出公开密钥体系</li>
+<li>公钥密码使得发送端和接收端<strong>无密钥传输</strong>的保密信息成为可能</li>
+</ol>
+<h2 id="加密算法分类"><a href="#加密算法分类" class="headerlink" title="加密算法分类"></a>加密算法分类</h2><hr>
+<p>根据使用密钥的个数可分为：</p>
+<ol>
+<li><strong>单密钥算法</strong>或<strong>共享密钥算法</strong>或<strong>对称加密算法</strong></li>
+<li><strong>双密钥算法</strong> 或<strong>公开密钥算法</strong>或<strong>非对称加密算法</strong>  </li>
+</ol>
+<h2 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h2><hr>
+<ol>
+<li>也称为<strong>单密钥加密</strong>或<strong>共享密钥加密</strong></li>
+<li>发送方和接收方共享相同的密钥</li>
+<li>是 20 世纪 70 年代公钥加密之前仅有的加密类型</li>
+</ol>
+<p>对称加密算法包括: DES 加密算法、3DES 加密算法和 AES 加密算法等。</p>
+<h2 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h2><hr>
+<p><strong>微积分是现代数学的分水岭，非对称加密算法是密码学的分水岭</strong></p>
+<ol>
+<li>也称为<strong>双密钥加密</strong>或<strong>公开密钥加密</strong></li>
+<li>解决了密钥分发的安全性问题</li>
+<li>巧妙运用数论概念</li>
+<li>与对称加密互为补充，而不是替代(与对称加密相比，运算慢 100 倍左右)</li>
+</ol>
+<p>最著名的非对称加密算法： RSA 加密算法(由 MIT 三个教授提出)。</p>
+<ul>
+<li>公钥：任何人都可以知道，可以用来<strong>加密消息</strong>或<strong>验证签名</strong></li>
+<li>私钥：只能接收者知道，可以用来<strong>解密消息</strong>或<strong>进行签名</strong></li>
+</ul>
+<h2 id="现代计算机通讯加密方式"><a href="#现代计算机通讯加密方式" class="headerlink" title="现代计算机通讯加密方式"></a>现代计算机通讯加密方式</h2><hr>
+<p>通过非对称加密<strong>分发</strong>密钥，之后的信息通过对称加密算法进行加密。  </p>
+<h2 id="数字签名和认证"><a href="#数字签名和认证" class="headerlink" title="数字签名和认证"></a>数字签名和认证</h2><hr>
+<h3 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h3><p>问：为什么需要消息认证？<br>答：消息在传递过程中可能被篡改，为了消息的完整性验证。(要注意认证只是为了消息的<strong>完整性</strong>，而不是<strong>加密性</strong>)<br>我们可以通过短字符串追加到原消息之后，用以认证该消息。</p>
+<h3 id="获取短字符"><a href="#获取短字符" class="headerlink" title="获取短字符"></a>获取短字符</h3><p>散列函数(哈希函数)：可以将变长字符串转为定长字符串的函数。如 MD5，SHA1，SHA256 等算法。<br>特点： </p>
+<ol>
+<li>易计算</li>
+<li>单向性</li>
+<li>抗碰撞性(<a target="_blank" rel="noopener" href="https://www.wikiwand.com/zh-hans/%E7%8E%8B%E5%B0%8F%E9%9B%B2" title="王小云">MD5</a>，<a target="_blank" rel="noopener" href="https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html">SHA1</a> 现在都不安全了，最好使用 SHA256 等更为安全的算法进行散列操作)  </li>
+</ol>
+<h3 id="数字签名："><a href="#数字签名：" class="headerlink" title="数字签名："></a>数字签名：</h3><p>数字签名是笔迹签名的模拟。<br>特征：</p>
+<ol>
+<li>可以验证作者</li>
+<li>可以验证内容</li>
+<li>必须由第三方验证以解决争议<br>因此，数字签名包含了<strong>认证</strong>功能。<br>签名过程就是先通过哈希算法计算出信息摘要，再使用私钥对摘要进行签名。<br>通过数字签名我们可以保证消息是由正确的人所发送的。</li>
+</ol>
+<h2 id="CA-Certificate-Authority"><a href="#CA-Certificate-Authority" class="headerlink" title="CA(Certificate Authority)"></a>CA(Certificate Authority)</h2><hr>
+<p>通过非对称加密可以解决用于<strong>对称加密的密钥分发</strong>的问题，但是又引入了另一个问题，如何保证我们分发出去的<strong>公钥</strong>是未被篡改的？<br>我们可以通过 <strong>CA 颁发的数字证书</strong>来解决此问题。<br>CA 是<strong>可信任的颁发证书的服务器</strong>。<br>世界上存在很多 CA，他们以树形结构组织。<br>CA 使用私钥来签名证书， 我们使用 CA 的公钥来验证证书的合法性。如果合法则从证书上提取公钥，否则认为证书有问题。<br>我们常用的是 X.509 格式证书: </p>
+<ol>
+<li>基于公钥加密和数字签名</li>
+<li>为用户提供公钥证书</li>
+<li>常用于 IPS TLS/SSL 等地方</li>
+</ol>
+<p>我们可以看一下使用数字证书的实例：<strong>https</strong><br><strong>第一阶段：算法协商与传递数字证书</strong>  </p>
+<ol>
+<li>客户端向服务器发起请求建立 https 链接，告知服务器客户端可以使用的对称加密算法，密钥交换算法以及支持的哈希函数</li>
+<li>服务器收到请求，确定通信使用的对称加密算法，密钥交换算法以及哈希函数并向客户端发送数字证书</li>
+</ol>
+<p><strong>第二阶段：客户端校验证书，生成并传递通信密钥</strong>  </p>
+<ol>
+<li>客户端根据操作系统内置的受信任 CA 列表对证书进行校验。若校验证书合法，就读取其中的公钥。否则断开连接</li>
+<li>客服端生成加密密钥</li>
+<li>客户端使用公钥加密通信密钥，传输给服务器</li>
+<li>服务器使用私钥解密加密的通信密钥</li>
+</ol>
+<p><strong>第三阶段：服务器获取通信密钥，双方进行通信</strong>  </p>
+<ol>
+<li>客户端使用通信密钥加密要传递的信息</li>
+<li>服务器获取加密的信息，使用通信密钥解密，生成响应信息，使用通信密钥加密并回传给客户端</li>
+</ol>
+<p>至此一个 https 请求响应完成。</p>
+<p><strong>关于申请 TLS 证书，要经过如下三部</strong></p>
+<ol>
+<li>在你的服务器上，生成一个 CSR 文件(TLS 证书请求文件，TLS Certificate Signing Request)</li>
+<li>使用 CSR 文件，购买 TLS 证书</li>
+<li>安装 TLS 证书</li>
+</ol>
+<p>也就是说，你在第二步得到的证书不能用在另一台服务器上。<br>如果你需要这样做，就必须以其他格式输出证书。<br>比如，IIS 的做法是生成一个可以转移的 .pfx 文件，并加以密码保护。</p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/HTTP%20%E5%9F%BA%E7%A1%80/" title="HTTP 基础"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: HTTP 基础</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/%E9%BB%84%E9%87%91%E6%97%B6%E4%BB%A3/" title="黄金时代">下一篇: 黄金时代&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

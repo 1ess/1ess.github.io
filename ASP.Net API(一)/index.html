@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="ASP.Net Web MVC 的知识我们也复习了大概，基础内容已经覆盖了大部分，从本篇开始，我们来认识一下 ASP.Net Web API。
+Web API 是什么
+简单来说，API 是某种接口，它具有一组允许程序员访问应用程序，操作系统或其他服务的特定功能或数据的功能。Web API 顾名思义，"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>ASP.Net Web MVC 的知识我们也复习了大概，基础内容已经覆盖了大部分，从本篇开始，我们来认识一下 ASP.Net Web API。</p>
+<h2 id="Web-API-是什么"><a href="#Web-API-是什么" class="headerlink" title="Web API 是什么"></a>Web API 是什么</h2><hr>
+<p>简单来说，API 是某种接口，它具有一组允许程序员访问应用程序，操作系统或其他服务的特定功能或数据的功能。<br>Web API 顾名思义，是一个可以使用 HTTP 协议访问的 Web 上的 API。这是一个概念，而不是一种技术。我们可以使用不同的技术(如 Java，.NET 等)构建 Web API。</p>
+<h2 id="ASP-NET-Web-API"><a href="#ASP-NET-Web-API" class="headerlink" title="ASP.NET Web API"></a>ASP.NET Web API</h2><hr>
+<p>ASP.NET Web API 是一个可扩展的框架，用于构建基于 HTTP 的服务。它的工作方式与 ASP.NET MVC Web 应用程序的工作方式大致相同，只是它将数据作为响应而不是 HTML 视图。</p>
+<h3 id="创建-Web-API-项目"><a href="#创建-Web-API-项目" class="headerlink" title="创建 Web API 项目"></a>创建 Web API 项目</h3><p>可以通过两种方式创建 Web API 项目。</p>
+<ul>
+<li>带有 MVC 项目的 Web API</li>
+<li>独立 Web API 项目</li>
+</ul>
+<p>注意: 通常我们直接创建带有 MVC 项目的 Web API。</p>
+<h3 id="带有-MVC-项目的-Web-API"><a href="#带有-MVC-项目的-Web-API" class="headerlink" title="带有 MVC 项目的 Web API"></a>带有 MVC 项目的 Web API</h3><p>此项目与默认 MVC 项目相同，其中包含 Web API 的两个特定文件，App_Start 文件夹中的 WebApiConfig.cs 和 Controllers 文件夹中的 ValuesController.cs</p>
+<p>WebApiConfig.cs 是 Web API 的配置文件。您可以为 Web API 配置路由和其他内容，类似于 RouteConfig.cs 用于配置 MVC 路由。它还默认创建 Web API 控制器 ValuesController.cs。</p>
+<h2 id="Web-API-Controller"><a href="#Web-API-Controller" class="headerlink" title="Web API Controller"></a>Web API Controller</h2><hr>
+<p>Web API Controller 类似于 ASP.NET MVC Controller。它处理传入的 HTTP 请求并将响应发送回调用者。</p>
+<p>Web API Controller 是一个类，可以在 Controllers 文件夹下或项目根文件夹下的任何其他文件夹下创建。控制器类的名称必须以 Controller 结尾，并且必须继承自 System.Web.Http.ApiController。同 MVC 一样，控制器的所有 public 方法都称为 Action 方法。</p>
+<p>基于传入的请求 URL 和 HTTP 动词(GET / POST / PUT / PATCH / DELETE)，Web API 决定执行哪个 Web API Controller 和 Action 方法，例如 Get() 方法和 GetFoos() 方法都将处理 HTTP GET 请求，Post() 方法将处理 HTTP POST 请求，Put() 方法将处理 HTTP PUT 请求，Delete() 方法将处理上述 Web API 的 HTTP DELETE 请求。</p>
+<p>如果你想编写不以 HTTP 动词开头的方法，那么你可以在方法上应用适当的 HttpVerbs Attribute，如 HttpGet、HttpPost、HttpPut 等，与 MVC 控制器相同。</p>
+<h3 id="Action-方法命名约定"><a href="#Action-方法命名约定" class="headerlink" title="Action 方法命名约定"></a>Action 方法命名约定</h3><p>Action 方法名称可以与 HTTP 动词相同，如 Get、Post、Put、Patch 或 Delete。也可以使用 HTTP 谓词附加任何后缀以提高可读性，如 GetFoos()、PostBar() 等。</p>
+<h2 id="配置-Web-API"><a href="#配置-Web-API" class="headerlink" title="配置 Web API"></a>配置 Web API</h2><hr>
+<p>Web API 只支持基于代码的配置，它无法在 Web.config 文件中配置。<br>我们可以配置 Web API 来自定义 Web API 托管和组件的行为，例如 Route、Formatter、Filters、DependencyResolver、MessageHandler、ParamterBindingRules 等。</p>
+<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token comment" spellcheck="true">//WebApiConfig.cs</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">WebApiConfig</span>
+<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">Register</span><span class="token punctuation">(</span>HttpConfiguration config<span class="token punctuation">)</span>
+    <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// Web API 配置和服务</span>
+
+        <span class="token comment" spellcheck="true">// Web API 路由</span>
+        config<span class="token punctuation">.</span><span class="token function">MapHttpAttributeRoutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        config<span class="token punctuation">.</span>Routes<span class="token punctuation">.</span><span class="token function">MapHttpRoute</span><span class="token punctuation">(</span>
+            name<span class="token punctuation">:</span> <span class="token string">"DefaultApi"</span><span class="token punctuation">,</span>
+            routeTemplate<span class="token punctuation">:</span> <span class="token string">"api/&amp;#123;controller&amp;#125;/&amp;#123;id&amp;#125;"</span><span class="token punctuation">,</span>
+            defaults<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span> id <span class="token operator">=</span> RouteParameter<span class="token punctuation">.</span>Optional <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//Global.asax</span>
+<span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">Application_Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    GlobalConfiguration<span class="token punctuation">.</span><span class="token function">Configure</span><span class="token punctuation">(</span>WebApiConfig<span class="token punctuation">.</span>Register<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>HttpConfiguration 主类包含以下属性，可以使用这些属性覆盖 Web API 的默认行为: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DependencyResolver</td>
+<td>获取或设置依赖项注入的依赖项解析程序</td>
+</tr>
+<tr>
+<td>Filters</td>
+<td>获取或设置 filters</td>
+</tr>
+<tr>
+<td>Formatters</td>
+<td>获取或设置 media-type 格式化</td>
+</tr>
+<tr>
+<td>IncludeErrorDetailPolicy</td>
+<td>获取或设置一个指示错误消息中是否应包含错误详细信息的值</td>
+</tr>
+<tr>
+<td>MessageHandlers</td>
+<td>获取或设置 message handlers</td>
+</tr>
+<tr>
+<td>ParameterBindingRules</td>
+<td>获取有关如何绑定参数的规则集合。</td>
+</tr>
+<tr>
+<td>Routes</td>
+<td>获取为 Web API 配置的路由集合</td>
+</tr>
+<tr>
+<td>Services</td>
+<td>获取 Web API 服务</td>
+</tr>
+</tbody></table>
+<p>接下来，我们会详细讲解每个属性。</p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/ASP.Net%20MVC(%E5%8D%81)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/ASP.Net%20API(%E4%BA%8C)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

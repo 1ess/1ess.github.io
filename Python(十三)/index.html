@@ -1,0 +1,348 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="上篇，我们介绍了 Python 基础 HTTP 库 urllib 的基本使用，在使用上还是比较麻烦的，本篇，我们来看一下第三方 HTTP 库 Requests 是如何简化我们的操作的。
+Requests
+Requests 是基于 urllib，采用 Apache2 Licensed 开源协议的 HT"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>上篇，我们介绍了 Python 基础 HTTP 库 urllib 的基本使用，在使用上还是比较麻烦的，本篇，我们来看一下第三方 HTTP 库 Requests 是如何简化我们的操作的。</p>
+<h2 id="Requests"><a href="#Requests" class="headerlink" title="Requests"></a>Requests</h2><hr>
+<p>Requests 是基于 urllib，采用 Apache2 Licensed 开源协议的 HTTP 库，他比 urllib 更加方便，节约我们大量的工作。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre class="line-numbers language-python"><code class="language-python">pip3 install requests
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h3><h4 id="基本-GET-请求"><a href="#基本-GET-请求" class="headerlink" title="基本 GET 请求"></a>基本 GET 请求</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/get'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>status_code<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>type<span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># 200</span>
+
+<span class="token comment" spellcheck="true"># &amp;#123;</span>
+<span class="token comment" spellcheck="true">#   "args": &amp;#123;&amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "headers": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "Accept": "*/*", </span>
+<span class="token comment" spellcheck="true">#     "Accept-Encoding": "gzip, deflate", </span>
+<span class="token comment" spellcheck="true">#     "Host": "httpbin.org", </span>
+<span class="token comment" spellcheck="true">#     "User-Agent": "python-requests/2.21.0"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "origin": "42.100.1.169, 42.100.1.169", </span>
+<span class="token comment" spellcheck="true">#   "url": "https://httpbin.org/get"</span>
+<span class="token comment" spellcheck="true"># &amp;#125;</span>
+
+<span class="token comment" spellcheck="true"># &lt;class 'str'></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="带有参数-GET-请求"><a href="#带有参数-GET-请求" class="headerlink" title="带有参数 GET 请求"></a>带有参数 GET 请求</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/get?foo=bar'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &amp;#123;</span>
+<span class="token comment" spellcheck="true">#   "args": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "foo": "bar"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "headers": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "Accept": "*/*", </span>
+<span class="token comment" spellcheck="true">#     "Accept-Encoding": "gzip, deflate", </span>
+<span class="token comment" spellcheck="true">#     "Host": "httpbin.org", </span>
+<span class="token comment" spellcheck="true">#     "User-Agent": "python-requests/2.21.0"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "origin": "42.100.1.169, 42.100.1.169", </span>
+<span class="token comment" spellcheck="true">#   "url": "https://httpbin.org/get?foo=bar"</span>
+<span class="token comment" spellcheck="true"># &amp;#125;</span>
+
+params <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;'foo': 'bar'&amp;#125;</span>
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/get'</span><span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &amp;#123;</span>
+<span class="token comment" spellcheck="true">#   "args": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "foo": "bar"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "headers": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "Accept": "*/*", </span>
+<span class="token comment" spellcheck="true">#     "Accept-Encoding": "gzip, deflate", </span>
+<span class="token comment" spellcheck="true">#     "Host": "httpbin.org", </span>
+<span class="token comment" spellcheck="true">#     "User-Agent": "python-requests/2.21.0"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "origin": "42.100.1.169, 42.100.1.169", </span>
+<span class="token comment" spellcheck="true">#   "url": "https://httpbin.org/get?foo=bar"</span>
+<span class="token comment" spellcheck="true"># &amp;#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="json-解析"><a href="#json-解析" class="headerlink" title="json 解析"></a>json 解析</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+params <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;'foo': 'bar'&amp;#125;</span>
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/get'</span><span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>json<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>type<span class="token punctuation">(</span>response<span class="token punctuation">.</span>json<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &amp;#123;'args': &amp;#123;'foo': 'bar'&amp;#125;, 'headers': &amp;#123;'Accept': '*/*', 'Accept-Encoding': 'gzip, deflate', 'Host': 'httpbin.org', 'User-Agent': 'python-requests/2.21.0'&amp;#125;, 'origin': '42.100.1.169, 42.100.1.169', 'url': 'https://httpbin.org/get?foo=bar'&amp;#125;</span>
+<span class="token comment" spellcheck="true"># &lt;class 'dict'></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="二进制数据"><a href="#二进制数据" class="headerlink" title="二进制数据"></a>二进制数据</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://github.com/favicon.ico'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>content<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>type<span class="token punctuation">(</span>response<span class="token punctuation">.</span>content<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># b'\x00\x00\x01\x00\x02\x00\x10\x10\x00\x00\x01\x00 \x00(\x05\x00\x00&amp;\x00\x00\x00...'</span>
+<span class="token comment" spellcheck="true"># &lt;class 'bytes'></span>
+
+<span class="token keyword">with</span> open<span class="token punctuation">(</span><span class="token string">'favicon.ico'</span><span class="token punctuation">,</span> <span class="token string">'wb'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+    f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>response<span class="token punctuation">.</span>content<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="添加-headers"><a href="#添加-headers" class="headerlink" title="添加 headers"></a>添加 headers</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+
+headers <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
+    <span class="token string">'User-Agent'</span><span class="token punctuation">:</span> <span class="token string">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'</span><span class="token punctuation">,</span>
+    <span class="token string">'Cookie'</span><span class="token punctuation">:</span> <span class="token string">'thw=cn; v=0; t=f49d7a120cef747be295966efd96e846; cookie2=53b3047ac2325fbeb90d604ab16d4e58;...'</span>
+<span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://zhihu.com/explore'</span><span class="token punctuation">,</span> headers<span class="token operator">=</span>headers<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="带有参数-POST-请求"><a href="#带有参数-POST-请求" class="headerlink" title="带有参数 POST 请求"></a>带有参数 POST 请求</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+
+<span class="token comment" spellcheck="true"># form-data 提交数据</span>
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>post<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/post'</span><span class="token punctuation">,</span> data<span class="token operator">=</span><span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;'foo': 'bar'&amp;#125;)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &amp;#123;</span>
+<span class="token comment" spellcheck="true">#   "args": &amp;#123;&amp;#125;,</span>
+<span class="token comment" spellcheck="true">#   "data": "",</span>
+<span class="token comment" spellcheck="true">#   "files": &amp;#123;&amp;#125;,</span>
+<span class="token comment" spellcheck="true">#   "form": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "foo": "bar"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;,</span>
+<span class="token comment" spellcheck="true">#   "headers": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "Accept": "*/*",</span>
+<span class="token comment" spellcheck="true">#     "Accept-Encoding": "gzip, deflate",</span>
+<span class="token comment" spellcheck="true">#     "Content-Length": "7",</span>
+<span class="token comment" spellcheck="true">#     "Content-Type": "application/x-www-form-urlencoded",</span>
+<span class="token comment" spellcheck="true">#     "Host": "httpbin.org",</span>
+<span class="token comment" spellcheck="true">#     "User-Agent": "python-requests/2.21.0"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;,</span>
+<span class="token comment" spellcheck="true">#   "json": null,</span>
+<span class="token comment" spellcheck="true">#   "origin": "42.100.1.20, 42.100.1.20",</span>
+<span class="token comment" spellcheck="true">#   "url": "https://httpbin.org/post"</span>
+<span class="token comment" spellcheck="true"># &amp;#125;</span>
+
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>post<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/post'</span><span class="token punctuation">,</span> data<span class="token operator">=</span><span class="token string">'foo'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &amp;#123;</span>
+<span class="token comment" spellcheck="true">#   "args": &amp;#123;&amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "data": "foo", </span>
+<span class="token comment" spellcheck="true">#   "files": &amp;#123;&amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "form": &amp;#123;&amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "headers": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "Accept": "*/*", </span>
+<span class="token comment" spellcheck="true">#     "Accept-Encoding": "gzip, deflate", </span>
+<span class="token comment" spellcheck="true">#     "Content-Length": "3", </span>
+<span class="token comment" spellcheck="true">#     "Host": "httpbin.org", </span>
+<span class="token comment" spellcheck="true">#     "User-Agent": "python-requests/2.21.0"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "json": null, </span>
+<span class="token comment" spellcheck="true">#   "origin": "42.100.2.79, 42.100.2.79", </span>
+<span class="token comment" spellcheck="true">#   "url": "https://httpbin.org/post"</span>
+<span class="token comment" spellcheck="true"># &amp;#125;</span>
+
+<span class="token comment" spellcheck="true"># json 提交数据</span>
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>post<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/post'</span><span class="token punctuation">,</span> json<span class="token operator">=</span><span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;'foo': 'bar'&amp;#125;)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &amp;#123;</span>
+<span class="token comment" spellcheck="true">#   "args": &amp;#123;&amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "data": "&amp;#123;\"foo\": \"bar\"&amp;#125;", </span>
+<span class="token comment" spellcheck="true">#   "files": &amp;#123;&amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "form": &amp;#123;&amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "headers": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "Accept": "*/*", </span>
+<span class="token comment" spellcheck="true">#     "Accept-Encoding": "gzip, deflate", </span>
+<span class="token comment" spellcheck="true">#     "Content-Length": "14", </span>
+<span class="token comment" spellcheck="true">#     "Content-Type": "application/json", </span>
+<span class="token comment" spellcheck="true">#     "Host": "httpbin.org", </span>
+<span class="token comment" spellcheck="true">#     "User-Agent": "python-requests/2.21.0"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "json": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "foo": "bar"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "origin": "42.100.3.225, 42.100.3.225", </span>
+<span class="token comment" spellcheck="true">#   "url": "https://httpbin.org/post"</span>
+<span class="token comment" spellcheck="true"># &amp;#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://www.baidu.com'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>type<span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;class 'requests.models.Response'></span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>status_code<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># 200</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;!--STATUS OK-->&lt;html> &lt;head>&lt;me ...</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>content<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># b'&lt;!DOCTYPE html>\r\n&lt;!--STATUS OK-->&lt;html> &lt;head>&lt;me ...</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>cookies<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &lt;RequestsCookieJar[&lt;Cookie BDORZ=27315 for .baidu.com/>]></span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>headers<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># &amp;#123;'Cache-Control': 'private, no-cache, no-store, proxy-revalidate, no-transform', 'Connection': 'Keep-Alive', 'Content-Encoding': 'gzip', 'Content-Type': 'text/html', 'Date': 'Thu, 06 Jun 2019 02:01:14 GMT', 'Last-Modified': 'Mon, 23 Jan 2017 13:27:36 GMT', 'Pragma': 'no-cache', 'Server': 'bfe/1.0.8.18', 'Set-Cookie': 'BDORZ=27315; max-age=86400; domain=.baidu.com; path=/', 'Transfer-Encoding': 'chunked'&amp;#125;</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>encoding<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># ISO-8859-1</span>
+<span class="token comment" spellcheck="true"># 如果响应 header 中没有 charset 字段，则默认 encoding 总是 ISO-8859-1</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>apparent_encoding<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># utf-8</span>
+<span class="token comment" spellcheck="true"># apparent_encoding 是从内容中分析出的编码方式</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h3><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://www.baidu.com'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># if not response.status_code == 200:</span>
+<span class="token keyword">if</span> <span class="token operator">not</span> response<span class="token punctuation">.</span>status_code <span class="token operator">==</span> requests<span class="token punctuation">.</span>codes<span class="token punctuation">.</span>ok<span class="token punctuation">:</span>
+    <span class="token keyword">pass</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Successfuly'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/post'</span><span class="token punctuation">,</span> timeout<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span>
+    response<span class="token punctuation">.</span>raise_for_status<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># 如果状态码不是 200，则产生异常</span>
+    response<span class="token punctuation">.</span>encoding <span class="token operator">=</span> reqponse<span class="token punctuation">.</span>apparent_encoding
+    <span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+<span class="token keyword">except</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'出现异常'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="高级操作"><a href="#高级操作" class="headerlink" title="高级操作"></a>高级操作</h3><h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+
+url <span class="token operator">=</span> <span class="token string">'http://httpbin.org/post'</span>
+files <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;'icon_file': open('github.ico', 'rb')&amp;#125;</span>
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>post<span class="token punctuation">(</span>upload_url<span class="token punctuation">,</span> files<span class="token operator">=</span>files<span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &amp;#123;</span>
+<span class="token comment" spellcheck="true">#   "args": &amp;#123;&amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "data": "", </span>
+<span class="token comment" spellcheck="true">#   "files": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "icon_file": "data:application/octet-stream;base64,AAABAAIAEBAAAAEAIAAoBQAAJgAAACAgAAABACAAKBQAAE4FAAAoAA....="</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "form": &amp;#123;&amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "headers": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "Accept": "*/*", </span>
+<span class="token comment" spellcheck="true">#     "Accept-Encoding": "gzip, deflate", </span>
+<span class="token comment" spellcheck="true">#     "Content-Length": "6669", </span>
+<span class="token comment" spellcheck="true">#     "Content-Type": "multipart/form-data; boundary=fc1bc945d7c8d8b01c9fd6714bba8fe8", </span>
+<span class="token comment" spellcheck="true">#     "Host": "httpbin.org", </span>
+<span class="token comment" spellcheck="true">#     "User-Agent": "python-requests/2.22.0"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "json": null, </span>
+<span class="token comment" spellcheck="true">#   "origin": "198.23.188.136, 198.23.188.136", </span>
+<span class="token comment" spellcheck="true">#   "url": "https://httpbin.org/post"</span>
+<span class="token comment" spellcheck="true"># &amp;#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="会话维持"><a href="#会话维持" class="headerlink" title="会话维持"></a>会话维持</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+
+requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/cookies/set/foo/bar'</span><span class="token punctuation">)</span>
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/cookies'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &amp;#123;</span>
+<span class="token comment" spellcheck="true">#   "cookies": &amp;#123;&amp;#125;</span>
+<span class="token comment" spellcheck="true"># &amp;#125;</span>
+
+session <span class="token operator">=</span> requests<span class="token punctuation">.</span>session<span class="token punctuation">(</span><span class="token punctuation">)</span>
+session<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/cookies/set/foo/bar'</span><span class="token punctuation">)</span>
+response <span class="token operator">=</span> session<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/cookies'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &amp;#123;</span>
+<span class="token comment" spellcheck="true">#   "cookies": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "foo": "bar"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;</span>
+<span class="token comment" spellcheck="true"># &amp;#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="证书验证"><a href="#证书验证" class="headerlink" title="证书验证"></a>证书验证</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+
+resresponsep <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'https://www.12306.cn'</span><span class="token punctuation">,</span> verify<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>status_code<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="代理设置"><a href="#代理设置" class="headerlink" title="代理设置"></a>代理设置</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+
+proxies <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
+    <span class="token string">'http'</span><span class="token punctuation">:</span> <span class="token string">'http://112.85.173.34:9999'</span>
+    <span class="token comment" spellcheck="true"># 'https': 'https://222.128.9.235:59593'</span>
+<span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
+
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/get'</span><span class="token punctuation">,</span> proxies<span class="token operator">=</span>proxies<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># &amp;#123;</span>
+<span class="token comment" spellcheck="true">#   "args": &amp;#123;&amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "headers": &amp;#123;</span>
+<span class="token comment" spellcheck="true">#     "Accept": "*/*", </span>
+<span class="token comment" spellcheck="true">#     "Accept-Encoding": "gzip, deflate", </span>
+<span class="token comment" spellcheck="true">#     "Cache-Control": "max-age=259200", </span>
+<span class="token comment" spellcheck="true">#     "Host": "httpbin.org", </span>
+<span class="token comment" spellcheck="true">#     "User-Agent": "python-requests/2.22.0"</span>
+<span class="token comment" spellcheck="true">#   &amp;#125;, </span>
+<span class="token comment" spellcheck="true">#   "origin": "112.85.173.34, 112.85.173.34", </span>
+<span class="token comment" spellcheck="true">#   "url": "https://httpbin.org/get"</span>
+<span class="token comment" spellcheck="true"># &amp;#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="超时设置"><a href="#超时设置" class="headerlink" title="超时设置"></a>超时设置</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+<span class="token keyword">from</span> requests<span class="token punctuation">.</span>exceptions <span class="token keyword">import</span> ReadTimeout
+
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/get'</span><span class="token punctuation">,</span> timeout<span class="token operator">=</span><span class="token number">0.1</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>status_code<span class="token punctuation">)</span>
+<span class="token keyword">except</span> ReadTimeout<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'TIME OUT'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="认证设置"><a href="#认证设置" class="headerlink" title="认证设置"></a>认证设置</h4><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+<span class="token keyword">from</span> requests<span class="token punctuation">.</span>auth <span class="token keyword">import</span> HTTPBasicAuth
+
+response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://auth_demo.com'</span><span class="token punctuation">,</span> auth<span class="token operator">=</span>HTTPBasicAuth<span class="token punctuation">(</span><span class="token string">'user'</span><span class="token punctuation">,</span> <span class="token number">123456</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># response = requests.get('http://auth_demo.com', auth=('user', 123456))</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h4><p>requests 库总共有 6 种异常: </p>
+<ul>
+<li>requests.ConnectionError: 网络连接错误异常，如 DNS 查询失败，拒绝连接等</li>
+<li>requests.HTTPError: HTTP 错误异常</li>
+<li>requests.URLRequired: URL 缺失异常</li>
+<li>requests.TooManyRedirects: 超过最大重定向次数</li>
+<li>requests.ConnectTimeout: 连接远程服务器超时异常</li>
+<li>requests.Timeout: 请求 URL 超时异常</li>
+</ul>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> requests
+<span class="token keyword">from</span> requests<span class="token punctuation">.</span>exceptions <span class="token keyword">import</span> ReadTimeout<span class="token punctuation">,</span> HTTPError<span class="token punctuation">,</span> RequestException
+
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://httpbin.org/get'</span><span class="token punctuation">,</span> timeout<span class="token operator">=</span><span class="token number">0.1</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>status_code<span class="token punctuation">)</span>
+<span class="token keyword">except</span> ReadTimeout<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'TIME OUT'</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> HTTPError<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'HTTP Error'</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> RequestException<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Error'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Robots-协议"><a href="#Robots-协议" class="headerlink" title="Robots 协议"></a>Robots 协议</h2><hr>
+<p>Robots 协议告知所有爬虫网站的爬取策略，要求爬虫遵守。<br>Robots 协议放置在网站根目录下的 robots.txt 中，如: <a target="_blank" rel="noopener" href="http://www.zhihu.com/robots.txt%EF%BC%8C%E5%91%8A%E7%9F%A5%E7%BD%91%E7%AB%99%E7%9A%84%E7%88%AC%E5%8F%96%E8%A7%84%E5%88%99%E3%80%82">www.zhihu.com/robots.txt，告知网站的爬取规则。</a></p>
+<pre class="line-numbers language-txt"><code class="language-txt">User-agent: Googlebot
+Disallow: /login
+Disallow: /logout
+Disallow: /resetpassword
+Disallow: /terms
+Disallow: /search
+Disallow: /notifications
+Disallow: /settings
+Disallow: /inbox
+Disallow: /admin_inbox
+Disallow: /*?guide*
+
+...
+
+User-Agent: *
+Disallow: /
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>特别注意: 不遵守 Robots 协议可能存在法律风险。</strong></p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Python(%E5%8D%81%E4%BA%8C)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Python(%E5%8D%81%E5%9B%9B)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="本篇，我们在来说一下在 Linux 下，有关网络、服务的相关知识。
+网络设置
+网络状态查看工具net-tools在 CentOS 7 之前，我们通过 net-tools 来查看网络状态。net-tools 包括: 
+
+ifconfig
+route
+netstat
+
+iproute2CentOS 7 "><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>本篇，我们在来说一下在 Linux 下，有关网络、服务的相关知识。</p>
+<h2 id="网络设置"><a href="#网络设置" class="headerlink" title="网络设置"></a>网络设置</h2><hr>
+<h3 id="网络状态查看工具"><a href="#网络状态查看工具" class="headerlink" title="网络状态查看工具"></a>网络状态查看工具</h3><h4 id="net-tools"><a href="#net-tools" class="headerlink" title="net-tools"></a>net-tools</h4><p>在 CentOS 7 之前，我们通过 net-tools 来查看网络状态。<br>net-tools 包括: </p>
+<ul>
+<li>ifconfig</li>
+<li>route</li>
+<li>netstat</li>
+</ul>
+<h4 id="iproute2"><a href="#iproute2" class="headerlink" title="iproute2"></a>iproute2</h4><p>CentOS 7 之后，我们还可以通过 iproute2 来查看网络状态。<br>iproute2 包括: </p>
+<ul>
+<li>ip</li>
+<li>ss</li>
+</ul>
+<h3 id="网卡设置"><a href="#网卡设置" class="headerlink" title="网卡设置"></a>网卡设置</h3><p>网卡配置文件位于: /etc/sysconfig/network-scripts/ 下，命名格式: ifcfg-网卡名。<br>如果不能联网，我们首先检查该网卡的 ONBOOT 值是否为 yes。</p>
+<h3 id="ssh-Secure-Shell"><a href="#ssh-Secure-Shell" class="headerlink" title="ssh(Secure Shell)"></a>ssh(Secure Shell)</h3><p>SSH 是一种网络协议，用于计算机之间的加密登录。需要指出的是，SSH 只是一种协议，存在多种实现，既有商业实现，也有开源实现。<br>协议使用的默认端口是 22，可以通过修改 /etc/ssh/ssh_config 文件修改端口。</p>
+<p>基本的用法: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">ssh user@host
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>使用 p 参数，可以修改这个端口: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">ssh -p 2222 user@host
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="口令登录"><a href="#口令登录" class="headerlink" title="口令登录"></a>口令登录</h4><p>如果你是第一次登录对方主机，系统会出现下面的提示: </p>
+<blockquote>
+<p>$ ssh user@host<br>The authenticity of host ‘host (12.18.429.21)’ can’t be established.<br>RSA key fingerprint is 98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d.<br>Are you sure you want to continue connecting (yes/no)?</p>
+</blockquote>
+<p>为了防止中间人攻击，用户自行核对远程主机在自己的网站上贴出公钥指纹和提示的公钥指纹是否一致。<br>当远程主机的公钥被接受以后，它就会被保存在文件 ~/.ssh/known_hosts 之中。下次再连接这台主机，系统就会认出它的公钥已经保存在本地了，从而跳过警告部分，直接提示输入密码。<br>此外系统也有一个这样的文件，通常是 /etc/ssh/ssh_known_hosts，保存一些对所有用户都可信赖的远程主机的公钥。</p>
+<h4 id="公钥登录"><a href="#公钥登录" class="headerlink" title="公钥登录"></a>公钥登录</h4><p>使用密码登录，每次都必须输入密码，非常麻烦。好在 SSH 还提供了公钥登录，可以省去输入密码的步骤。<br>所谓”公钥登录”，原理很简单，就是用户将自己的公钥储存在远程主机上。登录的时候，远程主机会向用户发送一段随机字符串，用户用自己的私钥签名后，再发回来。远程主机用事先储存的公钥进行验签，如果成功，就证明用户是可信的，直接允许登录 shell，不再要求密码。</p>
+<p>这种方法要求用户必须提供自己的公钥。如果没有现成的，可以直接用 ssh-keygen 生成一个: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">ssh-keygen
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>运行结束以后，在 ~/.ssh/ 目录下，会新生成两个文件: id_rsa.pub 和 id_rsa。前者是你的公钥，后者是你的私钥。<br>这时再输入下面的命令，将公钥传送到远程主机 host 上面: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">ssh-copy-id user@host -p [port]
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>保存在 ~/.ssh/authorized_keys 文件中。</p>
+<h4 id="ssh-权限"><a href="#ssh-权限" class="headerlink" title="ssh 权限"></a>ssh 权限</h4><p>要使用免密登录，一定要注意权限问题: </p>
+<ol>
+<li>~/.ssh 文件夹权限必须为 700</li>
+<li>~/.ssh/authorized_keys 文件权限必须为 600</li>
+</ol>
+<pre class="line-numbers language-shell"><code class="language-shell">chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="网络故障排除"><a href="#网络故障排除" class="headerlink" title="网络故障排除"></a>网络故障排除</h3><p>常用网络故障排除命令: </p>
+<ul>
+<li>ping</li>
+<li>traceroute</li>
+<li>mtr</li>
+<li>nslookup</li>
+<li>telnet</li>
+<li>tcpdump</li>
+<li>netstat</li>
+<li>ss</li>
+</ul>
+<h2 id="内置服务"><a href="#内置服务" class="headerlink" title="内置服务"></a>内置服务</h2><hr>
+<h3 id="服务管理"><a href="#服务管理" class="headerlink" title="服务管理"></a>服务管理</h3><p>要理解服务管理，我们先看一下 Linux 的启动流程: </p>
+<ol>
+<li>首先启动 BIOS，进行 POST(Power on Self Test)</li>
+<li>通过自检之后，会通过 MBR(Main Boot Recorder)进行引导</li>
+<li>之后再加载内核，进行初始化进程</li>
+</ol>
+<p>在 CentOS 7 之前，初始化进程服务是 System V init，在 CentOS 7 之后，则变为 systemd。<br>systemd 使用 target 来代替了 System V init 中的运行级别的概念，对应关系为: </p>
+<table>
+<thead>
+<tr>
+<th>运行级别</th>
+<th>target</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>poweroff.target</td>
+<td>关机</td>
+</tr>
+<tr>
+<td>1</td>
+<td>rescue.target</td>
+<td>单用户模式</td>
+</tr>
+<tr>
+<td>2</td>
+<td>multi-user.target</td>
+<td>同3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>multi-user.target</td>
+<td>多用户文本界面模式</td>
+</tr>
+<tr>
+<td>4</td>
+<td>multi-user.target</td>
+<td>同3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>graphical.target</td>
+<td>多用户图形界面模式</td>
+</tr>
+<tr>
+<td>6</td>
+<td>reboot.target</td>
+<td>重启</td>
+</tr>
+</tbody></table>
+<p>在 CentOS 7 之前，使用 service 和 chkconfig 命令进行服务的管理，在 CentOS 7 之后，统一使用 systemctl 进行服务管理: </p>
+<table>
+<thead>
+<tr>
+<th>System V 命令</th>
+<th>systemctl 命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>service foo start</td>
+<td>systemctl start foo.service</td>
+<td>启动 foo 服务</td>
+</tr>
+<tr>
+<td>service foo restart</td>
+<td>systemctl restart foo.service</td>
+<td>重启 foo 服务</td>
+</tr>
+<tr>
+<td>service foo stop</td>
+<td>systemctl stop foo.service</td>
+<td>停止 foo 服务</td>
+</tr>
+<tr>
+<td>service foo reload</td>
+<td>systemctl reload foo.service</td>
+<td>重新加载配置文件</td>
+</tr>
+<tr>
+<td>service foo status</td>
+<td>systemctl status foo.service</td>
+<td>查看 foo 服务状态</td>
+</tr>
+<tr>
+<td>chkconfig foo on</td>
+<td>systemctl enable foo.service</td>
+<td>开机启动 foo 服务</td>
+</tr>
+<tr>
+<td>chkconfig foo off</td>
+<td>systemctl disable foo.service</td>
+<td>开机不启动 foo 服务</td>
+</tr>
+<tr>
+<td>chkconfig foo</td>
+<td>systemctl is-enabled foo.service</td>
+<td>查看是否开机自启动 foo 服务</td>
+</tr>
+<tr>
+<td>chkconfig –list</td>
+<td>systemctl list-unit-files –type=service</td>
+<td>查看服务的开机启动情况</td>
+</tr>
+</tbody></table>
+<pre class="line-numbers language-sh"><code class="language-sh"># SysV
+service network start
+
+# systemd
+systemctl start network.service
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Systemd-单元"><a href="#Systemd-单元" class="headerlink" title="Systemd 单元"></a>Systemd 单元</h3><p>单元就是 Systemd 的最小功能单位，是单个进程的描述。<br>单元有很多不同的种类，大概一共有 12 种。例如，Service 单元负责后台服务，Timer 单元负责定时器。<br>每个单元都有一个单元描述文件，它们分散在三个目录。</p>
+<ul>
+<li>/lib/systemd/system: 系统默认的单元文件</li>
+<li>/etc/systemd/system: 用户安装的软件的单元文件</li>
+<li>/usr/lib/systemd/system: 用户自己定义的单元文件</li>
+</ul>
+<h3 id="设置主机名"><a href="#设置主机名" class="headerlink" title="设置主机名"></a>设置主机名</h3><h4 id="临时设置"><a href="#临时设置" class="headerlink" title="临时设置"></a>临时设置</h4><pre class="line-numbers language-sh"><code class="language-sh">hostname [主机名]
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="持久化设置"><a href="#持久化设置" class="headerlink" title="持久化设置"></a>持久化设置</h4><p>修改 /etc/sysconfig/network 文件的 HOSTNAME 字段。</p>
+<h4 id="修改本地-DNS-解析"><a href="#修改本地-DNS-解析" class="headerlink" title="修改本地 DNS 解析"></a>修改本地 DNS 解析</h4><p>修改 /etc/hosts 文件。<br>注意: 如果指修改主机名而没有修改本地 hosts 文件，则可能出现软件无法使用，如: Apache。</p>
+<h3 id="ntp"><a href="#ntp" class="headerlink" title="ntp"></a>ntp</h3><p>ntp 用于对计算机时间进行同步。</p>
+<h4 id="一次性同步"><a href="#一次性同步" class="headerlink" title="一次性同步"></a>一次性同步</h4><pre class="line-numbers language-sh"><code class="language-sh">ntpdate [域名或IP]
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="自动同步"><a href="#自动同步" class="headerlink" title="自动同步"></a>自动同步</h4><p>我们可以设置开机自启动 ntpd 服务，根据版本选择 service 或 systemctl 命令设置。</p>
+<h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>防火墙指的是一个由软件和硬件设备组合而成、在内部网和外部网之间、专用网与公共网之间的界面上构造的保护屏障。<br>在 CentOS 7 之前，使用 iptables，7 之后使用 firewalld。</p>
+<h4 id="安装-iptables"><a href="#安装-iptables" class="headerlink" title="安装 iptables"></a>安装 iptables</h4><pre class="line-numbers language-sh"><code class="language-sh">yum install iptables-services
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h4><pre class="line-numbers language-sh"><code class="language-sh">systemctl stop firewalld
+systemctl disable firewalld
+
+systemctl stop iptables
+systemctl disable iptables
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="设置白名单"><a href="#设置白名单" class="headerlink" title="设置白名单"></a>设置白名单</h4><h5 id="暴露端口"><a href="#暴露端口" class="headerlink" title="暴露端口"></a>暴露端口</h5><pre class="line-numbers language-sh"><code class="language-sh">firewall-cmd --permanent --add-port=8080/tcp
+
+# 重新加载配置文件，使新规则生效
+firewall-cmd --reload  
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="设置可访问地址"><a href="#设置可访问地址" class="headerlink" title="设置可访问地址"></a>设置可访问地址</h5><p>例如: 使 mysql 服务的 3306 端口只允许 192.168.1.1/24 网段的服务器能访问: </p>
+<pre class="line-numbers language-sh"><code class="language-sh"># 添加规则
+firewall-cmd --permanent --add-rich-rule="rule family="ipv4" source address="192.168.1.1/24" port protocol="tcp" port="3306" accept"
+
+# reload 使生效
+firewall-cmd --reload
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>禁止某 ip 访问: </p>
+<pre class="line-numbers language-sh"><code class="language-sh"># 添加规则
+firewall-cmd --permanent --add-rich-rule="rule family="ipv4" source address="106.54.43.50" port protocol="tcp" port="443" reject"
+
+# reload 使生效
+firewall-cmd --reload
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="查看已设置的规则"><a href="#查看已设置的规则" class="headerlink" title="查看已设置的规则"></a>查看已设置的规则</h5><pre class="line-numbers language-sh"><code class="language-sh">firewall-cmd --zone=public --list-rich-rules
+
+# rule family="ipv4" source address="61.241.50.63" reject
+# rule family="ipv4" source address="113.0.206.101" accept
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>还可以直接编辑防火墙规则文件: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">vim /etc/firewalld/zones/public.xml
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="cron-计划任务"><a href="#cron-计划任务" class="headerlink" title="cron 计划任务"></a>cron 计划任务</h3><p>crontab 命令常见于 Unix 和类 Unix 的操作系统之中，用于设置周期性被执行的指令。</p>
+<p>格式: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">crontab [选项]
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>常见选项: </p>
+<ul>
+<li>l: 列出用户的计划任务列表</li>
+<li>e: 编辑用户的计划任务列表</li>
+<li>u: 指定用户名，如果不指定，则表示当前用户</li>
+<li>d: 删除用户的计划任务列表</li>
+</ul>
+<p>计划任务的格式: </p>
+<ol>
+<li>以行为单位，一行为一个计划</li>
+<li>书写格式: 分 时 日 月 周 命令</li>
+</ol>
+<p>例如: </p>
+<pre class="line-numbers language-sh"><code class="language-sh"># /tmp/crontab.****
+0 0 * * * reboot
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>其中: </p>
+<ul>
+<li>*: 表示取值范围内的每一个数字</li>
+<li>-: 表示连续区间，如 1-7 表示 1 到 7</li>
+<li>/: 表示每多少个，如 */10 表示每 10 单位做某任务</li>
+<li>,: 表示取多个值，如 1,3,5 表示 1 单位 3 单位 5 单位</li>
+</ul>
+<h3 id="ifup-和-ifdown"><a href="#ifup-和-ifdown" class="headerlink" title="ifup 和 ifdown"></a>ifup 和 ifdown</h3><p>ifup 命令用来打开指定的网络接口，ifdown 命令用来关闭指定的网络接口。<br>例如: </p>
+<pre class="line-numbers language-sh"><code class="language-sh">sudo ifup eth0
+sudo ifdown eth0
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Linux(%E5%9B%9B)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Linux(%E5%85%AD)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="从这篇开始，我们来谈谈 ASP.Net MVC，我们将会介绍 ASP.Net MVC 的方方面面(包括基础以及高级特性)。
+MVC 架构
+MVC 架构以及在软件工程出现很长时间了，几乎所有语言都有 MVC 以及变种形式。
+iOS 中的 MVC
+图中绿色箭头表示直接引用，只有 Controller 直"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>从这篇开始，我们来谈谈 ASP.Net MVC，我们将会介绍 ASP.Net MVC 的方方面面(包括基础以及高级特性)。</p>
+<h2 id="MVC-架构"><a href="#MVC-架构" class="headerlink" title="MVC 架构"></a>MVC 架构</h2><hr>
+<p>MVC 架构以及在软件工程出现很长时间了，几乎所有语言都有 MVC 以及变种形式。</p>
+<h3 id="iOS-中的-MVC"><a href="#iOS-中的-MVC" class="headerlink" title="iOS 中的 MVC"></a>iOS 中的 MVC</h3><p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/MVC/1/iOSMVC.jpg"></p>
+<p>图中绿色箭头表示直接引用，只有 Controller 直接持有 Model 和 View 的引用，<br>View 向 Controller 的通信有三种形式: </p>
+<ul>
+<li>target-action</li>
+<li>delegate</li>
+<li>data source</li>
+</ul>
+<p>Model 向 Controller 的通信则通过 Notification &amp; KVO。</p>
+<p>在 iOS 的 MVC 严格实现中，Model 和 View 是绝对不能直接通信的，即互相之间不能持有对方。这也是区别于 Android 和 .Net 最大的地方。<br>虽然耦合度会减少，但是会造成 Controller 巨大，这也是现在 MVVM，MVP 等其他架构出现的原因。</p>
+<h3 id="Net-中的-MVC"><a href="#Net-中的-MVC" class="headerlink" title=".Net 中的 MVC"></a>.Net 中的 MVC</h3><p>下面我们在具体看看 .Net MVC 是怎样实现的。<br>MVC 中: </p>
+<ul>
+<li>M 指的就是 Model: 它是一种数据以及业务逻辑</li>
+<li>V 指的就是 View: 它是用户界面，利用模型展示界面给用户，也允许用户修改数据</li>
+<li>C 指的就是 Controller: 它可以处理用户请求，通常，用户与界面交互，发起一个网络请求，这个请求就被 Controller 处理，利用模型数据渲染恰当的界面作为响应</li>
+</ul>
+<p>在 .Net 中的 MVC，Model 会从 Controller 传递给 View。</p>
+<h2 id="ASP-Net-MVC-历史版本"><a href="#ASP-Net-MVC-历史版本" class="headerlink" title="ASP.Net MVC 历史版本"></a>ASP.Net MVC 历史版本</h2><hr>
+<h3 id="MVC-1-0-特性"><a href="#MVC-1-0-特性" class="headerlink" title="MVC 1.0 特性"></a>MVC 1.0 特性</h3><ul>
+<li>使用 WebForm 引擎</li>
+<li>路由</li>
+<li>HTML Helpers</li>
+<li>Ajax Helpers</li>
+</ul>
+<h3 id="MVC-2-0-特性"><a href="#MVC-2-0-特性" class="headerlink" title="MVC 2.0 特性"></a>MVC 2.0 特性</h3><ul>
+<li>Area</li>
+<li>异步 Controller</li>
+<li>客户端验证</li>
+<li>自定义模板</li>
+</ul>
+<h3 id="MVC-3-0-特性"><a href="#MVC-3-0-特性" class="headerlink" title="MVC 3.0 特性"></a>MVC 3.0 特性</h3><ul>
+<li>Razor 视图引擎</li>
+<li>Global filters</li>
+<li>远程验证</li>
+<li>ViewBag</li>
+</ul>
+<h3 id="MVC-4-0-特性"><a href="#MVC-4-0-特性" class="headerlink" title="MVC 4.0 特性"></a>MVC 4.0 特性</h3><ul>
+<li>Bundling 和 minification</li>
+</ul>
+<h3 id="MVC-5-0-特性"><a href="#MVC-5-0-特性" class="headerlink" title="MVC 5.0 特性"></a>MVC 5.0 特性</h3><ul>
+<li>Authentication filters</li>
+<li>支持 Bootstrap</li>
+<li>ASP.Net Identity</li>
+</ul>
+<h3 id="MVC-5-2-特性"><a href="#MVC-5-2-特性" class="headerlink" title="MVC 5.2 特性"></a>MVC 5.2 特性</h3><ul>
+<li>Attribute based routing</li>
+</ul>
+<p>注意: MVC 5 项目 默认包含 bootstrap 3.0 的 css 和 js 文件. </p>
+<h2 id="ASP-Net-MVC-项目文件夹结构"><a href="#ASP-Net-MVC-项目文件夹结构" class="headerlink" title="ASP.Net MVC 项目文件夹结构"></a>ASP.Net MVC 项目文件夹结构</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/MVC/1/FolderStructure.png"></p>
+<h3 id="App-Data"><a href="#App-Data" class="headerlink" title="App_Data"></a>App_Data</h3><p>App_Data 文件夹可以容纳 localDB，XML，日志文件等应用数据文件。</p>
+<h3 id="App-Start"><a href="#App-Start" class="headerlink" title="App_Start"></a>App_Start</h3><p>App_Start 文件夹当程序已启动就会被执行的类文件。例如: AuthConfig.cs，BundleConfig.cs，FilterConfig.cs，RouteConfig.cs 等。<br>在 MVC 5 默认包含 BundleConfig.cs，FilterConfig.cs 以及 RouteConfig.cs 三个配置类文件。</p>
+<h3 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h3><p>Content 文件夹容纳静态文件如 css，image 以及 favicon 等。在 MVC 5 默认包含 bootstrap.css，bootstrap.min.css 以及 Site.css 文件。</p>
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><p>Controller 文件夹容纳 controller 类文件，MVC 要求 controller 文件名以 Controller 结尾</p>
+<h3 id="fonts"><a href="#fonts" class="headerlink" title="fonts"></a>fonts</h3><p>fonts 文件夹容纳自定义字体文件。</p>
+<h3 id="Models"><a href="#Models" class="headerlink" title="Models"></a>Models</h3><p>Models 文件夹容纳模型类文件。</p>
+<h3 id="Scripts"><a href="#Scripts" class="headerlink" title="Scripts"></a>Scripts</h3><p>Scripts 文件夹容纳 JavaScript 文件。MVC 5 默认包含 bootstrap，jquery3.3.1 以及 modernizr2.8.3。</p>
+<h3 id="Views"><a href="#Views" class="headerlink" title="Views"></a>Views</h3><p>Views 文件夹容纳应用的 html 文件以 .cshtml 作为后缀。.cshtml 文件允许你同时写 C# 代码和 html 标签。<br>Views 文件夹包含每个控制器的单独的文件夹，例如 HomeController 对于 Views/Home 文件夹。</p>
+<p>Shared 文件夹用来容纳不同控制器共享的视图。如: _Layout.cshtml。</p>
+<h3 id="Global-asax"><a href="#Global-asax" class="headerlink" title="Global.asax"></a>Global.asax</h3><p>Global.asax 允许编写应用级事件，如: Application_BeginRequest，Application_Start，Application_Error，Session_Start，Session_End 等。</p>
+<h3 id="Packages-config"><a href="#Packages-config" class="headerlink" title="Packages.config"></a>Packages.config</h3><p>NuGet 的包管理文件。</p>
+<h3 id="Web-config"><a href="#Web-config" class="headerlink" title="Web.config"></a>Web.config</h3><p>Web.config 包含应用级的配置。</p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/%E7%BC%96%E7%A8%8B%E4%B8%89%E5%B9%B4/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/ASP.Net%20MVC(%E4%BA%8C)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
