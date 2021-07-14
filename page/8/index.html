@@ -1,51 +1,73 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/Python(%E4%B9%9D)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 Python 中的 IO 编程 —— 文件读写、StringIO 和 BytesIO 以及序列化。IO 在计算机中指 Input/Output，也就是输入和输出。通常指的是磁盘、网络等。IO 编程中，Stream(流)是一个很重要的概念，可以把流想象成一个水管，数据就是水管里的水，但是只能单向流动...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">Python 既支持多进程，又支持多线程，本篇，我们看看如何编写这两种多任务程序。
-多进程
-fork()Unix/Linux 操作系统提供了一个 fork() 系统调用，它非常特殊。普通的函数调用，调用一次，返回一次，但是 fork() 调用一次，返回两次，因为操作系统自动把当前进程(称为父进程)复制了一份(称为...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">字符串是编程时涉及到的最多的一种数据结构，对字符串进行操作的需求几乎无处不在。正则表达式是一种用来匹配字符串的强有力的武器。
-基本
-在正则表达式中，如果直接给出字符，就是精确匹配。用 \d 可以匹配一个数字，\w 可以匹配一个字母或数字。例如: 
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/C#(%E5%8D%81%E4%BA%94)/">C#(十五)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-11-30</span></p><p class="post-abstract">这一篇，我们讲讲 C# 网络编程中比较重要的概念 —— 异步。
+什么是异步当程序启动时，系统就会在内存创建一个新进程。进程是构成程序的资源的集合，资源包括虚拟地址、文件句柄等。
+在进程内部，系统还创建了称为线程的内核对象。也就是说一旦进程创建，系统就会在 Main 方法的第一行语句开始线程执行。
+关于线程: 
 
-‘00\d’ 可以匹配 ‘001’，但是不能匹配 ‘00A’
-‘...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇开始，将会学习有关 Python 爬虫的相关知识，通过几篇的介绍，完整学习 Python 爬虫的方方面面。
-在学习 Python 爬虫之前，我们首先需要下载安装 MongoDB，Redis 以及 MySQL。在学习爬虫的过程中都会使用到，之后的学习中默认已经完成相关软件的安装。
-MongoDB Redis M...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">上篇，我们介绍了 Python 基础 HTTP 库 urllib 的基本使用，在使用上还是比较麻烦的，本篇，我们来看一下第三方 HTTP 库 Requests 是如何简化我们的操作的。
-Requests
-Requests 是基于 urllib，采用 Apache2 Licensed 开源协议的 HTTP 库，他比...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">正则表达式(Regular Expression)是对字符串操作的一种逻辑公式。之前的章节我们已经提到过正则表达式，本篇我们就对正则表达式做一个详细的介绍。
-re.match
-re.match 尝试从字符串的起始位置匹配一个模式，如果匹配不成功，则返回 None。
-最常规匹配 
+...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%8D%81%E5%9B%9B)/">C#(十四)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-11-20</span></p><p class="post-abstract">这一篇，讲讲 LINQ。LINQ(发音同 link，不要读成 lin-q)代表语言集成查询(Language Integrated Query)，他是 .Net 的扩展，允许我们很轻松的操作对象集合。LINQ 的出现也就意味着允许我们在 C# 中使用函数式编程的思想。
+匿名对象创建匿名对象与创建具名对象类似，只是...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%8D%81%E4%B8%89)/">C#(十三)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-11-19</span></p><p class="post-abstract">这一篇，我们看看 C# 中的枚举器和迭代器的基本概念。之前我们说过可以使用 foreach 来遍历数组元素，本篇来讨论为什么数组可以使用 foreach 语句处理，我们可以还使用迭代器来使得自定义类型也可以使用 foreach。
+枚举器和可枚举类型
+为什么数组可以使用 foreach 呢？因为数组可以提供一个枚举...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%8D%81%E4%BA%8C)/">C#(十二)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-11-14</span></p><p class="post-abstract">
+理想有两种: 一种，我实现了我的理想；另一种: 理想通过我而实现。
 
-泛匹配 
+这一篇，讲讲泛型。
+概述
+没有泛型的时候，我们封装的行为都是作用在特定类型上的，但是，很多时候如果我们把行为提取或重构出来，使其可以应用到很多类型上去的话，那么就会更有意义。这也是泛型出现的原因。
+我们可以额外增加一层抽象，这样类型就不用再硬...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%8D%81%E4%B8%80)/">C#(十一)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-11-11</span></p><p class="post-abstract">这一篇，我们再来看看 C# 中的显式转换以及隐式转换。
+隐式转换有些类型的转换不会丢失数据或精度: 
 
-匹配目标 
-
-贪婪匹...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来介绍一下 BeautifulSoup，使用它可以灵活又方便的进行网页解析，支持多种解析器，即使不编写正则表达式也可以进行网页信息的提取。
-安装 
-
-解析器Python 标准库 
-
-lxml HTML 解析器(推荐) 
-
-lxml XML 解析器 
-
-html5lib 
-
-基本使用 
-
-标签选择器选择元...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">接下来的几篇，我们将介绍一下最流行的爬虫框架 Scrapy。本篇，我们会介绍一下 Scrapy 的基本使用。
-基本命令
+C# 会自动做这些转换，称为隐式转换
+从位数少的源转换为位数更多的源，目标多出来的位使用 0 或 1 补充
+当从小的无符号类型转换为更大的无符号类型，多出来的位以 0 进行填充，称为 0 扩展
+对于有符号类型，...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%8D%81)/">C#(十)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-11-10</span></p><p class="post-abstract">这一篇，我们再回来说说最后一种类型: 接口(interface)。
+什么是接口接口是指定一组函数成员而不实现他们的引用类型。
  
 
-Scrapy 中的 Selector
-scrapy 的 Selector 支持两种方式提取内容: 
-
-xpath()
-css()
-
-xpath() 和 css() 的返回结果也是 Sele...</p></div><div class="post-container"><p class="post-title"><a href="/Linux(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">从本篇开始，我们分几篇来专门说一下有关 Linux 的那些事儿。
-Unix
-如果我们要介绍 Linux，我们就不得不首先说一下 Unix。Unix: 一种多用户、多进程的计算机操作系统，开发于 1970 年在美国 AT&amp;T 公司的贝尔实验室的 AT＆T Unix。此后的 10 年，Unix 在学术机构和大...</p></div><div class="post-container"><p class="post-title"><a href="/Linux(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">上一篇中，我们说了一些 Linux 的历史，讲解了一些 shell 的基本命令。本篇，我们在来说一下在 Linux 下，如何根据条件查找文件以及打包压缩指令。
-查找指令
-命令查找我们可以使用 which 或者 whereis 命令查找命令所在路径。
+我们可以用类或结构来实现接口。
  
 
-文件查找我们使用 find 命令来查找文件。find 命令...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 8 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/7/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/9/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+接口声明
+接口声明不能包含数据成员和静态成员
+
+接口只能包含如下非静态成员: 
+
+方法
+属性
+事件
+索引器
+
+
+接口应该以大写字母 I 开始
+
+...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E4%B9%9D)/">C#(九)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-11-06</span></p><p class="post-abstract">前几篇，我们都在讲类型，这一篇，我们来说说事件成员。
+发布者和订阅者
+很多程序都会有一个需求: 当一个特定事件发生时，程序的其他部分可以得到这个事件发生的通知。发布者/订阅者模式可以满足这个需求:发布者定义了一系列事件，其他类可以注册某些事件，以便在事件发生时，订阅者可以收到通知响应事件。订阅者注册事件时提供的方...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%85%AB)/">C#(八)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-10-31</span></p><p class="post-abstract">这一篇，我们讲讲 C# 中特殊的委托(delegate)。
+概述
+委托和类一样，都是用户定义类型。类表示数据和方法的集和，而委托则是持有一个或多个方法，以及一系列预定义操作。
+我们通过以下步骤来使用委托: 
+
+声明一个委托，委托的声明看上去和方法声明类似，只是没有实现块
+使用委托类型声明一个委托变量
+创建委托类型...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E4%B8%83)/">C#(七)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-10-28</span></p><p class="post-abstract">这一篇，我们讲讲 C# 中的数组对象及其协变概念。
+概述
+数组是由变量名表示的一组同类型的数据元素，每个元素可以通过索引来访问。
+C# 数组的特点: 
+
+C# 不支持动态数组，也就是数组一旦创建，就不可以更改大小
+索引从 0 开始
+
+数组类型C# 支持一维数组和多维数组，多维数组又分为矩形数组和交错数组。
+数组是...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%85%AD)/">C#(六)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-10-25</span></p><p class="post-abstract">这一篇，讲讲 C# 中的结构体类型和枚举类型。
+结构
+结构与类类似，都是用户定义类型，都有数据成员和函数成员，但有两个最大的区别: 
+
+类是引用类型而结构是值类型
+结构是隐式密封的
+
+ 
+
+结构是值类型因此: 
+
+结构类型的变量不能为 null
+两个结构不能引用同一对象
+
+把一个结构赋值给另一个结构，就是将这个结...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 8 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/7/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/9/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
