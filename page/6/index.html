@@ -1,45 +1,41 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E6%9C%89%E6%84%9F/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">最近公司准备开发微信小程序，之前也研究过一段时间，写过几个 Demo，感觉原生开发有些笨重，决定调研一些开源框架来加速开发，因为自己熟悉 React，经过对比，决定采用京东开源的 Taro，没想到就此进入深坑。从脚手架的使用，再到视图框架 Taro-UI，就是一个坑接着一个坑，已经到了让人恶心的地步，CLI 的使...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%8D%81%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们说说表单。JavaScript 最初的一个应用，就是分担服务器处理表单的责任。
-表单的基础知识
-在 HTML 中，表单是由 form 元素来表示的，而在 JavaScript 中，表单对应的则是 HTMLFormElement 类型。独有的属性和方法包括: 
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/%E7%AE%97%E6%B3%95(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇开始，我们来看看在工作中比较常用的两大算法之一的排序算法。
+基本概念及分类
+假设含有 n 个记录的序列为 {r1, r2, …, rn}，其相应的关键字分别为 {k1, k2, …, kn}，需确定 1, 2, …, n 的一种排列 p1, p2, …, pn，使其相应的关键字满足 kp1 &lt;= kp2...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">从本篇开始，我们来说说最流行的数据库 —— 关于 MySQL 的那些事儿。
+数据库概念
+数据库(Database)是按照数据结构来组织、存储和管理数据的建立在计算机存储设备上的仓库。
 
-acceptCharset: 服务器能够...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%8D%81%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 ES6 的新特性。
-变量
-var 的缺点
-可以重复声明
-
+人们通常用数据库这个术语来代表他们使用的数据库软件。这是不正确的，它是引起混淆的根源。确切地说，数据库软件应称为 DBMS(数据...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来说说 SQL 的基本操作 —— 库操作、表操作以及数据操作。
+库操作
+创建数据库基本语法: create database {数据库名} [库选项];
  
 
-无法限制修改
-没有块级作用域
+库选项: 
 
- 
+字符集: charset {指定字符集}，不指定则采用安装时默认字符集
+校对集: collate {指定校对集}
 
-let 和 constlet 和 const 解决了之前 var 的问题。首先，let 和 const 声明的变量不能重复声明。其次，使用 let 声明的变量是可以修改的，而使用 const 声...</p></div><div class="post-container"><p class="post-title"><a href="/%E9%9A%8F%E4%BE%BF%E8%81%8A%E8%81%8A/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">今天翻看照片，突然发现自己已经毕业 3 年多了，真让人感叹时光飞逝。回想在学校的日子，也真是悠闲自得，没有忧愁地只想快点长大，进入社会来展示自己的才华，想起跟伙伴吹过的牛逼，也就像发生在昨天。与那时的自己相比，经历了社会的染缸，变化的有很多，但是希望依靠自己的双手创造更好的生活的初心始终没变。
-
-
-
-说一下近期计...</p></div><div class="post-container"><p class="post-title"><a href="/React(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">最近一周工作太忙了，用 C# 写了 API、建了数据库、部署了服务器(从 Docker 迁移回了 IIS，API 在 Docker 中的访问速度不稳定，出现随机访问超时问题，应该是 Windows 下，Docker 性能有问题或 SELinux 的问题？)、写了一个钉钉的 E 应用接入公司的系统。由于一直写前台，...</p></div><div class="post-container"><p class="post-title"><a href="/React(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们将介绍 React 中最重要的概念之一 —— 组件。
-元素与组件(Element &amp; Component)
-元素元素是构建 React 应用的最小单位。元素所描述的也就是你在浏览器中能够看到的东西。我们在编写 React 代码时一般用 JSX 来描述 React 元素。在作用上，我们可以把 R...</p></div><div class="post-container"><p class="post-title"><a href="/React(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们看看组件对于数据的处理以及组件的生命周期。
-props
-props 作用: 
-
-传入变量
-传入函数
-传入组件
-props.children
-
-props 其实就是属性 Properties 的缩写。在形式上，props 之于 JSX 就相当于 attributes 之于 HTML。从写法上来看呢，我们...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%9D%82(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，记录关于 .Net 和 .Net Core 的一些零碎的知识点，随时更新。
-ASP.Net WebAPI 和 WebMVC 问题
-跨域
-针对 .NET Framework MVC 跨域，只需要在 web.config 中添加如下的内容即可: 
-
- 
-
-针对 .NET Framework Web API，除...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">之前本来想学习一下 NodeJS，考虑到最近一直在使用 C#(主要使用 .Net Core 的 MVC 和 API)，并且之前也仔细地研究过一段时间的 C#，.Net 平台的发展也有上升趋势，最近微软收购 Github，打算整合自己的平台，还有 Visual Studio 这一个宇宙第一 IDE 加持，所以就打算...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们看看 C# 中的类有哪些特殊的概念。
+显示数据库显示...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们再来说说 MySQL 中的列类型和列属性以及表间关系。
+列类型
+整数类型
+Tinyint: 迷你整型，采用 1 字节保存整型数据
+Smallint: 小整型，采用 2 字节保存整型数据
+Mediumint: 中整型，采用 3 字节保存整型数据
+Int: 标准整型，采用 4 字节保存整型数据
+Bigint...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">之前的几篇，我们介绍了 HTML 和 CSS 基础知识，对于网页结构和样式，都有了一定的了解。从这篇之后，我们将介绍网页中另一个重要知识 - JavaScript。我们将参考《JavaScript 高级程序设计》，对每章的重要知识进行详细的讲解。
+JavaScript 简介
+JavaScript 堪称世界上被人误...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们来学习一下 JavaScript 基本概念中的基本语法以及数据类型。
+语法
+区分大小写ECMAScript 中的一切(标识符，操作符)都是区分大小写的，即大小写敏感的语言。如: 变量 test 和变量 Test 分别表示两个变量。
+标识符所谓标识符，就是指变量，函数，属性名或者函数参数名。标识符格式规...</p></div><div class="post-container"><p class="post-title"><a href="/IndexedDB%20%E5%9F%BA%E7%A1%80/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，由于在自己项目中采用的前端存储 —— IndexedDB，所以这一篇就介绍一些关于 IndexedDB 的知识。
 概述
-上一篇，我们说过用户定义类型有 6 种，其中最重要的就是类类型，类是面向对象的基础。程序的数据和功能被组织为逻辑上相关的数据项和函数的封装集合就称为类(class)。类是一种能存储数据并执行代码的数据结构，包含数据成员和函数成员。数据成员包括: 
+在前端开发当中，有时会因为某些需求，要将一些数据存储在前端本地。我们回顾一下有几种手段可依然我们在前端存储数据。
+Cookies在前端的上古时代里，前端想要存储数据，只有一种方式，那就是...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们看看 JavaScript 中的变量、作用域和内存问题。
+基本类型和引用类型
+ECMAScript 变量可能包含两种不同数据类型的值: 基本类型值和引用类型值。之前我们说过，ECMAScript 有5种基本数据类型: Undefined、Null、Boolean、Number 和 String，以及一...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%85%AB)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们介绍一下函数表达式。之前说过，定义函数的方式有两种: 一种是函数声明，另一种就是函数表达式。
+函数表达式有几种不同的语法形式。下面是最常见的一种形式: 
+ 
 
-字段
-常...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 6 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/5/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/7/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+这种形式看起来好像是常规的变量赋值语句，即创建一个函数并将它赋值给变量 functionName。这种情况下创建的函数叫做匿名函数(anony...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%B9%9D)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 BOM。ECMAScript 是 JavaScript 的核心，但如果要在 Web 中使用 JavaScript，那么 BOM(浏览器对象模型)则无疑才是真正的核心。BOM 提供了很多对象，用于访问浏览器的功能，这些功能与任何网页内容无关。
+window 对象
+BOM 的核心对象是 window...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 6 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/5/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/7/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

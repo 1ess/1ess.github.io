@@ -6,7 +6,7 @@
   <link href="https://1ess.github.io/atom.xml" rel="self"/>
   
   <link href="https://1ess.github.io/"/>
-  <updated>2021-07-14T13:04:26.176Z</updated>
+  <updated>2021-07-14T13:09:59.181Z</updated>
   <id>https://1ess.github.io/</id>
   
   <author>
@@ -18,167 +18,10 @@
   
   <entry>
     <title></title>
-    <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%9B%9B)/"/>
-    <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%9B%9B)/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们来讨论一种一对多的数据结构 —— 树。&lt;/p&gt;
-&lt;h2 id=&quot;树-Tree&quot;&gt;&lt;a href=&quot;#树-Tree&quot; class=&quot;headerlink&quot; title=&quot;树(Tree)&quot;&gt;&lt;/a&gt;树(Tree)&lt;/h2&gt;&lt;hr&gt;
-&lt;h3 id=&quot;概述&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%94)/"/>
-    <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%94)/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们来讨论一种多对多的数据结构 —— 图。&lt;/p&gt;
-&lt;h2 id=&quot;图的定义&quot;&gt;&lt;a href=&quot;#图的定义&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%B8%80)/"/>
-    <id>https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%B8%80)/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇开始，我们来看看在工作中比较常用的两大算法之一的&lt;strong&gt;查找&lt;/strong&gt;算法。&lt;/p&gt;
-&lt;h2 id=&quot;概论&quot;&gt;&lt;a href=&quot;#概论&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%BA%8C)/"/>
-    <id>https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%BA%8C)/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇开始，我们来看看在工作中比较常用的两大算法之一的&lt;strong&gt;排序&lt;/strong&gt;算法。&lt;/p&gt;
-&lt;h2 id=&quot;基本概念及分类&quot;&gt;&lt;a href=&quot;#基本概念及分类&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/MySQL(%E4%B8%80)/"/>
-    <id>https://1ess.github.io/MySQL(%E4%B8%80)/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;从本篇开始，我们来说说最流行的数据库 —— 关于 MySQL 的那些事儿。&lt;/p&gt;
-&lt;h2 id=&quot;数据库概念&quot;&gt;&lt;a href=&quot;#数据库概念&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/MySQL(%E4%BA%8C)/"/>
-    <id>https://1ess.github.io/MySQL(%E4%BA%8C)/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们来说说 SQL 的基本操作 —— 库操作、表操作以及数据操作。&lt;/p&gt;
-&lt;h2 id=&quot;库操作&quot;&gt;&lt;a href=&quot;#库操作&quot; class=&quot;headerlink&quot; title=&quot;库操作&quot;&gt;&lt;/a&gt;库操作&lt;/h2&gt;&lt;hr&gt;
-&lt;h3 id=&quot;创建数据库&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/MySQL(%E4%B8%89)/"/>
-    <id>https://1ess.github.io/MySQL(%E4%B8%89)/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们再来说说 MySQL 中的列类型和列属性以及表间关系。&lt;/p&gt;
-&lt;h2 id=&quot;列类型&quot;&gt;&lt;a href=&quot;#列类型&quot; class=&quot;headerlink&quot; title=&quot;列类型&quot;&gt;&lt;/a&gt;列类型&lt;/h2&gt;&lt;hr&gt;
-&lt;h3 id=&quot;整数类型&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
     <link href="https://1ess.github.io/MySQL(%E5%9B%9B)/"/>
     <id>https://1ess.github.io/MySQL(%E5%9B%9B)/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
+    <published>2021-07-14T13:09:59.181Z</published>
+    <updated>2021-07-14T13:09:59.181Z</updated>
     
     
       
@@ -200,8 +43,8 @@
     <title></title>
     <link href="https://1ess.github.io/MySQL(%E4%BA%94)/"/>
     <id>https://1ess.github.io/MySQL(%E4%BA%94)/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
+    <published>2021-07-14T13:09:59.181Z</published>
+    <updated>2021-07-14T13:09:59.181Z</updated>
     
     
       
@@ -223,8 +66,8 @@
     <title></title>
     <link href="https://1ess.github.io/MySQL(%E5%85%AD)/"/>
     <id>https://1ess.github.io/MySQL(%E5%85%AD)/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
+    <published>2021-07-14T13:09:59.181Z</published>
+    <updated>2021-07-14T13:09:59.181Z</updated>
     
     
       
@@ -245,8 +88,8 @@
     <title></title>
     <link href="https://1ess.github.io/MySQL(%E4%B8%83)/"/>
     <id>https://1ess.github.io/MySQL(%E4%B8%83)/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
+    <published>2021-07-14T13:09:59.181Z</published>
+    <updated>2021-07-14T13:09:59.181Z</updated>
     
     
       
@@ -268,8 +111,8 @@
     <title></title>
     <link href="https://1ess.github.io/%E4%B9%9D%E4%B9%9D%E5%BD%92%E4%B8%80/"/>
     <id>https://1ess.github.io/%E4%B9%9D%E4%B9%9D%E5%BD%92%E4%B8%80/</id>
-    <published>2021-07-14T13:04:26.176Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
+    <published>2021-07-14T13:09:59.181Z</published>
+    <updated>2021-07-14T13:09:59.181Z</updated>
     
     
       
@@ -288,20 +131,18 @@
   
   <entry>
     <title></title>
-    <link href="https://1ess.github.io/%E8%A3%85%E4%BF%AE/"/>
-    <id>https://1ess.github.io/%E8%A3%85%E4%BF%AE/</id>
-    <published>2021-07-14T13:04:26.172Z</published>
-    <updated>2021-07-14T13:04:26.172Z</updated>
+    <link href="https://1ess.github.io/%E6%9D%82(%E4%B8%80)/"/>
+    <id>https://1ess.github.io/%E6%9D%82(%E4%B8%80)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;西风吹老洞庭波，一夜湘君白发多。&lt;br&gt;醉后不知天在水，满船清梦压星河。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;这两周家里忙着装修，跑了几次建材市场，每次坐公交来回要花上将近 4</summary>
+    <summary type="html">&lt;p&gt;这一篇，记录关于 .Net 和 .Net Core 的一些零碎的知识点，随时更新。&lt;/p&gt;
+&lt;h2 id=&quot;ASP-Net-WebAPI-和-WebMVC-问题&quot;&gt;&lt;a href=&quot;#ASP-Net-WebAPI-和-WebMVC-问题&quot;</summary>
         
       
     
@@ -312,39 +153,17 @@
   
   <entry>
     <title></title>
-    <link href="https://1ess.github.io/LinQ%20%E6%9F%A5%E8%AF%A2%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    <id>https://1ess.github.io/LinQ%20%E6%9F%A5%E8%AF%A2%E8%A1%A8%E8%BE%BE%E5%BC%8F/</id>
-    <published>2021-07-14T13:04:26.172Z</published>
-    <updated>2021-07-14T13:04:26.172Z</updated>
+    <link href="https://1ess.github.io/C#(%E4%B8%80)/"/>
+    <id>https://1ess.github.io/C#(%E4%B8%80)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;最近的工作是对一个复杂数据库进行操作，模型类之间的关系很复杂。操作方式使用了 LINQ，之前一直对 LINQ</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%80)/"/>
-    <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%80)/</id>
-    <published>2021-07-14T13:04:26.172Z</published>
-    <updated>2021-07-14T13:04:26.172Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;数据结构和算法是计算机软件相关专业的基础课程，要想从事编程工作，无论是否是科班出身，都不可能绕过这部分知识。&lt;br&gt;从本篇开始，我会详细的复习一遍数据结构以及算法。&lt;/p&gt;
-&lt;h2 id=&quot;数据结构&quot;&gt;&lt;a href=&quot;#数据结构&quot; class=&quot;headerlink&quot;</summary>
+    <summary type="html">&lt;p&gt;之前本来想学习一下 NodeJS，考虑到最近一直在使用 C#(主要使用 .Net Core 的 MVC 和 API)，并且之前也仔细地研究过一段时间的 C#，.Net 平台的发展也有上升趋势，最近微软收购 Github，打算整合自己的平台，还有 Visual Studio</summary>
         
       
     
@@ -355,41 +174,19 @@
   
   <entry>
     <title></title>
-    <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%89)/"/>
-    <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%89)/</id>
-    <published>2021-07-14T13:04:26.172Z</published>
-    <updated>2021-07-14T13:04:26.176Z</updated>
+    <link href="https://1ess.github.io/C#(%E4%BA%8C)/"/>
+    <id>https://1ess.github.io/C#(%E4%BA%8C)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;本篇，我们将会复习一下基于线性表衍生出的两种数据结构 —— 栈和队列。&lt;/p&gt;
-&lt;h2 id=&quot;栈-Stack&quot;&gt;&lt;a href=&quot;#栈-Stack&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%8C)/"/>
-    <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%8C)/</id>
-    <published>2021-07-14T13:04:26.172Z</published>
-    <updated>2021-07-14T13:04:26.172Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们将会复习一下比较简单但是应用非常广泛的一种数据结构 —— 线性表。&lt;/p&gt;
-&lt;h2 id=&quot;线性表&quot;&gt;&lt;a href=&quot;#线性表&quot; class=&quot;headerlink&quot; title=&quot;线性表&quot;&gt;&lt;/a&gt;线性表&lt;/h2&gt;&lt;hr&gt;
-&lt;p&gt;线性表(List):</summary>
+    <summary type="html">&lt;p&gt;这一篇，我们看看 C# 中的类有哪些特殊的概念。&lt;/p&gt;
+&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;上一篇，我们说过用户定义类型有 6</summary>
         
       
     
@@ -402,8 +199,8 @@
     <title></title>
     <link href="https://1ess.github.io/C#(%E4%B8%89)/"/>
     <id>https://1ess.github.io/C#(%E4%B8%89)/</id>
-    <published>2021-07-14T13:04:26.168Z</published>
-    <updated>2021-07-14T13:04:26.168Z</updated>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
     
     
       
@@ -425,8 +222,8 @@
     <title></title>
     <link href="https://1ess.github.io/C#(%E5%9B%9B)/"/>
     <id>https://1ess.github.io/C#(%E5%9B%9B)/</id>
-    <published>2021-07-14T13:04:26.168Z</published>
-    <updated>2021-07-14T13:04:26.168Z</updated>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
     
     
       
@@ -448,8 +245,8 @@
     <title></title>
     <link href="https://1ess.github.io/C#(%E4%BA%94)/"/>
     <id>https://1ess.github.io/C#(%E4%BA%94)/</id>
-    <published>2021-07-14T13:04:26.168Z</published>
-    <updated>2021-07-14T13:04:26.168Z</updated>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
     
     
       
@@ -458,6 +255,206 @@
         
     <summary type="html">&lt;p&gt;这一篇，我们讲讲 C# 中的表达式和运算符。&lt;/p&gt;
 &lt;h2 id=&quot;运算符&quot;&gt;&lt;a href=&quot;#运算符&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/C#(%E5%85%AD)/"/>
+    <id>https://1ess.github.io/C#(%E5%85%AD)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这一篇，讲讲 C# 中的结构体类型和枚举类型。&lt;/p&gt;
+&lt;h2 id=&quot;结构&quot;&gt;&lt;a href=&quot;#结构&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/C#(%E4%B8%83)/"/>
+    <id>https://1ess.github.io/C#(%E4%B8%83)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这一篇，我们讲讲 C# 中的数组对象及其协变概念。&lt;/p&gt;
+&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/C#(%E5%85%AB)/"/>
+    <id>https://1ess.github.io/C#(%E5%85%AB)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这一篇，我们讲讲 C# 中特殊的委托(delegate)。&lt;/p&gt;
+&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/C#(%E4%B9%9D)/"/>
+    <id>https://1ess.github.io/C#(%E4%B9%9D)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;前几篇，我们都在讲类型，这一篇，我们来说说事件成员。&lt;/p&gt;
+&lt;h2 id=&quot;发布者和订阅者&quot;&gt;&lt;a href=&quot;#发布者和订阅者&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/C#(%E5%8D%81)/"/>
+    <id>https://1ess.github.io/C#(%E5%8D%81)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这一篇，我们再回来说说最后一种类型: 接口(interface)。&lt;/p&gt;
+&lt;h3 id=&quot;什么是接口&quot;&gt;&lt;a href=&quot;#什么是接口&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/C#(%E5%8D%81%E4%B8%80)/"/>
+    <id>https://1ess.github.io/C#(%E5%8D%81%E4%B8%80)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这一篇，我们再来看看 C# 中的显式转换以及隐式转换。&lt;/p&gt;
+&lt;h3 id=&quot;隐式转换&quot;&gt;&lt;a href=&quot;#隐式转换&quot; class=&quot;headerlink&quot; title=&quot;隐式转换&quot;&gt;&lt;/a&gt;隐式转换&lt;/h3&gt;&lt;p&gt;有些类型的转换不会丢失数据或精度:</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/C#(%E5%8D%81%E4%BA%8C)/"/>
+    <id>https://1ess.github.io/C#(%E5%8D%81%E4%BA%8C)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;理想有两种: 一种，我实现了我的理想；另一种: 理想通过我而实现。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这一篇，讲讲泛型。&lt;/p&gt;
+&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/C#(%E5%8D%81%E4%B8%89)/"/>
+    <id>https://1ess.github.io/C#(%E5%8D%81%E4%B8%89)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这一篇，我们看看 C# 中的枚举器和迭代器的基本概念。&lt;br&gt;之前我们说过可以使用 foreach 来遍历数组元素，本篇来讨论为什么数组可以使用 foreach 语句处理，我们可以还使用迭代器来使得自定义类型也可以使用 foreach。&lt;/p&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/C#(%E5%8D%81%E5%9B%9B)/"/>
+    <id>https://1ess.github.io/C#(%E5%8D%81%E5%9B%9B)/</id>
+    <published>2021-07-14T13:09:59.177Z</published>
+    <updated>2021-07-14T13:09:59.177Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这一篇，讲讲 LINQ。&lt;br&gt;LINQ(发音同 link，不要读成 lin-q)代表语言集成查询(Language Integrated Query)，他是 .Net 的扩展，允许我们很轻松的操作对象集合。&lt;br&gt;LINQ 的出现也就意味着允许我们在 C#</summary>
         
       
     
