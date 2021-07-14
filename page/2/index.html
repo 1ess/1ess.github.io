@@ -1,33 +1,50 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/%E8%A3%85%E4%BF%AE/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">
-西风吹老洞庭波，一夜湘君白发多。醉后不知天在水，满船清梦压星河。
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/MySQL(%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 MySQL 中的外键、视图以及事务安全等问题。
+外键
+如果公共关键字在一个关系中是主关键字，那么这个公共关键字被称为另一个关系的外键。以另一个关系的外键作为主关键字的表称为主表，具有此外键的表称为主表的从表，外键又称为外关键字。
+外键操作增加外键MySQL 中提供两种方式增加外键: 
 
-这两周家里忙着装修，跑了几次建材市场，每次坐公交来回要花上将近 4 个小时，都要坐吐了。因为预算有限，选砖看砖都精打细算，因为女朋友比较喜欢暖色调，今年的主色又是偏冷，所以将近一百多家都看过之后，都没有特别满意的，没想到最后一家都不报什么希望了...</p></div><div class="post-container"><p class="post-title"><a href="/LinQ%20%E6%9F%A5%E8%AF%A2%E8%A1%A8%E8%BE%BE%E5%BC%8F/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">最近的工作是对一个复杂数据库进行操作，模型类之间的关系很复杂。操作方式使用了 LINQ，之前一直对 LINQ 的查询语法不太喜欢，这次使用之后，感觉比方法语法更容易接受，因此详细总结一下查询表达式的语法。
-数据查询历来都表示为简单的字符串，没有编译时类型检查。 此外，对于每种数据源，还需要学习不同的查询语言: S...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">数据结构和算法是计算机软件相关专业的基础课程，要想从事编程工作，无论是否是科班出身，都不可能绕过这部分知识。从本篇开始，我会详细的复习一遍数据结构以及算法。
-数据结构
-数据结构: 是相互之间存在一种或多种特定关系的数据元素的集和。
-基本概念数据数据: 是描述客观事物的符号，是计算机中可以操作的对象，是能被计算机识...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们将会复习一下比较简单但是应用非常广泛的一种数据结构 —— 线性表。
-线性表
-线性表(List): 零个或多个数据元素的有限序列。
-如果用数学语言定义如下:若将线性表记为(a1, …, ai-1, ai, ai+1, …, an)，则表中 ai-1 领先于 ai，ai 领先于 ai+1，称 ai-1 是 ...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们将会复习一下基于线性表衍生出的两种数据结构 —— 栈和队列。
-栈(Stack)
-在软件应用中，栈这种后进先出的数据结构的应用是非常普遍的。比如浏览器的前进后退、Word 和 PhotoShop 等编辑软件中的撤销操作，以及在 iOS 开发中的 push、pop controller 操作都是栈的应用。
-...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来讨论一种一对多的数据结构 —— 树。
-树(Tree)
-概述树是 n(n &gt;= 0) 个节点的有限集。当 n = 0 时，称为空树。在任意一棵非空树中: 
+在创建表时...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%83)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇是 MySQL 的最后一篇，我们最后讲讲变量、函数、存储过程和触发器。
+变量
+MySQL 需要很多变量来保存数据。
+系统变量系统内部定义的变量，系统变量针对所有用户有效。
+查看系统变量基本语法: show variables [{模式匹配}];
+ 
 
-有且仅有一个特定的称为根(root)的节点
-当 n &gt;= 1 时，其余节点可分为 m(m &gt; 0)个互不相交的有限集 T1、T2...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来讨论一种多对多的数据结构 —— 图。
-图的定义
-图(Graph)是由顶点有穷非空集合和顶点之间边的集合组成，通常表示为: G(V, E)，其中，G 表示一个图，V 是图 G 中顶点的集合，E 是图 G 中边的集合。
-对于图的定义，我们需要注意几个方面: 
+查看系统变量实际值基本语法: select @@{变量名}...</p></div><div class="post-container"><p class="post-title"><a href="/%E4%B9%9D%E4%B9%9D%E5%BD%92%E4%B8%80/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">
+Two things are infinite: the universe and human stupidity; and I’m not sure about the universe.
 
-线性表中我们把元素叫元素，树中将集合元素称为...</p></div><div class="post-container"><p class="post-title"><a href="/%E7%AE%97%E6%B3%95(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇开始，我们来看看在工作中比较常用的两大算法之一的查找算法。
-概论
-查找表(Search Table): 是由同一类型的数据元素构成的集合。关键字(Key): 是数据元素中某个数据项的值，又称为键值。若此关键字可以唯一地标识某一记录，则称此关键字为主关键字(Primary Key)。
-查找(Searching)...</p></div><div class="post-container"><p class="post-title"><a href="/%E7%AE%97%E6%B3%95(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇开始，我们来看看在工作中比较常用的两大算法之一的排序算法。
-基本概念及分类
-假设含有 n 个记录的序列为 {r1, r2, …, rn}，其相应的关键字分别为 {k1, k2, …, kn}，需确定 1, 2, …, n 的一种排列 p1, p2, …, pn，使其相应的关键字满足 kp1 &lt;= kp2...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">从本篇开始，我们来说说最流行的数据库 —— 关于 MySQL 的那些事儿。
-数据库概念
-数据库(Database)是按照数据结构来组织、存储和管理数据的建立在计算机存储设备上的仓库。
+最近离职了，说不上为什么，就是有一种感觉不能再这样下去了，我不想单纯的经历”吃饭-上班-吃饭-睡觉”这样浑浑噩噩的日子...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%8D%81%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 ES6 的新特性。
+变量
+var 的缺点
+可以重复声明
 
-人们通常用数据库这个术语来代表他们使用的数据库软件。这是不正确的，它是引起混淆的根源。确切地说，数据库软件应称为 DBMS(数据...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 2 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/3/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+ 
+
+无法限制修改
+没有块级作用域
+
+ 
+
+let 和 constlet 和 const 解决了之前 var 的问题。首先，let 和 const 声明的变量不能重复声明。其次，使用 let 声明的变量是可以修改的，而使用 const 声...</p></div><div class="post-container"><p class="post-title"><a href="/%E9%9A%8F%E4%BE%BF%E8%81%8A%E8%81%8A/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">今天翻看照片，突然发现自己已经毕业 3 年多了，真让人感叹时光飞逝。回想在学校的日子，也真是悠闲自得，没有忧愁地只想快点长大，进入社会来展示自己的才华，想起跟伙伴吹过的牛逼，也就像发生在昨天。与那时的自己相比，经历了社会的染缸，变化的有很多，但是希望依靠自己的双手创造更好的生活的初心始终没变。
+
+
+
+说一下近期计...</p></div><div class="post-container"><p class="post-title"><a href="/React(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">最近一周工作太忙了，用 C# 写了 API、建了数据库、部署了服务器(从 Docker 迁移回了 IIS，API 在 Docker 中的访问速度不稳定，出现随机访问超时问题，应该是 Windows 下，Docker 性能有问题或 SELinux 的问题？)、写了一个钉钉的 E 应用接入公司的系统。由于一直写前台，...</p></div><div class="post-container"><p class="post-title"><a href="/React(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们将介绍 React 中最重要的概念之一 —— 组件。
+元素与组件(Element &amp; Component)
+元素元素是构建 React 应用的最小单位。元素所描述的也就是你在浏览器中能够看到的东西。我们在编写 React 代码时一般用 JSX 来描述 React 元素。在作用上，我们可以把 R...</p></div><div class="post-container"><p class="post-title"><a href="/React(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们看看组件对于数据的处理以及组件的生命周期。
+props
+props 作用: 
+
+传入变量
+传入函数
+传入组件
+props.children
+
+props 其实就是属性 Properties 的缩写。在形式上，props 之于 JSX 就相当于 attributes 之于 HTML。从写法上来看呢，我们...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%9D%82(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，记录关于 .Net 和 .Net Core 的一些零碎的知识点，随时更新。
+ASP.Net WebAPI 和 WebMVC 问题
+跨域
+针对 .NET Framework MVC 跨域，只需要在 web.config 中添加如下的内容即可: 
+
+ 
+
+针对 .NET Framework Web API，除...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">之前本来想学习一下 NodeJS，考虑到最近一直在使用 C#(主要使用 .Net Core 的 MVC 和 API)，并且之前也仔细地研究过一段时间的 C#，.Net 平台的发展也有上升趋势，最近微软收购 Github，打算整合自己的平台，还有 Visual Studio 这一个宇宙第一 IDE 加持，所以就打算...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 2 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/3/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
