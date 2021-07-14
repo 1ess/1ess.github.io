@@ -30,7 +30,7 @@ HTML 文档中包含了各种各样的元素，同"><meta name="keywords" conten
 <h3 id="局部属性"><a href="#局部属性" class="headerlink" title="局部属性"></a>局部属性</h3><p>局部属性通常和每个元素对应，每个局部属性都可以用来控制元素都有都有行为的某个方面。在介绍每个元素时再做介绍。</p>
 <h3 id="全局属性"><a href="#全局属性" class="headerlink" title="全局属性"></a>全局属性</h3><p>全局属性用来配置所有元素的共有的行为，可以用在任何一个元素身上。</p>
 <h4 id="class-属性"><a href="#class-属性" class="headerlink" title="class 属性"></a>class 属性</h4><p>class 属性用来将元素归类，方便找出文档中某一类元素或为某一类元素应用 CSS 样式。</p>
-<pre class="line-numbers language-HTML"><code class="language-HTML"><a class="class1 class2" target="_blank" rel="noopener" href="https://github.com/1ess">Github</a>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><!-- <a class="class1 class2" target="_blank" rel="noopener" href="https://github.com/1ess">Github</a> -->
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>一个元素可以被归入多个类别，类名间用空格分隔。</p>
 <h4 id="contenteditable-布尔属性"><a href="#contenteditable-布尔属性" class="headerlink" title="contenteditable 布尔属性"></a>contenteditable 布尔属性</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><p contenteditable>content is editable</p>
@@ -45,7 +45,7 @@ HTML 文档中包含了各种各样的元素，同"><meta name="keywords" conten
 <pre class="line-numbers language-HTML"><code class="language-HTML"><p hidden>hidden</p>
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h4 id="id-属性"><a href="#id-属性" class="headerlink" title="id 属性"></a>id 属性</h4><p>用来给元素分配一个唯一的标识符，标识符通常被用于应用样式或者 JavaScript 逻辑到该元素。</p>
-<pre class="line-numbers language-HTML"><code class="language-HTML"><a id="github" target="_blank" rel="noopener" href="https://github.com/1ess">Github</a>
+<pre class="line-numbers language-HTML"><code class="language-HTML"><!-- <a id="github" target="_blank" rel="noopener" href="https://github.com/1ess">Github</a> -->
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h4 id="lang-属性"><a href="#lang-属性" class="headerlink" title="lang 属性"></a>lang 属性</h4><p>说明元素使用的语言。</p>
 <h4 id="title-属性"><a href="#title-属性" class="headerlink" title="title 属性"></a>title 属性</h4><p>title 属性提供了元素的额外信息，浏览器通常用它显示工具提示。悬停时会显示。</p>
@@ -84,7 +84,7 @@ HTML 文档中包含了各种各样的元素，同"><meta name="keywords" conten
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h4 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><meta charset="utf-8">
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="模拟-HTTP-标头字段"><a href="#模拟-HTTP-标头字段" class="headerlink" title="模拟 HTTP 标头字段"></a>模拟 HTTP 标头字段</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><meta http-equiv="refresh" content="5;https://github.com/1ess">
+<h4 id="模拟-HTTP-标头字段"><a href="#模拟-HTTP-标头字段" class="headerlink" title="模拟 HTTP 标头字段"></a>模拟 HTTP 标头字段</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><!-- <meta http-equiv="refresh" content="5;https://github.com/1ess"> -->
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>http-equiv 属性的可选值如下: </p>
 <ol>
@@ -95,12 +95,12 @@ HTML 文档中包含了各种各样的元素，同"><meta name="keywords" conten
 <pre class="line-numbers language-HTML"><code class="language-HTML"><meta http-equiv="content-type" content="text/html charset=UTF-8">
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ol start="4">
-<li>X-UA-Compatible: 声明渲染方式，content 取值为 IE=edge, chrome=1。表示当有 webkit 内核浏览器，使用 webkit 内核渲染，否则使用 IE 最高版本渲染。</li>
-</ol>
-<pre class="line-numbers language-HTML"><code class="language-HTML"><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<li>X-UA-Compatible: 声明渲染方式，content 取值为 IE=edge, chrome=1。表示当有 webkit 内核浏览器，使用 webkit 内核渲染，否则使用 IE 最高版本渲染。<pre class="line-numbers language-HTML"><code class="language-HTML"><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ol>
 <h3 id="base-元素"><a href="#base-元素" class="headerlink" title="base 元素"></a>base 元素</h3><p>定义页面上相对 URL 的基准 URL。</p>
-<pre class="line-numbers language-HTML"><code class="language-HTML"><base target="_blank" href="http://www.example.com/">
+<pre class="line-numbers language-HTML"><code class="language-HTML"><!-- <base target="_blank" href="http://www.example.com/"> -->
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h3 id="style-元素"><a href="#style-元素" class="headerlink" title="style 元素"></a>style 元素</h3><pre class="line-numbers language-HTML"><code class="language-HTML"><style type="text/css">
     a&#123;
@@ -115,7 +115,7 @@ HTML 文档中包含了各种各样的元素，同"><meta name="keywords" conten
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h4 id="为页面定义网站标志"><a href="#为页面定义网站标志" class="headerlink" title="为页面定义网站标志"></a>为页面定义网站标志</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><link rel="shortcut icon" type="image/x-icon"  href="favicon.ico">
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p><small>如果网站标志文件位于/favicon.ico(即 Web 服务器的根目录)，那就不必用到 link 元素，大多数浏览器在载入页面时都会自动请求这个文件，就算没有 link 元素也是如此。</small></p>
+<p>如果网站标志文件位于/favicon.ico(即 Web 服务器的根目录)，那就不必用到 link 元素，大多数浏览器在载入页面时都会自动请求这个文件，就算没有 link 元素也是如此。</p>
 <h4 id="预先获取资源"><a href="#预先获取资源" class="headerlink" title="预先获取资源"></a>预先获取资源</h4><pre class="line-numbers language-HTML"><code class="language-HTML"><link rel="prefetch" href="/index.html">
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h3 id="script-元素"><a href="#script-元素" class="headerlink" title="script 元素"></a>script 元素</h3><p>用于在页面中加入脚本，可以直接在文档中定义脚本和引用外部文件中的脚本。</p>
