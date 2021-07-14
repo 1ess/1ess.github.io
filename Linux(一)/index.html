@@ -31,20 +31,11 @@ Unix
 <li>/usr/local/bin : 在此地放置本地执行程序的二进制文件</li>
 </ul>
 <h2 id="基本指令"><a href="#基本指令" class="headerlink" title="基本指令"></a>基本指令</h2><hr>
-<h3 id="关机"><a href="#关机" class="headerlink" title="关机"></a>关机</h3><pre class="line-numbers language-sh"><code class="language-sh"># 立即关机
-shutdown -h now
+<h3 id="关机"><a href="#关机" class="headerlink" title="关机"></a>关机</h3><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-comment"># 立即关机</span><br>shutdown -h now<br><br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-comment"># 立即关机</span><br>shutdown -h now<br><br><span class="hljs-comment"># 60 分钟后关机</span><br>shutdown -h 60<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-# 60 分钟后关机
-shutdown -h 60
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><pre class="line-numbers language-sh"><code class="language-sh"># 立即重启
-shutdown -r now
+<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-comment"># 立即重启</span><br>shutdown -r now<br><br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-comment"># 立即重启</span><br>shutdown -r now<br><br><span class="hljs-comment"># 30 分钟后重启</span><br>shutdown -r 30<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-# 30 分钟后重启
-shutdown -r 30
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="取消关机或重启"><a href="#取消关机或重启" class="headerlink" title="取消关机或重启"></a>取消关机或重启</h3><pre class="line-numbers language-sh"><code class="language-sh">shutdown -c
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="取消关机或重启"><a href="#取消关机或重启" class="headerlink" title="取消关机或重启"></a>取消关机或重启</h3><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">shutdown -c<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 <p>注意: 不论关机还是重启，只能是管理员用户才可以进行操作。</p>
 <h3 id="file"><a href="#file" class="headerlink" title="file"></a>file</h3><p>file 指令可以判断文件类型。<br>常见文件类型有 7 种:</p>
 <ul>
@@ -58,8 +49,8 @@ shutdown -r 30
 </ul>
 <p>注意: 特殊设备(字符特殊设备和块特殊设备)一般存储在 /dev/ 下。</p>
 <p>格式: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">file [目标路径]
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">file [目标路径]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h3 id="ls"><a href="#ls" class="headerlink" title="ls"></a>ls</h3><p>ls 是英文 list 的缩写，用于列出文件。<br>在 Unix 和类 Unix 操作系统中都有当前目录的概念，也即程序目前在目录树中的位置。<br>当不加参数运行时，ls 列出当前目录下的除隐藏文件外的所有文件和目录名。如果以目录名作为参数，则会列出该目录下的文件。<br>在某些环境下，使用参数”–color”(GNU 版)或者”-G”(FreeBSD 版)后，ls 会根据文件类型输出不同色彩的格式。GNU 版的 ls 根据文件的类型、扩展名和使用权限来决定颜色，而 FreeBSD 版的 ls 仅仅检查文件类型和使用权限。</p>
 <p>常用参数: </p>
 <ul>
@@ -97,12 +88,12 @@ shutdown -r 30
 <li>r: 用于递归复制目录到目标目录</li>
 </ul>
 <p>格式: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">cp [源路径] [目标路径]
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">cp [源路径] [目标路径]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h3 id="mv"><a href="#mv" class="headerlink" title="mv"></a>mv</h3><p>mv(move)是类 Unix 操作系统中移动单个或多个文件或目录的命令，也可以用于重命名。</p>
 <p>格式: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">mv [源路径] [目标路径]
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">mv [源路径] [目标路径]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h3 id="rm"><a href="#rm" class="headerlink" title="rm"></a>rm</h3><p>rm(remove)用于删除文件系统中的文件、目录、设备文件、符号链接等对象。</p>
 <p>常用参数: </p>
 <ul>
@@ -110,24 +101,17 @@ shutdown -r 30
 <li>f: 强制删除目录、文件</li>
 </ul>
 <h3 id="简约查看帮助"><a href="#简约查看帮助" class="headerlink" title="简约查看帮助"></a>简约查看帮助</h3><p>我们使用 help 命令简约查看帮助。<br>对于内部命令，我们使用: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">help [命令]
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-built_in"><code class="language-hljs sh"><span class="hljs-built_in">help</span> [命令]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>对于外部命令，我们使用: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">[命令] --help
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh">[命令] --<span class="hljs-built_in"><code class="language-hljs sh">[命令] --<span class="hljs-built_in">help</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>我们可以通过 type 命令判断一个命令是内部命令还是外部命令: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">type echo
-# echo is a shell builtin
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-built_in">type</span> <span class="hljs-built_in">echo</span><br><span class="hljs-comment"># echo is a shell builtin</span><br><br><span class="hljs-built_in">type</span> git<br><span class="hljs-comment"># git is /usr/bin/git</span><br><br><span class="hljs-built_in">type</span> mkdir<br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-built_in">type</span> <span class="hljs-built_in">echo</span><br><span class="hljs-comment"># echo is a shell builtin</span><br><br><span class="hljs-built_in">type</span> git<br><span class="hljs-comment"># git is /usr/bin/git</span><br><br><span class="hljs-built_in">type</span> mkdir<br><span class="hljs-comment"># mkdir is /bin/mkdir</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-type git
-# git is /usr/bin/git
-
-type mkdir
-# mkdir is /bin/mkdir
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="详细查看帮助"><a href="#详细查看帮助" class="headerlink" title="详细查看帮助"></a>详细查看帮助</h3><p>我们使用 man 命令详细查看帮助。</p>
-<pre class="line-numbers language-sh"><code class="language-sh">man echo
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh">man <span class="hljs-built_in"><code class="language-hljs sh">man <span class="hljs-built_in">echo</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h3 id="重定向标准输入输出"><a href="#重定向标准输入输出" class="headerlink" title="重定向标准输入输出"></a>重定向标准输入输出</h3><ol>
 <li>名词解释</li>
 </ol>
@@ -153,29 +137,23 @@ type mkdir
 <li>n: 结尾不追加换行符</li>
 <li>e: 解释转义字符</li>
 </ul>
-<pre class="line-numbers language-sh"><code class="language-sh">echo "Hello World"
-> Hello World
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Hello World&quot;</span><br>&gt; Hello World<br><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string"><code class="language-hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Hello World&quot;</span><br>&gt; Hello World<br><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">"Hello\nWorld"</span><br>> Hello<br>> World<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-echo -e "Hello\nWorld"
-> Hello
-> World
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="lsblk"><a href="#lsblk" class="headerlink" title="lsblk"></a>lsblk</h3><p>lsblk(list block)可以列出块设备。</p>
 <h3 id="mount"><a href="#mount" class="headerlink" title="mount"></a>mount</h3><p>mount 可以挂载外部块设备。</p>
 <p>格式:</p>
-<pre class="line-numbers language-sh"><code class="language-sh">mount [块设备路径] [挂载地址]
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">mount [块设备路径] [挂载地址]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 <p>注意: 挂载地址通常在 /mnt/ 或者 /media/ 文件夹下。</p>
 <h3 id="顺序执行多条指令"><a href="#顺序执行多条指令" class="headerlink" title="顺序执行多条指令"></a>顺序执行多条指令</h3><p>简单的顺序执行可以使用 ; 来完成: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">sudo yum update;sudo yum install some-tools;some-tools
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">sudo yum update;sudo yum install some-tools;some-tools<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>但是这样可以造成花费时间但是却得到一个错误结果。</p>
 <h3 id="有选择的执行指令"><a href="#有选择的执行指令" class="headerlink" title="有选择的执行指令"></a>有选择的执行指令</h3><p>可以使用 &amp;&amp; 来完成: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">which cowsay>/dev/null && cowsay -f head-in ohch~
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-built_in"><code class="language-hljs sh"><span class="hljs-built_in">which</span> cowsay>/dev/null && cowsay -f head-in ohch~<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h3><p>netstat 命令在调试网络程序或者定位网络相关问题时非常有用。</p>
-<pre class="line-numbers language-sh"><code class="language-sh">netstat -tulpn
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">netstat -tulpn<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>常用参数: </p>
 <ul>
 <li>t: 查看 TCP 连接</li>
@@ -185,30 +163,18 @@ echo -e "Hello\nWorld"
 <li>n: 使用数字代替了名称</li>
 </ul>
 <h2 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h2><hr>
-<h3 id="查看支持的-shell"><a href="#查看支持的-shell" class="headerlink" title="查看支持的 shell"></a>查看支持的 shell</h3><pre class="line-numbers language-sh"><code class="language-sh">cat /etc/shells
+<h3 id="查看支持的-shell"><a href="#查看支持的-shell" class="headerlink" title="查看支持的 shell"></a>查看支持的 shell</h3><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh">cat /etc/shells<br><br><span class="hljs-comment"># /bin/sh</span><br><span class="hljs-comment"><code class="language-hljs sh">cat /etc/shells<br><br><span class="hljs-comment"># /bin/sh</span><br><span class="hljs-comment"># /bin/bash</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-# /bin/sh
-# /bin/bash
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="查看当前使用的-shell"><a href="#查看当前使用的-shell" class="headerlink" title="查看当前使用的 shell"></a>查看当前使用的 shell</h3><pre class="line-numbers language-sh"><code class="language-sh">echo $SHELL
+<h3 id="查看当前使用的-shell"><a href="#查看当前使用的-shell" class="headerlink" title="查看当前使用的 shell"></a>查看当前使用的 shell</h3><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-variable">$SHELL</span><br><br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-variable">$SHELL</span><br><br><span class="hljs-comment"># /bin/bash</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-# /bin/bash
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h3 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre class="line-numbers language-sh"><code class="language-sh"># Debian
-sudo apt install zsh zsh-completions
+<h3 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-comment"># Debian</span><br>sudo apt install zsh zsh-completions<br><br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-comment"># Debian</span><br>sudo apt install zsh zsh-completions<br><br><span class="hljs-comment"># Manjaro</span><br>sudo pacman -S zsh zsh-completions<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-# Manjaro
-sudo pacman -S zsh zsh-completions
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="oh-my-zsh"><a href="#oh-my-zsh" class="headerlink" title="oh-my-zsh"></a>oh-my-zsh</h4><pre class="line-numbers language-sh"><code class="language-sh">sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="切换-shell"><a href="#切换-shell" class="headerlink" title="切换 shell"></a>切换 shell</h4><pre class="line-numbers language-sh"><code class="language-sh">which zsh
-# /usr/bin/zsh
+<h4 id="oh-my-zsh"><a href="#oh-my-zsh" class="headerlink" title="oh-my-zsh"></a>oh-my-zsh</h4><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh">sh -c <span class="hljs-string">&quot;<span class="hljs-subst"><code class="language-hljs sh">sh -c <span class="hljs-string">&quot;<span class="hljs-subst">$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>"</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-sudo chsh -s /usr/bin/zsh
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="切换-shell"><a href="#切换-shell" class="headerlink" title="切换 shell"></a>切换 shell</h4><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-built_in">which</span> zsh<br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-built_in">which</span> zsh<br><span class="hljs-comment"># /usr/bin/zsh</span><br><br>sudo chsh -s /usr/bin/zsh<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>我们可以修改 Theme 和 Plugins: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">vim ~/.zshrc
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">vim ~/.zshrc<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>我目前使用的主题是 ys，使用的插件有 zsh-autosuggestions、git 和 zsh-syntax-highlighting。</p>
 </p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Python(%E5%8D%81%E5%85%AD)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Linux(%E4%BA%8C)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

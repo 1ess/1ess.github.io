@@ -356,10 +356,8 @@ Intel x86，在 PC 以及"><meta name="keywords" content=""><meta content="width
 <li>临时数据存储在寄存器 $8</li>
 </ul>
 <p>那么<br>A[10] = h + A[3]对应的 MIPS 指令是: </p>
-<pre class="line-numbers language-shell"><code class="language-shell">lw $8, 12($19)
-add $8, $18, $8
-sw $8, 40($19)
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="code"><pre class="line-numbers language-hljs shell"><code class="language-hljs shell">lw $8, 12($19)<br>add $8, $18, $8<br>sw $8, 40($19)<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h2 id="MIPS-指令的基本格式"><a href="#MIPS-指令的基本格式" class="headerlink" title="MIPS 指令的基本格式"></a>MIPS 指令的基本格式</h2><hr>
 <p>指令的布局形式叫做<strong>指令格式</strong>。  </p>
 <p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/instruction-type/register-farmat-type.png"></p>
@@ -369,15 +367,12 @@ sw $8, 40($19)
 <li>在 I 型指令中，rt 表示接收取数结果的目的操作数，rs 表示源操作数</li>
 </ul>
 <h4 id="R-型指令示例"><a href="#R-型指令示例" class="headerlink" title="R 型指令示例"></a>R 型指令示例</h4><p>如: lw rd, rs, rt  </p>
-<pre class="line-numbers language-shell"><code class="language-shell">add $8, $9, $10
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="code"><pre class="line-numbers language-hljs shell"><code class="language-hljs shell">add $8, $9, $10<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 <p>查指令编码表可得:<br><strong>opcode: 0, funct 32, shamt: 0(非移位指令)</strong><br>根据操作数可得:<br><strong>rd = 8(目的操作数), rs = 9(第一个源操作数), rt = 10(第二个源操作数)</strong><br>所以 R 指令为:<br><strong>000000 01001 01010 01000 00000 100000</strong></p>
-<pre class="line-numbers language-shell"><code class="language-shell">sll $t2, $s0, 4
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="code"><pre class="line-numbers language-hljs shell"><code class="language-hljs shell">sll $t2, $s0, 4<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 <p>查指令编码表可得:<br><strong>opcode: 0, funct 0, shamt(shift amount): 4</strong><br>根据操作数可得:<br><strong>rd = 10(目的操作数), rs = 0(第一个源操作数), rt = 16(第二个源操作数)</strong><br>所以 R 指令为:<br><strong>000000 00000 10000 01010 00100 000000</strong></p>
 <h4 id="I-型指令示例"><a href="#I-型指令示例" class="headerlink" title="I 型指令示例"></a>I 型指令示例</h4><p>如: addi rt, imm(rs)  </p>
-<pre class="line-numbers language-shell"><code class="language-shell">addi $21, $22, -50
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="code"><pre class="line-numbers language-hljs shell"><code class="language-hljs shell">addi $21, $22, -50<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 <p>查指令编码表可得:<br><strong>opcode: 8</strong><br>分析指令可得:<br><strong>rs = 22, rt = 21, imm = -50</strong><br>所以 I 指令为:<br><strong>001000 10110 10101 1111111111001110</strong></p>
 <h2 id="决策指令"><a href="#决策指令" class="headerlink" title="决策指令"></a>决策指令</h2><hr>
 <p>程序语言通常使用if语句描述决策，有时也使用 go to 语句和标签。<br>MIPS 汇编语言中有两条类似 if 和 go to 语句功能的指令: </p>
@@ -388,18 +383,10 @@ sw $8, 40($19)
 <p>这两条指令称为<strong>条件分支指令 conditional branch</strong>。指该指令先比较两个值，根据比较的结果决定是否从程序中的一个新地址开始执行指令序列。</p>
 <p>还有另一种分支指令，称为<strong>无条件分支指令 unconditional branch</strong>。当遇到这种指令，程序必须分支。MIPS 将该指令命名为 <strong>j</strong> 意为 jump。</p>
 <h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><p>无论是 if 语句，还是循环语句，决策起着重要作用，这两种情况，决策的汇编指令是相同的。</p>
-<pre class="line-numbers language-shell"><code class="language-shell">while (save[i] == k)
-i += 1;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="code"><pre class="line-numbers language-hljs shell"><code class="language-hljs shell">while (save[i] == k)<br>i += 1;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 <p>假设 i 和 k 保存在$s3和$s5中，save 数组基址为$s6，将上述代码转为 MIPS 汇编。</p>
-<pre class="line-numbers language-shell"><code class="language-shell">Loop: sll $t0, $s3, 2
-add $t0, $t0, $s6
-bne $t0, $s5 Exit
-add $s3, $s3, 1
-j Loop
-Exit:
- 
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="code"><pre class="line-numbers language-hljs shell"><code class="language-hljs shell">Loop: sll $t0, $s3, 2<br>add $t0, $t0, $s6<br>bne $t0, $s5 Exit<br>add $s3, $s3, 1<br>j Loop<br>Exit:<br> <br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h3 id="case-switch-语句"><a href="#case-switch-语句" class="headerlink" title="case/switch 语句"></a>case/switch 语句</h3><p>大多数程序设计语言都有 case/switch 语句，使得程序员可以根据某个变量的值选择不同的分支。<br>实现方式是: <strong>将多个指令序列分支的地址编码为一张表，即转移表(jump table)</strong><br>MIPS 提供了寄存器跳转指令 <strong>jr</strong> 意为 jump register，用来无条件跳转到寄存器的指定的地址。</p>
 <h2 id="计算机硬件对过程的支持"><a href="#计算机硬件对过程的支持" class="headerlink" title="计算机硬件对过程的支持"></a>计算机硬件对过程的支持</h2><hr>
 <p>过程(procedure)或函数是程序员进行结构化编程的工具，两者有助于提高程序的可理解性和代码的可重用性。<br>MIPS 在为过程调用分配寄存器时遵循下述约定:</p>

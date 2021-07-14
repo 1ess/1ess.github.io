@@ -6,12 +6,12 @@ upstream 指令upstream 指令是设置后端服务器组的重要指令"><meta 
 <h2 id="后端服务器组的配置"><a href="#后端服务器组的配置" class="headerlink" title="后端服务器组的配置"></a>后端服务器组的配置</h2><hr>
 <p>Nginx 服务器的反向代理、负载均衡等重要功能都会涉及后端服务器组这一概念，服务器组的设置包括 4 个常用指令，我们分别介绍一下。</p>
 <h3 id="upstream-指令"><a href="#upstream-指令" class="headerlink" title="upstream 指令"></a>upstream 指令</h3><p>upstream 指令是设置后端服务器组的重要指令，其他的指令都在该指令中进行配置。<br>upstream 指令类似之前的 http 块、server 块等，语法结构为: </p>
-<pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">upstream</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;name&amp;#125; &amp;#123; ... &amp;#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">upstream</span> &#123;name&#125; &#123; ... &#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>其中，name 是后端服务器组的组名，花括号中列出后端服务器组包含的服务器。<br>默认情况下，某个服务器组接受请求后，按照轮询策略顺序选择组内服务器处理请求，如果一个服务器在处理请求的过程中出现错误，请求会顺次交给下一个服务器进行处理。<br>我们也可以根据资源配置的不同，给每个服务器配置不同的权重。配置权重的变量包含在 server 指令中。</p>
 <h3 id="server-指令"><a href="#server-指令" class="headerlink" title="server 指令"></a>server 指令</h3><p>该指令用于设置组内的服务器，语法为: </p>
-<pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">server</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;address&amp;#125; [parameters];</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">server</span> &#123;address&#125; [parameters];<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>其中: </p>
 <ul>
 <li>address 为服务器地址，可以是包含端口号的 IP 地址(IP:Port)或域名</li>
@@ -23,36 +23,32 @@ upstream 指令upstream 指令是设置后端服务器组的重要指令"><meta 
 <li>down 用来将某一服务器标记为永久的无效状态</li>
 </ul>
 <h3 id="ip-hash-指令"><a href="#ip-hash-指令" class="headerlink" title="ip_hash 指令"></a>ip_hash 指令</h3><p>该指令用于实现会话保持功能，将某个客户端的多次请求定向到同一台服务器上，保证客户端和服务器之间建立稳定的会话，语法结构为: </p>
-<pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">ip_hash</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><code class="language-hljs nginx">ip_hash;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h3 id="least-conn-指令"><a href="#least-conn-指令" class="headerlink" title="least_conn 指令"></a>least_conn 指令</h3><p>该指令用于配置 Nginx 服务器使用负载均衡策略为网络连接分配服务器，语法结构为: </p>
-<pre class="line-numbers language-nginx"><code class="language-nginx">least_conn<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><code class="language-hljs nginx">least_conn;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>该指令在功能上实现了最少连接负载均衡算法，在选择组内服务器时，考虑各服务器权重的同时，每次选择的都是当前网络连接最少的那台服务器。</p>
 <h2 id="Rewrite"><a href="#Rewrite" class="headerlink" title="Rewrite"></a>Rewrite</h2><hr>
 <p>Rewrite 在 Web 服务器中是必备的功能，用于实现 URL 的重写。Nginx 服务器的 Rewrite 功能的实现依赖于 PCRE，在编译安装 Nginx 服务器之前，需要编译 PCRE 库。</p>
 <h3 id="Rewrite-规则"><a href="#Rewrite-规则" class="headerlink" title="Rewrite 规则"></a>Rewrite 规则</h3><h4 id="if-指令"><a href="#if-指令" class="headerlink" title="if 指令"></a>if 指令</h4><p>该指令用来支持条件判断，根据条件判断结果选择不同的 Nginx 配置，可以在 server 块或 location 块中使用该指令，语法结构为: </p>
-<pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">if</span> <span class="token punctuation">(</span>condition<span class="token punctuation">)</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123; ... &amp;#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-attribute"><code class="language-hljs nginx"><span class="hljs-attribute">if</span> (condition) &#123; ... &#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>其中，condition 为判断条件，支持以下集中设置方法: </p>
 <ul>
 <li>变量名，如果变量的值为空字符串或以 0 开头的任意字符串，if 指令认为条件为 false，其他情况认为条件为 true</li>
 <li>使用 = 或 != 比较变量和字符串是否相等</li>
 <li>使用正则表达式对变量进行匹配，可以使用 ~ 和 <del>* 连接，</del> 表示匹配过程对大小写敏感，~* 表示匹配过程对大小写不敏感</li>
 </ul>
-<pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$http_user_agent</span> <span class="token operator">~</span> MSIE<span class="token punctuation">)</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
-    <span class="token comment" spellcheck="true">#$http_user_agent 的值是否含有 MSIE 字符串</span>
-<span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-attribute">if</span> ($http_user_agent <span class="hljs-regexp">~ MSIE)</span> &#123;<br>    <span class="hljs-comment"><code class="language-hljs nginx"><span class="hljs-attribute">if</span> ($http_user_agent <span class="hljs-regexp">~ MSIE)</span> &#123;<br>    <span class="hljs-comment">#$http_user_agent 的值是否含有 MSIE 字符串</span><br>&#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>注意: 正则表达式字符串一般不需要加引号，除非字符串含有 } 或 ; 字符，必须给正则表达式加引号。</p>
 <h4 id="break-指令"><a href="#break-指令" class="headerlink" title="break 指令"></a>break 指令</h4><p>该指令用于中断当前相同作用域中的其他 Nginx 配置。该指令可以在 server 块和 location 块以及 if 块中使用，语法为: </p>
-<pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">break</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><code class="language-hljs nginx">break;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h4 id="return-指令"><a href="#return-指令" class="headerlink" title="return 指令"></a>return 指令</h4><p>该指令用于完成对请求的处理，直接向客户端返回响应状态码，该指令可以在 server 块和 location 块以及 if 块中使用，语法为: </p>
-<pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">return</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;text&amp;#125;;</span>
-<span class="token keyword">return</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;code&amp;#125; &amp;#123;URL&amp;#125;;</span>
-<span class="token keyword">return</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;URL&amp;#125;;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section">return</span> &#123;text&#125;;<br><span class="hljs-section">return</span> &#123;code&#125; &#123;URL&#125;;<br><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">return</span> &#123;text&#125;;<br><span class="hljs-section">return</span> &#123;code&#125; &#123;URL&#125;;<br><span class="hljs-section">return</span> &#123;URL&#125;;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>其中: </p>
 <ul>
 <li>code 为返回给客户端的 HTTP 状态码</li>
@@ -61,12 +57,12 @@ upstream 指令upstream 指令是设置后端服务器组的重要指令"><meta 
 </ul>
 <p>当返回 301、302、303 和 307 代码时，可以使用 code + URL 形式返回给客户端，当 code 为其他代码时，可以使用 text 向客户端发送响应体内容。</p>
 <p>例如，我们经常使用的将 http 请求重定向到 https，可以使用如下指令: </p>
-<pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">return</span> <span class="token number">301</span> <span class="token keyword">https</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token variable">$server_name</span><span class="token variable">$request_uri</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-attribute">return</span> <span class="hljs-number"><code class="language-hljs nginx"><span class="hljs-attribute">return</span> <span class="hljs-number">301</span> https://$server_name$request_uri;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h4 id="rewrite-指令"><a href="#rewrite-指令" class="headerlink" title="rewrite 指令"></a>rewrite 指令</h4><p>该指令使用正则表达式改变 URI，可以同时存在一个或多个指令，按顺序依次对 URL 进行匹配处理。</p>
 <h4 id="set-指令"><a href="#set-指令" class="headerlink" title="set 指令"></a>set 指令</h4><p>该指令用于设置一个新的变量，语法结构为: </p>
-<pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">set</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;variable&amp;#125; &amp;#123;value&amp;#125;;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">set</span> &#123;variable&#125; &#123;value&#125;;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>其中: </p>
 <ul>
 <li>variable 为变量名，需要使用 $ 符号作为变量的第一个字符，不能与预设的全局变量同名</li>
@@ -74,24 +70,6 @@ upstream 指令upstream 指令是设置后端服务器组的重要指令"><meta 
 </ul>
 <h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><hr>
 <h3 id="防盗链"><a href="#防盗链" class="headerlink" title="防盗链"></a>防盗链</h3><p>虽然防盗链有一定作用，但是由于存在缓存、referer 自定义等问题，并不能实现真正的防盗。</p>
-<h4 id="根据文件类型"><a href="#根据文件类型" class="headerlink" title="根据文件类型"></a>根据文件类型</h4><pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">server</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
-    <span class="token keyword">location</span> <span class="token operator">~</span><span class="token operator">*</span> <span class="token operator">^</span><span class="token punctuation">.</span><span class="token operator">+</span>\<span class="token punctuation">.</span><span class="token punctuation">(</span>gif<span class="token operator">|</span>jpg<span class="token operator">|</span>png<span class="token operator">|</span>swf<span class="token operator">|</span>zip<span class="token operator">|</span><span class="token keyword">flv</span><span class="token operator">|</span>rar<span class="token punctuation">)</span>$ <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
-        <span class="token comment" spellcheck="true">#...</span>
-        <span class="token keyword">valid_referers</span> server_names <span class="token operator">*</span><span class="token punctuation">.</span><span class="token number">0xfee1dead</span><span class="token punctuation">.</span>cn<span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$invalid_referer</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
-            <span class="token keyword">return</span> <span class="token number">403</span><span class="token punctuation">;</span>
-        <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
-    <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
-<span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="根据请求目录"><a href="#根据请求目录" class="headerlink" title="根据请求目录"></a>根据请求目录</h4><pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">server</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
-    <span class="token keyword">location</span> <span class="token operator">/</span>images<span class="token operator">/</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
-        <span class="token comment" spellcheck="true">#...</span>
-        <span class="token keyword">valid_referers</span> server_names <span class="token operator">*</span><span class="token punctuation">.</span><span class="token number">0xfee1dead</span><span class="token punctuation">.</span>cn<span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$invalid_referer</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
-            <span class="token keyword">rewrite</span> <span class="token operator">^</span><span class="token operator">/</span> <span class="token keyword">http</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token variable">$server_name</span><span class="token operator">/</span>forbidden<span class="token punctuation">.</span>png<span class="token punctuation">;</span>
-        <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
-    <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
-<span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Nginx(%E4%BA%94)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Docker%20%E5%9F%BA%E7%A1%80/" title="Docker 基础">下一篇: Docker 基础&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+<h4 id="根据文件类型"><a href="#根据文件类型" class="headerlink" title="根据文件类型"></a>根据文件类型</h4><figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">location</span> <span class="hljs-regexp">~* ^.+\.(gif|jpg|png|swf|zip|flv|rar)$</span> &#123;<br>        <span class="hljs-comment">#...</span><br>        <span class="hljs-attribute">valid_referers</span> server_names *.0xfee1dead.cn;<br>        <span class="hljs-attribute">if</span> ($invalid_referer) &#123;<br>            <span class="hljs-attribute">return</span> <span class="hljs-number"><code class="language-hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">location</span> <span class="hljs-regexp">~* ^.+\.(gif|jpg|png|swf|zip|flv|rar)$</span> &#123;<br>        <span class="hljs-comment">#...</span><br>        <span class="hljs-attribute">valid_referers</span> server_names *.0xfee1dead.cn;<br>        <span class="hljs-attribute">if</span> ($invalid_referer) &#123;<br>            <span class="hljs-attribute">return</span> <span class="hljs-number">403</span>;<br>        &#125;<br>    &#125;<br>&#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
+<h4 id="根据请求目录"><a href="#根据请求目录" class="headerlink" title="根据请求目录"></a>根据请求目录</h4><figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">location</span> /images/ &#123;<br>        <span class="hljs-comment">#...</span><br>        <span class="hljs-attribute">valid_referers</span> server_names *.0xfee1dead.cn;<br>        <span class="hljs-attribute">if</span> ($invalid_referer) &#123;<br>            <span class="hljs-attribute">rewrite</span><span class="hljs-regexp"><code class="language-hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">location</span> /images/ &#123;<br>        <span class="hljs-comment">#...</span><br>        <span class="hljs-attribute">valid_referers</span> server_names *.0xfee1dead.cn;<br>        <span class="hljs-attribute">if</span> ($invalid_referer) &#123;<br>            <span class="hljs-attribute">rewrite</span><span class="hljs-regexp"> ^/</span> http://$server_name/forbidden.png;<br>        &#125;<br>    &#125;<br>&#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure></p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Nginx(%E4%BA%94)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Docker%20%E5%9F%BA%E7%A1%80/" title="Docker 基础">下一篇: Docker 基础&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

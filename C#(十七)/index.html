@@ -22,21 +22,11 @@ C 和 C++ 都有实际的预处理阶段，而在 C# 中是没有的，预处理
 <li>他没有值，与 C 不同，他不表示字符串</li>
 </ul>
 <p>#define 指令声明一个编译符号，#undef 指令取消声明一个编译符号。</p>
-<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token preprocessor property">#<span class="token directive keyword">define</span> PremiumVersion</span>
-<span class="token preprocessor property">#<span class="token directive keyword">define</span> EconomyVersion</span>
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<figure class="highlight csharp"><table><tr><td class="code"><pre class="line-numbers language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PremiumVersion</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EconomyVersion</span><br>...<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword"><code class="language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PremiumVersion</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EconomyVersion</span><br>...<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">undef</span> PremiumVersion</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-<span class="token preprocessor property">#<span class="token directive keyword">undef</span> PremiumVersion</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>注意: #define 和 #undef 指令只能用于任何 C# 代码之前，在 C# 代码开始之后，这两个指令就都不可以使用了。</p>
-<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token keyword">using</span> System<span class="token punctuation">;</span>
-<span class="token preprocessor property">#<span class="token directive keyword">define</span> PremiumVersion    </span><span class="token comment" spellcheck="true">//错误，必须出现在所有 C# 代码之前</span>
+<figure class="highlight csharp"><table><tr><td class="code"><pre class="line-numbers language-hljs csharp"><span class="hljs-keyword">using</span> System;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PremiumVersion    //错误，必须出现在所有 C# 代码之前</span><br><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">Eagle</span><br>&#123;<br>    <span class="hljs-meta">#<span class="hljs-meta-keyword"><code class="language-hljs csharp"><span class="hljs-keyword">using</span> System;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PremiumVersion    //错误，必须出现在所有 C# 代码之前</span><br><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">Eagle</span><br>&#123;<br>    <span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PremiumVersion    //错误</span><br>&#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-<span class="token keyword">namespace</span> Eagle
-<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    <span class="token preprocessor property">#<span class="token directive keyword">define</span> PremiumVersion    </span><span class="token comment" spellcheck="true">//错误</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>重复定义编译符号也是允许的。</p>
 <h3 id="条件编译"><a href="#条件编译" class="headerlink" title="条件编译"></a>条件编译</h3><p>条件编译允许我们根据某个编译符号是否被定义来标注一段代码被编译或跳过。<br>有4个指令用来指定条件编译: </p>
 <ul>
@@ -46,37 +36,14 @@ C 和 C++ 都有实际的预处理阶段，而在 C# 中是没有的，预处理
 <li>#endif</li>
 </ul>
 <p>如下: </p>
-<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token preprocessor property">#<span class="token directive keyword">if</span> PremiumVersion</span>
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token preprocessor property">#<span class="token directive keyword">endif</span></span>
+<figure class="highlight csharp"><table><tr><td class="code"><pre class="line-numbers language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> PremiumVersion</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> (PremiumVersion &amp;&amp; LeftHanded)</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> true  //总被编译</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword"><code class="language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> PremiumVersion</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> (PremiumVersion &amp;&amp; LeftHanded)</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> true  //总被编译</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-<span class="token preprocessor property">#<span class="token directive keyword">if</span> (PremiumVersion &amp;&amp; LeftHanded)</span>
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token preprocessor property">#<span class="token directive keyword">endif</span></span>
-
-<span class="token preprocessor property">#<span class="token directive keyword">if</span> true  </span><span class="token comment" spellcheck="true">//总被编译</span>
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token preprocessor property">#<span class="token directive keyword">endif</span></span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="条件编译的结构"><a href="#条件编译的结构" class="headerlink" title="条件编译的结构"></a>条件编译的结构</h3><p>如下: </p>
-<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token preprocessor property">#<span class="token directive keyword">if</span> Cond1</span>
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token preprocessor property">#<span class="token directive keyword">elif</span> Cond2</span>
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token preprocessor property">#<span class="token directive keyword">elif</span> Cond3</span>
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token preprocessor property">#<span class="token directive keyword">endif</span></span>
+<figure class="highlight csharp"><table><tr><td class="code"><pre class="line-numbers language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> Cond1</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">elif</span> Cond2</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">elif</span> Cond3</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> Cond1</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword"><code class="language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> Cond1</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">elif</span> Cond2</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">elif</span> Cond3</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> Cond1</span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span><br>...<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-<span class="token preprocessor property">#<span class="token directive keyword">if</span> Cond1</span>
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token preprocessor property">#<span class="token directive keyword">else</span></span>
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token preprocessor property">#<span class="token directive keyword">endif</span></span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="诊断指令"><a href="#诊断指令" class="headerlink" title="诊断指令"></a>诊断指令</h3><p>下面是诊断指令的语法，注意与 C# 普通字符串不同，Message 无需引号包裹: </p>
-<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token preprocessor property">#<span class="token directive keyword">warning</span> Message</span>
-<span class="token preprocessor property">#<span class="token directive keyword">error</span> Message</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight csharp"><table><tr><td class="code"><pre class="line-numbers language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">warning</span> Message</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword"><code class="language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">warning</span> Message</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">error</span> Message</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h3 id="区域指令"><a href="#区域指令" class="headerlink" title="区域指令"></a>区域指令</h3><p>区域指令允许我们命名一段代码，#region 指令特性如下: </p>
 <ul>
 <li>放置在希望标注的代码段之上</li>
@@ -84,22 +51,7 @@ C 和 C++ 都有实际的预处理阶段，而在 C# 中是没有的，预处理
 <li>之后的代码由 #endregion 指令终止</li>
 </ul>
 <p>VisualStudio 可以显式和隐藏由区域指令包裹的代码段。</p>
-<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token preprocessor property">#<span class="token directive keyword">region</span> Constructor</span>
-<span class="token keyword">public</span> <span class="token function">MyClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+<figure class="highlight csharp"><table><tr><td class="code"><pre class="line-numbers language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">region</span> Constructor</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyClass</span>(<span class="hljs-params"></span>)</span><br>&#123;<br><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyClass</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> s</span>)</span><br>&#123;<br><br>&#125;<br><span class="hljs-meta">#<span class="hljs-meta-keyword"><code class="language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">region</span> Constructor</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyClass</span>(<span class="hljs-params"></span>)</span><br>&#123;<br><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyClass</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> s</span>)</span><br>&#123;<br><br>&#125;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endregion</span></span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-
-<span class="token keyword">public</span> <span class="token function">MyClass</span><span class="token punctuation">(</span><span class="token keyword">string</span> s<span class="token punctuation">)</span>
-<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-<span class="token preprocessor property">#<span class="token directive keyword">endregion</span></span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="pragma-warning"><a href="#pragma-warning" class="headerlink" title="#pragma warning"></a>#pragma warning</h3><p>该指令允许我们关闭和开启警告信息: </p>
-<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token preprocessor property">#<span class="token directive keyword">pragma</span> warning disable 618, 414</span>
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-
-<span class="token preprocessor property">#<span class="token directive keyword">pragma</span> warning restore 618</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/C#(%E5%8D%81%E5%85%AD)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/C#(%E5%8D%81%E5%85%AB)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+<figure class="highlight csharp"><table><tr><td class="code"><pre class="line-numbers language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> <span class="hljs-meta-keyword">warning</span> disable 618, 414</span><br>...<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> <span class="hljs-meta-keyword"><code class="language-hljs csharp"><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> <span class="hljs-meta-keyword">warning</span> disable 618, 414</span><br>...<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> <span class="hljs-meta-keyword">warning</span> restore 618</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure></p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/C#(%E5%8D%81%E5%85%AD)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/C#(%E5%8D%81%E5%85%AB)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

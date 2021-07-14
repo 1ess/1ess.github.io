@@ -58,72 +58,36 @@
 <li>配置环境变量，指向 mysql 的 bin 目录(默认路径: C:\Program Files\MySQL\MySQL Server 8.0\bin)</li>
 <li>配置初始化的 my.ini 配置文件</li>
 </ol>
-<pre class="line-numbers language-csharp"><code class="language-csharp"><span class="token punctuation">[</span>mysqld<span class="token punctuation">]</span>
-<span class="token preprocessor property"># 设置3306端口</span>
-port<span class="token operator">=</span><span class="token number">3306</span>
-<span class="token preprocessor property"># 设置mysql的安装目录</span>
-basedir<span class="token operator">=</span>C<span class="token punctuation">:</span>\Program Files\MySQL\MySQL Server <span class="token number">8.0</span>\
-<span class="token preprocessor property"># 设置mysql数据库的数据的存放目录</span>
-datadir<span class="token operator">=</span>C<span class="token punctuation">:</span>\Program Files\MySQL\MySQL Server <span class="token number">8.0</span>\Data
-<span class="token preprocessor property"># 允许最大连接数</span>
-max_connections<span class="token operator">=</span><span class="token number">200</span>
-<span class="token preprocessor property"># 允许连接失败的次数。</span>
-max_connect_errors<span class="token operator">=</span><span class="token number">10</span>
-<span class="token preprocessor property"># 服务端使用的字符集默认为UTF8</span>
-character<span class="token operator">-</span><span class="token keyword">set</span><span class="token operator">-</span>server<span class="token operator">=</span>utf8
-<span class="token preprocessor property"># 创建新表时将使用的默认存储引擎</span>
-<span class="token keyword">default</span><span class="token operator">-</span>storage<span class="token operator">-</span>engine<span class="token operator">=</span>INNODB
-<span class="token preprocessor property"># 默认使用</span><span class="token string">"mysql_native_password"</span>插件认证
-<span class="token preprocessor property">#mysql_native_password</span>
-default_authentication_plugin<span class="token operator">=</span>mysql_native_password
-<span class="token punctuation">[</span>mysql<span class="token punctuation">]</span>
-<span class="token preprocessor property"># 设置mysql客户端默认字符集</span>
-<span class="token keyword">default</span><span class="token operator">-</span>character<span class="token operator">-</span><span class="token keyword">set</span><span class="token operator">=</span>utf8
-<span class="token punctuation">[</span>client<span class="token punctuation">]</span>
-<span class="token preprocessor property"># 设置mysql客户端连接服务端时默认使用的端口</span>
-port<span class="token operator">=</span><span class="token number">3306</span>
-<span class="token keyword">default</span><span class="token operator">-</span>character<span class="token operator">-</span><span class="token keyword">set</span><span class="token operator">=</span>utf8
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight csharp"><table><tr><td class="code"><pre class="line-numbers language-hljs csharp">[<span class="hljs-meta">mysqld</span>]<br><span class="hljs-meta"># 设置3306端口</span><br>port=<span class="hljs-number">3306</span><br><span class="hljs-meta"># 设置mysql的安装目录</span><br>basedir=C:\Program Files\MySQL\MySQL Server <span class="hljs-number">8.0</span>\<br><span class="hljs-meta"># 设置mysql数据库的数据的存放目录</span><br>datadir=C:\Program Files\MySQL\MySQL Server <span class="hljs-number">8.0</span>\Data<br><span class="hljs-meta"># 允许最大连接数</span><br>max_connections=<span class="hljs-number">200</span><br><span class="hljs-meta"># 允许连接失败的次数。</span><br>max_connect_errors=<span class="hljs-number">10</span><br><span class="hljs-meta"># 服务端使用的字符集默认为UTF8</span><br>character-<span class="hljs-keyword">set</span>-server=utf8<br><span class="hljs-meta"># 创建新表时将使用的默认存储引擎</span><br><span class="hljs-literal">default</span>-storage-engine=INNODB<br><span class="hljs-meta"># 默认使用&quot;mysql_native_password&quot;插件认证</span><br><span class="hljs-meta">#mysql_native_password</span><br>default_authentication_plugin=mysql_native_password<br>[<span class="hljs-meta">mysql</span>]<br><span class="hljs-meta"># 设置mysql客户端默认字符集</span><br><span class="hljs-literal">default</span>-character-<span class="hljs-keyword">set</span>=utf8<br>[<span class="hljs-meta">client</span>]<br><span class="hljs-meta"># 设置mysql客户端连接服务端时默认使用的端口</span><br>port=<span class="hljs-number">3306</span><br><span class="hljs-literal">default</span>-character-<span class="hljs-keyword"><code class="language-hljs csharp">[<span class="hljs-meta">mysqld</span>]<br><span class="hljs-meta"># 设置3306端口</span><br>port=<span class="hljs-number">3306</span><br><span class="hljs-meta"># 设置mysql的安装目录</span><br>basedir=C:\Program Files\MySQL\MySQL Server <span class="hljs-number">8.0</span>\<br><span class="hljs-meta"># 设置mysql数据库的数据的存放目录</span><br>datadir=C:\Program Files\MySQL\MySQL Server <span class="hljs-number">8.0</span>\Data<br><span class="hljs-meta"># 允许最大连接数</span><br>max_connections=<span class="hljs-number">200</span><br><span class="hljs-meta"># 允许连接失败的次数。</span><br>max_connect_errors=<span class="hljs-number">10</span><br><span class="hljs-meta"># 服务端使用的字符集默认为UTF8</span><br>character-<span class="hljs-keyword">set</span>-server=utf8<br><span class="hljs-meta"># 创建新表时将使用的默认存储引擎</span><br><span class="hljs-literal">default</span>-storage-engine=INNODB<br><span class="hljs-meta"># 默认使用&quot;mysql_native_password&quot;插件认证</span><br><span class="hljs-meta">#mysql_native_password</span><br>default_authentication_plugin=mysql_native_password<br>[<span class="hljs-meta">mysql</span>]<br><span class="hljs-meta"># 设置mysql客户端默认字符集</span><br><span class="hljs-literal">default</span>-character-<span class="hljs-keyword">set</span>=utf8<br>[<span class="hljs-meta">client</span>]<br><span class="hljs-meta"># 设置mysql客户端连接服务端时默认使用的端口</span><br>port=<span class="hljs-number">3306</span><br><span class="hljs-literal">default</span>-character-<span class="hljs-keyword">set</span>=utf8<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 <ol start="4">
 <li>在 MySQL 的安装目录的仓目录下执行命令: </li>
 </ol>
-<pre class="line-numbers language-sh"><code class="language-sh">mysqld --initialize --console
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">mysqld --initialize --console<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 <ol start="5">
 <li>在管理员权限下执行命令: </li>
 </ol>
-<pre class="line-numbers language-sh"><code class="language-sh">mysqld --install
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">mysqld --install<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>注意: 如果提示服务已存在，则需要执行命令: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">sc delete mysql
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">sc delete mysql<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h4 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h4><p>我们直接使用 homebrew 安装: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">brew install mysql
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">brew install mysql<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>与 Windows 类似，我们还可以修改 Mysql 中配置文件，位于目录 /usr/bin/etc/my.cnf。</p>
 <h3 id="启动和停止-MySQL-服务"><a href="#启动和停止-MySQL-服务" class="headerlink" title="启动和停止 MySQL 服务"></a>启动和停止 MySQL 服务</h3><p>MySQL 是一种 C/S 架构，包括客户端和服务端。<br>服务端对应的软件: mysqld.exe<br>客户端对应的软件: mysql.exe</p>
-<h4 id="Windows-1"><a href="#Windows-1" class="headerlink" title="Windows"></a>Windows</h4><h5 id="命令行方式"><a href="#命令行方式" class="headerlink" title="命令行方式"></a>命令行方式</h5><pre class="line-numbers language-sh"><code class="language-sh"># 启动 mysql 服务
-net start mysql
+<h4 id="Windows-1"><a href="#Windows-1" class="headerlink" title="Windows"></a>Windows</h4><h5 id="命令行方式"><a href="#命令行方式" class="headerlink" title="命令行方式"></a>命令行方式</h5><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-comment"># 启动 mysql 服务</span><br>net start mysql<br><br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-comment"># 启动 mysql 服务</span><br>net start mysql<br><br><span class="hljs-comment"># 关闭 mysql 服务</span><br>net stop mysql<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-# 关闭 mysql 服务
-net stop mysql
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h5 id="系统服务方式"><a href="#系统服务方式" class="headerlink" title="系统服务方式"></a>系统服务方式</h5><p>在计算机管理-服务(services.msc)中操作 mysql 服务。</p>
-<h4 id="Mac-1"><a href="#Mac-1" class="headerlink" title="Mac"></a>Mac</h4><pre class="line-numbers language-sh"><code class="language-sh"># 启动 mysql 服务
-brew services start mysql
+<h4 id="Mac-1"><a href="#Mac-1" class="headerlink" title="Mac"></a>Mac</h4><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-comment"># 启动 mysql 服务</span><br>brew services start mysql<br><br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-comment"># 启动 mysql 服务</span><br>brew services start mysql<br><br><span class="hljs-comment"># 关闭 mysql 服务</span><br>brew services stop mysql<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-# 关闭 mysql 服务
-brew services stop mysql
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="登录和退出-MySQL-系统"><a href="#登录和退出-MySQL-系统" class="headerlink" title="登录和退出 MySQL 系统"></a>登录和退出 MySQL 系统</h3><p>通过客户端 mysql.exe 与服务器连接认证。</p>
 <h4 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h4><p>连接认证语法: </p>
-<pre class="line-numbers language-sh"><code class="language-sh">mysql -h&#123;ip地址或域名&#125; -P&#123;mysql 监听端口，通常3306&#125; -u&#123;用户名&#125; -p
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">mysql -h&#123;ip地址或域名&#125; -P&#123;mysql 监听端口，通常3306&#125; -u&#123;用户名&#125; -p<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <h4 id="退出"><a href="#退出" class="headerlink" title="退出"></a>退出</h4><p>我们使用完 mysql 之后，由于连接数量有限，所以注意一定要断开连接。</p>
-<pre class="line-numbers language-sh"><code class="language-sh">\q
-\quit
-exit
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh">\q<br>\quit<br><span class="hljs-built_in"><code class="language-hljs sh">\q<br>\quit<br><span class="hljs-built_in">exit</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
 <p>注意: Mysql 8.0 版本和 Mysql 5.7 版本的身份验证插件不同: </p>
 <ul>
 <li>Mysql 8.0 身份验证插件为 caching_sha2_password</li>

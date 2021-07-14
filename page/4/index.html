@@ -1,53 +1,25 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来讨论一种多对多的数据结构 —— 图。
-图的定义
-图(Graph)是由顶点有穷非空集合和顶点之间边的集合组成，通常表示为: G(V, E)，其中，G 表示一个图，V 是图 G 中顶点的集合，E 是图 G 中边的集合。
-对于图的定义，我们需要注意几个方面: 
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/ASP.Net%20MVC(%E4%B8%83)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲数据验证、布局试图以及 Controller 向 View 传递少量数据的方式。
+数据注释(DataAnnotations)
+ASP.Net MVC 使用 DataAnnotations attribute 实现数据验证。DataAnnotations 为不同的验证规则内建了许多验证特性，可以应用...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20MVC(%E5%85%AB)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们详细讲讲 .Net MVC 中的 Filter。
+默认情况，在 ASP.NET MVC 中，用户请求被路由到适当的控制器和 Action 方法。但是，在某些情况下，您可能希望在执行 Action 方法之前或之后执行某些逻辑。ASP.NET MVC 为此提供了过滤器(filters)。
+ASP.NET ...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20MVC(%E4%B9%9D)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们详细讲讲 .Net MVC 中的 Bundling 和 Minification。
+Bundling
+在 MVC 4 中引入了 Bundling 和 Minification 技术以改善请求加载时间。Bundling 允许我们将来自服务器的一堆静态文件加载到一个 http 请求中。会通过最小化文件大小...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20MVC(%E5%8D%81)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们详细讲讲 ASP.Net MVC 中的 Area。
+我们知道在大型应用程序可以包含大量控制器、视图和模型类，因此，使用默认的 ASP.NET MVC 项目结构维护大量视图、模型和控制器可能变得难以管理。
+ASP.NET MVC 2 引入了 Area。Area 允许我们将大型应用程序划分为更小的单元，其...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20API(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">ASP.Net Web MVC 的知识我们也复习了大概，基础内容已经覆盖了大部分，从本篇开始，我们来认识一下 ASP.Net Web API。
+Web API 是什么
+简单来说，API 是某种接口，它具有一组允许程序员访问应用程序，操作系统或其他服务的特定功能或数据的功能。Web API 顾名思义，是一个可以使用...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20API(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">之前我们说过 Web MVC 中的路由，本篇，我们看看如何配置 Web API 路由。
+Web API 路由类似于 ASP.NET MVC 路由。它将传入的 HTTP 请求路由到 Web API Controller 上的特定 Action 方法。
+Web API 支持两种方式的路由: 
 
-线性表中我们把元素叫元素，树中将集合元素称为...</p></div><div class="post-container"><p class="post-title"><a href="/%E7%AE%97%E6%B3%95(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇开始，我们来看看在工作中比较常用的两大算法之一的查找算法。
-概论
-查找表(Search Table): 是由同一类型的数据元素构成的集合。关键字(Key): 是数据元素中某个数据项的值，又称为键值。若此关键字可以唯一地标识某一记录，则称此关键字为主关键字(Primary Key)。
-查找(Searching)...</p></div><div class="post-container"><p class="post-title"><a href="/%E7%AE%97%E6%B3%95(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇开始，我们来看看在工作中比较常用的两大算法之一的排序算法。
-基本概念及分类
-假设含有 n 个记录的序列为 {r1, r2, …, rn}，其相应的关键字分别为 {k1, k2, …, kn}，需确定 1, 2, …, n 的一种排列 p1, p2, …, pn，使其相应的关键字满足 kp1 &lt;= kp2...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">从本篇开始，我们来说说最流行的数据库 —— 关于 MySQL 的那些事儿。
-数据库概念
-数据库(Database)是按照数据结构来组织、存储和管理数据的建立在计算机存储设备上的仓库。
+基于约定的路由(Con...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20API(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">了解了 Web API 如何将 HTTP 请求路由到 Controller 和 Action 方法。我们将再看看 Web API 如何将 HTTP 请求数据绑定到操作方法的参数。
+Model Binding
+Web API 将操作方法​​参数与 URL 的 Query String 或 Request Body ...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20API(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们讲讲 Web API 如何处理不同格式的请求和响应数据。
+Web API 包括对 JSON，XML，BSON 和 form-urlencoded 数据的内置支持，这意味着它会自动将请求/响应数据转换为这些格式(开箱即用)。
+Media-Type Formatters
+Web API 包括以下内置媒体类型...</p></div><div class="post-container"><p class="post-title"><a href="/%E9%97%B2%E8%81%8A/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">
+你们这伙没胆量的下流东西！不要跑！来跟你们厮杀的只是个单枪匹马的骑士！
 
-人们通常用数据库这个术语来代表他们使用的数据库软件。这是不正确的，它是引起混淆的根源。确切地说，数据库软件应称为 DBMS(数据...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来说说 SQL 的基本操作 —— 库操作、表操作以及数据操作。
-库操作
-创建数据库基本语法: create database {数据库名} [库选项];
- 
-库选项: 
-
-字符集: charset {指定字符集}，不指定则采用安装时默认字符集
-校对集: collate {指定校对集}
-
-显示数据库显示全...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们再来说说 MySQL 中的列类型和列属性以及表间关系。
-列类型
-整数类型
-Tinyint: 迷你整型，采用 1 字节保存整型数据
-Smallint: 小整型，采用 2 字节保存整型数据
-Mediumint: 中整型，采用 3 字节保存整型数据
-Int: 标准整型，采用 4 字节保存整型数据
-Bigint...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 MySQL 对于数据的增删改查操作以及运算符。
-新增数据
-多数据插入基本语法: insert into {表名}({字段列表}) values({值列表1}), ({值列表2}), …
- 
-主键冲突在有的表中，使用的是业务主键，但是往往在进行数据插入时，又不确定数据表中是否存在对应的主键。
- 
-解...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 MySQL 中的联合查询、连接查询以及子查询。
-联合查询
-基本概念: 可合并多个相似的选择查询结果的结果集，等同于将一个表追加到另一个表，从而实现将两个表的查询结果组合到一起，使用 Union 或 Union all。注意: 这个合并是纵向合并，字段数不变，多个查询的结果合并。
-应用场景
-同一张表...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 MySQL 中的外键、视图以及事务安全等问题。
-外键
-如果公共关键字在一个关系中是主关键字，那么这个公共关键字被称为另一个关系的外键。以另一个关系的外键作为主关键字的表称为主表，具有此外键的表称为主表的从表，外键又称为外关键字。
-外键操作增加外键MySQL 中提供两种方式增加外键: 
-
-在创建表时...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%83)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇是 MySQL 的最后一篇，我们最后讲讲变量、函数、存储过程和触发器。
-变量
-MySQL 需要很多变量来保存数据。
-系统变量系统内部定义的变量，系统变量针对所有用户有效。
-查看系统变量基本语法: show variables [{模式匹配}];
- 
-查看系统变量实际值基本语法: select @@{变量名};...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 4 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/3/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/5/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+一周多没更新 Blog 了，主要是最近又开始有些忙碌。
+工作最近这段时间，公司重新做了一款 toB 的 app。经过半年多服务器端开发，再回头进行移动端开发时，能从更高的角度来看待业务问题，进行更好的流程设计。我们可以从数据库的设计、用户...</p></div><div class="post-container"><p class="post-title"><a href="/%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E6%9C%89%E6%84%9F/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">最近公司准备开发微信小程序，之前也研究过一段时间，写过几个 Demo，感觉原生开发有些笨重，决定调研一些开源框架来加速开发，因为自己熟悉 React，经过对比，决定采用京东开源的 Taro，没想到就此进入深坑。从脚手架的使用，再到视图框架 Taro-UI，就是一个坑接着一个坑，已经到了让人恶心的地步，CLI 的使...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 4 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/3/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/5/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

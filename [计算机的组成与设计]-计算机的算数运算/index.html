@@ -186,15 +186,7 @@
 <h2 id="减法运算"><a href="#减法运算" class="headerlink" title="减法运算"></a>减法运算</h2><hr>
 <h3 id="减法运算都可以转化为加法运算"><a href="#减法运算都可以转化为加法运算" class="headerlink" title="减法运算都可以转化为加法运算"></a>减法运算都可以转化为加法运算</h3><p>A - B = A + (-B)</p>
 <h3 id="在计算机中负数是使用补码表示的。"><a href="#在计算机中负数是使用补码表示的。" class="headerlink" title="在计算机中负数是使用补码表示的。"></a>在计算机中负数是使用补码表示的。</h3><p>转换规则: <strong>按位取反，末位加 1。</strong></p>
-<pre class="line-numbers language-shell"><code class="language-shell">x : 01001011
-~x: 10110100
-+
--------------
--1  11111111
-
-x + (~x) = -1
--x = (~x) + 1
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="code"><pre class="line-numbers language-hljs shell"><code class="language-hljs shell">x : 01001011<br>~x: 10110100<br>+<br>-------------<br>-1  11111111<br><br>x + (~x) = -1<br>-x = (~x) + 1<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 <h3 id="在加法器的基础上实现减法器"><a href="#在加法器的基础上实现减法器" class="headerlink" title="在加法器的基础上实现减法器"></a>在加法器的基础上实现减法器</h3><p>A + (-B) = A + (~B + 1)<br>在 B 端口加一个 2 选 1 的多选器。</p>
 <h2 id="加法器的改进"><a href="#加法器的改进" class="headerlink" title="加法器的改进"></a>加法器的改进</h2><hr>
 <h3 id="行波进位加法器"><a href="#行波进位加法器" class="headerlink" title="行波进位加法器"></a>行波进位加法器</h3><p>之前我们将全加器串联得到的加法器称为行波进位加法器(RCA)<br><strong>结构特点</strong><br>低位全加器 C<sub>out</sub>连接到高一位的全加器 C<sub>in</sub>。<br><strong>优点</strong><br>电路布局简单，设计方便<br><strong>缺点</strong><br>高位的运算必须等低位运算完成，延迟时间长</p>

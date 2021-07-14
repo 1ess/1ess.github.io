@@ -34,31 +34,8 @@ include 语句允许组合多个配置文件"><meta name="keywords" content=""><
 <li>g/G: gigabytes</li>
 </ol>
 <h3 id="nginx-conf-文件结构"><a href="#nginx-conf-文件结构" class="headerlink" title="nginx.conf 文件结构"></a>nginx.conf 文件结构</h3><p>nginx.conf 文件的基本结构为: </p>
-<pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token comment" spellcheck="true"># 全局块</span>
-<span class="token comment" spellcheck="true"># ...</span>
+<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-comment"># 全局块</span><br><span class="hljs-comment"># ...</span><br><br><span class="hljs-comment"># event 块</span><br><span class="hljs-section">events</span> &#123;<br><br>&#125;<br><br><span class="hljs-comment"># http 块</span><br><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-comment"># http 全局块</span><br>    <span class="hljs-comment"># ...</span><br><br>    <span class="hljs-comment"># server 块</span><br>    <span class="hljs-section">server</span> &#123;<br>        <span class="hljs-comment"># server 全局块</span><br>        <span class="hljs-comment"># ...</span><br><br>        <span class="hljs-comment"># location 块</span><br>        <span class="hljs-attribute"><code class="language-hljs nginx"><span class="hljs-comment"># 全局块</span><br><span class="hljs-comment"># ...</span><br><br><span class="hljs-comment"># event 块</span><br><span class="hljs-section">events</span> &#123;<br><br>&#125;<br><br><span class="hljs-comment"># http 块</span><br><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-comment"># http 全局块</span><br>    <span class="hljs-comment"># ...</span><br><br>    <span class="hljs-comment"># server 块</span><br>    <span class="hljs-section">server</span> &#123;<br>        <span class="hljs-comment"># server 全局块</span><br>        <span class="hljs-comment"># ...</span><br><br>        <span class="hljs-comment"># location 块</span><br>        <span class="hljs-attribute">location</span> [PATTERN] &#123;<br><br>        &#125;<br>    &#125;<br>&#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true"># event 块</span>
-<span class="token keyword">events</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
-
-<span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
-
-<span class="token comment" spellcheck="true"># http 块</span>
-<span class="token keyword">http</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
-    <span class="token comment" spellcheck="true"># http 全局块</span>
-    <span class="token comment" spellcheck="true"># ...</span>
-
-    <span class="token comment" spellcheck="true"># server 块</span>
-    <span class="token keyword">server</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
-        <span class="token comment" spellcheck="true"># server 全局块</span>
-        <span class="token comment" spellcheck="true"># ...</span>
-
-        <span class="token comment" spellcheck="true"># location 块</span>
-        <span class="token keyword">location</span> <span class="token punctuation">[</span>PATTERN<span class="token punctuation">]</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;</span>
-
-        <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
-    <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
-<span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>nginx.conf 由三部分组成: </p>
 <ul>
 <li>全局块</li>
