@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>C Sharp(九) · A Sort Of A Blog</title><meta name="description" content="前几篇，我们都在讲类型，这一篇，我们来说说事件成员。
+发布者和订阅者
+很多程序都会有一个需求: 当一个特定事件发生时，程序的其他部分可以得到这个事件发生的通知。发布者/订阅者模式可以满足这个需求:发布者定义了一系列事件，其他类可以注册某些事件，以便在事件发生时，订阅者可以收到通知响应事件。订阅者注册"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>C Sharp(九)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-11-06</span></p><p class="post-abstract"><p>前几篇，我们都在讲类型，这一篇，我们来说说事件成员。</p>
+<h2 id="发布者和订阅者"><a href="#发布者和订阅者" class="headerlink" title="发布者和订阅者"></a>发布者和订阅者</h2><hr>
+<p>很多程序都会有一个需求: 当一个特定事件发生时，程序的其他部分可以得到这个事件发生的通知。<br>发布者/订阅者模式可以满足这个需求:<br>发布者定义了一系列事件，其他类可以注册某些事件，以便在事件发生时，订阅者可以收到通知响应事件。订阅者注册事件时提供的方法称为回调函数或者事件处理程序。</p>
+<p>在 Objective-C 中，我们可以在某些类 addObserver 注册一些事件处理程序，当事件发生时，pushNotifacitation。在 JavaScript 中，我们同样可以 addEventListener 注册一些事件处理程序。</p>
+<p>发布者: 发布某个事件的类或结构<br>订阅者: 注册并在事件发生时得到通知执行事件处理程序的类或结构<br>事件处理程序: 当事件发生时执行的回调函数</p>
+<p><strong>事件包含了一个私有委托</strong>。<br>关于事件的私有委托: </p>
+<ul>
+<li>事件提供了对他的私有委托的结构化访问，我们无法直接访问私有委托</li>
+<li>对于事件，我们只可以添加，删除和调用事件处理程序</li>
+<li>事件触发时，会依次调用调用列表的方法</li>
+</ul>
+<h2 id="声明事件"><a href="#声明事件" class="headerlink" title="声明事件"></a>声明事件</h2><hr>
+<p>发布者类必须提供事件对象。声明事件需要委托类型和事件名: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyCls</span><br>&#123;<br>    <span class="hljs-comment">//声明事件: event 关键字，EventHandler 委托类型，CountedADozen 事件名</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">event</span> EventHandler CountedADozen;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注意: 事件是成员而不是类型，由于他是成员: </p>
+<ul>
+<li>我们不能在可执行代码中声明事件</li>
+<li>必须声明在类或结构中</li>
+<li>声明事件需要委托类型，我们可以声明一个委托或使用已存在的。</li>
+</ul>
+<p>BCL 声明了一个 EventHandler 的委托，专门处理系统事件。</p>
+<h2 id="订阅事件"><a href="#订阅事件" class="headerlink" title="订阅事件"></a>订阅事件</h2><hr>
+<p>订阅者向事件添加处理程序: </p>
+<ul>
+<li>使用 += 运算符为事件添加事件处理程序</li>
+<li>事件处理程序可以是: <ol>
+<li>实例方法名称</li>
+<li>静态方法名称</li>
+<li>匿名方法</li>
+<li>Lambda 表达式</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">cls.CountedADozen += IncreatmentCountedADozen;<br>cls.CountedADozen += ClassB.CountedHandlerB;<br>cls.CountedADozen += () =&gt; DozensCount ++;<br></code></pre></td></tr></table></figure>
+
+<h2 id="触发事件"><a href="#触发事件" class="headerlink" title="触发事件"></a>触发事件</h2><hr>
+<p>触发事件时要注意: </p>
+<ul>
+<li>触发前要与 null 比较，如果是 null，则不能执行</li>
+<li>触发事件的语法与调用方法一样</li>
+</ul>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/C%20Sharp(%E5%8D%81)/" title="C Sharp(十)"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: C Sharp(十)</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/C%20Sharp(%E5%85%AB)/" title="C Sharp(八)">下一篇: C Sharp(八)&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

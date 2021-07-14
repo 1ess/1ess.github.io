@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>C Sharp(五) · A Sort Of A Blog</title><meta name="description" content="这一篇，我们讲讲 C# 中的表达式和运算符。
+运算符
+运算符(操作符)是一个符号，表示返回单个结果的操作。一个操作符: 
+
+将操作数作为输入
+执行某个操作
+基于该操作返回一个值
+
+可以作为操作数的结构有: 
+
+字面量
+常量
+变量
+方法调用
+元素访问器
+其他表达式
+
+字面量C# 中字面量有: 
+
+整数"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>C Sharp(五)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-10-23</span></p><p class="post-abstract"><p>这一篇，我们讲讲 C# 中的表达式和运算符。</p>
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><hr>
+<p>运算符(操作符)是一个符号，表示返回单个结果的操作。<br>一个操作符: </p>
+<ul>
+<li>将操作数作为输入</li>
+<li>执行某个操作</li>
+<li>基于该操作返回一个值</li>
+</ul>
+<p>可以作为操作数的结构有: </p>
+<ul>
+<li>字面量</li>
+<li>常量</li>
+<li>变量</li>
+<li>方法调用</li>
+<li>元素访问器</li>
+<li>其他表达式</li>
+</ul>
+<h3 id="字面量"><a href="#字面量" class="headerlink" title="字面量"></a>字面量</h3><p>C# 中字面量有: </p>
+<ul>
+<li>整数字面量: 1024</li>
+<li>双精度浮点数字面量: 3.1415</li>
+<li>单精度浮点数字面量: 3.1415F</li>
+<li>布尔值字面量: true，false</li>
+<li>字符字面量: ‘x’</li>
+<li>字符串字面量: “Hi 1ess”</li>
+<li>空引用字面量: null</li>
+</ul>
+<p>根据不同后缀，每个常数能被编译成不同的整数类型: </p>
+<ul>
+<li>后缀 L，被编译成长整型</li>
+<li>后缀 U，被编译成无符号整型</li>
+</ul>
+<p>整型字面量还可以写成十六进制形式，以 0x 或 0X 开头。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">int</span> KernelPanic = <span class="hljs-number">0x12131992</span>;<br></code></pre></td></tr></table></figure>
+
+<h3 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h3><p>与其它语言一样，C# 有加，减，乘，除，取余5种运算符。</p>
+<h3 id="关系运算符"><a href="#关系运算符" class="headerlink" title="关系运算符"></a>关系运算符</h3><p>与其它语言一样，C# 有大于、大于等于、小于、小于等于、等于、不等于 6 种关系运算符。<br>需要注意的是: 与 Objective-C 和 JavaScript 中不同，C# 的数字不具有布尔含义。<br>对于比较相等时，除了 string 和 delegate 类型的比较是深比较，其他引用类型的比较都是浅比较，只要指向堆中的对象是同一个对象就相等。</p>
+<h3 id="自增自减运算符"><a href="#自增自减运算符" class="headerlink" title="自增自减运算符"></a>自增自减运算符</h3><p>与其它语言一样，也分为前自增和后自增，前自增先增加 1，在返回新值，后自增先返回原值，再增加 1。</p>
+<h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><p>分为逻辑与，逻辑或和逻辑非。与其它语言一样，逻辑运算符也有<strong>短路特性</strong>。</p>
+<h3 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h3><p>有位与、位或、位异或、位非、左移和右移操作符。</p>
+<h3 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h3><p>分为简单赋值和复合赋值运算符。</p>
+<h3 id="条件运算符-三目运算符"><a href="#条件运算符-三目运算符" class="headerlink" title="条件运算符(三目运算符)"></a>条件运算符(三目运算符)</h3><p>与其它语言一样，三目运算符是基于条件返回两个值中的一个。</p>
+<h3 id="用户定义类型转换"><a href="#用户定义类型转换" class="headerlink" title="用户定义类型转换"></a>用户定义类型转换</h3><p>类型转换我们之后会详细说，这里我们说一下他作为运算符有哪些特点。<br>我们可以为自己的类或者结构定义隐式转换和显式转换: </p>
+<ul>
+<li>对于隐式转换，编译器会自动执行转换</li>
+<li>对于显式转换，编译器只有在使用显式转换运算符时才会转换</li>
+</ul>
+<p>声明隐式转换的语法: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">//一定要有 public static</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">implicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">TargetType</span>(<span class="hljs-params">SourceType Identifier</span>)</span> &#123;<br>    <span class="hljs-keyword">return</span> ...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>显式转换的语法一样，只是把 implicit 换成 explicit: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">LimitInt</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> TheValue &#123;<span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>;&#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">implicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">int</span>(<span class="hljs-params">Limit li</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> li.TheValue;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">implicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">LimitInt</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> x</span>)</span><br>    &#123;<br>        LimitInt li = <span class="hljs-keyword">new</span> LimitInt();<br>        li.TheValue = x;<br>        <span class="hljs-keyword">return</span> li;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        LimitInt li = <span class="hljs-number">500</span>;<br>        Int a = li;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果我们声明的是显式转换运算符，那么我们就不得不使用强制类型转换: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">LimitInt</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> TheValue &#123;<span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>;&#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">explicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">int</span>(<span class="hljs-params">Limit li</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> li.TheValue;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">explicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">LimitInt</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> x</span>)</span><br>    &#123;<br>        LimitInt li = <span class="hljs-keyword">new</span> LimitInt();<br>        li.TheValue = x;<br>        <span class="hljs-keyword">return</span> li;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        LimitInt li = (LimitInt)<span class="hljs-number">500</span>;<br>        Int a = (Int)li;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="typeof-运算符"><a href="#typeof-运算符" class="headerlink" title="typeof 运算符"></a>typeof 运算符</h3><p>typeof 运算符返回作为其参数的任何类型的 System.Type 对象。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">Type t = <span class="hljs-keyword">typeof</span>(SomeClass);<br></code></pre></td></tr></table></figure>
+
+<p>GetType 方法也会调用 typeof 运算符。</p>
+<h2 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h2><hr>
+<p>我们只介绍一下 C# 中比较特殊的语句。<br>C# 中 switch 语句比较特殊的地方在于: 每个 case 语句必须有控制跳转语句如 break，return 等，除非两个 case 语句中没有任何可执行语句: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">switch</span>(x)<br>&#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>    <span class="hljs-comment">//...</span><br>    <span class="hljs-keyword">break</span>;  <span class="hljs-comment">//正确</span><br>    <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>    <span class="hljs-comment">//...</span><br>    <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:<br>    <span class="hljs-comment">//...</span><br>    <span class="hljs-keyword">break</span>;  <span class="hljs-comment">//错误</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>我们可以使用 foreach 遍历数组中的元素，就像 Objective-C 中的 forin 一样。</p>
+<p>对于某些非托管对象，有数量限制或很耗费系统资源，在使用完成之后，应该尽快释放他们，我们就应使用 using 语句简化该过程确保资源被适当处置(dispose)。<br><strong>资源是指实现了 System.IDisposable 接口的类或结构。</strong></p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">//先分配资源，在使用资源</span><br><span class="hljs-keyword">using</span> (ResourceType Identifier = Expression) Statement<br></code></pre></td></tr></table></figure></p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/C%20Sharp(%E5%85%AD)/" title="C Sharp(六)"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: C Sharp(六)</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/C%20Sharp(%E5%9B%9B)/" title="C Sharp(四)">下一篇: C Sharp(四)&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

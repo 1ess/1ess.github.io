@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>C Sharp(六) · A Sort Of A Blog</title><meta name="description" content="这一篇，讲讲 C# 中的结构体类型和枚举类型。
+结构
+结构与类类似，都是用户定义类型，都有数据成员和函数成员，但有两个最大的区别: 
+
+类是引用类型而结构是值类型
+结构是隐式密封的
+
+strcut StructName&amp;#123;    MemberDeclarations;&amp;#125;
+
+结构是值"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>C Sharp(六)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-10-25</span></p><p class="post-abstract"><p>这一篇，讲讲 C# 中的结构体类型和枚举类型。</p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><hr>
+<p>结构与类类似，都是用户定义类型，都有数据成员和函数成员，但有两个最大的区别: </p>
+<ul>
+<li>类是引用类型而结构是值类型</li>
+<li>结构是隐式密封的</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">strcut StructName<br>&#123;<br>    MemberDeclarations;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="结构是值类型"><a href="#结构是值类型" class="headerlink" title="结构是值类型"></a>结构是值类型</h3><p>因此: </p>
+<ul>
+<li>结构类型的变量不能为 null</li>
+<li>两个结构不能引用同一对象</li>
+</ul>
+<p>把一个结构赋值给另一个结构，就是将这个结构的值复制给另一个结构。需要注意与类的赋值的不同。</p>
+<p>结构允许有实例构造函数和静态构造函数，但不允许有析构函数。</p>
+<p>与类一样，编译器隐式的为结构提供一个无参构造，这个构造将每个成员设置为该类型的默认值。与类不同的是，这个无参构造函数不能被重定义，我们只能创建另外的有参构造，而不能重写无参构造，并且我们提供了有参构造，编译器提供给我们的无参构造依然存在。</p>
+<p>我们也用 new 操作符调用构造函数，即使不从堆中分配内存。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">struct</span> Point<br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> X;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Y;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        Point p = <span class="hljs-keyword">new</span> Point();<br>        <span class="hljs-comment">//...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们也可以不使用构造来创建结构的实例，但有一些限制: </p>
+<ul>
+<li>显式设置数据成员之后，才可以使用这些成员的值</li>
+<li>对所有的数据成员赋值之后，才能调用任何函数成员</li>
+</ul>
+<p>结构的字段是不允许有初始化语句的。</p>
+<p>之前说了，结构是隐式密封的，因此 protected，internal，abstruct，virtual 修饰符不可使用。</p>
+<p>与 Swift 类似，C# 中的简单预定义类型在实现方式上是使用结构类型。所以可以调用一些方法，如: 所有类型都有的 GetType 方法。<br>另外说一句: JavaScript 中的简单类型如 string 也可以调用方法，他们是在使用值时被临时包装成一个对象。</p>
+<h2 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h2><hr>
+<p>枚举只有一个类型的成员: 命名的整数值常量。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">enum</span> TrafficLight<br>&#123;<br>    Yellow,<br>    Green,<br>    Red<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>枚举的底层都是一个整数类型，默认是 int。<br>默认情况编译器把第一个值赋值为 0，之后的成员加 1。<br>我们把枚举值赋值成枚举对象: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>&#123;<br>    TrafficLight yellow = TrafficLight.Yellow;<br>    Console.WriteLine(yellow);  <span class="hljs-comment">//Yellow 打印成员名</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们也可以显式的设置每个枚举成员的值和类型: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">enum</span> TrafficLight: <span class="hljs-built_in">uint</span><br>&#123;<br>    Yellow = <span class="hljs-number">15</span>,<br>    Green =  <span class="hljs-number">20</span>,<br>    Red = <span class="hljs-number">20</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="位标记"><a href="#位标记" class="headerlink" title="位标记"></a>位标记</h3><p>我们使用 Flags 特性实现位标记: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">Flags</span>]<br><span class="hljs-built_in">enum</span> Setting : <span class="hljs-built_in">uint</span><br>&#123;<br>    A = <span class="hljs-number">0x0001</span>,<br>    B = <span class="hljs-number">0x0010</span>,<br>    C = <span class="hljs-number">0x0100</span>,<br>    D = <span class="hljs-number">0x1000</span><br>&#125;<br><br>Setting opts = Setting.A | Setting.B | Setting.C;<br>opts.HasFlags(Setting.D);  <span class="hljs-comment">//false</span><br></code></pre></td></tr></table></figure>
+
+<p>C# 中的枚举与 Objective-C 的实现 NS_ENUM 和 NS_OPTIONS 类似。</p>
+<p>注意: 枚举是一个独特的类型，比较不同类型的枚举对象会导致编译错误，即使他们的底层都是整数。</p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/C%20Sharp(%E4%B8%83)/" title="C Sharp(七)"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: C Sharp(七)</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/C%20Sharp(%E4%BA%94)/" title="C Sharp(五)">下一篇: C Sharp(五)&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
