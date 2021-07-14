@@ -1,5 +1,20 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%83)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇是 MySQL 的最后一篇，我们最后讲讲变量、函数、存储过程和触发器。
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/MySQL(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 MySQL 对于数据的增删改查操作以及运算符。
+新增数据
+多数据插入基本语法: insert into {表名}({字段列表}) values({值列表1}), ({值列表2}), …
+ 
+主键冲突在有的表中，使用的是业务主键，但是往往在进行数据插入时，又不确定数据表中是否存在对应的主键。
+ 
+解...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 MySQL 中的联合查询、连接查询以及子查询。
+联合查询
+基本概念: 可合并多个相似的选择查询结果的结果集，等同于将一个表追加到另一个表，从而实现将两个表的查询结果组合到一起，使用 Union 或 Union all。注意: 这个合并是纵向合并，字段数不变，多个查询的结果合并。
+应用场景
+同一张表...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 MySQL 中的外键、视图以及事务安全等问题。
+外键
+如果公共关键字在一个关系中是主关键字，那么这个公共关键字被称为另一个关系的外键。以另一个关系的外键作为主关键字的表称为主表，具有此外键的表称为主表的从表，外键又称为外关键字。
+外键操作增加外键MySQL 中提供两种方式增加外键: 
+
+在创建表时...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%83)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇是 MySQL 的最后一篇，我们最后讲讲变量、函数、存储过程和触发器。
 变量
 MySQL 需要很多变量来保存数据。
 系统变量系统内部定义的变量，系统变量针对所有用户有效。
@@ -18,23 +33,4 @@ BOM 的核心对象是 window...</p></div><div class="post-container"><p class="
 选择符 API
 Selectors API 是由 W3C 发起制定的一个标准...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%8D%81%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 JavaScript 中非常重要的概念 —— 事件。JavaScript 与 HTML 之间的交互是通过事件实现的。
 事件流
-最早的两大浏览器厂商(IE 及 Netscape)在如何在看待浏览器事件方面还是一致的。比如说，如果你单击了某个按钮，他们都认为单击事件不仅仅发生在按钮上。换句话说，在单...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%8D%81%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们说说表单。JavaScript 最初的一个应用，就是分担服务器处理表单的责任。
-表单的基础知识
-在 HTML 中，表单是由 form 元素来表示的，而在 JavaScript 中，表单对应的则是 HTMLFormElement 类型。独有的属性和方法包括: 
-
-acceptCharset: 服务器能够...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%8D%81%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 ES6 的新特性。
-变量
-var 的缺点
-可以重复声明
-
- 
-
-无法限制修改
-没有块级作用域
-
- 
-let 和 constlet 和 const 解决了之前 var 的问题。首先，let 和 const 声明的变量不能重复声明。其次，使用 let 声明的变量是可以修改的，而使用 const 声明...</p></div><div class="post-container"><p class="post-title"><a href="/%E9%9A%8F%E4%BE%BF%E8%81%8A%E8%81%8A/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">今天翻看照片，突然发现自己已经毕业 3 年多了，真让人感叹时光飞逝。回想在学校的日子，也真是悠闲自得，没有忧愁地只想快点长大，进入社会来展示自己的才华，想起跟伙伴吹过的牛逼，也就像发生在昨天。与那时的自己相比，经历了社会的染缸，变化的有很多，但是希望依靠自己的双手创造更好的生活的初心始终没变。
-
-
-
-说一下近期计...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 3 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/2/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/4/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+最早的两大浏览器厂商(IE 及 Netscape)在如何在看待浏览器事件方面还是一致的。比如说，如果你单击了某个按钮，他们都认为单击事件不仅仅发生在按钮上。换句话说，在单...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 3 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/2/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/4/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

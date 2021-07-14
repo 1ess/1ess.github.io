@@ -1,36 +1,29 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/Nginx(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来介绍一下 Nginx 中最重要的一个配置文件 —— nginx.conf 的基本配置。
-nginx.conf
-Nginx 配置语法
-配置文件由指令和指令块构成
-每条指令以 ; 结尾，指令与参数之间以空格符分割
-指令块以 {} 将多条指令组织在一起
-include 语句允许组合多个配置文件，便于维护
-使...</p></div><div class="post-container"><p class="post-title"><a href="/Nginx(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来介绍一下 nginx.conf 的全局块以及 events 块中的一些常见基本配置。
-配置运行 Nginx 的用户和组用于配置运行 Nginx 服务器的用户和组的指令为: 
- 
-只有被设置的用户或用户组才有权限启动 Nginx 进程。如果想所有用户都可以运行 Nginx 进程，有两种办法: 
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/Python(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">上篇我们说了 Python 中的一些基本数据类型，本篇我们来说说 Python 内置数据结构。
+Python 中有四种内置的数据结构 —— 列表(List)、元组(Tuple)、字典(Dictionary)和集合(Set)。
+列表(List)
+列表 是一种用于保存一系列有序项目的集合。使用方括号将数据元素包裹表示...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">
+The Zen of Python, by Tim Peters
 
-将本行...</p></div><div class="post-container"><p class="post-title"><a href="/Nginx(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来介绍一下 nginx.conf 的 http 块、server 块以及 location 块中的一些常见基本配置。
-定义 MIME-TypeMIME-Type 是网络资源的媒体类型，Nginx 服务器作为 Web 服务器，必须能够识别请求的资源类型。在默认的 Nginx 配置文件中，我们可以看到 ht...</p></div><div class="post-container"><p class="post-title"><a href="/Nginx(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来介绍一下 nginx.conf 中的压缩配置 —— gzip。
-在 Nginx 配置文件中可以配置 gzip 的使用，相关指令可以在配置文件的 http 块、server 块或者 location 块中设置。
-gzip 基本指令
-gzip该指令用于开启或关闭 gzip 功能，语法为: 
- 
-默认情况下...</p></div><div class="post-container"><p class="post-title"><a href="/Nginx(%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来介绍一下 nginx.conf 中的 rewrite 配置。
-后端服务器组的配置
-Nginx 服务器的反向代理、负载均衡等重要功能都会涉及后端服务器组这一概念，服务器组的设置包括 4 个常用指令，我们分别介绍一下。
-upstream 指令upstream 指令是设置后端服务器组的重要指令，其他的指令都...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">之前的几篇，我们介绍了 HTML 和 CSS 基础知识，对于网页结构和样式，都有了一定的了解。从这篇之后，我们将介绍网页中另一个重要知识 - JavaScript。我们将参考《JavaScript 高级程序设计》，对每章的重要知识进行详细的讲解。
-JavaScript 简介
-JavaScript 堪称世界上被人误...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们来学习一下 JavaScript 基本概念中的基本语法以及数据类型。
-语法
-区分大小写ECMAScript 中的一切(标识符，操作符)都是区分大小写的，即大小写敏感的语言。如: 变量 test 和变量 Test 分别表示两个变量。
-标识符所谓标识符，就是指变量，函数，属性名或者函数参数名。标识符格式规...</p></div><div class="post-container"><p class="post-title"><a href="/IndexedDB%20%E5%9F%BA%E7%A1%80/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，由于在自己项目中采用的前端存储 —— IndexedDB，所以这一篇就介绍一些关于 IndexedDB 的知识。
-概述
-在前端开发当中，有时会因为某些需求，要将一些数据存储在前端本地。我们回顾一下有几种手段可依然我们在前端存储数据。
-Cookies在前端的上古时代里，前端想要存储数据，只有一种方式，那就是...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们看看 JavaScript 中的变量、作用域和内存问题。
-基本类型和引用类型
-ECMAScript 变量可能包含两种不同数据类型的值: 基本类型值和引用类型值。之前我们说过，ECMAScript 有5种基本数据类型: Undefined、Null、Boolean、Number 和 String，以及一...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们来学习一下 JavaScript 基本概念中的操作符、语句以及函数。
-操作符
-ECMA 描述了一组用于操作数据值的操作符。包括: 算数操作符、位操作符、关系操作符以及相等操作符等。
-ECMAScript 操作符与众不同之处在于，他们能操作很多值，如字符串、数字值、布尔值甚至对象。在应用于对象时，相应操...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 9 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/8/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/10/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+
+Beautiful is better than ugly.Explicit is better than implicit.Simple is better than complex.Complex is better than compl...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 Python 中的函数以及模块的基本概念。
+函数
+函数(Functions)是指可重复使用的程序片段。它们允许你为某个代码块赋予名字，允许你通过这一特殊的名字在你的程序任何地方来运行代码块，并可重复任何次数。这就是所谓的调用(Calling)函数。我们已经使用过了许多内置的函数，例如 len 和 ...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 Python 中的面向对象编程的基本概念。
+概念
+面向对象最重要的概念就是类(Class)和实例(Instance)。一个类(Class)能够创建一种新的类型(Type)，其中对象(Object)就是类的实例(Instance)。可以这样来类比: 你可以拥有类型 int 的变量，也就是说存储整数的...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 Python 中的面向对象高级编程的基本概念。
+数据封装、继承和多态只是面向对象程序设计中最基础的 3 个概念。在 Python 中，面向对象还有很多高级特性，允许我们写出非常强大的功能。本篇，我们会说说多重继承、定制类等概念。
+__slots__
+正常情况下，当我们定义了一个 class，创建了...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E4%B8%83)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 Python 中的函数式编程的基本概念。
+高阶函数(Higher-order function)
+map()Python 内建了 map() 函数。map() 函数接收两个参数，一个是函数，一个是 Iterable，map 将传入的函数依次作用到序列的每个元素，并把结果作为新的 Iterator ...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%85%AB)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 Python 中的错误处理机制(Error Handler)。
+错误处理
+与其他语言一样，Python 也提供了 try…except…finally… 的错误处理机制。
+try 
+当我们认为某些代码可能会出错时，就可以用 try 来运行这段代码，如果执行出错，则后续代码不会继续执行，而是直接跳转...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E4%B9%9D)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 Python 中的 IO 编程 —— 文件读写、StringIO 和 BytesIO 以及序列化。IO 在计算机中指 Input/Output，也就是输入和输出。通常指的是磁盘、网络等。IO 编程中，Stream(流)是一个很重要的概念，可以把流想象成一个水管，数据就是水管里的水，但是只能单向流动...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">Python 既支持多进程，又支持多线程，本篇，我们看看如何编写这两种多任务程序。
+多进程
+fork()Unix/Linux 操作系统提供了一个 fork() 系统调用，它非常特殊。普通的函数调用，调用一次，返回一次，但是 fork() 调用一次，返回两次，因为操作系统自动把当前进程(称为父进程)复制了一份(称为...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">字符串是编程时涉及到的最多的一种数据结构，对字符串进行操作的需求几乎无处不在。正则表达式是一种用来匹配字符串的强有力的武器。
+基本
+在正则表达式中，如果直接给出字符，就是精确匹配。用 \d 可以匹配一个数字，\w 可以匹配一个字母或数字。例如: 
+
+‘00\d’ 可以匹配 ‘001’，但是不能匹配 ‘00A’
+‘...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 9 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/8/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/10/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

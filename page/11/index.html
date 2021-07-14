@@ -1,14 +1,32 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/Python(%E4%B9%9D)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 Python 中的 IO 编程 —— 文件读写、StringIO 和 BytesIO 以及序列化。IO 在计算机中指 Input/Output，也就是输入和输出。通常指的是磁盘、网络等。IO 编程中，Stream(流)是一个很重要的概念，可以把流想象成一个水管，数据就是水管里的水，但是只能单向流动...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">Python 既支持多进程，又支持多线程，本篇，我们看看如何编写这两种多任务程序。
-多进程
-fork()Unix/Linux 操作系统提供了一个 fork() 系统调用，它非常特殊。普通的函数调用，调用一次，返回一次，但是 fork() 调用一次，返回两次，因为操作系统自动把当前进程(称为父进程)复制了一份(称为...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">字符串是编程时涉及到的最多的一种数据结构，对字符串进行操作的需求几乎无处不在。正则表达式是一种用来匹配字符串的强有力的武器。
-基本
-在正则表达式中，如果直接给出字符，就是精确匹配。用 \d 可以匹配一个数字，\w 可以匹配一个字母或数字。例如: 
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/Linux(%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们在来说一下在 Linux 下，有关软件管理的相关知识。
+软件包管理器包管理器是方便软件安装，卸载，解决软件依赖关系的工具。
 
-‘00\d’ 可以匹配 ‘001’，但是不能匹配 ‘00A’
-‘...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇开始，将会学习有关 Python 爬虫的相关知识，通过几篇的介绍，完整学习 Python 爬虫的方方面面。
-在学习 Python 爬虫之前，我们首先需要下载安装 MongoDB，Redis 以及 MySQL。在学习爬虫的过程中都会使用到，之后的学习中默认已经完成相关软件的安装。
-MongoDB Redis M...</p></div><div class="post-container"><p class="post-title"><a href="/Docker%20%E5%9F%BA%E7%A1%80/">Docker 基础</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-07-12</span></p><p class="post-abstract">之前讲了很多前端基础知识，这一篇换个口味，讲讲 Docker。然后再继续讲 JavaScript。
+RHEL 和 CentOS 中使用 yum 包管理器，软件包格式为 rpm
+Debian 和 Ubuntu 中使用 apt 包管理器，软件包格式为 deb
+
+rpm 包rpm 包...</p></div><div class="post-container"><p class="post-title"><a href="/Linux(%E4%B8%83)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">
+破帽遮颜过闹市，漏船载酒泛中流，躲进小楼成一统，管他冬夏与春秋。 
+
+本篇，我们在来说一下在 Linux 下，有关进程和内存与磁盘的相关知识。
+进程
+进程的查看常用查看命令: 
+
+ps
+pstree
+top
+
+进程的控制命令跳转优先级
+nice: 范围 -20 到 19，值越小优先级越高
+renice
+
+作业控...</p></div><div class="post-container"><p class="post-title"><a href="/Linux(%E5%85%AB)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们在来说一下在 Linux 下，有关正则和文本处理的相关知识。
+正则表达式
+之前我们讲过正则，我们来回顾下。
+基本语法一个正则表达式通常被称为一个模式(pattern)，为用来描述或者匹配一系列符合某个句法规则的字符串。
+选择| 竖直分隔符表示选择，例如 boy|girl 可以匹配 boy 或者 girl...</p></div><div class="post-container"><p class="post-title"><a href="/Nginx(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">Nginx 现在已经是在 Web 开发中必不可少的技能了，我们通过几篇文章，来总结一下有关 Nginx 的知识。
+简介
+Nginx 是异步框架的 Web 服务器，内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。也可以用作反向代理、负载平衡器和 HTTP 缓存。Nginx 使用异步事件驱动的方法来处理请...</p></div><div class="post-container"><p class="post-title"><a href="/Docker%20%E5%9F%BA%E7%A1%80/">Docker 基础</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-07-12</span></p><p class="post-abstract">之前讲了很多前端基础知识，这一篇换个口味，讲讲 Docker。然后再继续讲 JavaScript。
 
 Docker 是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在 Linux 操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。Docker 利用 Linux...</p></div><div class="post-container"><p class="post-title"><a href="/CSS(%E4%B9%9D)/">CSS(九)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-07-09</span></p><p class="post-abstract">这一篇，我们主要讲解变换(transform)和过渡(transition)的使用。
 transform
