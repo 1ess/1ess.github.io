@@ -3,8 +3,7 @@
 本篇，我们在来说一下在 Linux 下，用户和组的相关知识。
 Linux 下的用户管理
 用户分类超级用户超级用户也叫管理员(root)。该用户具有所有权限，UID = 0。
-系统用户系统用户由程序创建，用于程序运行时的身份。默认不允许登录系统，UID 在 1 "><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><blockquote>
+系统用户系统用户由程序创建，用于程序运行时的身份。默认不允许登录系统，UID 在 1 "><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><blockquote>
 <p>旧游无处不堪寻，无寻处，唯有少年心。</p>
 </blockquote>
 <p>本篇，我们在来说一下在 Linux 下，用户和组的相关知识。</p>
@@ -13,7 +12,7 @@ Linux 下的用户管理
 <h4 id="系统用户"><a href="#系统用户" class="headerlink" title="系统用户"></a>系统用户</h4><p>系统用户由程序创建，用于程序运行时的身份。<br>默认不允许登录系统，UID 在 1 到 499 之间(RHEL8 中，UID 范围是 1 到 999)。如 web 服务器的管理用户 apache。</p>
 <h4 id="普通用户"><a href="#普通用户" class="headerlink" title="普通用户"></a>普通用户</h4><p>普通用户一般由管理员创建，用于对系统进行有限的管理维护操作。<br>默认允许登录系统。UID 在 500 到 60000 之间(RHEL8 中，UID 范围是 1000 到 60000)。</p>
 <h3 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h3><h4 id="创建用户-useradd"><a href="#创建用户-useradd" class="headerlink" title="创建用户(useradd)"></a>创建用户(useradd)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">useradd [选项] [用户名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">useradd [选项] [用户名]<br></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>
@@ -23,16 +22,16 @@ Linux 下的用户管理
 <li>G: 指定用户的附加组</li>
 </ul>
 <p>注意: 我们使用 id [用户名] 查看用户信息，使用 su - [用户名] 切换用户。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh">useradd admin<br><br>id admin<br><span class="hljs-comment"># uid=1001(admin) gid=1001(admin) 组=1001(admin)</span><br><br>su - admin<br><span class="hljs-comment"><code class="language-hljs sh">useradd admin<br><br>id admin<br><span class="hljs-comment"># uid=1001(admin) gid=1001(admin) 组=1001(admin)</span><br><br>su - admin<br><span class="hljs-comment"># [admin@192 ~] #</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">useradd admin<br><br>id admin<br><span class="hljs-comment"># uid=1001(admin) gid=1001(admin) 组=1001(admin)</span><br><br>su - admin<br><span class="hljs-comment"># [admin@192 ~] #</span><br></code></pre></td></tr></table></figure>
 
 <h4 id="密码设置-passwd"><a href="#密码设置-passwd" class="headerlink" title="密码设置(passwd)"></a>密码设置(passwd)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-comment"># 给指定用户修改密码</span><br>passwd [用户名]<br><br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-comment"># 给指定用户修改密码</span><br>passwd [用户名]<br><br><span class="hljs-comment"># 给当前用户修改密码</span><br>passwd &#123;直接回车&#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 给指定用户修改密码</span><br>passwd [用户名]<br><br><span class="hljs-comment"># 给当前用户修改密码</span><br>passwd &#123;直接回车&#125;<br></code></pre></td></tr></table></figure>
 
 <p>注意: 管理员可以给任意用户修改密码，普通用户只可以给自己修改密码。</p>
 <p>用户基本信息保存在 /etc/passwd 文件中，保存格式为: account:password:UID:GID:GECOS:directory:shell<br>例如:<br>root:x:0:0:root:/root:/bin/bash</p>
 <p>用户密码信息保存在 /etc/shadow 文件(影子化了的密码文件)中。</p>
 <h4 id="修改信息-usermod"><a href="#修改信息-usermod" class="headerlink" title="修改信息(usermod)"></a>修改信息(usermod)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">usermod [选项] [用户名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">usermod [选项] [用户名]<br></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>
@@ -43,7 +42,7 @@ Linux 下的用户管理
 <li>s: 指定用户默认 shell</li>
 </ul>
 <h4 id="删除用户-userdel"><a href="#删除用户-userdel" class="headerlink" title="删除用户(userdel)"></a>删除用户(userdel)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">userdel [选项] [用户名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">userdel [选项] [用户名]<br></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>
@@ -53,18 +52,18 @@ Linux 下的用户管理
 <h2 id="Linux-下的组管理"><a href="#Linux-下的组管理" class="headerlink" title="Linux 下的组管理"></a>Linux 下的组管理</h2><hr>
 <h3 id="用户和组的关系"><a href="#用户和组的关系" class="headerlink" title="用户和组的关系"></a>用户和组的关系</h3><p>组可以用来方便管理用户，例如分配权限等操作，组信息保存在 /etc/group 下。</p>
 <h3 id="组管理"><a href="#组管理" class="headerlink" title="组管理"></a>组管理</h3><h4 id="创建组-groupadd"><a href="#创建组-groupadd" class="headerlink" title="创建组(groupadd)"></a>创建组(groupadd)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">groupadd [选项] [组名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">groupadd [选项] [组名]<br></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>
 <li>g: 指定组的 gid</li>
 </ul>
 <h4 id="删除组-groupdel"><a href="#删除组-groupdel" class="headerlink" title="删除组(groupdel)"></a>删除组(groupdel)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">groupdel [选项] [组名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">groupdel [选项] [组名]<br></code></pre></td></tr></table></figure>
 
 <p>注意: 如果某个组是用户的主组，则不能删除该组。</p>
 <h4 id="组成员管理-gpasswd"><a href="#组成员管理-gpasswd" class="headerlink" title="组成员管理(gpasswd)"></a>组成员管理(gpasswd)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">gpasswd [选项] [组名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">gpasswd [选项] [组名]<br></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>

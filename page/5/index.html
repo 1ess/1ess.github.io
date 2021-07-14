@@ -1,26 +1,94 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/%E4%B9%9D%E4%B9%9D%E5%BD%92%E4%B8%80/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">
-Two things are infinite: the universe and human stupidity; and I’m not sure about the universe.
-
-最近离职了，说不上为什么，就是有一种感觉不能再这样下去了，我不想单纯的经历”吃饭-上班-吃饭-睡觉”这样浑浑噩噩的日子...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">之前的几篇，我们介绍了 HTML 和 CSS 基础知识，对于网页结构和样式，都有了一定的了解。从这篇之后，我们将介绍网页中另一个重要知识 - JavaScript。我们将参考《JavaScript 高级程序设计》，对每章的重要知识进行详细的讲解。
-JavaScript 简介
-JavaScript 堪称世界上被人误...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们来学习一下 JavaScript 基本概念中的基本语法以及数据类型。
-语法
-区分大小写ECMAScript 中的一切(标识符，操作符)都是区分大小写的，即大小写敏感的语言。如: 变量 test 和变量 Test 分别表示两个变量。
-标识符所谓标识符，就是指变量，函数，属性名或者函数参数名。标识符格式规...</p></div><div class="post-container"><p class="post-title"><a href="/IndexedDB%20%E5%9F%BA%E7%A1%80/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，由于在自己项目中采用的前端存储 —— IndexedDB，所以这一篇就介绍一些关于 IndexedDB 的知识。
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/C#(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们看看 C# 中的类有哪些特殊的概念。
 概述
-在前端开发当中，有时会因为某些需求，要将一些数据存储在前端本地。我们回顾一下有几种手段可依然我们在前端存储数据。
-Cookies在前端的上古时代里，前端想要存储数据，只有一种方式，那就是...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们看看 JavaScript 中的变量、作用域和内存问题。
-基本类型和引用类型
-ECMAScript 变量可能包含两种不同数据类型的值: 基本类型值和引用类型值。之前我们说过，ECMAScript 有5种基本数据类型: Undefined、Null、Boolean、Number 和 String，以及一...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%85%AB)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们介绍一下函数表达式。之前说过，定义函数的方式有两种: 一种是函数声明，另一种就是函数表达式。
-函数表达式有几种不同的语法形式。下面是最常见的一种形式: 
+上一篇，我们说过用户定义类型有 6 种，其中最重要的就是类类型，类是面向对象的基础。程序的数据和功能被组织为逻辑上相关的数据项和函数的封装集合就称为类(class)。类是一种能存储数据并执行代码的数据结构，包含数据成员和函数成员。数据成员包括: 
+
+字段
+常...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们深入理解一下 C# 中的类。
+类的成员
+上篇我们说过了 2 个类成员: 字段和方法。这一篇我们介绍除了事件和运算符之外的成员。
+成员修饰符的顺序成员声明语句有下列部分组成: 核心声明，可选的修饰符和可选的特性(attribute)。[特性] [修饰符] 核心声明;我们之前说过的 public 和 pr...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 C# 中关于继承的相关知识。
+继承
+通过继承我们可以定义新的派生类(derived class)，来对基类(base class)进行扩展。派生类的成员包括: 
+
+本身声明的成员
+基类的成员
+
+注意: 派生类不能删除它所继承的任何成员。
+要声明一个派生类，需要在类名后跟一个冒号，然后跟基类名。与...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 C# 中的表达式和运算符。
+运算符
+运算符(操作符)是一个符号，表示返回单个结果的操作。一个操作符: 
+
+将操作数作为输入
+执行某个操作
+基于该操作返回一个值
+
+可以作为操作数的结构有: 
+
+字面量
+常量
+变量
+方法调用
+元素访问器
+其他表达式
+
+字面量C# 中字面量有: 
+
+整数字面量: 10...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，讲讲 C# 中的结构体类型和枚举类型。
+结构
+结构与类类似，都是用户定义类型，都有数据成员和函数成员，但有两个最大的区别: 
+
+类是引用类型而结构是值类型
+结构是隐式密封的
+
  
 
-这种形式看起来好像是常规的变量赋值语句，即创建一个函数并将它赋值给变量 functionName。这种情况下创建的函数叫做匿名函数(anony...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%B9%9D)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 BOM。ECMAScript 是 JavaScript 的核心，但如果要在 Web 中使用 JavaScript，那么 BOM(浏览器对象模型)则无疑才是真正的核心。BOM 提供了很多对象，用于访问浏览器的功能，这些功能与任何网页内容无关。
-window 对象
-BOM 的核心对象是 window...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%8D%81)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">DOM(文档对象模型)是针对 HTML 和 XML 文档的一个 API。DOM 描绘了一个层次化的节点树，允许开发人员添加、移除和修改页面的某一部分。
-1998 年 10 月 DOM１级规范成为 W3C 的推荐标准，为基本的文档结构及查询提供了接口。本篇将讨论 DOM1 的特性和应用，以及 JavaScript ...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%8D%81%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 DOM 扩展。对 DOM 的两个主要的扩展是 Selectors API(选择符 API)和 HTML5。此外，还有一个不那么引人瞩目的 Element Traversal(元素遍历)规范，为 DOM 添加了一些属性。
-选择符 API
-Selectors API 是由 W3C 发起制定的一个标准...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E5%8D%81%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 JavaScript 中非常重要的概念 —— 事件。JavaScript 与 HTML 之间的交互是通过事件实现的。
-事件流
-最早的两大浏览器厂商(IE 及 Netscape)在如何在看待浏览器事件方面还是一致的。比如说，如果你单击了某个按钮，他们都认为单击事件不仅仅发生在按钮上。换句话说，在单...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 5 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/4/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/6/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+结构是值类型因此: 
+
+结构类型的变量不能为 null
+两个结构不能引用同一对象
+
+把一个结构赋值给另一个结构，就是将这个结...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E4%B8%83)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 C# 中的数组对象及其协变概念。
+概述
+数组是由变量名表示的一组同类型的数据元素，每个元素可以通过索引来访问。
+C# 数组的特点: 
+
+C# 不支持动态数组，也就是数组一旦创建，就不可以更改大小
+索引从 0 开始
+
+数组类型C# 支持一维数组和多维数组，多维数组又分为矩形数组和交错数组。
+数组是...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%85%AB)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 C# 中特殊的委托(delegate)。
+概述
+委托和类一样，都是用户定义类型。类表示数据和方法的集和，而委托则是持有一个或多个方法，以及一系列预定义操作。
+我们通过以下步骤来使用委托: 
+
+声明一个委托，委托的声明看上去和方法声明类似，只是没有实现块
+使用委托类型声明一个委托变量
+创建委托类型...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E4%B9%9D)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">前几篇，我们都在讲类型，这一篇，我们来说说事件成员。
+发布者和订阅者
+很多程序都会有一个需求: 当一个特定事件发生时，程序的其他部分可以得到这个事件发生的通知。发布者/订阅者模式可以满足这个需求:发布者定义了一系列事件，其他类可以注册某些事件，以便在事件发生时，订阅者可以收到通知响应事件。订阅者注册事件时提供的方...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%8D%81)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们再回来说说最后一种类型: 接口(interface)。
+什么是接口接口是指定一组函数成员而不实现他们的引用类型。
+ 
+
+我们可以用类或结构来实现接口。
+ 
+
+接口声明
+接口声明不能包含数据成员和静态成员
+
+接口只能包含如下非静态成员: 
+
+方法
+属性
+事件
+索引器
+
+
+接口应该以大写字母 I 开始
+
+...</p></div><div class="post-container"><p class="post-title"><a href="/C#(%E5%8D%81%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们再来看看 C# 中的显式转换以及隐式转换。
+隐式转换有些类型的转换不会丢失数据或精度: 
+
+C# 会自动做这些转换，称为隐式转换
+从位数少的源转换为位数更多的源，目标多出来的位使用 0 或 1 补充
+当从小的无符号类型转换为更大的无符号类型，多出来的位以 0 进行填充，称为 0 扩展
+对于有符号类型，...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 5 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/4/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/6/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

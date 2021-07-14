@@ -1,34 +1,33 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title> · A Sort Of A Blog</title><meta name="description" content="本篇，我们来介绍一下 nginx.conf 的 http 块、server 块以及 location 块中的一些常见基本配置。
-定义 MIME-TypeMIME-Type 是网络资源的媒体类型，Nginx 服务器作为 Web 服务器，必须能够识别请求的资源类型。在默认的 Nginx 配置文件中，我们"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>本篇，我们来介绍一下 nginx.conf 的 http 块、server 块以及 location 块中的一些常见基本配置。</p>
+定义 MIME-TypeMIME-Type 是网络资源的媒体类型，Nginx 服务器作为 Web 服务器，必须能够识别请求的资源类型。在默认的 Nginx 配置文件中，我们"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract"><p>本篇，我们来介绍一下 nginx.conf 的 http 块、server 块以及 location 块中的一些常见基本配置。</p>
 <h3 id="定义-MIME-Type"><a href="#定义-MIME-Type" class="headerlink" title="定义 MIME-Type"></a>定义 MIME-Type</h3><p>MIME-Type 是网络资源的媒体类型，Nginx 服务器作为 Web 服务器，必须能够识别请求的资源类型。在默认的 Nginx 配置文件中，我们可以看到 http 全局块中有以下两行配置: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-attribute">include</span> mime.types;<br><span class="hljs-attribute"><code class="language-hljs nginx"><span class="hljs-attribute">include</span> mime.types;<br><span class="hljs-attribute">default_type</span> application/octet-stream;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">include</span> mime.types;<br><span class="hljs-attribute">default_type</span> application/octet-stream;<br></code></pre></td></tr></table></figure>
 
 <p>第一行引用了 mime.types 文件，它定义了一个 types 结构，包含浏览器可以识别的 MIME 类型。<br>第二行使用 default_type 指令，配置了处理前端请求的 MIME 类型，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">default_type</span> &#123;mime-type&#125;;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">default_type</span> &#123;mime-type&#125;;<br></code></pre></td></tr></table></figure>
 
 <p>如果不加此指令，默认为 text/plain。</p>
 <h3 id="自定义服务日志"><a href="#自定义服务日志" class="headerlink" title="自定义服务日志"></a>自定义服务日志</h3><p>我们在全局块介绍过 error_log 指令，我们还可以使用 access_log 记录 Nginx 服务器提供服务过程应答的请求日志。并且 Nginx 服务器还支持对服务日志的格式、大小、输出等配置，指令为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">access_log</span> &#123;path&#125; [format];<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">access_log</span> &#123;path&#125; [format];<br></code></pre></td></tr></table></figure>
 
 <p>这个指令可以在 http 块、server 块和 location 块中进行设置。默认配置为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-attribute"><code class="language-hljs nginx"><span class="hljs-attribute">access_log</span> logs/access.log combined;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">access_log</span> logs/access.log combined;<br></code></pre></td></tr></table></figure>
 
 <p>format 可以通过字符串名称使用 log_format 指令定义好的格式: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">log_format</span> &#123;name&#125; &#123;string&#125;;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">log_format</span> &#123;name&#125; &#123;string&#125;;<br></code></pre></td></tr></table></figure>
 
 <p>string 为服务日志的格式字符串，可以使用 Nginx 配置预设的一些变量获取相关内容，变量的名称使用双引号包裹，string 整体使用单引号包裹。<br>log_format 指令只能在 http 块进行配置。</p>
 <h3 id="配置-sendfile-传输文件"><a href="#配置-sendfile-传输文件" class="headerlink" title="配置 sendfile 传输文件"></a>配置 sendfile 传输文件</h3><p>基本语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-attribute">sendfile</span> <span class="hljs-literal">on</span> | <span class="hljs-literal"><code class="language-hljs nginx"><span class="hljs-attribute">sendfile</span> <span class="hljs-literal">on</span> | <span class="hljs-literal">off</span>;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">sendfile</span> <span class="hljs-literal">on</span> | <span class="hljs-literal">off</span>;<br></code></pre></td></tr></table></figure>
 
 <p>可以开启或关闭 sendfile 方式传输，默认为 off。可以在 http 块、server 块和 location 块中进行设置。</p>
 <h3 id="配置连接超时时间"><a href="#配置连接超时时间" class="headerlink" title="配置连接超时时间"></a>配置连接超时时间</h3><p>与用户建立会话连接后， Nginx 服务器可以保持这些连接一段时间，我们可以使用 keepalive_timeout 指令设置此时间: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">keepalive_timeout</span> &#123;timeout&#125; [header_timeout];<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">keepalive_timeout</span> &#123;timeout&#125; [header_timeout];<br></code></pre></td></tr></table></figure>
 
 <p>timeout 是指服务器对连接的保持时间，默认为 75s，header_timeout 是在 response header 中的 Keep-Alive 字段设置超时时间: “Keep-Alive: timeout=header_timeout”。</p>
 <p>这个指令可以在 http 块、server 块和 location 块中进行设置。</p>
 <h3 id="单连接请求数上限"><a href="#单连接请求数上限" class="headerlink" title="单连接请求数上限"></a>单连接请求数上限</h3><p>指令 keepalive-requests 用于限制用户通过某一连接向 Nginx 服务器发送请求的次数: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx">keepalive-<span class="hljs-section"><code class="language-hljs nginx">keepalive-<span class="hljs-section">requests</span> &#123;number&#125;;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx">keepalive-<span class="hljs-section">requests</span> &#123;number&#125;;<br></code></pre></td></tr></table></figure>
 
 <p>这个指令可以在 http 块、server 块和 location 块中进行设置。默认值为 100。</p>
 <h3 id="配置网络监听"><a href="#配置网络监听" class="headerlink" title="配置网络监听"></a>配置网络监听</h3><p>配置监听使用 listen 指令，配置方法常用有两种: </p>
@@ -37,17 +36,17 @@
 <li>监听端口</li>
 </ul>
 <h4 id="监听-IP-地址"><a href="#监听-IP-地址" class="headerlink" title="监听 IP 地址"></a>监听 IP 地址</h4><p>语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">listen</span> &#123;address&#125;[:port] [default_server] [ssl]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">listen</span> &#123;address&#125;[:port] [default_server] [ssl]<br></code></pre></td></tr></table></figure>
 
 <p>address 指 IP 地址，如果是 IPv6 地址，需要使用 [] 括起来，如: [fe80::1]。<br>default_server 可以将此虚拟主机设置为默认主机。</p>
 <h4 id="监听端口"><a href="#监听端口" class="headerlink" title="监听端口"></a>监听端口</h4><p>语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">listen</span> &#123;port&#125; [default_server] [ssl]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">listen</span> &#123;port&#125; [default_server] [ssl]<br></code></pre></td></tr></table></figure>
 
 <h3 id="基于名称的虚拟主机"><a href="#基于名称的虚拟主机" class="headerlink" title="基于名称的虚拟主机"></a>基于名称的虚拟主机</h3><p>配置主机名的指令为 server_name，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">server_name</span> &#123;name&#125; ...;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server_name</span> &#123;name&#125; ...;<br></code></pre></td></tr></table></figure>
 
 <p>可以只有一个名称，也可以多个名称并列，之间用空格分隔开。每个名称就是一个域名，在 name 中可以使用通配符，但只能用在三段字符串的首段或尾段，或两段字符串的尾段。如: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-attribute">server_name</span> *.0xfee1dead.cn www.0xfee1<span class="hljs-regexp"><code class="language-hljs nginx"><span class="hljs-attribute">server_name</span> *.0xfee1dead.cn www.0xfee1<span class="hljs-regexp">dead.*</span>;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">server_name</span> *.0xfee1dead.cn www.0xfee1<span class="hljs-regexp">dead.*</span>;<br></code></pre></td></tr></table></figure>
 
 <p>在 name 中还可以使用正则表达式，使用 ~ 作为正则字符串的开始标记。</p>
 <p>在包含多个虚拟主机的配置文件中，可能出现一个名称被多个虚拟主机的 server_name 匹配成功，Nginx 做出如下规定: </p>
@@ -65,7 +64,7 @@
 </ul>
 <h3 id="基于-IP-的虚拟主机"><a href="#基于-IP-的虚拟主机" class="headerlink" title="基于 IP 的虚拟主机"></a>基于 IP 的虚拟主机</h3><p>为 Nginx 服务器提供的每台虚拟主机配置不同 IP，需要将网卡设置为同时监听多个 IP 地址。在 Linux 系统中可以使用 ifconfig 为同一网卡添加多个 IP 别名。</p>
 <h3 id="配置-location-块"><a href="#配置-location-块" class="headerlink" title="配置 location 块"></a>配置 location 块</h3><p>在 Nginx 官方文档中定义的 location 语法结构为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-attribute">location</span> [ = | <span class="hljs-regexp">~ |</span> <span class="hljs-regexp">~* |</span><span class="hljs-regexp"><code class="language-hljs nginx"><span class="hljs-attribute">location</span> [ = | <span class="hljs-regexp">~ |</span> <span class="hljs-regexp">~* |</span><span class="hljs-regexp"> ^~</span> ] uri <br>&#123;<br>    ...<br>&#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">location</span> [ = | <span class="hljs-regexp">~ |</span> <span class="hljs-regexp">~* |</span><span class="hljs-regexp"> ^~</span> ] uri <br>&#123;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>其中 uri 是待匹配的请求字符串，可以是不含有正则的字符串，如: /myserver.php，也可以含有正则字符串，如: .php$。为了描述方便，不含正则称为标准 uri，含有正则称为正则 uri。</p>
 <p>如果 uri 前没有可选符号，那么匹配规则为: </p>
@@ -82,7 +81,7 @@
 <li>^~ 用于标准 uri，要求 Nginx 服务器找到标识和请求字符串匹配度最高的 location 后，立即使用此 location 处理请求，而不再使用 location 块中的正则 uri 做匹配</li>
 </ul>
 <h3 id="配置请求的根目录"><a href="#配置请求的根目录" class="headerlink" title="配置请求的根目录"></a>配置请求的根目录</h3><p>指令 root 用来配置服务端指定目录寻找请求资源，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">root</span> &#123;path&#125;;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">root</span> &#123;path&#125;;<br></code></pre></td></tr></table></figure>
 
 <p>此指令通常配置在 location 块中。</p>
 <h3 id="设置网站的默认首页"><a href="#设置网站的默认首页" class="headerlink" title="设置网站的默认首页"></a>设置网站的默认首页</h3><p>指令 index 可以设置网站的默认首页，他一般有两个作用: </p>
@@ -91,7 +90,7 @@
 <li>可以对一个请求，根据请求内容设置不同的首页</li>
 </ul>
 <p>语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">index</span> &#123;file&#125; ...;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">index</span> &#123;file&#125; ...;<br></code></pre></td></tr></table></figure>
 
 <h3 id="基于-IP-配置-Nginx-的访问权限"><a href="#基于-IP-配置-Nginx-的访问权限" class="headerlink" title="基于 IP 配置 Nginx 的访问权限"></a>基于 IP 配置 Nginx 的访问权限</h3><p>Nginx 配置通过两种途径支持基本访问权限的控制，一种由 HTTP 标准模块 ngx_http_access_module 提供，通过 IP 来判断客户端是否拥有对 Nginx 的访问权限，有两个指令: </p>
 <ul>
@@ -99,11 +98,11 @@
 <li>deny</li>
 </ul>
 <h4 id="allow"><a href="#allow" class="headerlink" title="allow"></a>allow</h4><p>allow 指令用于设置可访问 Nginx 的客户端 IP。语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">allow</span> &#123;address&#125; | &#123;CIDR&#125; | all;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">allow</span> &#123;address&#125; | &#123;CIDR&#125; | all;<br></code></pre></td></tr></table></figure>
 
 <p>address 表示客户端 IP，不能同时设置多个，我们需要重复使用 allow 指令来设置多个 IP 允许访问。</p>
 <h4 id="deny"><a href="#deny" class="headerlink" title="deny"></a>deny</h4><p>deny 的作用与 allow 正好相反，用于设置禁止访问 Nginx 的客户端 IP。语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">deny</span> &#123;address&#125; | &#123;CIDR&#125; | all;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">deny</span> &#123;address&#125; | &#123;CIDR&#125; | all;<br></code></pre></td></tr></table></figure>
 
 <h3 id="基于密码配置-Nginx-的访问权限"><a href="#基于密码配置-Nginx-的访问权限" class="headerlink" title="基于密码配置 Nginx 的访问权限"></a>基于密码配置 Nginx 的访问权限</h3><p>Nginx 还支持基于 HTTP Basic Authentication 的认证。由 HTTP 标准模块 ngx_http_auth_basic_module 提供，有两个指令: </p>
 <ul>
@@ -111,11 +110,11 @@
 <li>auth_basic_user_file</li>
 </ul>
 <h4 id="auth-basic"><a href="#auth-basic" class="headerlink" title="auth_basic"></a>auth_basic</h4><p>auth_basic 指令用于开启或关闭认证功能，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">auth_basic</span> &#123;string&#125; | off;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">auth_basic</span> &#123;string&#125; | off;<br></code></pre></td></tr></table></figure>
 
 <p>string 代表开启认证功能，值为验证信息。</p>
 <h4 id="auth-basic-user-file"><a href="#auth-basic-user-file" class="headerlink" title="auth_basic_user_file"></a>auth_basic_user_file</h4><p>auth_basic_user_file 指令用于设置包含用户名和密码信息的文件路径，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx"><span class="hljs-section"><code class="language-hljs nginx"><span class="hljs-section">auth_basic_user_file</span> &#123;file&#125;;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">auth_basic_user_file</span> &#123;file&#125;;<br></code></pre></td></tr></table></figure>
 
 <p>file 文件格式如下: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre class="line-numbers language-hljs nginx">name1:<span class="hljs-attribute"><code class="language-hljs nginx">name1:<span class="hljs-attribute">password1</span><br>name2:password2:comment<br>...<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure></p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Nginx(%E4%B8%89)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Nginx(%E4%BA%94)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx">name1:<span class="hljs-attribute">password1</span><br>name2:password2:comment<br>...<br></code></pre></td></tr></table></figure></p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Nginx(%E4%B8%89)/" title=""><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: </a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Nginx(%E4%BA%94)/" title="">下一篇: &nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
