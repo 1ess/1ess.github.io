@@ -1,53 +1,26 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">从本篇开始，我们来说说最流行的数据库 —— 关于 MySQL 的那些事儿。
-数据库概念
-数据库(Database)是按照数据结构来组织、存储和管理数据的建立在计算机存储设备上的仓库。
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/C#(%E5%8D%81%E5%85%AB)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲 C# 中非常重要的概念 —— 反射和特性。
+元数据很多程序语言中有元数据(matedata)的概念，其实元数据就是描述数据的数据。一个运行的程序查看本身元数据或其他程序元数据的行为就叫做反射(reflection)。要使用反射，我们必须引入 System.Reflection 命名空间。
+Typ...</p></div><div class="post-container"><p class="post-title"><a href="/%E8%81%8A%E8%81%8A%E6%9C%80%E8%BF%91%EF%BC%8C%E8%81%8A%E8%81%8A%E7%94%9F%E6%B4%BB/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇聊聊最近的生活吧。
+工作最近好多之前离职的小伙伴希望我去他们的新公司去看看，可能的话可以去他们的公司工作，还是有些开心的，最起码是对我的认可。但还是因为各种原因婉拒了。
+首先，就是最近过的有点忙，10.1 那天去办理新房入户，之后还要装修。其二，希望在现在这个公司越干越好吧，入职已经两年多，有些不舍。
+生活...</p></div><div class="post-container"><p class="post-title"><a href="/%E7%BC%96%E7%A8%8B%E4%B8%89%E5%B9%B4/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">写这篇文章，也算是给自己毕业三年的编程生涯做个总结。时间如白驹过隙，满打满算毕业也已经三年有余，也早就想写一篇文章来回忆一下自己毕业后的工作生活。
+南下2015 年的 7 月，从票贩子手中接过去往广州的火车票，头也不回的踏上火车，三天两夜，憧憬着也迷茫着。下了火车，天就像漏了一样下着瓢泼大雨，一个人拖着行李箱在肯...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20MVC(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">从这篇开始，我们来谈谈 ASP.Net MVC，我们将会介绍 ASP.Net MVC 的方方面面(包括基础以及高级特性)。
+MVC 架构
+MVC 架构以及在软件工程出现很长时间了，几乎所有语言都有 MVC 以及变种形式。
+iOS 中的 MVC
+图中绿色箭头表示直接引用，只有 Controller 直接持有 Mod...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20MVC(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们来详细讲讲关于 ASP.Net MVC 中的路由。
+ASP.Net MVC 中的路由
+在 Web Form 应用，每个 URL 必须匹配一个 .aspx 物理文件，如: http://domain/bar.aspx 必须有一个用于响应渲染的文件 bar.aspx。ASP.Net MVC 则通过引入 R...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20MVC(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们具体说说 Controller、Model 和 View。
+Controller
+在 MVC 中，Controller 是用来处理用户请求的。Controller 是一个类，继承自 System.Web.Mvc.Controller。控制器类中访问修饰符为 public 的方法称为 Action 方法...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20MVC(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们来详细说说 ASP.Net MVC 中特别重要的 Model Binding。
+传统的 ASP.Net MVC 中，如果我们想在 Action 方法中获取请求参数，我们使用 Request.QueryString 和 Request 对象。非常笨重!
+ 
 
-人们通常用数据库这个术语来代表他们使用的数据库软件。这是不正确的，它是引起混淆的根源。确切地说，数据库软件应称为 DBMS(数据...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们来说说 SQL 的基本操作 —— 库操作、表操作以及数据操作。
-库操作
-创建数据库基本语法: create database {数据库名} [库选项];
-  
-
-库选项: 
-
-字符集: charset {指定字符集}，不指定则采用安装时默认字符集
-校对集: collate {指定校对集}
-
-显示数据库显...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们再来说说 MySQL 中的列类型和列属性以及表间关系。
-列类型
-整数类型
-Tinyint: 迷你整型，采用 1 字节保存整型数据
-Smallint: 小整型，采用 2 字节保存整型数据
-Mediumint: 中整型，采用 3 字节保存整型数据
-Int: 标准整型，采用 4 字节保存整型数据
-Bigint...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 MySQL 对于数据的增删改查操作以及运算符。
-新增数据
-多数据插入基本语法: insert into {表名}({字段列表}) values({值列表1}), ({值列表2}), …
-  
-
-主键冲突在有的表中，使用的是业务主键，但是往往在进行数据插入时，又不确定数据表中是否存在对应的主键。
- ...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 MySQL 中的联合查询、连接查询以及子查询。
-联合查询
-基本概念: 可合并多个相似的选择查询结果的结果集，等同于将一个表追加到另一个表，从而实现将两个表的查询结果组合到一起，使用 Union 或 Union all。注意: 这个合并是纵向合并，字段数不变，多个查询的结果合并。
-应用场景
-同一张表...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们说说 MySQL 中的外键、视图以及事务安全等问题。
-外键
-如果公共关键字在一个关系中是主关键字，那么这个公共关键字被称为另一个关系的外键。以另一个关系的外键作为主关键字的表称为主表，具有此外键的表称为主表的从表，外键又称为外关键字。
-外键操作增加外键MySQL 中提供两种方式增加外键: 
-
-在创建表时...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%83)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇是 MySQL 的最后一篇，我们最后讲讲变量、函数、存储过程和触发器。
-变量
-MySQL 需要很多变量来保存数据。
-系统变量系统内部定义的变量，系统变量针对所有用户有效。
-查看系统变量基本语法: show variables [{模式匹配}];
-  
-
-查看系统变量实际值基本语法: select @@{变量名...</p></div><div class="post-container"><p class="post-title"><a href="/%E4%B9%9D%E4%B9%9D%E5%BD%92%E4%B8%80/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">
-Two things are infinite: the universe and human stupidity; and I’m not sure about the universe.
-
-最近离职了，说不上为什么，就是有一种感觉不能再这样下去了，我不想单纯的经历”吃饭-上班-吃饭-睡觉”这样浑浑噩噩的日子...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">之前的几篇，我们介绍了 HTML 和 CSS 基础知识，对于网页结构和样式，都有了一定的了解。从这篇之后，我们将介绍网页中另一个重要知识 - JavaScript。我们将参考《JavaScript 高级程序设计》，对每章的重要知识进行详细的讲解。
-JavaScript 简介
-JavaScript 堪称世界上被人误...</p></div><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们来学习一下 JavaScript 基本概念中的基本语法以及数据类型。
-语法
-区分大小写ECMAScript 中的一切(标识符，操作符)都是区分大小写的，即大小写敏感的语言。如: 变量 test 和变量 Test 分别表示两个变量。
-标识符所谓标识符，就是指变量，函数，属性名或者函数参数名。标识符格式规...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 5 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/4/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/6/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+通过模型绑定，MVC 将 http 请求值(...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20MVC(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">本篇，我们再来详细说说 ASP.Net MVC 中的 Razor 语法。
+什么是 RazorRazor 是 ASP.Net MVC 中支持的视图引擎，它允许我们混写服务端代码如 C#、VB 等和 HTML 标签，如果使用 C#，那么文件以 .cshtml 作为后缀。
+下面我们具体来讲解 C# Razor 语法。
+...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20MVC(%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们详细讲讲 .Net MVC 中的 HTML Helper。
+HtmlHelper 类使用模型类对象生成 html 元素。它将模型对象绑定到 html 元素，以将模型属性的值显示为 html 元素，并在提交 Web 表单时将 html 元素的值分配给模型属性。我们最好在 Razor 视图中使用 Html...</p></div><div class="post-container"><p class="post-title"><a href="/ASP.Net%20MVC(%E4%B8%83)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-14</span></p><p class="post-abstract">这一篇，我们讲讲数据验证、布局试图以及 Controller 向 View 传递少量数据的方式。
+数据注释(DataAnnotations)
+ASP.Net MVC 使用 DataAnnotations attribute 实现数据验证。DataAnnotations 为不同的验证规则内建了许多验证特性，可以应用...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 5 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/4/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/6/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
