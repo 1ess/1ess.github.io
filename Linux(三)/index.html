@@ -13,7 +13,7 @@ Linux 下的用户管理
 <h4 id="系统用户"><a href="#系统用户" class="headerlink" title="系统用户"></a>系统用户</h4><p>系统用户由程序创建，用于程序运行时的身份。<br>默认不允许登录系统，UID 在 1 到 499 之间(RHEL8 中，UID 范围是 1 到 999)。如 web 服务器的管理用户 apache。</p>
 <h4 id="普通用户"><a href="#普通用户" class="headerlink" title="普通用户"></a>普通用户</h4><p>普通用户一般由管理员创建，用于对系统进行有限的管理维护操作。<br>默认允许登录系统。UID 在 500 到 60000 之间(RHEL8 中，UID 范围是 1000 到 60000)。</p>
 <h3 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h3><h4 id="创建用户-useradd"><a href="#创建用户-useradd" class="headerlink" title="创建用户(useradd)"></a>创建用户(useradd)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">useradd [选项] [用户名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">useradd [选项] [用户名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>
@@ -23,16 +23,16 @@ Linux 下的用户管理
 <li>G: 指定用户的附加组</li>
 </ul>
 <p>注意: 我们使用 id [用户名] 查看用户信息，使用 su - [用户名] 切换用户。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh">useradd admin<br><br>id admin<br><span class="hljs-comment"># uid=1001(admin) gid=1001(admin) 组=1001(admin)</span><br><br>su - admin<br><span class="hljs-comment"><code class="language-hljs sh">useradd admin<br><br>id admin<br><span class="hljs-comment"># uid=1001(admin) gid=1001(admin) 组=1001(admin)</span><br><br>su - admin<br><span class="hljs-comment"># [admin@192 ~] #</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh">useradd admin<br><br>id admin<br><span class="hljs-comment"># uid=1001(admin) gid=1001(admin) 组=1001(admin)</span><br><br>su - admin<br><span class="hljs-comment"><code class="language-hljs sh">useradd admin<br><br>id admin<br><span class="hljs-comment"># uid=1001(admin) gid=1001(admin) 组=1001(admin)</span><br><br>su - admin<br><span class="hljs-comment"># [admin@192 ~] #</span><br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <h4 id="密码设置-passwd"><a href="#密码设置-passwd" class="headerlink" title="密码设置(passwd)"></a>密码设置(passwd)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-comment"># 给指定用户修改密码</span><br>passwd [用户名]<br><br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-comment"># 给指定用户修改密码</span><br>passwd [用户名]<br><br><span class="hljs-comment"># 给当前用户修改密码</span><br>passwd &#123;直接回车&#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-comment"># 给指定用户修改密码</span><br>passwd [用户名]<br><br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-comment"># 给指定用户修改密码</span><br>passwd [用户名]<br><br><span class="hljs-comment"># 给当前用户修改密码</span><br>passwd &#123;直接回车&#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <p>注意: 管理员可以给任意用户修改密码，普通用户只可以给自己修改密码。</p>
 <p>用户基本信息保存在 /etc/passwd 文件中，保存格式为: account:password:UID:GID:GECOS:directory:shell<br>例如:<br>root:x:0:0:root:/root:/bin/bash</p>
 <p>用户密码信息保存在 /etc/shadow 文件(影子化了的密码文件)中。</p>
 <h4 id="修改信息-usermod"><a href="#修改信息-usermod" class="headerlink" title="修改信息(usermod)"></a>修改信息(usermod)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">usermod [选项] [用户名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">usermod [选项] [用户名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>
@@ -43,7 +43,7 @@ Linux 下的用户管理
 <li>s: 指定用户默认 shell</li>
 </ul>
 <h4 id="删除用户-userdel"><a href="#删除用户-userdel" class="headerlink" title="删除用户(userdel)"></a>删除用户(userdel)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">userdel [选项] [用户名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">userdel [选项] [用户名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>
@@ -53,18 +53,18 @@ Linux 下的用户管理
 <h2 id="Linux-下的组管理"><a href="#Linux-下的组管理" class="headerlink" title="Linux 下的组管理"></a>Linux 下的组管理</h2><hr>
 <h3 id="用户和组的关系"><a href="#用户和组的关系" class="headerlink" title="用户和组的关系"></a>用户和组的关系</h3><p>组可以用来方便管理用户，例如分配权限等操作，组信息保存在 /etc/group 下。</p>
 <h3 id="组管理"><a href="#组管理" class="headerlink" title="组管理"></a>组管理</h3><h4 id="创建组-groupadd"><a href="#创建组-groupadd" class="headerlink" title="创建组(groupadd)"></a>创建组(groupadd)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">groupadd [选项] [组名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">groupadd [选项] [组名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>
 <li>g: 指定组的 gid</li>
 </ul>
 <h4 id="删除组-groupdel"><a href="#删除组-groupdel" class="headerlink" title="删除组(groupdel)"></a>删除组(groupdel)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">groupdel [选项] [组名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">groupdel [选项] [组名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <p>注意: 如果某个组是用户的主组，则不能删除该组。</p>
 <h4 id="组成员管理-gpasswd"><a href="#组成员管理-gpasswd" class="headerlink" title="组成员管理(gpasswd)"></a>组成员管理(gpasswd)</h4><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">gpasswd [选项] [组名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">gpasswd [选项] [组名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>

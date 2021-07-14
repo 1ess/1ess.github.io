@@ -14,7 +14,7 @@
 </ul>
 <h2 id="声明事件"><a href="#声明事件" class="headerlink" title="声明事件"></a>声明事件</h2><hr>
 <p>发布者类必须提供事件对象。声明事件需要委托类型和事件名: </p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre class="line-numbers language-hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyCls</span><br>&#123;<br>    <span class="hljs-comment">//声明事件: event 关键字，EventHandler 委托类型，CountedADozen 事件名</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword"><code class="language-hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyCls</span><br>&#123;<br>    <span class="hljs-comment">//声明事件: event 关键字，EventHandler 委托类型，CountedADozen 事件名</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">event</span> EventHandler CountedADozen;<br>&#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyCls</span><br>&#123;<br>    <span class="hljs-comment">//声明事件: event 关键字，EventHandler 委托类型，CountedADozen 事件名</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword"><code class="language-hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyCls</span><br>&#123;<br>    <span class="hljs-comment">//声明事件: event 关键字，EventHandler 委托类型，CountedADozen 事件名</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">event</span> EventHandler CountedADozen;<br>&#125;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 <p>注意: 事件是成员而不是类型，由于他是成员: </p>
 <ul>
 <li>我们不能在可执行代码中声明事件</li>
@@ -34,7 +34,7 @@
 </ol>
 </li>
 </ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre class="line-numbers language-hljs csharp"><code class="language-hljs csharp">cls.CountedADozen += IncreatmentCountedADozen;<br>cls.CountedADozen += ClassB.CountedHandlerB;<br>cls.CountedADozen += () => DozensCount ++;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs csharp"><code class="language-hljs csharp">cls.CountedADozen += IncreatmentCountedADozen;<br>cls.CountedADozen += ClassB.CountedHandlerB;<br>cls.CountedADozen += () => DozensCount ++;<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <h2 id="触发事件"><a href="#触发事件" class="headerlink" title="触发事件"></a>触发事件</h2><hr>
 <p>触发事件时要注意: </p>

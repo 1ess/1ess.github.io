@@ -47,21 +47,21 @@ Linux 下的权限
 <li>O: 其他用户</li>
 </ol>
 <p>权限及用户总共 9 位表示，3 格一组进行分割，用户依次为 UGO，权限依次为 rwx，第一位位文件类型，如下: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">-rw-r--r--    1 1ess  staff     271  8 10 10:33 .vimrc<br>-rw-r--r--    1 1ess  staff    3601  8 21 16:00 .zshrc<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">-rw-r--r--    1 1ess  staff     271  8 10 10:33 .vimrc<br>-rw-r--r--    1 1ess  staff    3601  8 21 16:00 .zshrc<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <h3 id="修改文件普通权限-chmod"><a href="#修改文件普通权限-chmod" class="headerlink" title="修改文件普通权限(chmod)"></a>修改文件普通权限(chmod)</h3><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">chmod [选项] [模式] [文件名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">chmod [选项] [模式] [文件名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>
 <li>R: 递归修改权限</li>
 </ul>
-<h4 id="字母形式修改权限"><a href="#字母形式修改权限" class="headerlink" title="字母形式修改权限"></a>字母形式修改权限</h4><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">chmod u+x,g+w,o-r ./*<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<h4 id="字母形式修改权限"><a href="#字母形式修改权限" class="headerlink" title="字母形式修改权限"></a>字母形式修改权限</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">chmod u+x,g+w,o-r ./*<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-<h4 id="数字形式修改权限"><a href="#数字形式修改权限" class="headerlink" title="数字形式修改权限"></a>数字形式修改权限</h4><figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">chmod 760 ./*<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<h4 id="数字形式修改权限"><a href="#数字形式修改权限" class="headerlink" title="数字形式修改权限"></a>数字形式修改权限</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><code class="language-hljs sh">chmod 760 ./*<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <h3 id="修改文件属主和属组-chown"><a href="#修改文件属主和属组-chown" class="headerlink" title="修改文件属主和属组(chown)"></a>修改文件属主和属组(chown)</h3><p>格式: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-comment"># 只修改属主</span><br>chown [用户名] [文件名]<br><br><span class="hljs-comment"># 只修改属组</span><br>chown .[组名] [文件名]<br><br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-comment"># 只修改属主</span><br>chown [用户名] [文件名]<br><br><span class="hljs-comment"># 只修改属组</span><br>chown .[组名] [文件名]<br><br><span class="hljs-comment"># 同时修改属主属组</span><br>chown [用户名].[组名] [文件名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs sh"><span class="hljs-comment"># 只修改属主</span><br>chown [用户名] [文件名]<br><br><span class="hljs-comment"># 只修改属组</span><br>chown .[组名] [文件名]<br><br><span class="hljs-comment"><code class="language-hljs sh"><span class="hljs-comment"># 只修改属主</span><br>chown [用户名] [文件名]<br><br><span class="hljs-comment"># 只修改属组</span><br>chown .[组名] [文件名]<br><br><span class="hljs-comment"># 同时修改属主属组</span><br>chown [用户名].[组名] [文件名]<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
 <p>常见选项: </p>
 <ul>
