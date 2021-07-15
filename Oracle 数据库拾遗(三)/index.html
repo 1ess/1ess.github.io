@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>Oracle 数据库拾遗(三) · A Sort Of A Blog</title><meta name="description" content="前面的实例介绍了 SELECT 语句的简单应用，即简单查询。在实际应用中，对一个基本表或视图做简单查询是比较少的，大多情况下都要求对数据表进行筛选、分组或排序，这就需要用到高级查询。
+使用 GROUP BY 子句实现分组在实际应用中，使用 SELECT 语句查询出来的数据量可能会很多，这时就需要将庞"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>Oracle 数据库拾遗(三)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-12-17</span></p><p class="post-abstract"><p>前面的实例介绍了 SELECT 语句的简单应用，即简单查询。在实际应用中，对一个基本表或视图做简单查询是比较少的，大多情况下都要求对数据表进行筛选、分组或排序，这就需要用到高级查询。</p>
+<h3 id="使用-GROUP-BY-子句实现分组"><a href="#使用-GROUP-BY-子句实现分组" class="headerlink" title="使用 GROUP BY 子句实现分组"></a>使用 GROUP BY 子句实现分组</h3><p>在实际应用中，使用 SELECT 语句查询出来的数据量可能会很多，这时就需要将庞大的数据记录进行分组，便于用户查看。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <br>	<span class="hljs-built_in">MAX</span>(SAGE) 最大年龄,<br>	SDEPT<br><span class="hljs-keyword">FROM</span> student<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> SDEPT;<br></code></pre></td></tr></table></figure>
+
+<p>上面是 GROUP BY 的基本使用，我们再来看一下 Oracle PL/SQL 中 GROUP BY 的一些特殊的地方。<br>Oracle 中 GROUP BY 的基本语法为: </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> group_by_expression<br>[<span class="hljs-keyword">Grouping</span>(expression)]<br>[<span class="hljs-keyword">CUBE</span><span class="hljs-operator">|</span><span class="hljs-keyword">ROLLUP</span>(,...n)]<br></code></pre></td></tr></table></figure>
+
+<p>其中: </p>
+<ul>
+<li>group_by_expression 为指明分组条件。group_by_expression 通常是一个列名，但不能是列的别名。数据类型为 IMAGE 或 BIT 等类型的列不能作为分组条件</li>
+<li>Grouping(expression) 是在应用程序端产生一个依据来判断某行数据是不是按照 ROLLUP 或 CUBE 进行汇总，返回值为 0 或 1</li>
+<li>CUBE 除了返回由 GROUP BY 子句指定的列外，还返回按组统计的行</li>
+<li> ROLLUP 与 CUBE 不同的是，此选项对 GROUP BY 子句中的列顺序敏感，其只返回第一个分组条件指定的列的统计行。改变列的顺序会使返回的结果的行数发生变化</li>
+</ul>
+<p>需要注意: 使用了 GROUP BY 子句的选择列表中只能包含以下项: </p>
+<ul>
+<li>常量</li>
+<li>组合列</li>
+<li>聚合函数表达式</li>
+</ul>
+<h3 id="按条件查询并分组"><a href="#按条件查询并分组" class="headerlink" title="按条件查询并分组"></a>按条件查询并分组</h3><p>含有 GROUP BY 子句的 SELECT 语句也可以包含 WHERE 子句，并对满足条件的查询进行分组。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <br>    <span class="hljs-built_in">MAX</span>(SAGE),<br>    SDEPT<br><span class="hljs-keyword">FROM</span> student<br><span class="hljs-keyword">WHERE</span> SGENTLE<span class="hljs-operator">=</span><span class="hljs-string">&#x27;男&#x27;</span><br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> SDEPT;<br></code></pre></td></tr></table></figure>
+
+<h3 id="使用-HAVING-子句过滤分组数据"><a href="#使用-HAVING-子句过滤分组数据" class="headerlink" title="使用 HAVING 子句过滤分组数据"></a>使用 HAVING 子句过滤分组数据</h3><p>实际应用中，在使用 GROUP BY 子句为查询记录分组时，经常需要进行过滤，这就需要用户在 SELECT 语句中增加数据过滤准则。而使用 WHERE 子句进行过滤时只能在分组之前实现，我们可以使用 HAVING 子句实现该需求。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <br>    <span class="hljs-built_in">MAX</span>(SAGE),<br>    SDEPT<br><span class="hljs-keyword">FROM</span> student<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> SDEPT<br><span class="hljs-keyword">HAVING</span> <span class="hljs-built_in">MAX</span>(SAGE) <span class="hljs-operator">&gt;=</span> <span class="hljs-number">25</span>;<br></code></pre></td></tr></table></figure>
+
+<p>HAVING 和 WHERE 有相同的语法。都可以与 GROUP BY 语句组合使用，HAVING 和 WHERE 的不同之处在于: </p>
+<ul>
+<li>在 WHERE 子句中，在分组进行以前，消除不满足条件的行，在 HAVING 子句中，在分组之后条件被应用，即 WHERE 子句作用于表和视图，HAVING 子句作用于分组</li>
+<li>HAVING 子句可在条件中包含聚合函数，但 WHERE 不能</li>
+</ul>
+<h3 id="对查询进行集合运算"><a href="#对查询进行集合运算" class="headerlink" title="对查询进行集合运算"></a>对查询进行集合运算</h3><p>在实际数据库应用中，对数据的操作不可能只针对一个基本表来进行。我们再新引入一个学生成绩表 grade，表结构数据如下: </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>SNO</th>
+<th>CNAME</th>
+<th>SCORE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>120001</td>
+<td>计算机基础</td>
+<td>85</td>
+</tr>
+<tr>
+<td>2</td>
+<td>120003</td>
+<td>计算机基础</td>
+<td>96</td>
+</tr>
+<tr>
+<td>3</td>
+<td>120004</td>
+<td>计算机基础</td>
+<td>70</td>
+</tr>
+</tbody></table>
+<p>在 Oracle PL/SQL 中的集合运算就是将两个或者多个集合组合成为一个结果集，集合运算包括以下 4 种: </p>
+<ul>
+<li>INTERSECT(交集)，返回两个查询共有的记录</li>
+<li>UNION ALL(并集)，返回各个查询的所有记录，包括重复记录</li>
+<li>UNION(并集)，返回各个查询的所有记录，不包括重复记录</li>
+<li>MINUS(补集)，返回第一个查询检索出的记录减去第二个查询检索出的记录之后剩余的记录</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> SNO <span class="hljs-keyword">FROM</span> student<br>MINUS<br><span class="hljs-keyword">SELECT</span> SNO <span class="hljs-keyword">FROM</span> grade<br></code></pre></td></tr></table></figure>
+
+<p>注意: 当使用集合操作的时候，查询所返回的列名可以不同，但列数以及列的数据类型必须匹配，否则无法进行运算。</p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Oracle%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8B%BE%E9%81%97(%E5%9B%9B)/" title="Oracle 数据库拾遗(四)"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: Oracle 数据库拾遗(四)</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Oracle%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8B%BE%E9%81%97(%E4%BA%8C)/" title="Oracle 数据库拾遗(二)">下一篇: Oracle 数据库拾遗(二)&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

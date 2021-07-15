@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>重学 SQL(八) · A Sort Of A Blog</title><meta name="description" content="本篇，我们来介绍一下 MySQL 支持的数据类型，了解这些类型，以及确定何时使用哪种类型是非常重要的。
+String Type字符串类别有一堆数据类型，最常见的有 CHAR(x) 和 VARCHAR(x)。我们使用 CHAR(x) 存储固定长度字符串，VARCHAR(x) 存储变长字符串。VARCH"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>重学 SQL(八)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-08-23</span></p><p class="post-abstract"><p>本篇，我们来介绍一下 MySQL 支持的数据类型，了解这些类型，以及确定何时使用哪种类型是非常重要的。</p>
+<h3 id="String-Type"><a href="#String-Type" class="headerlink" title="String Type"></a>String Type</h3><p>字符串类别有一堆数据类型，最常见的有 CHAR(x) 和 VARCHAR(x)。我们使用 CHAR(x) 存储固定长度字符串，VARCHAR(x) 存储变长字符串。<br>VARCHAR(x) 最大长度为 65535 characters，也就是大约 64KB。<br>如果要存储比较长的字符串，我们可以使用 MEDIUMTEXT，最大存储空间为 16MB。对于存储 JSON 字符串，SCV 字符串都是不错的选择。<br>如果想存储长文本字符串，我们可以使用 LONGTEXT，最大存储空间为 4GB。<br>除此之外，还有 TINYTEXT，可以存储 255 characters，TEXT 与 VARCHAR(x) 最大存储空间一样。</p>
+<p>注意: 对于 TEXT 和 VARCHAR(x) 我们优先使用 VARCHAR(x)，因为其可以编入索引。</p>
+<h3 id="Numeric-Type"><a href="#Numeric-Type" class="headerlink" title="Numeric Type"></a>Numeric Type</h3><h4 id="Integer-Type"><a href="#Integer-Type" class="headerlink" title="Integer Type"></a>Integer Type</h4><p>MySQL 中有 5 种整数类型: </p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TINYINT</td>
+<td>-128 ~ 127</td>
+</tr>
+<tr>
+<td>UNSIGNED TINYINT</td>
+<td>0 ~ 255</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>-32K ~ 32K</td>
+</tr>
+<tr>
+<td>MEDIUMYINT</td>
+<td>-8M ~ 8M</td>
+</tr>
+<tr>
+<td>INT</td>
+<td>-2G ~ 2G</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>-9Z ~ 9Z</td>
+</tr>
+</tbody></table>
+<h4 id="Fixed-point-And-Float-point-Type"><a href="#Fixed-point-And-Float-point-Type" class="headerlink" title="Fixed-point And Float-point Type"></a>Fixed-point And Float-point Type</h4><p>MySQL 中最常用的存储浮点数的类型为 DECIMAL(p, s)。<br>其中，s 代表小数位数，p - s 代表整数位数，p 的范围是 1 到 65。</p>
+<p>MySQL 中还有 FLOAT 和 DOUBLE 类型，但是他们存储的都不是精确数字，因此只有存储不需要特别精确的数字时才使用这两种类型。</p>
+<h4 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h4><p>有时我们可能会想要存储 TRUE/FALSE，比如，文章是否已发布，我们可以使用 BOOLEAN 类型。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">UPDATE posts<br><span class="hljs-keyword">SET</span> is_published <span class="hljs-operator">=</span> <span class="hljs-number">1</span> <span class="hljs-comment">-- or TRUE</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="Enum-And-Set-Type"><a href="#Enum-And-Set-Type" class="headerlink" title="Enum And Set Type"></a>Enum And Set Type</h4><p>有时，我们想限制存储在某列的字符串，比如，衣服尺寸只能存储 Small/Medium/Large，这时，我们就可以使用 ENUM 类型。<br>定义语法为:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">ENUM(<span class="hljs-string">&#x27;small&#x27;</span>, <span class="hljs-string">&#x27;medium&#x27;</span>, <span class="hljs-string">&#x27;large&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>我们通常要避免使用这一类型，可以单独建表来代替 ENUM。</p>
+<h3 id="Date-And-Time-Type"><a href="#Date-And-Time-Type" class="headerlink" title="Date And Time Type"></a>Date And Time Type</h3><p>MySQL 有 4 种 Date/Time 类型: </p>
+<ul>
+<li>DATE: 存储日期，没有时间组件</li>
+<li>TIME: 存储时间，没有日期组件</li>
+<li>DATETIME: 占据 8 字节，表示形式为 yyyy-mm-dd hh:mm:ss</li>
+<li>TIMESTAMP: 占据 4 字节，表示形式为 yyyy-mm-dd hh:mm:ss</li>
+</ul>
+<p>对于 TIMESTAMP 来说，如果储存时的时区和检索时的时区不一样，那么查询出来的数据也不一样。<br>对于 DATETIME 来说，储存是什么，那么查询出来的数据也是什么。</p>
+<h3 id="Blob-Type"><a href="#Blob-Type" class="headerlink" title="Blob Type"></a>Blob Type</h3><p>我们如果想存储二进制数据如图片，视频等，我们可以使用二进制类型。<br>MySQL 中有 4 种二进制类型: </p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TINYBLOB</td>
+<td>255B</td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>165KB</td>
+</tr>
+<tr>
+<td>MEDIUMYBLOB</td>
+<td>16MB</td>
+</tr>
+<tr>
+<td>LONGBLOB</td>
+<td>4GB</td>
+</tr>
+</tbody></table>
+<p>直接把文件存储到数据库会有很多问题: </p>
+<ul>
+<li>增长数据库大小</li>
+<li>备份很慢</li>
+<li>性能问题</li>
+</ul>
+<p>所以通常不直接使用二进制类型在数据库存储文件。</p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/%E9%87%8D%E5%AD%A6%20SQL(%E4%B9%9D)/" title="重学 SQL(九)"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: 重学 SQL(九)</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/%E9%87%8D%E5%AD%A6%20SQL(%E4%B8%83)/" title="重学 SQL(七)">下一篇: 重学 SQL(七)&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

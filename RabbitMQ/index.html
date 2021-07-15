@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>RabbitMQ · A Sort Of A Blog</title><meta name="description" content="本篇，我们介绍一下消息队列(MessageQueue)以及生产中比较常使用的框架 RabbitMQ。
+什么是消息队列
+消息队列允许应用程序通过相互发送消息进行通信。消息队列在目标程序繁忙或未连接时提供临时消息存储。
+基本架构
+消息队列的基本架构很简单: 客户机应用程序被称为生产者(producers"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>RabbitMQ</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-05-14</span></p><p class="post-abstract"><p>本篇，我们介绍一下消息队列(MessageQueue)以及生产中比较常使用的框架 RabbitMQ。</p>
+<h2 id="什么是消息队列"><a href="#什么是消息队列" class="headerlink" title="什么是消息队列"></a>什么是消息队列</h2><hr>
+<p>消息队列允许应用程序通过相互发送消息进行通信。消息队列在目标程序繁忙或未连接时提供临时消息存储。</p>
+<h2 id="基本架构"><a href="#基本架构" class="headerlink" title="基本架构"></a>基本架构</h2><hr>
+<p>消息队列的基本架构很简单: 客户机应用程序被称为生产者(producers)，用于创建消息并将消息传递到消息队列。另一个应用程序称为消费者(consumer)，它连接到队列并获取要处理的消息。放置到队列中的消息将被存储，直到使用者检索它们。</p>
+<p>消息队列提供异步通信协议，该协议是一个将消息放入消息队列的系统，并且不需要对处理立即响应。这种处理消息的方式将生产者与消费者分离开来，因此它们不需要同时与消息队列进行交互。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><hr>
+<p>使用消息队列的优点主要有三个：解耦、异步、削峰。</p>
+<h3 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h3><p>解耦描述了系统的一个部分对另一个部分的依赖程度，当两个或多个系统能够在不连接的情况下通信，就可以实现解耦。<br>如果系统中的一个进程无法从队列中处理消息，其他消息仍可以被添加到队列中，并在系统恢复时进行处理。还可以使用消息队列来延迟处理消息。这种处理消息的方式便于创建了易维护和易扩展的系统。</p>
+<h3 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h3><p>非必要的业务逻辑可以将消息写入消息队列以异步的方式运行，以加快响应速度。</p>
+<h3 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h3><p>在突发异常流量时，将消息写入消息队列，待流量恢复后，依次处理队列内消息，可以削峰平谷，防止服务器宕机。</p>
+<h2 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h2><hr>
+<p>RabbitMQ 是开源的面向消息的中间件，它实现了高级消息排队协议(AMQP)。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/mq/workflow-rabbitmq.png"></p>
+<h3 id="交换器-exchange"><a href="#交换器-exchange" class="headerlink" title="交换器(exchange)"></a>交换器(exchange)</h3><p>消息不会直接发布到队列，通常生产者向交换器发送消息。交换器负责在 bindings 和 routing keys 的帮助下将消息路由到不同的队列。bindings 是队列和交换器之间的链接。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/mq/exchanges-bindings-routing-keys.png"></p>
+<h3 id="消息流"><a href="#消息流" class="headerlink" title="消息流"></a>消息流</h3><p>RabbitMQ 中的消息流: </p>
+<ol>
+<li>首先指定交换器类型来创建交换器，然后生产者向创建的交换器发布消息</li>
+<li>交换器接收消息并负责路由消息。交换器根据交换器类型考虑不同的消息属性，例如 routing keys</li>
+<li>从交换器到队列方向创建 bindings</li>
+<li>消息将一直留在队列中，直到被消费者处理</li>
+<li>消费者处理消息</li>
+</ol>
+<h3 id="交换器类型"><a href="#交换器类型" class="headerlink" title="交换器类型"></a>交换器类型</h3><ol>
+<li>Direct: 消息被路由到其绑定键与消息的路由键完全匹配的队列</li>
+<li>Fanout: 交换器将消息路由到绑定到它的所有队列</li>
+<li>Topic: Topic 交换在路由键和绑定中指定的路由模式之间进行通配符匹配</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/mq/exchanges-topic-fanout-direct.png"></p>
+<h3 id="RabbitMQ-中的重要概念"><a href="#RabbitMQ-中的重要概念" class="headerlink" title="RabbitMQ 中的重要概念"></a>RabbitMQ 中的重要概念</h3><ol>
+<li>生产者(Producer): 发送消息的应用程序</li>
+<li>消费者(Consumer): 接收消息的应用程序</li>
+<li>队列(Queue): 存储消息的缓冲区</li>
+<li>消息(Message): 通过 RabbitMQ 从生产者发送到消费者的信息</li>
+<li>连接(Connection): 应用程序和 RabbitMQ 代理之间的 TCP 连接</li>
+<li>通道(Channel): 连接内部的虚拟连接。当发布或使用队列中的消息时，这一切都是通过通道完成的</li>
+<li>交换器(Exchange): 接收来自生产者的消息，并根据交换器类型定义的规则将消息推送到队列。要接收消息，需要将队列绑定到至少一个交换器。</li>
+<li>绑定(Binding): 绑定是队列和交换器之间的链接</li>
+<li>路由键(Routing Key): 交换器用来决定如何将消息路由到队列的键。将路由键看作消息的地址</li>
+<li>用户(User): 可以使用给定的用户名和密码连接到 RabbitMQ，可以为每个用户分配权限，例如在实例中读取、写入和配置特权的权限。还可以为用户分配特定虚拟主机的权限</li>
+<li>虚拟主机(Vhost): 提供一种使用相同 RabbitMQ 实例隔离应用程序的方法。不同的用户可以对不同的 vhost 拥有不同的权限</li>
+</ol>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Redis/" title="Redis"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: Redis</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Vim/" title="Vim">下一篇: Vim&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

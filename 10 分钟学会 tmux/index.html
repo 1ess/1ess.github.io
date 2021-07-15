@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>10 分钟学会 tmux · A Sort Of A Blog</title><meta name="description" content="Tmux 是一个终端复用器(terminal multiplexer)，用户可以通过 tmux 在一个终端内管理多个分离的 session、window 及 pane，对于同时使用多个命令行，或多个任务时非常方便。
+安装# Ubuntu 或 Debian$ sudo apt install tmux"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>10 分钟学会 tmux</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-02-22</span></p><p class="post-abstract"><p>Tmux 是一个终端复用器(terminal multiplexer)，用户可以通过 tmux 在一个终端内管理多个分离的 session、window 及 pane，对于同时使用多个命令行，或多个任务时非常方便。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># Ubuntu 或 Debian</span><br>$ sudo apt install tmux<br><br><span class="hljs-comment"># CentOS 或 Fedora</span><br>$ sudo yum install tmux<br><br><span class="hljs-comment"># Mac</span><br>$ brew install tmux<br></code></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><hr>
+<h3 id="前缀键"><a href="#前缀键" class="headerlink" title="前缀键"></a>前缀键</h3><p>tmux 中所有快捷键都要通过前缀键唤起。默认的前缀键是 Ctrl-b，即先按下 Ctrl-b，快捷键才会生效。</p>
+<h3 id="session、window-及-pane-的关系"><a href="#session、window-及-pane-的关系" class="headerlink" title="session、window 及 pane 的关系"></a>session、window 及 pane 的关系</h3><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/tmux/tmux.svg" alt="tmux">
+
+<h3 id="session-管理"><a href="#session-管理" class="headerlink" title="session 管理"></a>session 管理</h3><h4 id="新建会话"><a href="#新建会话" class="headerlink" title="新建会话"></a>新建会话</h4><p>我们使用命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux new -s [session-name]<br></code></pre></td></tr></table></figure>
+
+<p>来新建一个 session。</p>
+<h4 id="分离会话"><a href="#分离会话" class="headerlink" title="分离会话"></a>分离会话</h4><p>我们在 tmux 中使用快捷键 Ctrl-b d 来分离当前会话，退回到默认终端界面。</p>
+<h4 id="会话列表"><a href="#会话列表" class="headerlink" title="会话列表"></a>会话列表</h4><p>我们使用命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux ls<br></code></pre></td></tr></table></figure>
+
+<p>列出所有会话列表。也可以使用快捷键 Ctrl-b s，来快速查看并切换会话。</p>
+<p>除了 Ctrl-b s，我们还可以使用命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux switch -t [session-name]<br></code></pre></td></tr></table></figure>
+
+<p>从当前会话切换到指定会话。</p>
+<h4 id="关闭会话"><a href="#关闭会话" class="headerlink" title="关闭会话"></a>关闭会话</h4><p>我们使用命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux kill-session -t [session-name]<br></code></pre></td></tr></table></figure>
+
+<p>来关闭会话。</p>
+<h4 id="重新返回会话"><a href="#重新返回会话" class="headerlink" title="重新返回会话"></a>重新返回会话</h4><p>我们使用命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux a -t [session-name]<br></code></pre></td></tr></table></figure>
+
+<p>来重新返回该会话。</p>
+<h4 id="重命名会话"><a href="#重命名会话" class="headerlink" title="重命名会话"></a>重命名会话</h4><p>我们使用快捷键 Ctrl-b $ 来重命名该会话。</p>
+<h3 id="window-管理"><a href="#window-管理" class="headerlink" title="window 管理"></a>window 管理</h3><h4 id="新建-window"><a href="#新建-window" class="headerlink" title="新建 window"></a>新建 window</h4><p>我们使用快捷键 Ctrl-b c 在该会话新建一个 window。</p>
+<h4 id="删除-window"><a href="#删除-window" class="headerlink" title="删除 window"></a>删除 window</h4><p>我们使用快捷键 Ctrl-b &amp; 删除该 window。</p>
+<h4 id="window-列表"><a href="#window-列表" class="headerlink" title="window 列表"></a>window 列表</h4><p>我们使用快捷键 Ctrl-b w 列出该 session 所有的 window。</p>
+<h4 id="重命名-window"><a href="#重命名-window" class="headerlink" title="重命名 window"></a>重命名 window</h4><p>我们使用快捷键 Ctrl-b , 可以重命名该 window。</p>
+<h3 id="pane-管理"><a href="#pane-管理" class="headerlink" title="pane 管理"></a>pane 管理</h3><h4 id="新建-pane"><a href="#新建-pane" class="headerlink" title="新建 pane"></a>新建 pane</h4><p>我们使用快捷键 Ctrl-b % 和 Ctrl-b “ 在左右和上下方向新建 pane。</p>
+<h4 id="关闭-pane"><a href="#关闭-pane" class="headerlink" title="关闭 pane"></a>关闭 pane</h4><p>我们在选定的 pane 上使用快捷键 Ctrl-b x 可以关闭该 pane。</p>
+<h4 id="切换-pane"><a href="#切换-pane" class="headerlink" title="切换 pane"></a>切换 pane</h4><p>我们使用快捷键 Ctrl-b 加方向键来切换 pane。</p>
+<h4 id="布局-pane"><a href="#布局-pane" class="headerlink" title="布局 pane"></a>布局 pane</h4><p>我们使用快捷键 Ctrl-b { 和 Ctrl-b } 可以重新布局 pane。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="重新加载-tmux-配置"><a href="#重新加载-tmux-配置" class="headerlink" title="重新加载 tmux 配置"></a>重新加载 tmux 配置</h4><p>我们使用命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux source-file ~/.tmux.conf<br></code></pre></td></tr></table></figure>
+
+<p>来重新加载 tmux 配置。</p>
+<p>.tmux.conf 中常用的配置为: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># Use Alt-arrow keys without prefix key to switch panes</span><br><span class="hljs-built_in">bind</span> -n M-Left select-pane -L<br><span class="hljs-built_in">bind</span> -n M-Right select-pane -R<br><span class="hljs-built_in">bind</span> -n M-Up select-pane -U<br><span class="hljs-built_in">bind</span> -n M-Down select-pane -D<br><br><span class="hljs-comment"># reload config file</span><br><span class="hljs-built_in">bind</span> r source-file ~/.tmux.conf<br></code></pre></td></tr></table></figure>
+
+<h4 id="pane-显示时间"><a href="#pane-显示时间" class="headerlink" title="pane 显示时间"></a>pane 显示时间</h4><p>我们使用快捷键 Ctrl-b t 可以在 pane 中间显示一个时钟。</p>
+<h4 id="最大化-pane"><a href="#最大化-pane" class="headerlink" title="最大化 pane"></a>最大化 pane</h4><p>我们使用快捷键 Ctrl-b z 可以最大化当前 pane，在使用一次则还原为原大小。</p>
+<h4 id="调整-pane-大小"><a href="#调整-pane-大小" class="headerlink" title="调整 pane 大小"></a>调整 pane 大小</h4><p>我们使用快捷键 Ctrl-b Alt-方向键可以调整当前 pane 大小。</p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Vim%20%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86%E5%8F%8A%20vimrc%20%E9%85%8D%E7%BD%AE/" title="Vim 插件管理及 vimrc 配置"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: Vim 插件管理及 vimrc 配置</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Shell(%E4%BA%94)/" title="Shell(五)">下一篇: Shell(五)&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

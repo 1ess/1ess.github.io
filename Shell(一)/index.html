@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>Shell(一) · A Sort Of A Blog</title><meta name="description" content="Shell 通常指的是命令行界面的解析器，一般来说，这个词是指操作系统中提供访问内核所提供之服务的程序。与之相对的是内核(Kernel)，内核不提供和用户的交互功能。
+CLI Shell
+常见的 Unix Shell 有: 
+
+sh: Bourne shell
+dash: Debian Almqui"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>Shell(一)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-01-18</span></p><p class="post-abstract"><p>Shell 通常指的是命令行界面的解析器，一般来说，这个词是指操作系统中提供访问内核所提供之服务的程序。<br>与之相对的是内核(Kernel)，内核不提供和用户的交互功能。</p>
+<h2 id="CLI-Shell"><a href="#CLI-Shell" class="headerlink" title="CLI Shell"></a>CLI Shell</h2><hr>
+<p>常见的 Unix Shell 有: </p>
+<ul>
+<li>sh: Bourne shell</li>
+<li>dash: Debian Almquist shell</li>
+<li>bash: Bourne Agine shell</li>
+<li>ksh: Korn shell</li>
+<li>zsh: Z shell</li>
+<li>csh: C shell</li>
+<li>fish: Friendly interactive shell</li>
+</ul>
+<h2 id="Shell-语法"><a href="#Shell-语法" class="headerlink" title="Shell 语法"></a>Shell 语法</h2><hr>
+<h3 id="首行语法"><a href="#首行语法" class="headerlink" title="首行语法"></a>首行语法</h3><p>shell 文件一般以 sh 作为文件后缀，在文件首行，以 #! 开头，后跟所使用的 shell: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-meta">#! /usr/bin/bash</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>shell 文件的注释以 # 开始: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># comment</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>shell 变量分为两类: </p>
+<ul>
+<li>局部变量</li>
+<li>环境变量</li>
+</ul>
+<h4 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h4><p>shell 给变量赋值，实际就是定义了变量。局部变量只在创建他们的 shell 脚本中使用，例如 A=13，就是定义了一个变量 A，如果我们想引用该变量，可以在字符串中使用 $A，如果不希望转义，则可以使用 \，如果想取消变量，我们可以使用 unset 操作: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">unset</span> NAME<br></code></pre></td></tr></table></figure>
+
+<h4 id="系统变量"><a href="#系统变量" class="headerlink" title="系统变量"></a>系统变量</h4><p>系统变量可以再创建他们的 shell 以及派生的任意子进程中使用。<br>系统变量又分为: </p>
+<ul>
+<li>本地变量: 只有本用户可以使用，保存在当前用户 home 目录下的 .bash_profile 或 .bashrc 文件中</li>
+<li>全局变量: 所有用户都可以使用，保存在 /etc/profile 或 /etc/bashrc 文件中</li>
+</ul>
+<p>常见的系统变量: </p>
+<ul>
+<li>$UID: 当前用户的 uid</li>
+<li>$USER: 当前用户</li>
+<li>$PWD: 当前路径</li>
+<li>$SHELL: 当前使用的 shell</li>
+<li>$PATH: 环境变量</li>
+<li>$0: 脚本名称</li>
+<li>${N}: 第 N 个参数</li>
+<li>$$: 脚本本身进程 PID</li>
+<li>$?: 上一个命令执行结果，0 为成功</li>
+</ul>
+<p>注意: 如果想修改 PATH 环境变量，使用 PATH=$PATH:新路径。</p>
+<p>如果修改了系统变量，我们可以使用 source 操作使得修改生效: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">source</span> [file path]<br></code></pre></td></tr></table></figure>
+
+<h3 id="算数运算"><a href="#算数运算" class="headerlink" title="算数运算"></a>算数运算</h3><p>算数运算包括: </p>
+<ul>
+<li>+</li>
+<li>-</li>
+<li>*</li>
+<li>/</li>
+<li>%</li>
+<li>**</li>
+</ul>
+<h4 id="整数运算"><a href="#整数运算" class="headerlink" title="整数运算"></a>整数运算</h4><h5 id="expr"><a href="#expr" class="headerlink" title="expr"></a>expr</h5><p>我们可以使用 expr 进行算数运算: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">expr <span class="hljs-variable">$INT1</span> + <span class="hljs-variable">$INT2</span><br></code></pre></td></tr></table></figure>
+
+<p>需要注意，expr 乘法符号需要转义: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">expr <span class="hljs-variable">$INT1</span> \* <span class="hljs-variable">$INT2</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="let"><a href="#let" class="headerlink" title="let"></a>let</h5><p>我们还可以使用 let 进行算数运算: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">let</span> sum=<span class="hljs-variable">$INT</span>+<span class="hljs-variable">$INT2</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$sum</span><br></code></pre></td></tr></table></figure>
+
+<p>let 语法的乘法运算符号不需要转义: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">let</span> multi=<span class="hljs-variable">$INT</span>*<span class="hljs-variable">$INT2</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$multi</span><br></code></pre></td></tr></table></figure>
+
+<h5 id=""><a href="#" class="headerlink" title="(())"></a>(())</h5><p>shell 中两个小括号也可以做运算: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">sum=$(( <span class="hljs-number">1</span> + <span class="hljs-number">3</span> ))<br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$sum</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="浮点数运算"><a href="#浮点数运算" class="headerlink" title="浮点数运算"></a>浮点数运算</h4><p>浮点数运算需要使用管道操作: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;scale=2;100/3&quot;</span>|bc<br></code></pre></td></tr></table></figure>
+
+<h3 id="shell-格式化输出"><a href="#shell-格式化输出" class="headerlink" title="shell 格式化输出"></a>shell 格式化输出</h3><p>echo 可以将内容输出到标准输出。语法为: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> [-ne] [字符串]<br></code></pre></td></tr></table></figure>
+
+<p>命令选项: </p>
+<ul>
+<li>n: 末尾不换行</li>
+<li>e: 解释转义字符</li>
+</ul>
+<p>如果希望 echo 现实的内容带颜色显示，格式如下: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;\033[背景颜色;文字颜色m 输出的字符串 \033[属性&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>文字颜色范围 30 - 37，背景颜色范围 40 - 47。属性为: </p>
+<ul>
+<li>0m: 关闭所有属性</li>
+<li>1m: 设置高亮度</li>
+<li>4m: 下划线</li>
+<li>5m: 闪烁</li>
+<li>7m: 反显</li>
+<li>8m: 消隐</li>
+</ul>
+<h3 id="shell-基本输入"><a href="#shell-基本输入" class="headerlink" title="shell 基本输入"></a>shell 基本输入</h3><p>read 命令等待用户的输入，默认接受键盘输入，回车代表输入结束。<br>命令选项有: </p>
+<ul>
+<li>p: 打印信息</li>
+<li>t: 限定时间</li>
+<li>s: 不回显</li>
+<li>n: 限制输入最大字符个数</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;Login: &quot;</span> account<br><span class="hljs-built_in">echo</span> -n -e <span class="hljs-string">&quot;Password: &quot;</span><br><span class="hljs-built_in">read</span> -s -t5 -n6 <span class="hljs-built_in">pwd</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$account</span>: <span class="hljs-variable">$pwd</span>&quot;</span><br></code></pre></td></tr></table></figure></p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/Shell(%E4%BA%8C)/" title="Shell(二)"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: Shell(二)</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/Dockerfile%20%E5%85%A5%E9%97%A8/" title="Dockerfile 入门">下一篇: Dockerfile 入门&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

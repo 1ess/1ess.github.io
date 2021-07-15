@@ -1,31 +1,45 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/%E7%AE%97%E6%B3%95(%E4%B8%80)/">算法(一)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-03-08</span></p><p class="post-abstract">本篇开始，我们来看看在工作中比较常用的两大算法之一的查找算法。
-概论
-查找表(Search Table): 是由同一类型的数据元素构成的集合。关键字(Key): 是数据元素中某个数据项的值，又称为键值。若此关键字可以唯一地标识某一记录，则称此关键字为主关键字(Primary Key)。
-查找(Searching)...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%94)/">数据结构(五)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-03-04</span></p><p class="post-abstract">本篇，我们来讨论一种多对多的数据结构 —— 图。
-图的定义
-图(Graph)是由顶点有穷非空集合和顶点之间边的集合组成，通常表示为: G(V, E)，其中，G 表示一个图，V 是图 G 中顶点的集合，E 是图 G 中边的集合。
-对于图的定义，我们需要注意几个方面: 
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/C%20Primer%20Plus(%E4%B8%80)/">Docker Compose</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-05-27</span></p><p class="post-abstract">从本篇开始，我们就要重新学习 C 语言了，参考书籍为《C Primer Plus》，是个硬骨头，加油吧💪。
+初识
+起源1972 年，贝尔实验室的 Dennis Ritch 和 Ken Thompson 在开发 Unix 系统时，设计了 C 语言，C 语言是在 B 语言的基础上进行设计的。
+使用理由虽然距离诞生已...</p></div><div class="post-container"><p class="post-title"><a href="/Docker%20Network/">Docker Network</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-05-25</span></p><p class="post-abstract">docker 的网络驱动有很多种方式，docker 官网给出的网络解决方案有 6 种，分别是：bridge、host、overlay、macvlan、none、Network plugins。每个网络都有自己的特点，应用场景各不相同，例如当有多台主机上的 docker 容器需要容器间进行跨宿主机通讯时，overl...</p></div><div class="post-container"><p class="post-title"><a href="/Redis/">Redis</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-05-23</span></p><p class="post-abstract">公司内部准备搭建缓存系统，经过调研，决定使用 Redis 来构建这一系统，本篇，我们就说说 Redis 的那些事。
+Redis 是什么
 
-线性表中我们把元素叫元素，树中将集合元素称为...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%9B%9B)/">数据结构(四)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-03-01</span></p><p class="post-abstract">本篇，我们来讨论一种一对多的数据结构 —— 树。
-树(Tree)
-概述树是 n(n &gt;= 0) 个节点的有限集。当 n = 0 时，称为空树。在任意一棵非空树中: 
+Redis is an open source (BSD licensed), in-memory data structure store, used as a databa...</p></div><div class="post-container"><p class="post-title"><a href="/RabbitMQ/">RabbitMQ</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-05-14</span></p><p class="post-abstract">本篇，我们介绍一下消息队列(MessageQueue)以及生产中比较常使用的框架 RabbitMQ。
+什么是消息队列
+消息队列允许应用程序通过相互发送消息进行通信。消息队列在目标程序繁忙或未连接时提供临时消息存储。
+基本架构
+消息队列的基本架构很简单: 客户机应用程序被称为生产者(producers)，用于创建消...</p></div><div class="post-container"><p class="post-title"><a href="/Vim/">Vim</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-03-16</span></p><p class="post-abstract">本来不打算介绍 Vim，但是今天看到一张 Vim 速查表，上面的内容将 Vim 的基础操作基本包含了，所以就贴上来以供参考。
 
-有且仅有一个特定的称为根(root)的节点
-当 n &gt;= 1 时，其余节点可分为 m(m &gt; 0)个互不相交的有限集 T1、T2...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%89)/">数据结构(三)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-02-26</span></p><p class="post-abstract">本篇，我们将会复习一下基于线性表衍生出的两种数据结构 —— 栈和队列。
-栈(Stack)
-在软件应用中，栈这种后进先出的数据结构的应用是非常普遍的。比如浏览器的前进后退、Word 和 PhotoShop 等编辑软件中的撤销操作，以及在 iOS 开发中的 push、pop controller 操作都是栈的应用。
-...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%8C)/">数据结构(二)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-02-24</span></p><p class="post-abstract">本篇，我们将会复习一下比较简单但是应用非常广泛的一种数据结构 —— 线性表。
-线性表
-线性表(List): 零个或多个数据元素的有限序列。
-如果用数学语言定义如下:若将线性表记为(a1, …, ai-1, ai, ai+1, …, an)，则表中 ai-1 领先于 ai，ai 领先于 ai+1，称 ai-1 是 ...</p></div><div class="post-container"><p class="post-title"><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%80)/">数据结构(一)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-02-22</span></p><p class="post-abstract">数据结构和算法是计算机软件相关专业的基础课程，要想从事编程工作，无论是否是科班出身，都不可能绕过这部分知识。从本篇开始，我会详细的复习一遍数据结构以及算法。
-数据结构
-数据结构: 是相互之间存在一种或多种特定关系的数据元素的集和。
-基本概念数据数据: 是描述客观事物的符号，是计算机中可以操作的对象，是能被计算机识...</p></div><div class="post-container"><p class="post-title"><a href="/LinQ%20%E6%9F%A5%E8%AF%A2%E8%A1%A8%E8%BE%BE%E5%BC%8F/">LinQ 查询表达式</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-02-20</span></p><p class="post-abstract">最近的工作是对一个复杂数据库进行操作，模型类之间的关系很复杂。操作方式使用了 LINQ，之前一直对 LINQ 的查询语法不太喜欢，这次使用之后，感觉比方法语法更容易接受，因此详细总结一下查询表达式的语法。
-数据查询历来都表示为简单的字符串，没有编译时类型检查。 此外，对于每种数据源，还需要学习不同的查询语言: S...</p></div><div class="post-container"><p class="post-title"><a href="/%E8%A3%85%E4%BF%AE/">装修</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-02-12</span></p><p class="post-abstract">
-西风吹老洞庭波，一夜湘君白发多。醉后不知天在水，满船清梦压星河。
+</p></div><div class="post-container"><p class="post-title"><a href="/Vim%20%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86%E5%8F%8A%20vimrc%20%E9%85%8D%E7%BD%AE/">Vim 插件管理及 vimrc 配置</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-03-04</span></p><p class="post-abstract">当没有插件管理器时，Vim 用户必须手动下载 tarball 包形式的插件，并将它们解压到 ~/.vim 目录中。所有插件文件分散在单个目录中，用户无法找到哪个文件属于哪个插件。此外，他们无法找到他们应该删除哪个文件来卸载插件，这时 Vim 插件管理器就可以派上用场。插件管理器将安装插件的文件保存在单独的目录中，...</p></div><div class="post-container"><p class="post-title"><a href="/10%20%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9A%20tmux/">10 分钟学会 tmux</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-02-22</span></p><p class="post-abstract">Tmux 是一个终端复用器(terminal multiplexer)，用户可以通过 tmux 在一个终端内管理多个分离的 session、window 及 pane，对于同时使用多个命令行，或多个任务时非常方便。
+安装 
 
-这两周家里忙着装修，跑了几次建材市场，每次坐公交来回要花上将近 4 个小时，都要坐吐了。因为预算有限，选砖看砖都精打细算，因为女朋友比较喜欢暖色调，今年的主色又是偏冷，所以将近一百多家都看过之后，都没有特别满意的，没想到最后一家都不报什么希望了...</p></div><div class="post-container"><p class="post-title"><a href="/%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E6%9C%89%E6%84%9F/">使用国内开源项目有感</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-02-08</span></p><p class="post-abstract">最近公司准备开发微信小程序，之前也研究过一段时间，写过几个 Demo，感觉原生开发有些笨重，决定调研一些开源框架来加速开发，因为自己熟悉 React，经过对比，决定采用京东开源的 Taro，没想到就此进入深坑。从脚手架的使用，再到视图框架 Taro-UI，就是一个坑接着一个坑，已经到了让人恶心的地步，CLI 的使...</p></div><div class="post-container"><p class="post-title"><a href="/%E9%97%B2%E8%81%8A/">闲聊</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-02-06</span></p><p class="post-abstract">
-你们这伙没胆量的下流东西！不要跑！来跟你们厮杀的只是个单枪匹马的骑士！
+使用
+前缀键tmux 中所有快捷键都要通过前缀键唤起。默认的前缀键是 Ctrl-b，即先...</p></div><div class="post-container"><p class="post-title"><a href="/Shell(%E4%BA%94)/">Shell(五)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-02-16</span></p><p class="post-abstract">本篇，我们来看一下 Shell 中的函数并且复习一下之前说过的正则表达式。
+函数
+函数定义的基本语法为: 
+ 
 
-一周多没更新 Blog 了，主要是最近又开始有些忙碌。
-工作最近这段时间，公司重新做了一款 toB 的 app。经过半年多服务器端开发，再回头进行移动端开发时，能从更高的角度来看待业务问题，进行更好的流程设计。我们可以从数据库的设计、用户...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 5 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/4/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/6/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+函数调用的基本语法为: 
+ 
+
+正则表达式
+关于正则表达式，我们之前已经说过两次了，这次我们在复习一下。
+介绍正则表达式是一种文本模式匹配，包括普通字符(例如，a 到 z 之间的字母)和特殊字符(称为...</p></div><div class="post-container"><p class="post-title"><a href="/Shell(%E5%9B%9B)/">Shell(四)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-02-09</span></p><p class="post-abstract">本篇，我们来讲讲 Shell 中的几个比较重要的流程控制语句 —— if 语句、for 语句、while 语句和 case 语句。
+if 语句
+单 if 语句if 语句格式: 
+ 
+
+if-else 语句if-else 语句格式: 
+ 
+
+if-elif-else 语句if-elif-else 语句格式: 
+ 
+...</p></div><div class="post-container"><p class="post-title"><a href="/Shell(%E4%B8%89)/">Shell(三)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-02-05</span></p><p class="post-abstract">本篇，我们来讲讲 Shell 中的五大运算，为接下来要讲解的流程语句和函数做准备。
+数学比较运算数学比较运算有如下参数:
+
+eq: equal
+ne: not equal
+gt: greater than
+lt: less than
+ge: greater than or equal
+le: less than ...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 5 頁 / 共 19 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/4/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/6/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

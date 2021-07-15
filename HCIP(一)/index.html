@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>HCIP(一) · A Sort Of A Blog</title><meta name="description" content="最近打算深入研究一下网络设备，比较了一下思科和华为的认证考试，最后选择华为 HCIP，之后几篇进行一下考试准备。
+模式
+默认情况下，进入到视图模式，键入 system-view 进入配置模式，在配置模式下，使用 quit 或 Ctrl+z 退回视图模式。
+视图模式在视图模式下，只有查看权限，命令界面"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>HCIP(一)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2020-11-14</span></p><p class="post-abstract"><p>最近打算深入研究一下网络设备，比较了一下思科和华为的认证考试，最后选择华为 HCIP，之后几篇进行一下考试准备。</p>
+<h2 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h2><hr>
+<p>默认情况下，进入到视图模式，键入 system-view 进入配置模式，在配置模式下，使用 quit 或 Ctrl+z 退回视图模式。</p>
+<h3 id="视图模式"><a href="#视图模式" class="headerlink" title="视图模式"></a>视图模式</h3><p>在视图模式下，只有查看权限，命令界面以 &gt; 开头标识。</p>
+<h3 id="配置模式"><a href="#配置模式" class="headerlink" title="配置模式"></a>配置模式</h3><p>在配置模式下，具有配置/查看权限，命令界面以 ] 开头标识。</p>
+<h2 id="华为设备命令"><a href="#华为设备命令" class="headerlink" title="华为设备命令"></a>华为设备命令</h2><hr>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>完整命令</th>
+<th>简化命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>进入全局配置模式</td>
+<td>system-view</td>
+<td>sys</td>
+</tr>
+<tr>
+<td>进入接口配置模式</td>
+<td>interface  GigabitEthernet 0/0/0</td>
+<td>int g0/0/0</td>
+</tr>
+<tr>
+<td>配置 IP 地址</td>
+<td>ip address 192.168.1.1 24</td>
+<td>ip add 192.168.1.1 24</td>
+</tr>
+<tr>
+<td>启用接口</td>
+<td>undo shutdown</td>
+<td>undo sh</td>
+</tr>
+<tr>
+<td>查看接口对应 IP</td>
+<td>display ip interface brief</td>
+<td>dis ip int br</td>
+</tr>
+<tr>
+<td>查看路由表</td>
+<td>display ip routing-table</td>
+<td>dis ip ro</td>
+</tr>
+<tr>
+<td>查看路由配置</td>
+<td>display current-configuration &#124; include ip route</td>
+<td>dis cur &#124; in ip rout</td>
+</tr>
+<tr>
+<td>保存配置</td>
+<td>save</td>
+<td>save</td>
+</tr>
+</tbody></table>
+<h2 id="无类地址"><a href="#无类地址" class="headerlink" title="无类地址"></a>无类地址</h2><hr>
+<h3 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h3><table>
+<thead>
+<tr>
+<th>Mask</th>
+<th>DEC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/1</td>
+<td>128</td>
+</tr>
+<tr>
+<td>/2</td>
+<td>192</td>
+</tr>
+<tr>
+<td>/3</td>
+<td>224</td>
+</tr>
+<tr>
+<td>/4</td>
+<td>240</td>
+</tr>
+<tr>
+<td>/5</td>
+<td>248</td>
+</tr>
+<tr>
+<td>/6</td>
+<td>252</td>
+</tr>
+<tr>
+<td>/7</td>
+<td>254</td>
+</tr>
+<tr>
+<td>/8</td>
+<td>255</td>
+</tr>
+</tbody></table>
+<h3 id="变长子网掩码"><a href="#变长子网掩码" class="headerlink" title="变长子网掩码"></a>变长子网掩码</h3><ol>
+<li>拥有子网数量: 2<sup>(|a - b|)</sup>，其中，a 为变长掩码，b 为默认掩码</li>
+<li>拥有主机数量: 2<sup>(32 - a)</sup>，其中，a 为变长掩码</li>
+</ol>
+<h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><hr>
+<h3 id="动态路由"><a href="#动态路由" class="headerlink" title="动态路由"></a>动态路由</h3><p>动态路由使用协议分为: </p>
+<ol>
+<li>内部网关协议</li>
+<li>外部网关协议</li>
+</ol>
+<h3 id="内部网关协议"><a href="#内部网关协议" class="headerlink" title="内部网关协议"></a>内部网关协议</h3><p>内部网关协议分为: </p>
+<ol>
+<li>RIP</li>
+<li>OSPF</li>
+<li>EIGRP</li>
+</ol>
+<h3 id="外部网关协议"><a href="#外部网关协议" class="headerlink" title="外部网关协议"></a>外部网关协议</h3><p>外部网关协议分为: </p>
+<ol>
+<li>EGP</li>
+<li>BGP</li>
+</ol>
+<h3 id="静态路由"><a href="#静态路由" class="headerlink" title="静态路由"></a>静态路由</h3><p>静态路由则由网络管理员手动配置，不会随着网络变化而变化。</p>
+<h3 id="路由匹配原则"><a href="#路由匹配原则" class="headerlink" title="路由匹配原则"></a>路由匹配原则</h3><ol>
+<li>最长掩码匹配: 掩码越长越精准</li>
+<li>AD 值: 值越小越精准</li>
+<li>度量值: 值越小越精准</li>
+</ol>
+<h4 id="华为协议-AD-值"><a href="#华为协议-AD-值" class="headerlink" title="华为协议 AD 值"></a>华为协议 AD 值</h4><table>
+<thead>
+<tr>
+<th>协议</th>
+<th>AD 值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>直连路由</td>
+<td>0</td>
+</tr>
+<tr>
+<td>OSPF</td>
+<td>10</td>
+</tr>
+<tr>
+<td>静态路由</td>
+<td>60</td>
+</tr>
+<tr>
+<td>RIP</td>
+<td>100</td>
+</tr>
+</tbody></table>
+<p>需要注意: 华为设备 AD 值与思科不同。</p>
+<h4 id="华为协议度量值"><a href="#华为协议度量值" class="headerlink" title="华为协议度量值"></a>华为协议度量值</h4><table>
+<thead>
+<tr>
+<th>协议</th>
+<th>度量值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RIP</td>
+<td>经过的跳数</td>
+</tr>
+<tr>
+<td>OSPF</td>
+<td>带宽</td>
+</tr>
+</tbody></table>
+<p>如果存在等价路由，则会实现负载分担。</p>
+</p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/HCIP(%E4%BA%8C)/" title="HCIP(二)"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: HCIP(二)</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/%E6%9D%82(%E4%BA%8C)/" title="杂(二)">下一篇: 杂(二)&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
