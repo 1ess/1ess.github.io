@@ -6,7 +6,7 @@
   <link href="https://1ess.github.io/atom.xml" rel="self"/>
   
   <link href="https://1ess.github.io/"/>
-  <updated>2021-07-15T02:39:03.966Z</updated>
+  <updated>2021-07-15T02:50:56.252Z</updated>
   <id>https://1ess.github.io/</id>
   
   <author>
@@ -18,10 +18,55 @@
   
   <entry>
     <title></title>
-    <link href="https://1ess.github.io/%E8%A3%85%E4%BF%AE/"/>
-    <id>https://1ess.github.io/%E8%A3%85%E4%BF%AE/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
+    <link href="https://1ess.github.io/Linux(%E4%B8%80)/"/>
+    <id>https://1ess.github.io/Linux(%E4%B8%80)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;从本篇开始，我们分几篇来专门说一下有关 Linux 的那些事儿。&lt;/p&gt;
+&lt;h2 id=&quot;Unix&quot;&gt;&lt;a href=&quot;#Unix&quot; class=&quot;headerlink&quot; title=&quot;Unix&quot;&gt;&lt;/a&gt;Unix&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;如果我们要介绍</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Linux(%E4%BA%8C)/"/>
+    <id>https://1ess.github.io/Linux(%E4%BA%8C)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上一篇中，我们说了一些 Linux 的历史，讲解了一些 shell 的基本命令。本篇，我们在来说一下在 Linux 下，如何根据条件查找文件以及打包压缩指令。&lt;/p&gt;
+&lt;h2 id=&quot;查找指令&quot;&gt;&lt;a href=&quot;#查找指令&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Linux(%E4%B8%89)/"/>
+    <id>https://1ess.github.io/Linux(%E4%B8%89)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
     
     
       
@@ -29,9 +74,10 @@
         
         
     <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;西风吹老洞庭波，一夜湘君白发多。&lt;br&gt;醉后不知天在水，满船清梦压星河。&lt;/p&gt;
+&lt;p&gt;旧游无处不堪寻，无寻处，唯有少年心。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;这两周家里忙着装修，跑了几次建材市场，每次坐公交来回要花上将近 4</summary>
+&lt;p&gt;本篇，我们在来说一下在 Linux 下，用户和组的相关知识。&lt;/p&gt;
+&lt;h2 id=&quot;Linux-下的用户管理&quot;&gt;&lt;a href=&quot;#Linux-下的用户管理&quot;</summary>
         
       
     
@@ -42,346 +88,10 @@
   
   <entry>
     <title></title>
-    <link href="https://1ess.github.io/LinQ%20%E6%9F%A5%E8%AF%A2%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    <id>https://1ess.github.io/LinQ%20%E6%9F%A5%E8%AF%A2%E8%A1%A8%E8%BE%BE%E5%BC%8F/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;最近的工作是对一个复杂数据库进行操作，模型类之间的关系很复杂。操作方式使用了 LINQ，之前一直对 LINQ</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%80)/"/>
-    <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%80)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;数据结构和算法是计算机软件相关专业的基础课程，要想从事编程工作，无论是否是科班出身，都不可能绕过这部分知识。&lt;br&gt;从本篇开始，我会详细的复习一遍数据结构以及算法。&lt;/p&gt;
-&lt;h2 id=&quot;数据结构&quot;&gt;&lt;a href=&quot;#数据结构&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%8C)/"/>
-    <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%8C)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们将会复习一下比较简单但是应用非常广泛的一种数据结构 —— 线性表。&lt;/p&gt;
-&lt;h2 id=&quot;线性表&quot;&gt;&lt;a href=&quot;#线性表&quot; class=&quot;headerlink&quot; title=&quot;线性表&quot;&gt;&lt;/a&gt;线性表&lt;/h2&gt;&lt;hr&gt;
-&lt;p&gt;线性表(List):</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%89)/"/>
-    <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%89)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们将会复习一下基于线性表衍生出的两种数据结构 —— 栈和队列。&lt;/p&gt;
-&lt;h2 id=&quot;栈-Stack&quot;&gt;&lt;a href=&quot;#栈-Stack&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%9B%9B)/"/>
-    <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%9B%9B)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们来讨论一种一对多的数据结构 —— 树。&lt;/p&gt;
-&lt;h2 id=&quot;树-Tree&quot;&gt;&lt;a href=&quot;#树-Tree&quot; class=&quot;headerlink&quot; title=&quot;树(Tree)&quot;&gt;&lt;/a&gt;树(Tree)&lt;/h2&gt;&lt;hr&gt;
-&lt;h3 id=&quot;概述&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%94)/"/>
-    <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%94)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们来讨论一种多对多的数据结构 —— 图。&lt;/p&gt;
-&lt;h2 id=&quot;图的定义&quot;&gt;&lt;a href=&quot;#图的定义&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%B8%80)/"/>
-    <id>https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%B8%80)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇开始，我们来看看在工作中比较常用的两大算法之一的&lt;strong&gt;查找&lt;/strong&gt;算法。&lt;/p&gt;
-&lt;h2 id=&quot;概论&quot;&gt;&lt;a href=&quot;#概论&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%BA%8C)/"/>
-    <id>https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%BA%8C)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇开始，我们来看看在工作中比较常用的两大算法之一的&lt;strong&gt;排序&lt;/strong&gt;算法。&lt;/p&gt;
-&lt;h2 id=&quot;基本概念及分类&quot;&gt;&lt;a href=&quot;#基本概念及分类&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/MySQL(%E4%B8%80)/"/>
-    <id>https://1ess.github.io/MySQL(%E4%B8%80)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;从本篇开始，我们来说说最流行的数据库 —— 关于 MySQL 的那些事儿。&lt;/p&gt;
-&lt;h2 id=&quot;数据库概念&quot;&gt;&lt;a href=&quot;#数据库概念&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/MySQL(%E4%BA%8C)/"/>
-    <id>https://1ess.github.io/MySQL(%E4%BA%8C)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们来说说 SQL 的基本操作 —— 库操作、表操作以及数据操作。&lt;/p&gt;
-&lt;h2 id=&quot;库操作&quot;&gt;&lt;a href=&quot;#库操作&quot; class=&quot;headerlink&quot; title=&quot;库操作&quot;&gt;&lt;/a&gt;库操作&lt;/h2&gt;&lt;hr&gt;
-&lt;h3 id=&quot;创建数据库&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/MySQL(%E4%B8%89)/"/>
-    <id>https://1ess.github.io/MySQL(%E4%B8%89)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们再来说说 MySQL 中的列类型和列属性以及表间关系。&lt;/p&gt;
-&lt;h2 id=&quot;列类型&quot;&gt;&lt;a href=&quot;#列类型&quot; class=&quot;headerlink&quot; title=&quot;列类型&quot;&gt;&lt;/a&gt;列类型&lt;/h2&gt;&lt;hr&gt;
-&lt;h3 id=&quot;整数类型&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/MySQL(%E5%9B%9B)/"/>
-    <id>https://1ess.github.io/MySQL(%E5%9B%9B)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们说说 MySQL 对于数据的增删改查操作以及运算符。&lt;/p&gt;
-&lt;h2 id=&quot;新增数据&quot;&gt;&lt;a href=&quot;#新增数据&quot; class=&quot;headerlink&quot; title=&quot;新增数据&quot;&gt;&lt;/a&gt;新增数据&lt;/h2&gt;&lt;hr&gt;
-&lt;h3 id=&quot;多数据插入&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/MySQL(%E4%BA%94)/"/>
-    <id>https://1ess.github.io/MySQL(%E4%BA%94)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们说说 MySQL 中的联合查询、连接查询以及子查询。&lt;/p&gt;
-&lt;h2 id=&quot;联合查询&quot;&gt;&lt;a href=&quot;#联合查询&quot; class=&quot;headerlink&quot; title=&quot;联合查询&quot;&gt;&lt;/a&gt;联合查询&lt;/h2&gt;&lt;hr&gt;
-&lt;p&gt;基本概念:</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/MySQL(%E5%85%AD)/"/>
-    <id>https://1ess.github.io/MySQL(%E5%85%AD)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们说说 MySQL 中的外键、视图以及事务安全等问题。&lt;/p&gt;
-&lt;h2 id=&quot;外键&quot;&gt;&lt;a href=&quot;#外键&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/MySQL(%E4%B8%83)/"/>
-    <id>https://1ess.github.io/MySQL(%E4%B8%83)/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇是 MySQL 的最后一篇，我们最后讲讲变量、函数、存储过程和触发器。&lt;/p&gt;
-&lt;h2 id=&quot;变量&quot;&gt;&lt;a href=&quot;#变量&quot; class=&quot;headerlink&quot; title=&quot;变量&quot;&gt;&lt;/a&gt;变量&lt;/h2&gt;&lt;hr&gt;
-&lt;p&gt;MySQL</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E4%B9%9D%E4%B9%9D%E5%BD%92%E4%B8%80/"/>
-    <id>https://1ess.github.io/%E4%B9%9D%E4%B9%9D%E5%BD%92%E4%B8%80/</id>
-    <published>2021-07-15T02:39:03.966Z</published>
-    <updated>2021-07-15T02:39:03.966Z</updated>
+    <link href="https://1ess.github.io/Linux(%E5%9B%9B)/"/>
+    <id>https://1ess.github.io/Linux(%E5%9B%9B)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
     
     
       
@@ -389,7 +99,234 @@
         
         
     <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;Two things are infinite: the universe and human stupidity; and I’m not sure about the</summary>
+&lt;p&gt;滚滚长江东逝水，浪花淘尽英雄，是非成败转头空，青山依旧在，几度夕阳红。&lt;br&gt;白发渔樵江渚上，惯看秋月春风，一壶浊酒喜相逢，古今多少事，都付笑谈中。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;mdash;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Linux(%E4%BA%94)/"/>
+    <id>https://1ess.github.io/Linux(%E4%BA%94)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇，我们在来说一下在 Linux 下，有关网络、服务的相关知识。&lt;/p&gt;
+&lt;h2 id=&quot;网络设置&quot;&gt;&lt;a href=&quot;#网络设置&quot; class=&quot;headerlink&quot; title=&quot;网络设置&quot;&gt;&lt;/a&gt;网络设置&lt;/h2&gt;&lt;hr&gt;
+&lt;h3</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Linux(%E5%85%AD)/"/>
+    <id>https://1ess.github.io/Linux(%E5%85%AD)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇，我们在来说一下在 Linux 下，有关软件管理的相关知识。&lt;/p&gt;
+&lt;h3 id=&quot;软件包管理器&quot;&gt;&lt;a href=&quot;#软件包管理器&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Linux(%E4%B8%83)/"/>
+    <id>https://1ess.github.io/Linux(%E4%B8%83)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;破帽遮颜过闹市，漏船载酒泛中流，躲进小楼成一统，管他冬夏与春秋。 &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;本篇，我们在来说一下在 Linux 下，有关进程和内存与磁盘的相关知识。&lt;/p&gt;
+&lt;h2 id=&quot;进程&quot;&gt;&lt;a href=&quot;#进程&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Linux(%E5%85%AB)/"/>
+    <id>https://1ess.github.io/Linux(%E5%85%AB)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇，我们在来说一下在 Linux 下，有关正则和文本处理的相关知识。&lt;/p&gt;
+&lt;h2 id=&quot;正则表达式&quot;&gt;&lt;a href=&quot;#正则表达式&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Nginx(%E4%B8%80)/"/>
+    <id>https://1ess.github.io/Nginx(%E4%B8%80)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Nginx 现在已经是在 Web 开发中必不可少的技能了，我们通过几篇文章，来总结一下有关 Nginx 的知识。&lt;/p&gt;
+&lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Nginx(%E4%BA%8C)/"/>
+    <id>https://1ess.github.io/Nginx(%E4%BA%8C)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇，我们来介绍一下 Nginx 中最重要的一个配置文件 —— nginx.conf 的基本配置。&lt;/p&gt;
+&lt;h2 id=&quot;nginx-conf&quot;&gt;&lt;a href=&quot;#nginx-conf&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Nginx(%E4%B8%89)/"/>
+    <id>https://1ess.github.io/Nginx(%E4%B8%89)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇，我们来介绍一下 nginx.conf 的全局块以及 events 块中的一些常见基本配置。&lt;/p&gt;
+&lt;h3 id=&quot;配置运行-Nginx-的用户和组&quot;&gt;&lt;a href=&quot;#配置运行-Nginx-的用户和组&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Nginx(%E5%9B%9B)/"/>
+    <id>https://1ess.github.io/Nginx(%E5%9B%9B)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇，我们来介绍一下 nginx.conf 的 http 块、server 块以及 location 块中的一些常见基本配置。&lt;/p&gt;
+&lt;h3 id=&quot;定义-MIME-Type&quot;&gt;&lt;a href=&quot;#定义-MIME-Type&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Nginx(%E4%BA%94)/"/>
+    <id>https://1ess.github.io/Nginx(%E4%BA%94)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇，我们来介绍一下 nginx.conf 中的压缩配置 —— gzip。&lt;/p&gt;
+&lt;p&gt;在 Nginx 配置文件中可以配置 gzip 的使用，相关指令可以在配置文件的 http 块、server 块或者 location 块中设置。&lt;/p&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Nginx(%E5%85%AD)/"/>
+    <id>https://1ess.github.io/Nginx(%E5%85%AD)/</id>
+    <published>2021-07-15T02:50:56.252Z</published>
+    <updated>2021-07-15T02:50:56.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇，我们来介绍一下 nginx.conf 中的 rewrite 配置。&lt;/p&gt;
+&lt;h2 id=&quot;后端服务器组的配置&quot;&gt;&lt;a href=&quot;#后端服务器组的配置&quot; class=&quot;headerlink&quot;</summary>
         
       
     
@@ -402,8 +339,8 @@
     <title></title>
     <link href="https://1ess.github.io/Life%20is%20short,%20you%20need%20Python/"/>
     <id>https://1ess.github.io/Life%20is%20short,%20you%20need%20Python/</id>
-    <published>2021-07-15T02:39:03.954Z</published>
-    <updated>2021-07-15T02:39:03.954Z</updated>
+    <published>2021-07-15T02:50:56.248Z</published>
+    <updated>2021-07-15T02:50:56.248Z</updated>
     
     
       
@@ -424,8 +361,8 @@
     <title></title>
     <link href="https://1ess.github.io/Python(%E4%B8%80)/"/>
     <id>https://1ess.github.io/Python(%E4%B8%80)/</id>
-    <published>2021-07-15T02:39:03.954Z</published>
-    <updated>2021-07-15T02:39:03.954Z</updated>
+    <published>2021-07-15T02:50:56.248Z</published>
+    <updated>2021-07-15T02:50:56.248Z</updated>
     
     
       
@@ -446,8 +383,8 @@
     <title></title>
     <link href="https://1ess.github.io/Python(%E4%BA%8C)/"/>
     <id>https://1ess.github.io/Python(%E4%BA%8C)/</id>
-    <published>2021-07-15T02:39:03.954Z</published>
-    <updated>2021-07-15T02:39:03.954Z</updated>
+    <published>2021-07-15T02:50:56.248Z</published>
+    <updated>2021-07-15T02:50:56.248Z</updated>
     
     
       
@@ -457,6 +394,75 @@
     <summary type="html">&lt;p&gt;上篇我们说了 Python 中的一些基本数据类型，本篇我们来说说 Python 内置数据结构。&lt;/p&gt;
 &lt;p&gt;Python 中有四种内置的数据结构 —— 列表(List)、元组(Tuple)、字典(Dictionary)和集合(Set)。&lt;/p&gt;
 &lt;h2</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Python(%E4%B8%89)/"/>
+    <id>https://1ess.github.io/Python(%E4%B8%89)/</id>
+    <published>2021-07-15T02:50:56.248Z</published>
+    <updated>2021-07-15T02:50:56.248Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;The Zen of Python, by Tim Peters&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Beautiful is better than ugly.&lt;br&gt;Explicit is better</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Python(%E5%9B%9B)/"/>
+    <id>https://1ess.github.io/Python(%E5%9B%9B)/</id>
+    <published>2021-07-15T02:50:56.248Z</published>
+    <updated>2021-07-15T02:50:56.248Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇，我们说说 Python 中的函数以及模块的基本概念。&lt;/p&gt;
+&lt;h2 id=&quot;函数&quot;&gt;&lt;a href=&quot;#函数&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Python(%E4%BA%94)/"/>
+    <id>https://1ess.github.io/Python(%E4%BA%94)/</id>
+    <published>2021-07-15T02:50:56.248Z</published>
+    <updated>2021-07-15T02:50:56.248Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇，我们说说 Python 中的面向对象编程的基本概念。&lt;/p&gt;
+&lt;h2 id=&quot;概念&quot;&gt;&lt;a href=&quot;#概念&quot; class=&quot;headerlink&quot;</summary>
         
       
     

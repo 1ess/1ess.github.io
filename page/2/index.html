@@ -1,51 +1,32 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇，我们来说说 SQL 的基本操作 —— 库操作、表操作以及数据操作。
-库操作
-创建数据库基本语法: create database {数据库名} [库选项];
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/Nginx(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇，我们来介绍一下 nginx.conf 的全局块以及 events 块中的一些常见基本配置。
+配置运行 Nginx 的用户和组用于配置运行 Nginx 服务器的用户和组的指令为: 
  
 
-库选项: 
+只有被设置的用户或用户组才有权限启动 Nginx 进程。如果想所有用户都可以运行 Nginx 进程，有两种办法: 
 
-字符集: charset {指定字符集}，不指定则采用安装时默认字符集
-校对集: collate {指定校对集}
-
-显示数据库显示...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇，我们再来说说 MySQL 中的列类型和列属性以及表间关系。
-列类型
-整数类型
-Tinyint: 迷你整型，采用 1 字节保存整型数据
-Smallint: 小整型，采用 2 字节保存整型数据
-Mediumint: 中整型，采用 3 字节保存整型数据
-Int: 标准整型，采用 4 字节保存整型数据
-Bigint...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇，我们说说 MySQL 对于数据的增删改查操作以及运算符。
-新增数据
-多数据插入基本语法: insert into {表名}({字段列表}) values({值列表1}), ({值列表2}), …
+将本...</p></div><div class="post-container"><p class="post-title"><a href="/Nginx(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇，我们来介绍一下 nginx.conf 的 http 块、server 块以及 location 块中的一些常见基本配置。
+定义 MIME-TypeMIME-Type 是网络资源的媒体类型，Nginx 服务器作为 Web 服务器，必须能够识别请求的资源类型。在默认的 Nginx 配置文件中，我们可以看到 ht...</p></div><div class="post-container"><p class="post-title"><a href="/Nginx(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇，我们来介绍一下 nginx.conf 中的压缩配置 —— gzip。
+在 Nginx 配置文件中可以配置 gzip 的使用，相关指令可以在配置文件的 http 块、server 块或者 location 块中设置。
+gzip 基本指令
+gzip该指令用于开启或关闭 gzip 功能，语法为: 
  
 
-主键冲突在有的表中，使用的是业务主键，但是往往在进行数据插入时，又不确定数据表中是否存在对应的主键。
- 
-...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇，我们说说 MySQL 中的联合查询、连接查询以及子查询。
-联合查询
-基本概念: 可合并多个相似的选择查询结果的结果集，等同于将一个表追加到另一个表，从而实现将两个表的查询结果组合到一起，使用 Union 或 Union all。注意: 这个合并是纵向合并，字段数不变，多个查询的结果合并。
-应用场景
-同一张表...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇，我们说说 MySQL 中的外键、视图以及事务安全等问题。
-外键
-如果公共关键字在一个关系中是主关键字，那么这个公共关键字被称为另一个关系的外键。以另一个关系的外键作为主关键字的表称为主表，具有此外键的表称为主表的从表，外键又称为外关键字。
-外键操作增加外键MySQL 中提供两种方式增加外键: 
-
-在创建表时...</p></div><div class="post-container"><p class="post-title"><a href="/MySQL(%E4%B8%83)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇是 MySQL 的最后一篇，我们最后讲讲变量、函数、存储过程和触发器。
-变量
-MySQL 需要很多变量来保存数据。
-系统变量系统内部定义的变量，系统变量针对所有用户有效。
-查看系统变量基本语法: show variables [{模式匹配}];
- 
-
-查看系统变量实际值基本语法: select @@{变量名}...</p></div><div class="post-container"><p class="post-title"><a href="/%E4%B9%9D%E4%B9%9D%E5%BD%92%E4%B8%80/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">
-Two things are infinite: the universe and human stupidity; and I’m not sure about the universe.
-
-最近离职了，说不上为什么，就是有一种感觉不能再这样下去了，我不想单纯的经历”吃饭-上班-吃饭-睡觉”这样浑浑噩噩的日子...</p></div><div class="post-container"><p class="post-title"><a href="/Life%20is%20short,%20you%20need%20Python/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">
+默认情况...</p></div><div class="post-container"><p class="post-title"><a href="/Nginx(%E5%85%AD)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇，我们来介绍一下 nginx.conf 中的 rewrite 配置。
+后端服务器组的配置
+Nginx 服务器的反向代理、负载均衡等重要功能都会涉及后端服务器组这一概念，服务器组的设置包括 4 个常用指令，我们分别介绍一下。
+upstream 指令upstream 指令是设置后端服务器组的重要指令，其他的指令都...</p></div><div class="post-container"><p class="post-title"><a href="/Life%20is%20short,%20you%20need%20Python/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">
 之前一直在写 Objective-C 以及 C# 这种强类型、静态类型的语言，也写过 Javascript 这种弱类型、动态类型的语言，今天开始，来学习一门不一样的强类型、动态类型的语言 —— Python。
 这里，我先说一下我关于强弱类型以及动态静态类型的理解。对于强弱类型，区别主要是，强类型偏向于不容忍隐式...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E4%B8%80)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">从本篇开始，我们将要学习关于 Python 的基础知识以及高阶知识，尽量涉及到有关 Python 的方方面面。
 格式与其他语言有很大区别，Python 是使用缩进来组织代码块，我们应遵守约定俗成的习惯，使用四个空格来缩进。这是来自 Python 语言官方的建议。好的编辑器会自动为你完成这一工作。
 请确保你在缩进中...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E4%BA%8C)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">上篇我们说了 Python 中的一些基本数据类型，本篇我们来说说 Python 内置数据结构。
 Python 中有四种内置的数据结构 —— 列表(List)、元组(Tuple)、字典(Dictionary)和集合(Set)。
 列表(List)
-列表 是一种用于保存一系列有序项目的集合。使用方括号将数据元素包裹表示...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 2 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/3/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+列表 是一种用于保存一系列有序项目的集合。使用方括号将数据元素包裹表示...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E4%B8%89)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">
+The Zen of Python, by Tim Peters
+
+
+Beautiful is better than ugly.Explicit is better than implicit.Simple is better than complex.Complex is better than compl...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%9B%9B)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇，我们说说 Python 中的函数以及模块的基本概念。
+函数
+函数(Functions)是指可重复使用的程序片段。它们允许你为某个代码块赋予名字，允许你通过这一特殊的名字在你的程序任何地方来运行代码块，并可重复任何次数。这就是所谓的调用(Calling)函数。我们已经使用过了许多内置的函数，例如 len 和 ...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E4%BA%94)/"></a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2021-07-15</span></p><p class="post-abstract">本篇，我们说说 Python 中的面向对象编程的基本概念。
+概念
+面向对象最重要的概念就是类(Class)和实例(Instance)。一个类(Class)能够创建一种新的类型(Type)，其中对象(Object)就是类的实例(Instance)。可以这样来类比: 你可以拥有类型 int 的变量，也就是说存储整数的...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 2 頁 / 共 13 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/3/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
