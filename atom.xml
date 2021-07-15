@@ -6,7 +6,7 @@
   <link href="https://1ess.github.io/atom.xml" rel="self"/>
   
   <link href="https://1ess.github.io/"/>
-  <updated>2021-07-15T02:15:50.954Z</updated>
+  <updated>2021-07-15T02:39:03.966Z</updated>
   <id>https://1ess.github.io/</id>
   
   <author>
@@ -18,145 +18,10 @@
   
   <entry>
     <title></title>
-    <link href="https://1ess.github.io/ASP.Net%20API(%E4%B8%80)/"/>
-    <id>https://1ess.github.io/ASP.Net%20API(%E4%B8%80)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;ASP.Net Web MVC 的知识我们也复习了大概，基础内容已经覆盖了大部分，从本篇开始，我们来认识一下 ASP.Net Web API。&lt;/p&gt;
-&lt;h2 id=&quot;Web-API-是什么&quot;&gt;&lt;a href=&quot;#Web-API-是什么&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/ASP.Net%20API(%E4%BA%8C)/"/>
-    <id>https://1ess.github.io/ASP.Net%20API(%E4%BA%8C)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;之前我们说过 Web MVC 中的路由，本篇，我们看看如何配置 Web API 路由。&lt;/p&gt;
-&lt;p&gt;Web API 路由类似于 ASP.NET MVC 路由。它将传入的 HTTP 请求路由到 Web API Controller 上的特定 Action</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/ASP.Net%20API(%E4%B8%89)/"/>
-    <id>https://1ess.github.io/ASP.Net%20API(%E4%B8%89)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;了解了 Web API 如何将 HTTP 请求路由到 Controller 和 Action 方法。我们将再看看 Web API 如何将 HTTP 请求数据绑定到操作方法的参数。&lt;/p&gt;
-&lt;h2 id=&quot;Model-Binding&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/ASP.Net%20API(%E5%9B%9B)/"/>
-    <id>https://1ess.github.io/ASP.Net%20API(%E5%9B%9B)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇，我们讲讲 Web API 如何处理不同格式的请求和响应数据。&lt;/p&gt;
-&lt;p&gt;Web API 包括对 JSON，XML，BSON 和 form-urlencoded 数据的内置支持，这意味着它会自动将请求/响应数据转换为这些格式(开箱即用)。&lt;/p&gt;
-&lt;h2</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E9%97%B2%E8%81%8A/"/>
-    <id>https://1ess.github.io/%E9%97%B2%E8%81%8A/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;你们这伙没胆量的下流东西！不要跑！来跟你们厮杀的只是个单枪匹马的骑士！&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;一周多没更新 Blog 了，主要是最近又开始有些忙碌。&lt;/p&gt;
-&lt;h3 id=&quot;工作&quot;&gt;&lt;a href=&quot;#工作&quot;</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://1ess.github.io/%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E6%9C%89%E6%84%9F/"/>
-    <id>https://1ess.github.io/%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E6%9C%89%E6%84%9F/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;最近公司准备开发微信小程序，之前也研究过一段时间，写过几个 Demo，感觉原生开发有些笨重，决定调研一些开源框架来加速开发，因为自己熟悉 React，经过对比，决定采用京东开源的 &lt;a</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
     <link href="https://1ess.github.io/%E8%A3%85%E4%BF%AE/"/>
     <id>https://1ess.github.io/%E8%A3%85%E4%BF%AE/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -179,8 +44,8 @@
     <title></title>
     <link href="https://1ess.github.io/LinQ%20%E6%9F%A5%E8%AF%A2%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
     <id>https://1ess.github.io/LinQ%20%E6%9F%A5%E8%AF%A2%E8%A1%A8%E8%BE%BE%E5%BC%8F/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -200,8 +65,8 @@
     <title></title>
     <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%80)/"/>
     <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%80)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -222,8 +87,8 @@
     <title></title>
     <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%8C)/"/>
     <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%8C)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -245,8 +110,8 @@
     <title></title>
     <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%89)/"/>
     <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%89)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -267,8 +132,8 @@
     <title></title>
     <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%9B%9B)/"/>
     <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%9B%9B)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -290,8 +155,8 @@
     <title></title>
     <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%94)/"/>
     <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%94)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -312,8 +177,8 @@
     <title></title>
     <link href="https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%B8%80)/"/>
     <id>https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%B8%80)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -334,8 +199,8 @@
     <title></title>
     <link href="https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%BA%8C)/"/>
     <id>https://1ess.github.io/%E7%AE%97%E6%B3%95(%E4%BA%8C)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -356,8 +221,8 @@
     <title></title>
     <link href="https://1ess.github.io/MySQL(%E4%B8%80)/"/>
     <id>https://1ess.github.io/MySQL(%E4%B8%80)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -378,8 +243,8 @@
     <title></title>
     <link href="https://1ess.github.io/MySQL(%E4%BA%8C)/"/>
     <id>https://1ess.github.io/MySQL(%E4%BA%8C)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -401,8 +266,8 @@
     <title></title>
     <link href="https://1ess.github.io/MySQL(%E4%B8%89)/"/>
     <id>https://1ess.github.io/MySQL(%E4%B8%89)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -424,8 +289,8 @@
     <title></title>
     <link href="https://1ess.github.io/MySQL(%E5%9B%9B)/"/>
     <id>https://1ess.github.io/MySQL(%E5%9B%9B)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -447,8 +312,8 @@
     <title></title>
     <link href="https://1ess.github.io/MySQL(%E4%BA%94)/"/>
     <id>https://1ess.github.io/MySQL(%E4%BA%94)/</id>
-    <published>2021-07-15T02:15:50.954Z</published>
-    <updated>2021-07-15T02:15:50.954Z</updated>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
     
     
       
@@ -458,6 +323,140 @@
     <summary type="html">&lt;p&gt;本篇，我们说说 MySQL 中的联合查询、连接查询以及子查询。&lt;/p&gt;
 &lt;h2 id=&quot;联合查询&quot;&gt;&lt;a href=&quot;#联合查询&quot; class=&quot;headerlink&quot; title=&quot;联合查询&quot;&gt;&lt;/a&gt;联合查询&lt;/h2&gt;&lt;hr&gt;
 &lt;p&gt;基本概念:</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/MySQL(%E5%85%AD)/"/>
+    <id>https://1ess.github.io/MySQL(%E5%85%AD)/</id>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇，我们说说 MySQL 中的外键、视图以及事务安全等问题。&lt;/p&gt;
+&lt;h2 id=&quot;外键&quot;&gt;&lt;a href=&quot;#外键&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/MySQL(%E4%B8%83)/"/>
+    <id>https://1ess.github.io/MySQL(%E4%B8%83)/</id>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本篇是 MySQL 的最后一篇，我们最后讲讲变量、函数、存储过程和触发器。&lt;/p&gt;
+&lt;h2 id=&quot;变量&quot;&gt;&lt;a href=&quot;#变量&quot; class=&quot;headerlink&quot; title=&quot;变量&quot;&gt;&lt;/a&gt;变量&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;MySQL</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/%E4%B9%9D%E4%B9%9D%E5%BD%92%E4%B8%80/"/>
+    <id>https://1ess.github.io/%E4%B9%9D%E4%B9%9D%E5%BD%92%E4%B8%80/</id>
+    <published>2021-07-15T02:39:03.966Z</published>
+    <updated>2021-07-15T02:39:03.966Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;Two things are infinite: the universe and human stupidity; and I’m not sure about the</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Life%20is%20short,%20you%20need%20Python/"/>
+    <id>https://1ess.github.io/Life%20is%20short,%20you%20need%20Python/</id>
+    <published>2021-07-15T02:39:03.954Z</published>
+    <updated>2021-07-15T02:39:03.954Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/python/python1.jpg&quot;&gt;&lt;/p&gt;
+&lt;p&gt;之前一直在写 Objective-C 以及 C# 这种强类型、静态类型的语言，也写过</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Python(%E4%B8%80)/"/>
+    <id>https://1ess.github.io/Python(%E4%B8%80)/</id>
+    <published>2021-07-15T02:39:03.954Z</published>
+    <updated>2021-07-15T02:39:03.954Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;从本篇开始，我们将要学习关于 Python 的基础知识以及高阶知识，尽量涉及到有关 Python 的方方面面。&lt;/p&gt;
+&lt;h3 id=&quot;格式&quot;&gt;&lt;a href=&quot;#格式&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/Python(%E4%BA%8C)/"/>
+    <id>https://1ess.github.io/Python(%E4%BA%8C)/</id>
+    <published>2021-07-15T02:39:03.954Z</published>
+    <updated>2021-07-15T02:39:03.954Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上篇我们说了 Python 中的一些基本数据类型，本篇我们来说说 Python 内置数据结构。&lt;/p&gt;
+&lt;p&gt;Python 中有四种内置的数据结构 —— 列表(List)、元组(Tuple)、字典(Dictionary)和集合(Set)。&lt;/p&gt;
+&lt;h2</summary>
         
       
     
