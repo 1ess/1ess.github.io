@@ -5,7 +5,7 @@
 <p>我们常说的虚拟化可以分为两种类型: TYPE I 和 TYPE II。<br>我们常见的 VMWare Workstation、VirtualBox、Parallels Desktop 等均属于二型虚拟化软件，他们需要运行于宿主操作系统。<br>而企业级虚拟化平台有: VMWare vSphere、KVM 等则属于一型虚拟化，他们直接运行于裸金属服务器。</p>
 <h3 id="vSphere"><a href="#vSphere" class="headerlink" title="vSphere"></a>vSphere</h3><p>vSphere 属于商用软件，VMware ESXi 是 VMware 的裸机虚拟机管理程序。VMware ESXi 附带免费和付费版本。与付费 ESXi 相比，免费版本的 ESXi 除了无法使用 vCenter Server 外几乎没有任何限制。在管理单机虚拟化时，我们可以使用 VMware Host Client 管理。</p>
 <h2 id="公司虚拟化平台"><a href="#公司虚拟化平台" class="headerlink" title="公司虚拟化平台"></a>公司虚拟化平台</h2><hr>
-<p>公司新买的 DELL 服务器今天到了，要搭建虚拟化平台，由于自己对 ESXi 比较熟悉，因此绝对采用该软件进行平台搭建。</p>
+<p>公司新买的 DELL 服务器今天到了，要搭建虚拟化平台，由于自己对 ESXi 比较熟悉，因此决定采用该软件进行平台搭建。</p>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>新买的服务器有三块 3T 磁盘，我们先对服务器磁盘进行 RAID5，DELL 服务器 RAID 操作非常简单，使用 F2 进入系统设置，选择 Device Setting，选中 RAID 卡，然后进行 Configuration Managerment，选择 Create Virtual Disk 根据磁盘数量创建可使用的 RAID 类型。</p>
 <p>然后我们使用 rufus 将 ESXi 写入 U 盘制作启动盘，以 U 盘启动后，则可进入 DCUI。我们可以拿着显示器和键盘直接连接服务器对其进行 IP 等基础配置。配置完毕，我们以后就可以直接使用 VMware Host Client 远程管理了。</p>
 <h3 id="创建虚拟机"><a href="#创建虚拟机" class="headerlink" title="创建虚拟机"></a>创建虚拟机</h3><p>创建虚拟机前，我们要先在存储中上载对应操作系统的镜像文件，创建虚拟机过程非常简单，在此不再赘述。</p>
