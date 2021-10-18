@@ -6,7 +6,7 @@
   <link href="https://1ess.github.io/atom.xml" rel="self"/>
   
   <link href="https://1ess.github.io/"/>
-  <updated>2021-10-12T10:42:48.094Z</updated>
+  <updated>2021-10-15T09:22:51.014Z</updated>
   <id>https://1ess.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://1ess.github.io/%E9%94%81/"/>
     <id>https://1ess.github.io/%E9%94%81/</id>
     <published>2021-10-12T10:42:48.094Z</published>
-    <updated>2021-10-12T10:42:48.094Z</updated>
+    <updated>2021-10-15T09:22:51.014Z</updated>
     
     
       
@@ -29,7 +29,7 @@
         
         
     <summary type="html">&lt;p&gt;锁在并发编程中扮演着非常重要的角色，本篇，我将梳理各种锁分类的概念以及各种锁实现类之间的区别与联系。&lt;/p&gt;
-&lt;h2 id=&quot;锁的种类&quot;&gt;&lt;a href=&quot;#锁的种类&quot; class=&quot;headerlink&quot;</summary>
+&lt;h2 id=&quot;为什么要有锁&quot;&gt;&lt;a href=&quot;#为什么要有锁&quot; class=&quot;headerlink&quot;</summary>
         
       
     
