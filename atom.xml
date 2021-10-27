@@ -6,7 +6,7 @@
   <link href="https://1ess.github.io/atom.xml" rel="self"/>
   
   <link href="https://1ess.github.io/"/>
-  <updated>2021-10-18T03:58:57.997Z</updated>
+  <updated>2021-10-27T03:37:38.360Z</updated>
   <id>https://1ess.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="https://1ess.github.io/SICP(%E4%B8%80)/"/>
+    <id>https://1ess.github.io/SICP(%E4%B8%80)/</id>
+    <published>2021-10-27T03:37:34.315Z</published>
+    <updated>2021-10-27T03:37:38.360Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;我的博客即将同步至腾讯云+社区，邀请大家一同入驻：&lt;a</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>锁</title>
@@ -427,27 +448,6 @@
         
     <summary type="html">&lt;p&gt;前面一章介绍的是表结构的操作，本章开始讲解表数据的操作。之前我们已经说过很多有关 SQL 查询的知识。本篇主要讲一下 Oracle 与其他数据库不一样的地方。&lt;/p&gt;
 &lt;p&gt;本篇我们使用的 student 表数据结构如下:</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Oracle 数据库拾遗(一)</title>
-    <link href="https://1ess.github.io/Oracle%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8B%BE%E9%81%97(%E4%B8%80)/"/>
-    <id>https://1ess.github.io/Oracle%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8B%BE%E9%81%97(%E4%B8%80)/</id>
-    <published>2021-01-08T16:00:00.000Z</published>
-    <updated>2021-10-09T08:14:24.930Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;由于目前工作需要使用 Oracle 数据库，准备来看一下 PL/SQL 对标准 SQL 进行了那些补充。&lt;br&gt;在 ANSI/ISO SQL 标准中，SQL 语句可以分为 DDL(数据定义)、DML(数据操作)和</summary>
         
       
     
