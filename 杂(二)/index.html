@@ -53,6 +53,7 @@ NAT 后无法在内网通过外部 IP 访问内部服务之所以会出现无法
 <li>~/.ssh/ 文件夹权限是否为 700</li>
 <li>~/.ssh/authorized_keys 文件权限是否为 600</li>
 </ol>
+<h3 id="ssh-保持连接"><a href="#ssh-保持连接" class="headerlink" title="ssh 保持连接"></a>ssh 保持连接</h3><p>~/.ssh/config 文件中每个 Host 添加 ServerAliveInterval 60</p>
 <h2 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h2><hr>
 <h3 id="软件版本号"><a href="#软件版本号" class="headerlink" title="软件版本号"></a>软件版本号</h3><ol>
 <li>Alpha: α 是希腊字母的第一个，表示内部测试版，一般不对外部发布，bug 较多，功能不全，一般经由测试人员测试使用</li>
@@ -62,4 +63,11 @@ NAT 后无法在内网通过外部 IP 访问内部服务之所以会出现无法
 </ol>
 <h2 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h2><hr>
 <h3 id="刷新-jsDelivr-缓存"><a href="#刷新-jsDelivr-缓存" class="headerlink" title="刷新 jsDelivr 缓存"></a>刷新 jsDelivr 缓存</h3><p>jsDelivr 提供的全球 CDN 加速，CDN的分流作用不仅减少了用户的访问延时，也减少的源站的负载。但其缺点也很明显: 当网站更新时，如果 CDN 节点上数据没有及时更新，即便用户再浏览器使用 Ctrl + F5 的方式使浏览器端的缓存失效，也会因为 CDN 边缘节点没有同步最新数据而导致用户端未能及时更新。<br>对于 jsDelivr，缓存刷新的方式也很简单: 将希望刷新缓存的链接 <a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/">https://cdn.jsdelivr.net/</a>… 替换为 <a target="_blank" rel="noopener" href="https://purge.jsdelivr.net/">https://purge.jsdelivr.net/</a>… 即可实时刷新。刷新成功后，浏览器会返回缓存刷新成功的 JSON 信息。</p>
+<h2 id="Chrome"><a href="#Chrome" class="headerlink" title="Chrome"></a>Chrome</h2><hr>
+<h3 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h3><p>Windows下使用快捷键 Ctrl+Shift+p 可开启快捷面板。</p>
+<ol>
+<li>Capture full size screeshot: 截网页全图</li>
+<li>Clear console history: 清空控制台历史</li>
+<li>Disable javascript/Enable javescript: 禁用/启用 javascript</li>
+</ol>
 </p></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/HCIP(%E4%B8%80)/" title="HCIP(一)"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: HCIP(一)</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C/" title="家庭网络">下一篇: 家庭网络&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
