@@ -8,8 +8,8 @@
 <li>我们将从单机的数据存储转向跨机器的分布式系统，将依次讨论数据远程复制、数据分区、事务、分布式系统的更多细节以及分布式环境如何达成一致性与共识</li>
 <li>主要针对产生派生数据的系统(所谓派生数据主要指在异构系统中，如果无法用一个数据源来解决所有问题，那么一种自然的方式就是集成多个不同的数据库、缓存模块以及索引模块)</li>
 </ol>
-<h2 id="数据系统基础"><a href="#数据系统基础" class="headerlink" title="数据系统基础"></a>数据系统基础</h2><hr>
-<h3 id="可靠、可扩展与可维护的应用系统"><a href="#可靠、可扩展与可维护的应用系统" class="headerlink" title="可靠、可扩展与可维护的应用系统"></a>可靠、可扩展与可维护的应用系统</h3><p>第一章主要介绍相关术语与方法， 这些术语等将贯穿于全书。</p>
+<h2 id="可靠、可扩展与可维护的应用系统"><a href="#可靠、可扩展与可维护的应用系统" class="headerlink" title="可靠、可扩展与可维护的应用系统"></a>可靠、可扩展与可维护的应用系统</h2><hr>
+<p>第一章主要介绍相关术语与方法， 这些术语等将贯穿于全书。</p>
 <ol>
 <li>可靠性: 当出现意外情况如硬件、软件故障、人为失误等，系统应可以继续正常运转，虽然性能可能有所降低，但确保功能正确</li>
 <li>可扩展性: 随着规模的增长，例如数据量、流量或复杂性，系统应以合理的方式来匹配这种增长</li>
@@ -64,5 +64,6 @@
 </ol>
 <p>复杂性有各种各样的表现方式: <strong>状态空间的膨胀、模块紧耦合、令入纠结的相互依赖关系、不一致的命名和术语、为了性能而采取的特殊处理、为解决某特定问题而引入的特殊框架</strong>等。<br>复杂性使得维护变得越来越困难，最终会导致预算超支和开发进度滞后。最终开发人员更加难以准确理解、评估或者更加容易忽略相关行为。<br>消除意外复杂性最好手段之一是抽象。一个好的设计抽象可以隐藏大量的实现细节，并对外提供干净、易懂的接口。一个好的设计抽象可用于各种不同的应用程序。</p>
 <p>一成不变的系统需求几乎没有，想法和目标经常在不断变化: <strong>适配新的外部环境、新的用例、业务优先级的变化、用户要求的新功能、新平台取代旧平台、业务增长促使架构的演变</strong>等。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>知易行难，我们都知道应该使应用程序可靠、可扩展或可维护，但实际实现他们却并不容易。考虑到一些重要的模式和技术在很多不同应用中普遍适用，在接下来的几章中，我们就一些数据密集系统例子，分析它们如何实现上述这些目标。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><hr>
+<p>知易行难，我们都知道应该使应用程序可靠、可扩展或可维护，但实际实现他们却并不容易。考虑到一些重要的模式和技术在很多不同应用中普遍适用，在接下来的几章中，我们就一些数据密集系统例子，分析它们如何实现上述这些目标。</p>
 </p></div><div class="pagination"><p class="clearfix"><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/%E9%94%81/" title="锁">下一篇: 锁&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2021&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
