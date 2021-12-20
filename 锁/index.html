@@ -55,7 +55,27 @@
 <li>常见的 DML 语句(如 INSERT、DELETE、UPDATE)为当前读，加 X 锁；</li>
 <li>常见的 DDL 语句(如 ALTER、CREATE 等)加表级锁，且这些语句为隐式提交，不能回滚。</li>
 </ul>
-<h2 id="单纯使用锁实现不同隔离级别的示例"><a href="#单纯使用锁实现不同隔离级别的示例" class="headerlink" title="单纯使用锁实现不同隔离级别的示例"></a>单纯使用锁实现不同隔离级别的示例</h2><p>我们有如下User表，用于之后的示例:<br>| id | age |<br>| – | – |<br>| 1 | 10 |<br>| 2 | 20 |<br>| 3 | 30 |</p>
+<h2 id="单纯使用锁实现不同隔离级别的示例"><a href="#单纯使用锁实现不同隔离级别的示例" class="headerlink" title="单纯使用锁实现不同隔离级别的示例"></a>单纯使用锁实现不同隔离级别的示例</h2><p>我们有如下User表，用于之后的示例: </p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20</td>
+</tr>
+<tr>
+<td>3</td>
+<td>30</td>
+</tr>
+</tbody></table>
 <h3 id="READ-UNCOMMITTED-隔离级别锁"><a href="#READ-UNCOMMITTED-隔离级别锁" class="headerlink" title="READ UNCOMMITTED 隔离级别锁"></a>READ UNCOMMITTED 隔离级别锁</h3><p>READ UNCOMMITTED 规定: </p>
 <ul>
 <li>事务 A 对当前被读取的数据不加锁</li>
