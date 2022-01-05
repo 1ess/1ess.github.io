@@ -1,32 +1,420 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2022&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/JavaScript(%E4%B8%80)/">JavaScript(一)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-07-20</span></p><p class="post-abstract">之前的几篇，我们介绍了 HTML 和 CSS 基础知识，对于网页结构和样式，都有了一定的了解。从这篇之后，我们将介绍网页中另一个重要知识 - JavaScript。我们将参考《JavaScript 高级程序设计》，对每章的重要知识进行详细的讲解。
-JavaScript 简介
-JavaScript 堪称世界上被人误...</p></div><div class="post-container"><p class="post-title"><a href="/IndexedDB%20%E5%9F%BA%E7%A1%80/">IndexedDB 基础</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-07-15</span></p><p class="post-abstract">这一篇，由于在自己项目中采用的前端存储 —— IndexedDB，所以这一篇就介绍一些关于 IndexedDB 的知识。
-概述
-在前端开发当中，有时会因为某些需求，要将一些数据存储在前端本地。我们回顾一下有几种手段可依然我们在前端存储数据。
-Cookies在前端的上古时代里，前端想要存储数据，只有一种方式，那就是...</p></div><div class="post-container"><p class="post-title"><a href="/Docker%20%E5%9F%BA%E7%A1%80/">Docker 基础</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-07-12</span></p><p class="post-abstract">之前讲了很多前端基础知识，这一篇换个口味，讲讲 Docker。然后再继续讲 JavaScript。
 
-Docker 是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在 Linux 操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。Docker 利用 Linux...</p></div><div class="post-container"><p class="post-title"><a href="/CSS(%E4%B9%9D)/">CSS(九)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-07-09</span></p><p class="post-abstract">这一篇，我们主要讲解变换(transform)和过渡(transition)的使用。
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?78449084">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item active" href="https://1ess.github.io">
+                Home
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            Journal.
+        </div>
+        <div class="nav-subtitle">
+            隻言片語<br>於此匯聚
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+        
+        <div class="pagination-indicator">
+            <span style="text-align: center">
+                18<br><div style="display: inline-block; transform: rotate(-28deg)">-</div><br>20
+            </span>
+        </div>
+        
+
+        
+        <a class="pagination-action" href="/page/17/">
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
+        
+
+        
+        <a class="pagination-action" href="/page/19/">
+            <i class="material-icons pagination-action-icon">
+                chevron_right
+            </i>
+        </a>
+        
+        
+    </div>
+</div>
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-no-background">
+        
+        <a href="/JavaScript(一)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            JavaScript(一)
+                        </div>
+                        <div class="post-item-summary">
+                            之前的几篇，我们介绍了 HTML 和 CSS 基础知识，对于网页结构和样式，都有了一定的了解。从这篇之后，我们将介...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-07-20
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/IndexedDB 基础/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            IndexedDB 基础
+                        </div>
+                        <div class="post-item-summary">
+                            这一篇，由于在自己项目中采用的前端存储 —— IndexedDB，所以这一篇就介绍一些关于 IndexedDB 的...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-07-15
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Docker 基础/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Docker 基础
+                        </div>
+                        <div class="post-item-summary">
+                            之前讲了很多前端基础知识，这一篇换个口味，讲讲 Docker。然后再继续讲 JavaScript。
+
+Docker...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-07-12
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/CSS(九)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            CSS(九)
+                        </div>
+                        <div class="post-item-summary">
+                            这一篇，我们主要讲解变换(transform)和过渡(transition)的使用。
 transform
-2D transform 相关的属性有两个: 
+2D t...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-07-09
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/CSS(八)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            CSS(八)
+                        </div>
+                        <div class="post-item-summary">
+                            这一篇，我们来介绍一下响应式设计及其三大关键技术 - 流式布局，弹性媒体和媒体查询。并会介绍移动优先的响应式设计。...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-07-08
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/CSS(七)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            CSS(七)
+                        </div>
+                        <div class="post-item-summary">
+                            Grid 布局是 CSS 中最强大的布局系统。Grid 布局是一个二维布局系统，意味着它可以处理列和行，不像 Fl...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-07-06
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/CSS(六)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            CSS(六)
+                        </div>
+                        <div class="post-item-summary">
+                            这一篇，我们将来介绍高级布局方式 - Flexbox 布局。传统布局解决方案是基于盒模型，依赖 display 属...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-07-04
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/CSS(五)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            CSS(五)
+                        </div>
+                        <div class="post-item-summary">
+                            从这一篇开始，将要介绍 CSS 中最重要的两个知识 - 浮动和定位。前面几篇关于 CSS 的知识，只是讲解了一个元...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-07-02
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/CSS(四)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            CSS(四)
+                        </div>
+                        <div class="post-item-summary">
+                            上一篇我们介绍了，使用 display: block; 和 display: inline; 来改变默认的盒模型。...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-06-30
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/CSS(三)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            CSS(三)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇将讲解盒模型以及外边距折叠的相关知识。“CSS 盒模型”是一组规则，用于定义如何呈现 Internet 上的每...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-06-28
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+    
+        
+<div class="pagination index-page">
+    
+    <a class="pagination-action" href="/page/17/" style="opacity: 1">
+        
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
 
-transform
-transform-origin
+        <div class="pagination-indicator">
+            <span>18/20</span>
+        </div>
 
-具体讲解这两个属性之前，我们先看一下需要注意的地方: 
+        
+        <a class="pagination-action" href="/page/19/"
+           style="opacity: 1">
+            
+                <i class="material-icons pagination-action-icon">
+                    chevron_right
+                </i>
+            </a>
+</div>
 
-这两个元素可以作用在 transformab...</p></div><div class="post-container"><p class="post-title"><a href="/CSS(%E5%85%AB)/">CSS(八)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-07-08</span></p><p class="post-abstract">这一篇，我们来介绍一下响应式设计及其三大关键技术 - 流式布局，弹性媒体和媒体查询。并会介绍移动优先的响应式设计。
-概述
-响应式设计指的是网站可以在不论是宽屏显示器还是移动设备都能表现得同样出色。这是一种网页设计和开发方法，它消除了网站的移动版本与桌面版本之间的区别。
-响应式设计是通过媒体查询完成的。
-流式布局
-...</p></div><div class="post-container"><p class="post-title"><a href="/CSS(%E4%B8%83)/">CSS(七)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-07-06</span></p><p class="post-abstract">Grid 布局是 CSS 中最强大的布局系统。Grid 布局是一个二维布局系统，意味着它可以处理列和行，不像 Flexbox 主要是一维布局系统。通过将 CSS 规则应用于父元素(称为 grid container)和子元素(称为 grid items)，我们就可以使用网格布局。
-上一篇我们就说过，基于传统的 f...</p></div><div class="post-container"><p class="post-title"><a href="/CSS(%E5%85%AD)/">CSS(六)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-07-04</span></p><p class="post-abstract">这一篇，我们将来介绍高级布局方式 - Flexbox 布局。传统布局解决方案是基于盒模型，依赖 display 属性 + position 属性 + float 属性。它对于那些特殊布局非常不方便，比如，垂直居中就不容易实现。
-Flexbox 布局旨在提供一种更有效简便的布局解决方案，可以很容易的实现各种布局。注...</p></div><div class="post-container"><p class="post-title"><a href="/CSS(%E4%BA%94)/">CSS(五)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-07-02</span></p><p class="post-abstract">从这一篇开始，将要介绍 CSS 中最重要的两个知识 - 浮动和定位。前面几篇关于 CSS 的知识，只是讲解了一个元素作为一个个体时的样式，从这篇布局内容开始，将要介绍多个元素放在一起，从总体角度确定每个元素的位置。布局分类: 
+    </div>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
 
-表格布局: 现在已经不用了，现在都是将表格作为一种数据展现元素，而不是布局方式
-定位...</p></div><div class="post-container"><p class="post-title"><a href="/CSS(%E5%9B%9B)/">CSS(四)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-06-30</span></p><p class="post-abstract">上一篇我们介绍了，使用 display: block; 和 display: inline; 来改变默认的盒模型。这一篇，我们详细介绍 4 种常用的 display 属性值，以及与背景相关的属性。
-Block，Inline，Inline-block，None
-Block之前说过，块级元素的特点: 
-
-独占一行
-宽...</p></div><div class="post-container"><p class="post-title"><a href="/CSS(%E4%B8%89)/">CSS(三)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2018-06-28</span></p><p class="post-abstract">本篇将讲解盒模型以及外边距折叠的相关知识。“CSS 盒模型”是一组规则，用于定义如何呈现 Internet 上的每个网页。 CSS 将 HTML 文档中的每个元素视为一个”框”或”盒”，其中包含一系列不同的属性，用于确定它在页面上的显示位置。本章介绍了 CSS 框模型的核心组件: 填充，边框，边距，Block b...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 18 頁 / 共 20 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/17/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/19/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2022&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?71733262"></script>
+</body>
+</html>

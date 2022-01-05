@@ -1,51 +1,422 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>A Sort Of A Blog</title><meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="https://cdn.jsdelivr.net/gh/1ess/cdn/h4cker/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title">0x7c00</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">张冬冬的博客</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/" class="current">首頁</a></li><li><a href="/archives">歸檔</a></li><li class="soc"><a href="https://github.com/1ess" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://1ess.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2022&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-container"><p class="post-title"><a href="/Linux(%E4%BA%8C)/">Linux(二)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-06-06</span></p><p class="post-abstract">上一篇中，我们说了一些 Linux 的历史，讲解了一些 shell 的基本命令。本篇，我们在来说一下在 Linux 下，如何根据条件查找文件以及打包压缩指令。
-查找指令
-命令查找我们可以使用 which 或者 whereis 命令查找命令所在路径。
- 
 
-文件查找我们使用 find 命令来查找文件。find 命令...</p></div><div class="post-container"><p class="post-title"><a href="/Linux(%E4%B8%80)/">Linux(一)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-06-02</span></p><p class="post-abstract">从本篇开始，我们分几篇来专门说一下有关 Linux 的那些事儿。
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?48879001">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item active" href="https://1ess.github.io">
+                Home
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            Journal.
+        </div>
+        <div class="nav-subtitle">
+            隻言片語<br>於此匯聚
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+        
+        <div class="pagination-indicator">
+            <span style="text-align: center">
+                9<br><div style="display: inline-block; transform: rotate(-28deg)">-</div><br>20
+            </span>
+        </div>
+        
+
+        
+        <a class="pagination-action" href="/page/8/">
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
+        
+
+        
+        <a class="pagination-action" href="/page/10/">
+            <i class="material-icons pagination-action-icon">
+                chevron_right
+            </i>
+        </a>
+        
+        
+    </div>
+</div>
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-no-background">
+        
+        <a href="/Linux(二)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Linux(二)
+                        </div>
+                        <div class="post-item-summary">
+                            上一篇中，我们说了一些 Linux 的历史，讲解了一些 shell 的基本命令。本篇，我们在来说一下在 Linux...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-06-06
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Linux(一)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Linux(一)
+                        </div>
+                        <div class="post-item-summary">
+                            从本篇开始，我们分几篇来专门说一下有关 Linux 的那些事儿。
 Unix
-如果我们要介绍 Linux，我们就不得不首先说一下 Unix。Unix: 一种多用户、多进程的计算机操作系统，开发于 1970 年在美国 AT&amp;T 公司的贝尔实验室的 AT＆T Unix。此后的 10 年，Unix 在学术机构和大...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E5%85%AD)/">Python(十六)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-05-17</span></p><p class="post-abstract">接下来的几篇，我们将介绍一下最流行的爬虫框架 Scrapy。本篇，我们会介绍一下 Scrapy 的基本使用。
-基本命令
- 
-
-Scrapy 中的 Selector
-scrapy 的 Selector 支持两种方式提取内容: 
-
-xpath()
-css()
-
-xpath() 和 css() 的返回结果也是 Sele...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E4%BA%94)/">Python(十五)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-05-12</span></p><p class="post-abstract">本篇，我们来介绍一下 BeautifulSoup，使用它可以灵活又方便的进行网页解析，支持多种解析器，即使不编写正则表达式也可以进行网页信息的提取。
-安装 
-
-解析器Python 标准库 
-
-lxml HTML 解析器(推荐) 
-
-lxml XML 解析器 
-
-html5lib 
-
-基本使用 
-
-标签选择器选择元...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E5%9B%9B)/">Python(十四)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-04-28</span></p><p class="post-abstract">正则表达式(Regular Expression)是对字符串操作的一种逻辑公式。之前的章节我们已经提到过正则表达式，本篇我们就对正则表达式做一个详细的介绍。
-re.match
-re.match 尝试从字符串的起始位置匹配一个模式，如果匹配不成功，则返回 None。
-最常规匹配 
-
-泛匹配 
-
-匹配目标 
-
-贪婪匹...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E4%B8%89)/">Python(十三)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-04-27</span></p><p class="post-abstract">上篇，我们介绍了 Python 基础 HTTP 库 urllib 的基本使用，在使用上还是比较麻烦的，本篇，我们来看一下第三方 HTTP 库 Requests 是如何简化我们的操作的。
-Requests
-Requests 是基于 urllib，采用 Apache2 Licensed 开源协议的 HTTP 库，他比...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E4%BA%8C)/">Python(十二)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-04-23</span></p><p class="post-abstract">本篇开始，将会学习有关 Python 爬虫的相关知识，通过几篇的介绍，完整学习 Python 爬虫的方方面面。
-在学习 Python 爬虫之前，我们首先需要下载安装 MongoDB，Redis 以及 MySQL。在学习爬虫的过程中都会使用到，之后的学习中默认已经完成相关软件的安装。
-MongoDB Redis M...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81%E4%B8%80)/">Python(十一)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-04-21</span></p><p class="post-abstract">字符串是编程时涉及到的最多的一种数据结构，对字符串进行操作的需求几乎无处不在。正则表达式是一种用来匹配字符串的强有力的武器。
-基本
-在正则表达式中，如果直接给出字符，就是精确匹配。用 \d 可以匹配一个数字，\w 可以匹配一个字母或数字。例如: 
-
-‘00\d’ 可以匹配 ‘001’，但是不能匹配 ‘00A’
-‘...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E5%8D%81)/">Python(十)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-04-20</span></p><p class="post-abstract">Python 既支持多进程，又支持多线程，本篇，我们看看如何编写这两种多任务程序。
+如果我们要介绍 Linux，我们就不得...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-06-02
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Python(十六)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Python(十六)
+                        </div>
+                        <div class="post-item-summary">
+                            接下来的几篇，我们将介绍一下最流行的爬虫框架 Scrapy。本篇，我们会介绍一下 Scrapy 的基本使用。
+基本...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-05-17
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Python(十五)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Python(十五)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们来介绍一下 BeautifulSoup，使用它可以灵活又方便的进行网页解析，支持多种解析器，即使不编写正...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-05-12
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Python(十四)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Python(十四)
+                        </div>
+                        <div class="post-item-summary">
+                            正则表达式(Regular Expression)是对字符串操作的一种逻辑公式。之前的章节我们已经提到过正则表达式...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-04-28
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Python(十三)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Python(十三)
+                        </div>
+                        <div class="post-item-summary">
+                            上篇，我们介绍了 Python 基础 HTTP 库 urllib 的基本使用，在使用上还是比较麻烦的，本篇，我们来...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-04-27
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Python(十二)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Python(十二)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇开始，将会学习有关 Python 爬虫的相关知识，通过几篇的介绍，完整学习 Python 爬虫的方方面面。
+在...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-04-23
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Python(十一)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Python(十一)
+                        </div>
+                        <div class="post-item-summary">
+                            字符串是编程时涉及到的最多的一种数据结构，对字符串进行操作的需求几乎无处不在。正则表达式是一种用来匹配字符串的强有...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-04-21
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Python(十)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Python(十)
+                        </div>
+                        <div class="post-item-summary">
+                            Python 既支持多进程，又支持多线程，本篇，我们看看如何编写这两种多任务程序。
 多进程
-fork()Unix/Linux 操作系统提供了一个 fork() 系统调用，它非常特殊。普通的函数调用，调用一次，返回一次，但是 fork() 调用一次，返回两次，因为操作系统自动把当前进程(称为父进程)复制了一份(称为...</p></div><div class="post-container"><p class="post-title"><a href="/Python(%E4%B9%9D)/">Python(九)</a></p><p class="post-meta"><span class="date meta-item">發佈於&nbsp;2019-04-18</span></p><p class="post-abstract">本篇，我们说说 Python 中的 IO 编程 —— 文件读写、StringIO 和 BytesIO 以及序列化。IO 在计算机中指 Input/Output，也就是输入和输出。通常指的是磁盘、网络等。IO 编程中，Stream(流)是一个很重要的概念，可以把流想象成一个水管，数据就是水管里的水，但是只能单向流动...</p></div><div class="pagination no-margin-bottom"><p class="clearfix"><p> 第 9 頁 / 共 20 頁 &nbsp;</p><p><span class="pre pagbuttons"><i class="fa fa-angle-double-left"></i>&nbsp;<a role="navigation" href="/page/8/">上一頁</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/page/10/">下一頁</a>&nbsp;<i class="fa fa-angle-double-right"></i></span></p></p></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2022&nbsp;</p><p>如果五分钟后她必须进安检，如果安检在十米之外</p><p>那意味着，你们可以亲吻四分五十秒。&nbsp;</p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+fork()Unix/...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-04-20
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Python(九)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Python(九)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们说说 Python 中的 IO 编程 —— 文件读写、StringIO 和 BytesIO 以及序列化。...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-04-18
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+    
+        
+<div class="pagination index-page">
+    
+    <a class="pagination-action" href="/page/8/" style="opacity: 1">
+        
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
+
+        <div class="pagination-indicator">
+            <span>9/20</span>
+        </div>
+
+        
+        <a class="pagination-action" href="/page/10/"
+           style="opacity: 1">
+            
+                <i class="material-icons pagination-action-icon">
+                    chevron_right
+                </i>
+            </a>
+</div>
+
+    </div>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?86317737"></script>
+</body>
+</html>
