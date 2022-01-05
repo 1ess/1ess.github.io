@@ -259,8 +259,7 @@ a {
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; 
-  scrollbar-width: none;}
+  justify-content: space-between; }
   .side-container .nav-head {
     padding: 30px 28px 30px 20px;
     cursor: hand;
@@ -322,8 +321,8 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 30px 0; 
-  scrollbar-width: none;}
+  padding: 30px 0;
+  scrollbar-width: none; }
   .extra-container .pagination {
     display: flex;
     flex-direction: column; }
@@ -638,7 +637,8 @@ a {
       padding: 20px 35px;
       width: 100%;
       display: flex;
-      justify-content: space-between; }
+      justify-content: space-between;
+      scrollbar-width: none; }
       .stream-container .post .post-pagination .newer-posts {
         padding-right: 5px;
         text-align: left;
