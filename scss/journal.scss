@@ -1,4 +1,4 @@
-$color-accent: #9f563a;
+$color-accent: #01506f;
 $back-container-background: #fcfcfc;
 $front-container-background: #ffffff;
 
@@ -53,6 +53,10 @@ $h-diff: 3px;
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+::selection {
+  background: rgba($color-accent, 0.07);
 }
 
 body {
