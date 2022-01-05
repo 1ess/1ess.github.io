@@ -1,298 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>MySQL(五) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="本篇，我们说说 MySQL 中的联合查询、连接查询以及子查询。
-联合查询
-基本概念: 可合并多个相似的选择查询结果...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?23701639">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    MySQL(五)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2019-03-27T00:00:00.000Z" itemprop="datePublished">
-                            2019-03-27 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>本篇，我们说说 MySQL 中的联合查询、连接查询以及子查询。</p>
-<h2 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h2><hr>
-<p>基本概念: 可合并多个相似的选择查询结果的结果集，等同于将一个表追加到另一个表，从而实现将两个表的查询结果组合到一起，使用 Union 或 Union all。<br>注意: 这个合并是纵向合并，字段数不变，多个查询的结果合并。</p>
-<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ol>
-<li>同一张表的不同结果，合并到一起展示</li>
-<li>在大数据量情况，会分表操作，会使用联合查询将数据存放到一起显示</li>
-</ol>
-<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><p>select 语句 union [all/distinct(默认)] select 语句;</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">(<span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_stud <span class="hljs-keyword">where</span> gender <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;男&#x27;</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> height <span class="hljs-keyword">asc</span>)<br><span class="hljs-keyword">union</span> <br>(<span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_stud <span class="hljs-keyword">where</span> gender <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;女&#x27;</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> height <span class="hljs-keyword">desc</span>);<br></code></pre></td></tr></table></figure>
-
-<p>注意: 如果联合查询中使用 order by，必须把该 select 语句使用括号包裹。并且 MySQL 8.0 之前，为了使 order by 生效，还必须使用 limit {大数量}</p>
-<h2 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h2><hr>
-<p>基本概念: 将多张表连接到一起进行查询，会导致记录的行数和字段列数发生改变。</p>
-<p>连接查询分类: </p>
-<ol>
-<li>交叉连接</li>
-<li>内连接</li>
-<li>外连接</li>
-</ol>
-<ul>
-<li>左连接</li>
-<li>右连接</li>
-</ul>
-<ol start="4">
-<li>自然连接</li>
-</ol>
-<h3 id="交叉连接-Cross-Join"><a href="#交叉连接-Cross-Join" class="headerlink" title="交叉连接(Cross Join)"></a>交叉连接(Cross Join)</h3><p>之前咱们说过多表查询时，就说过交叉查询的概念，只是语法不同。<br>基本语法: {表1} cross join {表2};</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_stud <span class="hljs-keyword">cross</span> <span class="hljs-keyword">join</span> my_operator;<br></code></pre></td></tr></table></figure>
-
-<h3 id="内连接-Inner-Join"><a href="#内连接-Inner-Join" class="headerlink" title="内连接(Inner Join)"></a>内连接(Inner Join)</h3><p>从一张表中取出所有的记录，去另一张表中匹配，利用匹配条件进行匹配，成功保留，失败舍去。<br>基本语法: {表1} [inner] join {表2} on {匹配条件};<br>注意: 如果内连接没有条件，则与交叉连接返回结果一样。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_stud <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> my_class <span class="hljs-keyword">on</span> my_stud.class_id <span class="hljs-operator">=</span> my_class.id;<br></code></pre></td></tr></table></figure>
-
-<p>由于表名可能很长，我们通常也使用表别名简化操作。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_stud <span class="hljs-keyword">as</span> a <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> my_class <span class="hljs-keyword">as</span> b <span class="hljs-keyword">on</span> a.class_id <span class="hljs-operator">=</span> b.id;<br></code></pre></td></tr></table></figure>
-
-<p>注意: 内连接只有匹配到的记录才会保留。</p>
-<h3 id="外连接-Outer-Join"><a href="#外连接-Outer-Join" class="headerlink" title="外连接(Outer Join)"></a>外连接(Outer Join)</h3><p>一张表作为主表(表中记录都会保留)，根据条件去匹配另一张从表中的记录，从而得到目标数据。<br>外连接分为: </p>
-<ul>
-<li>左外连接(left join)，左表作为主表</li>
-<li>右外连接(right join)，右表作为主表</li>
-</ul>
-<p>左连接基本语法: {主表} left join {从表} on {匹配条件};<br>右连接基本语法: {从表} right join {主表} on {匹配条件};</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_stud <span class="hljs-keyword">as</span> s <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> my_class <span class="hljs-keyword">as</span> c <span class="hljs-keyword">on</span> s.class_id <span class="hljs-operator">=</span> c.id; <br></code></pre></td></tr></table></figure>
-
-<p>注意: 如果从表数据都不匹配，则返回结果该条记录从表字段值都为 null。</p>
-<h3 id="Using-关键字"><a href="#Using-关键字" class="headerlink" title="Using 关键字"></a>Using 关键字</h3><p>是在连接查询中替代 on 关键字的。<br>使用前提是两张表连接的字段是同名的，并且最终在结果只保留一个字段。</p>
-<p>基本语法: {表1} [inner/left/right join] {表2} using({同名字段列表});</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_stud <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> my_class <span class="hljs-keyword">using</span>(class_id);<br></code></pre></td></tr></table></figure>
-
-<h2 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h2><hr>
-<p>当一个查询是另一个查询的条件时，称之为子查询(Sub Query)。</p>
-<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>按功能来分: </p>
-<ul>
-<li>标量子查询: 子查询返回结果是一个数据</li>
-<li>列子查询: 返回结果是一列</li>
-<li>行子查询: 返回结果时一行</li>
-<li>表子查询: 返回结果是多行多列</li>
-<li>Exists 子查询: 返回结果是 1 或 0</li>
-</ul>
-<p>按位置来分: </p>
-<ul>
-<li>Where 子查询: 子查询语句出现在 Where 子句中</li>
-<li>From 子查询: 子查询语句出现在 From 子句中，作为数据源</li>
-</ul>
-<h3 id="标量子查询"><a href="#标量子查询" class="headerlink" title="标量子查询"></a>标量子查询</h3><p>标量子查询 where 子句常使用 = 或 &lt;&gt; 操作符。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_class <span class="hljs-keyword">as</span> c <span class="hljs-keyword">where</span> c.id <span class="hljs-operator">=</span> (<span class="hljs-keyword">select</span> class_id <span class="hljs-keyword">from</span> my_stud <span class="hljs-keyword">as</span> s <span class="hljs-keyword">where</span> s.name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;zhangsan&#x27;</span>);<br></code></pre></td></tr></table></figure>
-
-<h3 id="列子查询"><a href="#列子查询" class="headerlink" title="列子查询"></a>列子查询</h3><p>列子查询 where 子句常使用 in 操作符。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_class <span class="hljs-keyword">as</span> c <span class="hljs-keyword">where</span> c.id <span class="hljs-keyword">in</span> (<span class="hljs-keyword">select</span> class_id <span class="hljs-keyword">from</span> my_stud);<br></code></pre></td></tr></table></figure>
-
-<h3 id="行子查询"><a href="#行子查询" class="headerlink" title="行子查询"></a>行子查询</h3><p>行子查询 where 子句 = 左值要是一个构造的行元素。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_class <span class="hljs-keyword">where</span> (age, height) <span class="hljs-operator">=</span> (<span class="hljs-keyword">select</span> <span class="hljs-built_in">max</span>(age), <span class="hljs-built_in">max</span>(height) <span class="hljs-keyword">from</span> my_stud);<br></code></pre></td></tr></table></figure>
-
-<h3 id="表子查询"><a href="#表子查询" class="headerlink" title="表子查询"></a>表子查询</h3><p>表子查询用于 from 数据源，之前在动态查询时已经说过。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_stud <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> height <span class="hljs-keyword">desc</span>) <span class="hljs-keyword">as</span> order_stud <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> class_id;<br></code></pre></td></tr></table></figure>
-
-<h3 id="Exists-子查询"><a href="#Exists-子查询" class="headerlink" title="Exists 子查询"></a>Exists 子查询</h3><figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_class <span class="hljs-keyword">as</span> c <span class="hljs-keyword">where</span> <span class="hljs-keyword">exists</span>(<span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_stud <span class="hljs-keyword">as</span> s <span class="hljs-keyword">where</span> s.class_id <span class="hljs-operator">=</span> c.id);<br></code></pre></td></tr></table></figure>
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/MySQL(%E5%85%AD)/">
-        Previous post<br>MySQL(六)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/MySQL(%E5%9B%9B)/">
-        Next post<br>MySQL(四)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?51210817"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

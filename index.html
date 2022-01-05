@@ -1,432 +1,57 @@
+<% include _include/variables.ejs %>
+<%
+config.__isIndex = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?81993592">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item active" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head active" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-        
-        <div class="pagination-indicator">
-            <span style="text-align: center">
-                1<br><div style="display: inline-block; transform: rotate(-28deg)">-</div><br>20
-            </span>
-        </div>
-        
-
-        
-
-        
-        <a class="pagination-action" href="/page/2/">
-            <i class="material-icons pagination-action-icon">
-                chevron_right
-            </i>
-        </a>
-        
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage(item) {
+    var featuredImage = item.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + item.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-no-background">
-        
-        <a href="/SQL 经典练习题/" class="a-block">
+        <% page.posts.each(function (item) { %>
+        <a href="<%= config.root + item.path %>" class="a-block">
             <div class="post-item-wrapper">
                 <div class="post-item post-item-no-divider">
                     <div class="post-item-info-wrapper">
                         <div class="post-item-title">
-                            SQL 经典练习题
+                            <%= item.title %>
                         </div>
                         <div class="post-item-summary">
-                            数据准备1.学生表2.课程表3.教师表4.成绩表
--- 建表-- 学生表CREATE TABLE `Student...
+                            <%= item.intro && item.intro.length > 0 ? item.intro : truncate(strip_html(item.content), {
+                                length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+                                omission: '...'
+                            }) %>
                         </div>
                         <div class="post-item-meta">
-                            2022-01-20
+                            <%= date(item.date, "YYYY-MM-DD") %>
                         </div>
                     </div>
-                    
+                    <% if(item.featured_image){ %>
+                    <div class="post-item-image-wrapper">
+                        <div class="post-item-image"
+                             style="background-image: url('<%= getFeaturedImage(item) %>')"></div>
+                    </div>
+                    <% } %>
                 </div>
             </div>
         </a>
-        
-        <a href="/『数据密集型应用系统设计』读书笔记(五)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            『数据密集型应用系统设计』读书笔记(五)
-                        </div>
-                        <div class="post-item-summary">
-                            在前面几章，我们讨论了数据系统的各个方面，但仅限于数据存储在单台机器上的情况。现在我们进入更高的层次，在接下来的几...
-                        </div>
-                        <div class="post-item-meta">
-                            2021-12-26
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/『数据密集型应用系统设计』读书笔记(四)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            『数据密集型应用系统设计』读书笔记(四)
-                        </div>
-                        <div class="post-item-summary">
-                            编码与演化
-在大多数情况下，修改应用程序的功能也意味着需要更改其存储的数据: 可能需要使用新的字段或记录类型，或者...
-                        </div>
-                        <div class="post-item-meta">
-                            2021-12-20
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/『数据密集型应用系统设计』读书笔记(三)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            『数据密集型应用系统设计』读书笔记(三)
-                        </div>
-                        <div class="post-item-summary">
-                            一个数据库在最基础的层次上需要完成两件事情: 当你把数据交给数据库时，它应当把数据存储起来；而后当你向数据库要数据...
-                        </div>
-                        <div class="post-item-meta">
-                            2021-12-19
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/『数据密集型应用系统设计』读书笔记(二)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            『数据密集型应用系统设计』读书笔记(二)
-                        </div>
-                        <div class="post-item-summary">
-                            
-语言的边界就是世界的边界。
-
-在本章中，我们将研究一系列用于数据存储和查询的通用数据模型。特别地，我们将比较关系...
-                        </div>
-                        <div class="post-item-meta">
-                            2021-12-18
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/『数据密集型应用系统设计』读书笔记(一)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            『数据密集型应用系统设计』读书笔记(一)
-                        </div>
-                        <div class="post-item-summary">
-                            这本书一直在我的待读列表，但是一直没有机会拜读，直到最近 2021 年已经快要过去，感觉需要在年末提升一下自己。边...
-                        </div>
-                        <div class="post-item-meta">
-                            2021-12-15
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/锁/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            锁
-                        </div>
-                        <div class="post-item-summary">
-                            锁在并发编程中扮演着非常重要的角色，本篇，我将梳理各种锁分类的概念以及各种锁实现类之间的区别与联系。
-为什么要有锁...
-                        </div>
-                        <div class="post-item-meta">
-                            2021-10-18
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/虚拟化/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            虚拟化
-                        </div>
-                        <div class="post-item-summary">
-                            今天给公司搭建虚拟化平台，对其中用到的一些知识进行整理。
-虚拟化平台
-我们常说的虚拟化可以分为两种类型: TYPE...
-                        </div>
-                        <div class="post-item-meta">
-                            2021-08-16
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/出差/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            出差
-                        </div>
-                        <div class="post-item-summary">
-                            苏州
-京杭大运河千年运河
-诚品书店精致、文艺
-周庄雨夜周庄
-上海
-外滩风格迥异的外国建筑
-世博中心人工智能大会
-思南路
-                        </div>
-                        <div class="post-item-meta">
-                            2021-07-11
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/大连之行/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            大连之行
-                        </div>
-                        <div class="post-item-summary">
-                            大连
-金石滩
-
-大连森林动物园浣熊
-老虎滩老虎滩骑小黄鸭
-滨海路美！
-日式风情街七七街和五五路
-东港威尼斯水城结婚...
-                        </div>
-                        <div class="post-item-meta">
-                            2021-05-06
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
+        <% }) %>
     
-        
-<div class="pagination index-page">
-    
-        <a class="pagination-action" style="opacity: 0">
-            
-            <i class="material-icons pagination-action-icon">
-                chevron_left
-            </i>
-        </a>
-
-        <div class="pagination-indicator">
-            <span>1/20</span>
-        </div>
-
-        
-        <a class="pagination-action" href="/page/2/"
-           style="opacity: 1">
-            
-                <i class="material-icons pagination-action-icon">
-                    chevron_right
-                </i>
-            </a>
-</div>
-
+        <% include _include/pagination.ejs %>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?73982337"></script>
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% include _include/tail.ejs %>

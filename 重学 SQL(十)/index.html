@@ -1,362 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>重学 SQL(十) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="上一篇，我们介绍了一部分索引的知识，本篇，我们开始介绍有关索引的其余概念。
-复合索引EXPLAIN SELECT ...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?43616231">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    重学 SQL(十)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2020-08-27T00:00:00.000Z" itemprop="datePublished">
-                            2020-08-27 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>上一篇，我们介绍了一部分索引的知识，本篇，我们开始介绍有关索引的其余概念。</p>
-<h3 id="复合索引"><a href="#复合索引" class="headerlink" title="复合索引"></a>复合索引</h3><figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span> customer_id <br><span class="hljs-keyword">FROM</span> customers<br><span class="hljs-keyword">WHERE</span> state <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;CA&#x27;</span> <span class="hljs-keyword">AND</span> points <span class="hljs-operator">&gt;</span> <span class="hljs-number">1000</span>;<br></code></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th>type</th>
-<th>possible_keys</th>
-<th>key</th>
-<th>rows</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ref</td>
-<td>idx_state,idx_point</td>
-<td>idx_state</td>
-<td>112</td>
-</tr>
-</tbody></table>
-<p>我们发现 key 只是用了一个索引，如果 state = ‘CA’ 的结果仍然有很多的话，那么执行效率依旧很慢。<br>我们对 state 和 points 建立复合索引: </p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> INDEX idx_state_point <span class="hljs-keyword">ON</span> customers (state, points);<br></code></pre></td></tr></table></figure>
-
-<p>我们再次执行查询操作: </p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span> customer_id <br><span class="hljs-keyword">FROM</span> customers<br><span class="hljs-keyword">WHERE</span> state <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;CA&#x27;</span> <span class="hljs-keyword">AND</span> points <span class="hljs-operator">&gt;</span> <span class="hljs-number">1000</span>;<br></code></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th>type</th>
-<th>possible_keys</th>
-<th>key</th>
-<th>rows</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ref</td>
-<td>idx_state,idx_point,idx_state_point</td>
-<td>idx_state_point</td>
-<td>58</td>
-</tr>
-</tbody></table>
-<p>我们根据所扫描的行数可以看出，效率提高。在 MySQL 中，复合索引最多包含 16 列。<br>现在我们可以删除单独的 state 和 point 索引了: </p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">DROP</span> INDEX idx_state <span class="hljs-keyword">ON</span> customers;<br><span class="hljs-keyword">DROP</span> INDEX idx_point <span class="hljs-keyword">ON</span> customers;<br></code></pre></td></tr></table></figure>
-
-<h4 id="复合索引的列顺序"><a href="#复合索引的列顺序" class="headerlink" title="复合索引的列顺序"></a>复合索引的列顺序</h4><p>我们来查看一下现在 customers 表索引情况: </p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SHOW</span> INDEXES <span class="hljs-keyword">IN</span> customers;<br></code></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th>Key_name</th>
-<th>Seq_in_index</th>
-<th>Column_name</th>
-<th>Index_type</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>PRIMARY</td>
-<td>1</td>
-<td>customer_id</td>
-<td>BTREE</td>
-</tr>
-<tr>
-<td>idx_lastname</td>
-<td>1</td>
-<td>last_name</td>
-<td>BTREE</td>
-</tr>
-<tr>
-<td>idx_state_point</td>
-<td>1</td>
-<td>state</td>
-<td>BTREE</td>
-</tr>
-<tr>
-<td>idx_state_point</td>
-<td>2</td>
-<td>points</td>
-<td>BTREE</td>
-</tr>
-</tbody></table>
-<p>创建复合索引时，列的顺序按照两个原则: </p>
-<ol>
-<li>将最常用的列放在前面</li>
-<li>将高唯一性的列放在前面</li>
-</ol>
-<h3 id="当索引被忽略"><a href="#当索引被忽略" class="headerlink" title="当索引被忽略"></a>当索引被忽略</h3><p>有时，我们存在索引，但是还是有性能问题: </p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span> customer_id<br><span class="hljs-keyword">FROM</span> customers<br><span class="hljs-keyword">WHERE</span> state <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;CA&#x27;</span> <span class="hljs-keyword">OR</span> points <span class="hljs-operator">&gt;</span> <span class="hljs-number">1000</span>;<br></code></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th>type</th>
-<th>possible_keys</th>
-<th>key</th>
-<th>rows</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>index</td>
-<td>idx_state_point</td>
-<td>idx_state_point</td>
-<td>1010</td>
-</tr>
-</tbody></table>
-<p>我们发现 rows 为 1010，type 为 index，即这是一个全索引扫描，他比全表扫描快，因为没有读取记录的详细内容。尽管如此，我们还是扫描了 1010 条记录。<br>如何优化呢？我们可以使用之前学过的 UNION 将一个查询拆分成小查询: </p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> INDEX idx_point <span class="hljs-keyword">ON</span> customers (points);<br><br>EXPLAIN <span class="hljs-keyword">SELECT</span> customer_id<br>    <span class="hljs-keyword">FROM</span> customers<br>    <span class="hljs-keyword">WHERE</span> state <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;CA&#x27;</span><br><span class="hljs-keyword">UNION</span><br>    <span class="hljs-keyword">SELECT</span> customer_id<br>    <span class="hljs-keyword">FROM</span> customers<br>    <span class="hljs-keyword">WHERE</span> points <span class="hljs-operator">&gt;</span> <span class="hljs-number">1000</span>;<br></code></pre></td></tr></table></figure>
-
-<p>第一个查询可以使用 idx_state_point 复合索引，第二个查询，我们新建一个索引 idx_point，来优化该查询。</p>
-<p>我们再看一个例子: </p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span> customer_id <br><span class="hljs-keyword">FROM</span> customers<br><span class="hljs-keyword">WHERE</span> points <span class="hljs-operator">+</span> <span class="hljs-number">10</span> <span class="hljs-operator">&gt;</span> <span class="hljs-number">2010</span>;<br></code></pre></td></tr></table></figure>
-
-<p>这个查询仍然是全索引扫描，我们如何优化呢？</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span> customer_id <br><span class="hljs-keyword">FROM</span> customers<br><span class="hljs-keyword">WHERE</span> points <span class="hljs-operator">&gt;</span> <span class="hljs-number">2000</span>;<br></code></pre></td></tr></table></figure>
-
-<p>如果想让索引更好的工作，我们不要对列进行运算。</p>
-<h3 id="使用索引排序"><a href="#使用索引排序" class="headerlink" title="使用索引排序"></a>使用索引排序</h3><p>前面我们都是使用索引进行数据筛选，我们也可以利用索引进行排序。默认情况索引排序好了: </p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span> customer_id <span class="hljs-keyword">FROM</span> customers<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> state;<br><br><span class="hljs-keyword">SHOW</span> STATUS <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;last_query_cost&#x27;</span>;<br></code></pre></td></tr></table></figure>
-
-<p>我们可以看到使用索引进行排序和使用非索引列进行排序的消耗差别非常大。<br>如果我们使用 a, b 作为复合索引，那么以: </p>
-<ol>
-<li>a</li>
-<li>a, b</li>
-<li>a DESC, b DESC </li>
-</ol>
-<p>进行排序都会直接使用索引排序，如果以: </p>
-<ol>
-<li>b</li>
-<li>a DESC, b</li>
-<li>a, b DESC</li>
-<li>a, c, b</li>
-</ol>
-<p>进行排序，除了使用索引排序还会使用 filesort，消耗非常大。有一个情况例外，如果有 a 条件，那么以 b 进行排序，还是直接只使用索引排序。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> customer_id<br><span class="hljs-keyword">FROM</span> customers<br><span class="hljs-keyword">WHERE</span> a <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;xx&#x27;</span><br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> b;<br></code></pre></td></tr></table></figure>
-
-<p>我们如果看明白下图，本节内容也就明白了。注意我是把 BTREE 转化为列表方便理解记忆。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/sql/165-1.png"></p>
-<h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><p>如果我们的查询只使用索引，而不用触碰表就可以完成，就称为覆盖索引。<br>覆盖索引的条件是，所选字段是索引以及从属索引。<br>我们可以看看是否可以将 WHERE 子句包含进索引，再看看 ORDER BY 子句是否可以包含进索引，最后看 SELECT 子句是否可以包含进索引。</p>
-<h3 id="索引维护"><a href="#索引维护" class="headerlink" title="索引维护"></a>索引维护</h3><p>索引可以显著提升查询效率，但是有优点就会有缺点，我们需要注意处理无用和重复索引。<br>MySQL 不会阻止我们生成重复索引，所以我们在新建索引之前要检查是否已经存在该索引。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/sql/165-2.png"></p>
-<p>要注意: 如果有 (a,b) 索引，(b,a) 和 b 索引都不是无用索引。<br>必须注意: 我们在新建索引之前，一定要检查，是不是可以扩展现有索引。</p>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/%E9%87%8D%E5%AD%A6%20SQL(%E5%8D%81%E4%B8%80)/">
-        Previous post<br>重学 SQL(十一)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/%E9%87%8D%E5%AD%A6%20SQL(%E4%B9%9D)/">
-        Next post<br>重学 SQL(九)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?75154665"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

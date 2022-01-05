@@ -1,296 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>数据结构(四) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="本篇，我们来讨论一种一对多的数据结构 —— 树。
-树(Tree)
-概述树是 n(n &amp;gt;= 0) 个节点的有限...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?96226210">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    数据结构(四)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2019-03-01T00:00:00.000Z" itemprop="datePublished">
-                            2019-03-01 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>本篇，我们来讨论一种一对多的数据结构 —— 树。</p>
-<h2 id="树-Tree"><a href="#树-Tree" class="headerlink" title="树(Tree)"></a>树(Tree)</h2><hr>
-<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>树是 n(n &gt;= 0) 个节点的有限集。当 n = 0 时，称为空树。在任意一棵非空树中: </p>
-<ol>
-<li>有且仅有一个特定的称为根(root)的节点</li>
-<li>当 n &gt;= 1 时，其余节点可分为 m(m &gt; 0)个互不相交的有限集 T<sub>1</sub>、T<sub>2</sub>、…、T<sub>m</sub>，其中每一个集合本身又是一棵树，并且称为根的子树(SubTree)</li>
-</ol>
-<p>对于树，还需要注意两点: </p>
-<ol>
-<li>n &gt; 0 时根节点是唯一的，不可能存在多个根节点</li>
-<li>m &gt; 0 时，子树的个数没有限制，但他们一定互不相交</li>
-</ol>
-<h3 id="节点分类"><a href="#节点分类" class="headerlink" title="节点分类"></a>节点分类</h3><p>树的节点包含一个数据元素以及若干个指向其子树的分支。节点拥有的子树的个数称为节点的度(Degree)。<br>度为 0 的节点成为叶节点(Leaf)。度不为 0 的节点称为分支节点。<br>除了根节点之外的分支节点又称为内部节点。</p>
-<h3 id="节点间的关系"><a href="#节点间的关系" class="headerlink" title="节点间的关系"></a>节点间的关系</h3><p>节点的子树的根成为该节点的孩子(Child)，相应的该节点称为孩子的双亲(Parent)。同一双亲的孩子之间互称为兄弟(Sibling)。</p>
-<h3 id="树的其他概念"><a href="#树的其他概念" class="headerlink" title="树的其他概念"></a>树的其他概念</h3><p>节点的层次(Level)从根开始定义起，根为第一层，根的孩子为第二层。树中节点的最大层次称为树的深度(Depth)。<br>如果将树中节点的各子树看成从左至右是有次序的，不能互换的，则称该树为有序树，否则称为无序树。</p>
-<p>森林(Forest)是 m(m &gt;= 0)棵互不相交的树的集合。</p>
-<h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><hr>
-<p>二叉树(Binary Tree)是 n(n &gt;= 0)个节点的有限集合，该集合或为空集(空二叉树)，或者由一个根节点和两棵互不相交的、分别称为根节点的左子树和右子树的二叉树组成。</p>
-<h3 id="二叉树的特点"><a href="#二叉树的特点" class="headerlink" title="二叉树的特点"></a>二叉树的特点</h3><ul>
-<li>每个节点最多有两棵子树，所以二叉树中不存在度大于 2 的节点。注意不是只有而是<strong>最多有</strong>，没有或者有一棵子树也是可以的</li>
-<li>左子树和右子树是有顺序的</li>
-<li>即使树中某节点只有一棵子树，也要区分他是左子树还是右子树</li>
-</ul>
-<p>二叉树具有五种基本形态: </p>
-<ol>
-<li>空二叉树</li>
-<li>只有一个根节点</li>
-<li>根节点只有左子树</li>
-<li>根节点只有右子树</li>
-<li>根节点既有左子树又有右子树</li>
-</ol>
-<h3 id="特殊二叉树"><a href="#特殊二叉树" class="headerlink" title="特殊二叉树"></a>特殊二叉树</h3><h4 id="斜树"><a href="#斜树" class="headerlink" title="斜树"></a>斜树</h4><p>所有节点都只有左子树的二叉树叫做左斜树。所有节点都只有右子树的二叉树叫做右斜树。二者统称为斜树。<br>线性表结构就可以理解为是树的一种极其特殊的表现形式。</p>
-<h4 id="满二叉树"><a href="#满二叉树" class="headerlink" title="满二叉树"></a>满二叉树</h4><p>在一棵二叉树中，如果所有的分支节点都存在左子树和右子树，并且所有的叶子都在同一层上，这样的二叉树称为满二叉树。</p>
-<p>满二叉树的特点: </p>
-<ol>
-<li>叶子只能出现在最下层</li>
-<li>非叶子节点的度一定是 2</li>
-<li>在同样深度的二叉树中，满二叉树的节点个数最多，叶子数最多</li>
-</ol>
-<h4 id="完全二叉树"><a href="#完全二叉树" class="headerlink" title="完全二叉树"></a>完全二叉树</h4><p>对一棵具有 n(n &gt;= 0)个节点的二叉树按层序编号，如果编号为 i(1 &lt;= i &lt;= n)的节点与同样深度的满二叉树中编号为 i 的节点在二叉树中的位置完全相同，则这棵二叉树称为完全二叉树。<br>注意: 满二叉树一定是完全二叉树，但完全二叉树不一定是满二叉树。</p>
-<p>完全二叉树的特点: </p>
-<ol>
-<li>叶子节点只能出现在最下两层</li>
-<li>最下层的叶子一定集中在左部连续位置</li>
-<li>倒数第二层，若有叶子节点，一定都在右部连续位置</li>
-<li>如果节点度为 1，则该节点只有左孩子</li>
-<li>同样节点数的二叉树，完全二叉树的深度最小</li>
-</ol>
-<h3 id="二叉树的性质"><a href="#二叉树的性质" class="headerlink" title="二叉树的性质"></a>二叉树的性质</h3><ol>
-<li>在二叉树的第 i 层上最多有 2<sup>i-1</sup> 个节点(i &gt;= 1)</li>
-<li>深度为 k 的二叉树最多有 2<sup>k</sup> - 1 个节点</li>
-<li>对任何一棵二叉树 T，如果其叶节点个数为 n<sub>0</sub>，度为 2 的节点数为 n<sub>2</sub>，则 n<sub>0</sub> = n<sub>2</sub> + 1</li>
-</ol>
-<h3 id="二叉树的存储结构"><a href="#二叉树的存储结构" class="headerlink" title="二叉树的存储结构"></a>二叉树的存储结构</h3><p>对于二叉树使用顺序存储适用性不强，一般使用链式存储结构。二叉树每个节点最多有两个孩子所以为他设计一个数据域和两个指针域，我们称这样的链表为二叉链表。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">BiTNode</span>&lt;<span class="hljs-title">T</span>&gt;<br>&#123;<br>    <span class="hljs-keyword">public</span> T Element;<br>    <span class="hljs-keyword">public</span> BiTNode&lt;T&gt; LChild;<br>    <span class="hljs-keyword">public</span> BiTNode&lt;T&gt; RChild;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">BiTNode</span>(<span class="hljs-params">T t</span>)</span><br>    &#123;<br>        Element = t;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="遍历二叉树-Traveing-Binary-Tree"><a href="#遍历二叉树-Traveing-Binary-Tree" class="headerlink" title="遍历二叉树(Traveing Binary Tree)"></a>遍历二叉树(Traveing Binary Tree)</h3><p>二叉树遍历是指从根节点出发，按照某种次序依次访问二叉树中所有节点，使得每个节点被访问一次且仅被访问一次。</p>
-<p>这里有两个关键词: <strong>访问</strong>和<strong>次序</strong></p>
-<h4 id="二叉树遍历方法"><a href="#二叉树遍历方法" class="headerlink" title="二叉树遍历方法"></a>二叉树遍历方法</h4><p>主要分为四种: </p>
-<ol>
-<li>前序遍历: 规则是若二叉树为空，则空操作返回，否则先访问根节点，然后前序遍历左子树，再前序遍历右子树(根-左-右)</li>
-<li>中序遍历: 规则是若二叉树为空，则空操作返回，否则从根节点开始(注意并不是先访问根节点)，中序遍历根节点左子树，然后访问根节点，最后中序遍历右子树(左-根-右)</li>
-<li>后序遍历: 则是若二叉树为空，则空操作返回，否则从左到右先叶子后节点的方式遍历访问左右子树，最后是访问根节点(左-右-根)</li>
-<li>层序遍历: 则是若二叉树为空，则空操作返回，否则从树的第一层开始，也就是根节点开始访问，从上而下逐层遍历，在同一层中，按照从左到右的顺序对节点逐个访问</li>
-</ol>
-<p>注意: 前、中、后代表的是根节点位置。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">PreOrderTraverse</span>(<span class="hljs-params">BiTNode&lt;T&gt; node</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (node != <span class="hljs-literal">null</span>)<br>    &#123;<br>        Console.WriteLine(node.Element);<br>        PreOrderTraverse(node.LChild);<br>        PreOrderTraverse(node.RChild);<br>    &#125;<br>    <span class="hljs-keyword">return</span> Data;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">InOrderTraverse</span>(<span class="hljs-params">BiTNode&lt;T&gt; node</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (node != <span class="hljs-literal">null</span>)<br>    &#123;<br>        InOrderTraverse(node.LChild);<br>        Console.WriteLine(node.Element);<br>        InOrderTraverse(node.RChild);<br>    &#125;<br>    <span class="hljs-keyword">return</span> Data;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">PostOrderTraverse</span>(<span class="hljs-params">BiTNode&lt;T&gt; node</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (node != <span class="hljs-literal">null</span>)<br>    &#123;<br>        PostOrderTraverse(node.LChild);<br>        PostOrderTraverse(node.RChild);<br>        Console.WriteLine(node.Element);<br>    &#125;<br>    <span class="hljs-keyword">return</span> Data;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>二叉树遍历的性质: </p>
-<ol>
-<li>已知前序遍历和中序遍历，可以唯一确定一棵二叉树</li>
-<li>已知后序遍历和中序遍历，可以唯一确定一棵二叉树</li>
-<li>已知前序遍历和后序遍历，是不可以唯一确定一棵二叉树</li>
-</ol>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%94)/">
-        Previous post<br>数据结构(五)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%89)/">
-        Next post<br>数据结构(三)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?32509704"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

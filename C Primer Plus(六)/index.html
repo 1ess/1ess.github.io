@@ -1,280 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>C Primer Plus(六) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="上一篇，我们介绍了指针以及指针和数组的关系的基本知识，本篇我们继续讲讲有关指针的其他知识。
-函数、指针和数组
-在传...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?31533044">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    C Primer Plus(六)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2020-07-12T00:00:00.000Z" itemprop="datePublished">
-                            2020-07-12 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>上一篇，我们介绍了指针以及指针和数组的关系的基本知识，本篇我们继续讲讲有关指针的其他知识。</p>
-<h2 id="函数、指针和数组"><a href="#函数、指针和数组" class="headerlink" title="函数、指针和数组"></a>函数、指针和数组</h2><hr>
-<p>在传递数组作为函数参数时要特别注意传递的只是指针，如下: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testArrayParameter</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[])</span></span>;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> arr[<span class="hljs-number">10</span>] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>&#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>, <span class="hljs-keyword">sizeof</span> arr); <span class="hljs-comment">//40</span><br>    testArrayParameter(arr);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testArrayParameter</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[])</span> </span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>, <span class="hljs-keyword">sizeof</span> arr); <span class="hljs-comment">//8</span><br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-<p>在我们的系统中，指针占用 8 个字节。</p>
-<p>int *arr 形式和 int arr[] 形式都表示 arr 是一个指向 int 的指针。但是 int arr[] 只能用于声明形式参数。因为数组名是该数组首元素的地址，作为实际参数的数组名要求形式参数是一个与之匹配的指针。只有在这种情况下，C 才会把 int arr[] 和 int * arr 解释成一样。由于函数原型可以省略参数名，所以下面 4 种原型都是等价的: </p>
-<ul>
-<li>int sum(int *arr, int n);</li>
-<li>int sum(int *, int);</li>
-<li>int sum(int arr[], int n);</li>
-<li>int sum(int [], int);</li>
-</ul>
-<p>从以上分析可知，处理数组的函数实际上用指针作为参数，但是在编写这样的函数时，可以选择是使用数组表示法还是指针表示法。但是，只有当 arr 是指针变量时，才能使用 arr++ 这样的表达式。</p>
-<h2 id="指针操作"><a href="#指针操作" class="headerlink" title="指针操作"></a>指针操作</h2><hr>
-<p>C 提供了一些基本的指针操作，我们接下来演示了 6 种不同的关于指针的操作。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> urn[<span class="hljs-number">5</span>] = &#123; <span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">300</span>, <span class="hljs-number">400</span>, <span class="hljs-number">500</span> &#125;;<br>    <span class="hljs-keyword">int</span> * ptr1, *ptr2, *ptr3;<br>    ptr1 = urn;       <span class="hljs-comment">// 把一个地址赋给指针</span><br>    ptr2 = &amp;urn[<span class="hljs-number">2</span>];     <span class="hljs-comment">// 把一个地址赋给指针</span><br><br>    <span class="hljs-comment">// 解引用指针，以及获得指针的地址</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ptr1 = %p, *ptr1 =%d, &amp;ptr1 = %p\n&quot;</span>, ptr1, *ptr1, &amp;ptr1);<br><br>    <span class="hljs-comment">// 指针加法</span><br>    ptr3 = ptr1 + <span class="hljs-number">4</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ptr1 + 4 = %p, *(ptr1 + 4) = %d\n&quot;</span>, ptr1 + <span class="hljs-number">4</span>, *(ptr1 + <span class="hljs-number">4</span>));<br><br>    <span class="hljs-comment">// 指针减法</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ptr3 = %p, ptr3 - 2 = %p\n&quot;</span>, ptr3, ptr3 - <span class="hljs-number">2</span>);<br>    <br>    <span class="hljs-comment">// 递增指针</span><br>    ptr1++;         <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ptr1 = %p, *ptr1 =%d, &amp;ptr1 = %p\n&quot;</span>, ptr1, *ptr1, &amp;ptr1);<br><br>    <span class="hljs-comment">// 递减指针</span><br>    ptr2--;         <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ptr2 = %p, *ptr2 = %d, &amp;ptr2 = %p\n&quot;</span>, ptr2, *ptr2, &amp;ptr2);<br><br>    <span class="hljs-comment">// 一个指针减去另一个指针</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ptr2 + 1 = %p, ptr1 = %p, ptr2 + 1 - ptr1 = %td\n&quot;</span>, ptr2 + <span class="hljs-number">1</span>, ptr1, ptr2 + <span class="hljs-number">1</span> - ptr1);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>下面是我们的系统运行该程序后的输出: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">ptr1 = <span class="hljs-number">0x7fff5fbff8d0</span>, *ptr1 =<span class="hljs-number">100</span>, &amp;ptr1 = <span class="hljs-number">0x7fff5fbff8c8</span><br>ptr1 + <span class="hljs-number">4</span> = <span class="hljs-number">0x7fff5fbff8e0</span>, *(ptr1 + <span class="hljs-number">4</span>) = <span class="hljs-number">500</span><br>ptr3 = <span class="hljs-number">0x7fff5fbff8e0</span>, ptr3 - <span class="hljs-number">2</span> = <span class="hljs-number">0x7fff5fbff8d8</span><br>ptr1 = <span class="hljs-number">0x7fff5fbff8d4</span>, *ptr1 =<span class="hljs-number">200</span>, &amp;ptr1 = <span class="hljs-number">0x7fff5fbff8c8</span><br>ptr2 = <span class="hljs-number">0x7fff5fbff8d4</span>, *ptr2 = <span class="hljs-number">200</span>, &amp;ptr2 = <span class="hljs-number">0x7fff5fbff8c0</span><br>ptr2 = <span class="hljs-number">0x7fff5fbff8d8</span>, ptr1 = <span class="hljs-number">0x7fff5fbff8d4</span>, ptr2 - ptr1 = <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="形式参数使用-const"><a href="#形式参数使用-const" class="headerlink" title="形式参数使用 const"></a>形式参数使用 const</h2><hr>
-<p>对于函数参数，通常都是直接传递数值，只有程序需要在函数中改变该数值时，才会传递指针。而对于数组来说，必须传递指针。有时传递地址会导致一些问题，例如无意修改了源数据。在 K&amp;R C 的年代，避免类似错误的唯一方法是提高警惕。ANSI C 提供了一种预防手段。如果函数的意图不是修改数组中的数据内容，那么在函数原型和函数定义中声明形式参数时应使用关键字 const。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> arr[], <span class="hljs-keyword">int</span> n)</span></span>; <span class="hljs-comment">/* 函数原型 */</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> arr[], <span class="hljs-keyword">int</span> n)</span> <span class="hljs-comment">/* 函数定义 */</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> i;<br>    <span class="hljs-keyword">int</span> total = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>( i = <span class="hljs-number">0</span>; i &lt; n; i++)<br>        total += arr[i];<br>    <span class="hljs-keyword">return</span> total;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>以上代码中的 const 告诉编译器，该函数不能修改 arr 指向的数组中的内容。如果在函数中不小心使用类似 arr[i]++ 的表达式，编译器会捕获这个错误，并生成一条错误信息。这里一定要理解，这样使用 const 并不是要求原数组是常量，而是该函数在处理数组时将其视为常量，不可更改。</p>
-<p>一般而言，如果编写的函数需要修改数组，在声明数组形参时则不使用 const，如果编写的函数不用修改数组，那么在声明数组形参时最好使用 const。</p>
-<h3 id="const-其他内容"><a href="#const-其他内容" class="headerlink" title="const 其他内容"></a>const 其他内容</h3><p>我们在前面使用 const 创建过变量: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> PI = <span class="hljs-number">3.14159</span>;<br></code></pre></td></tr></table></figure>
-
-<p>虽然用 #define 指令可以创建类似功能的符号常量，但是 const 的用法更加灵活。可以创建 const 数组、const 指针和指向 const 的指针。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> days[MONTHS] = &#123;<span class="hljs-number">31</span>,<span class="hljs-number">28</span>,<span class="hljs-number">31</span>,<span class="hljs-number">30</span>,<span class="hljs-number">31</span>,<span class="hljs-number">30</span>,<span class="hljs-number">31</span>,<span class="hljs-number">31</span>,<span class="hljs-number">30</span>,<span class="hljs-number">31</span>,<span class="hljs-number">30</span>,<span class="hljs-number">31</span>&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>如果程序稍后尝试改变数组元素的值，编译器将生成一个编译期错误消息: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">days[<span class="hljs-number">9</span>] = <span class="hljs-number">44</span>;   <span class="hljs-comment">/* 编译错误 */</span><br></code></pre></td></tr></table></figure>
-
-<p>指向 const 的指针不能用于改变值，例如: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">double</span> rates[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">88.99</span>, <span class="hljs-number">100.12</span>, <span class="hljs-number">59.45</span>, <span class="hljs-number">183.11</span>, <span class="hljs-number">340.5</span>&#125;;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * pd = rates; <span class="hljs-comment">//使用 const 表明不能使用 pd 来更改它所指向的值</span><br>*pd = <span class="hljs-number">29.89</span>;   <span class="hljs-comment">// 不允许</span><br>pd[<span class="hljs-number">2</span>] = <span class="hljs-number">222.22</span>;  <span class="hljs-comment">// 不允许</span><br>pd++;             <span class="hljs-comment">// 允许</span><br></code></pre></td></tr></table></figure>
-
-<p>指向 const 的指针通常用于函数形参中，表明该函数不会使用指针改变数据。</p>
-<p>关于指针赋值和 const 需要注意一些规则。<br>首先，把 const 数据或非 const 数据的地址初始化为指向 const 的指针或为其赋值是合法的: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">double</span> rates[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">88.99</span>, <span class="hljs-number">100.12</span>, <span class="hljs-number">59.45</span>, <span class="hljs-number">183.11</span>, <span class="hljs-number">340.5</span>&#125;;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> locked[<span class="hljs-number">4</span>] = &#123;<span class="hljs-number">0.08</span>, <span class="hljs-number">0.075</span>, <span class="hljs-number">0.0725</span>, <span class="hljs-number">0.07</span>&#125;;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * pc = rates; <span class="hljs-comment">// 有效</span><br>pc = locked;         <span class="hljs-comment">// 有效</span><br>pc = &amp;rates[<span class="hljs-number">3</span>];       <span class="hljs-comment">// 有效</span><br></code></pre></td></tr></table></figure>
-
-<p>然而，只能把非 const 数据的地址赋给普通指针: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">double</span> rates[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">88.99</span>, <span class="hljs-number">100.12</span>, <span class="hljs-number">59.45</span>, <span class="hljs-number">183.11</span>, <span class="hljs-number">340.5</span>&#125;;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> locked[<span class="hljs-number">4</span>] = &#123;<span class="hljs-number">0.08</span>, <span class="hljs-number">0.075</span>, <span class="hljs-number">0.0725</span>, <span class="hljs-number">0.07</span>&#125;;<br><span class="hljs-keyword">double</span> * pnc = rates; <span class="hljs-comment">// 有效</span><br>pnc = locked;      <span class="hljs-comment">// 无效</span><br>pnc = &amp;rates[<span class="hljs-number">3</span>];    <span class="hljs-comment">// 有效</span><br></code></pre></td></tr></table></figure>
-
-<p>这个规则非常合理。否则，通过指针就能改变 const 数组中的数据。</p>
-<p>const 还有其他的用法。例如，可以声明并初始化一个不能指向别处的指针，关键是 const 的位置: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">double</span> rates[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">88.99</span>, <span class="hljs-number">100.12</span>, <span class="hljs-number">59.45</span>, <span class="hljs-number">183.11</span>, <span class="hljs-number">340.5</span>&#125;;<br><span class="hljs-keyword">double</span> * <span class="hljs-keyword">const</span> pc = rates;  <span class="hljs-comment">// pc指向数组的开始</span><br>pc = &amp;rates[<span class="hljs-number">2</span>];       <span class="hljs-comment">// 不允许，因为该指针不能指向别处</span><br>*pc = <span class="hljs-number">92.99</span>;          <span class="hljs-comment">// 没问题，更改rates[0]的值</span><br></code></pre></td></tr></table></figure>
-
-<p>最后，在创建指针时还可以使用 const 两次，使得该指针既不能更改它所指向的地址，也不能修改指向地址上的值: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">double</span> rates[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">88.99</span>, <span class="hljs-number">100.12</span>, <span class="hljs-number">59.45</span>, <span class="hljs-number">183.11</span>, <span class="hljs-number">340.5</span>&#125;;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * <span class="hljs-keyword">const</span> pc = rates;<br>pc = &amp;rates[<span class="hljs-number">2</span>];  <span class="hljs-comment">//不允许</span><br>*pc = <span class="hljs-number">92.99</span>;   <span class="hljs-comment">//不允许</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="复合字面量"><a href="#复合字面量" class="headerlink" title="复合字面量"></a>复合字面量</h2><hr>
-<p>假设给带 int 类型形参的函数传递一个值，要传递 int 类型的变量，但是也可以传递 int 类型常量，如 5。在 C99 标准以前，对于带数组形参的函数，情况不同，可以传递数组，但是没有等价的数组常量。C99 新增了复合字面量(compound literal)。<br>对于数组，复合字面量类似数组初始化列表，前面是用括号括起来的类型名。例如: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">int</span> diva[<span class="hljs-number">2</span>] = &#123;<span class="hljs-number">10</span>, <span class="hljs-number">20</span>&#125;; <span class="hljs-comment">// 普通的数组声明</span><br>(<span class="hljs-keyword">int</span> [<span class="hljs-number">2</span>])&#123;<span class="hljs-number">10</span>, <span class="hljs-number">20</span>&#125; <span class="hljs-comment">// 复合字面量</span><br></code></pre></td></tr></table></figure>
-
-<p>初始化有数组名的数组时可以省略数组大小，复合字面量也可以省略大小，编译器会自动计算数组当前的元素个数。<br>有了复合字面量，我们在把信息传入函数前不必先创建数组，这是复合字面量的典型用法。</p>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/C%20Primer%20Plus(%E4%B8%83)/">
-        Previous post<br>C Primer Plus(七)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/C%20Primer%20Plus(%E4%BA%94)/">
-        Next post<br>C Primer Plus(五)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?73436986"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

@@ -1,264 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>C Sharp(十五) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="这一篇，我们讲讲 C# 网络编程中比较重要的概念 —— 异步。
-什么是异步当程序启动时，系统就会在内存创建一个新进...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?76182753">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    C Sharp(十五)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2018-11-30T00:00:00.000Z" itemprop="datePublished">
-                            2018-11-30 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>这一篇，我们讲讲 C# 网络编程中比较重要的概念 —— 异步。</p>
-<h3 id="什么是异步"><a href="#什么是异步" class="headerlink" title="什么是异步"></a>什么是异步</h3><p>当程序启动时，系统就会在内存创建一个新进程。进程是构成程序的资源的集合，资源包括虚拟地址、文件句柄等。</p>
-<p>在进程内部，系统还创建了称为线程的内核对象。也就是说一旦进程创建，系统就会在 Main 方法的第一行语句开始线程执行。</p>
-<p>关于线程: </p>
-<ul>
-<li>默认情况下，一个进程只包含一个线程，从程序的开始一直执行到结束</li>
-<li>线程可以派生其他线程</li>
-<li>如果一个进程包含多个线程，他们将共享进程资源</li>
-<li>系统为处理器执行所规划的基本单元是线程而不是进程</li>
-</ul>
-<p>在 C# 5.0 引入了一个非常好的特性 —— async/await。在 JavaScript 和即将到来的 Swift 5.0 中都存在引入了此特性，虽然实现的底层原理并不相同。<br>这个特性是 .Net 框架的一部分，但是没有嵌入 C# 中。</p>
-<h3 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h3><p>如果程序调用某个方法，等待其执行所有处理之后才继续执行，我们称这样的方法为同步方法。<br>相反的，异步方法就是在处理完成之前就返回到调用方法。我们使用 async/await 特性可以很方便的创建异步方法。<br>该特性有三部分组成: </p>
-<ul>
-<li>调用方法: 调用异步方法的方法，在异步方法执行任务时继续执行</li>
-<li>异步方法: 该方法异步执行其工作，然后立即返回到调用方法</li>
-<li>await 表达式: 用于异步方法内，指明需要异步执行的任务，一个异步方法可以包含多个 await 表达式，如果一个都不包含，则该方法将同步执行，编译器会报警告</li>
-</ul>
-<p>async 关键字是一个专门给编译器的提示，意思是该函数的实现可能会出现 await 表达式。</p>
-<ul>
-<li>在 Debug 模式下，对于 async 方法，生成一个 class 状态机</li>
-<li>在 Release 模式下，对于 async 方法，生成一个 struct 状态机</li>
-</ul>
-<h3 id="什么是异步方法"><a href="#什么是异步方法" class="headerlink" title="什么是异步方法"></a>什么是异步方法</h3><p>异步方法的特点: </p>
-<ul>
-<li>方法头包含 async 方法修饰符</li>
-<li>包含一个或多个 await 表达式表示异步完成的任务</li>
-<li>返回值只能是 void，Task 或 Task&lt;T&gt;</li>
-<li>异步方法参数不能有 out 或 ref 修饰</li>
-<li>按照约定，异步方法以 Async 结尾</li>
-<li>Lambda 表达式也可以作为异步对象</li>
-<li>调用方法读取 Task 的 Result 属性获取 T 类型的值</li>
-<li>任何返回 Task&lt;T&gt; 的异步方法必须返回 T 类型的值</li>
-</ul>
-<p>需要注意: </p>
-<ul>
-<li>不要使用 void 作为 async 方法的返回值类型，async 方法可以返回 void，仅限于编写事件处理程序，如果是普通方法没有返回值，需要返回 Task</li>
-<li>避免使用 Task.Wait 和 Task.Result 方法，可能会导致死锁</li>
-<li>当第一次遇到 await 表达式所返回的类型就是方法头的返回值类型，与 await 表达式的返回值类型没关系</li>
-<li>异步方法的 return 语句并没有真正返回值，而只是退出了</li>
-</ul>
-<h3 id="在调用方法同步等待任务"><a href="#在调用方法同步等待任务" class="headerlink" title="在调用方法同步等待任务"></a>在调用方法同步等待任务</h3><p>我们可能需要在调用方法中同步等待某个任务完成，Task&lt;T&gt; 实例提供了 Wait 方法，来等待某个特殊的 Task 完成。<br>还可以使用 Task 的静态方法 WaitAll 和 WaitAny 方法同步等待多个任务完成。参数为 Task[]。</p>
-<h3 id="在异步方法异步等待任务"><a href="#在异步方法异步等待任务" class="headerlink" title="在异步方法异步等待任务"></a>在异步方法异步等待任务</h3><p>我们可以使用 await 和 Task 的静态方法 WhenAll 和 WhenAny 方法异步等待多个任务完成。参数为 List&lt;Task&lt;T&gt;&gt;。</p>
-<p>注意: async 和 await 都没有新开线程，新开线程是 Task.Run() 做的事情。如果自己编写异步方法，注意要自己编写 Task.Run()。</p>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/C%20Sharp(%E5%8D%81%E5%85%AD)/">
-        Previous post<br>C Sharp(十六)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/C%20Sharp(%E5%8D%81%E5%9B%9B)/">
-        Next post<br>C Sharp(十四)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?89638500"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

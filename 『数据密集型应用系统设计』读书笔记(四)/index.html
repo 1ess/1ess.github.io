@@ -1,288 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>『数据密集型应用系统设计』读书笔记(四) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="编码与演化
-在大多数情况下，修改应用程序的功能也意味着需要更改其存储的数据: 可能需要使用新的字段或记录类型，或者...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?76666559">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    『数据密集型应用系统设计』读书笔记(四)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2021-12-20T00:00:00.000Z" itemprop="datePublished">
-                            2021-12-20 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <h2 id="编码与演化"><a href="#编码与演化" class="headerlink" title="编码与演化"></a>编码与演化</h2><hr>
-<p>在大多数情况下，修改应用程序的功能也意味着需要更改其存储的数据: 可能需要使用新的字段或记录类型，或者以新方式展示现有数据。<br>我们在之前讨论的数据模型有不同的方法来应对这种变化。<br>当数据格式(format)或模式(schema)发生变化时，通常需要对应用程序代码进行相应的更改。但在大型应用程序中，代码变更通常不会立即完成: </p>
-<ul>
-<li>对于服务端(server-side)应用程序，可能需要执行滚动升级</li>
-<li>对于客户端(client-side)应用程序，用户可能相当长一段时间里都不会去升级软件，这意味着，新旧版本的代码，以及新旧数据格式可能会在系统中同时共处。</li>
-</ul>
-<p>那么对于新旧格式共处系统想要继续顺利运行，就需要保持<strong>双向兼容性</strong>: </p>
-<ol>
-<li>向后兼容: 新代码可以读取旧数据</li>
-<li>向前兼容: 旧代码可以读取新数据</li>
-</ol>
-<p>本章中将介绍几种编码数据的格式，包括 JSON、XML、Protocol Buffers、Thrift 和 Avro。尤其将关注这些格式如何应对模式变化，以及它们如何对新旧代码数据需要共存的系统提供支持。然后将讨论如何使用这些格式进行数据存储和通信。</p>
-<h2 id="编码数据的格式"><a href="#编码数据的格式" class="headerlink" title="编码数据的格式"></a>编码数据的格式</h2><hr>
-<p>程序通常使用两种形式的数据: </p>
-<ol>
-<li>在内存中，数据保存在对象、结构体、列表、数组、散列表、树等结构中。</li>
-<li>如果要将数据写入文件，或通过网络发送，则必须将其编码(encode)为某种自包含的字节序列(例如 JSON 文档)。这个字节序列表示会与通常在内存中使用的数据结构完全不同</li>
-</ol>
-<p>所以，需要在两种表示之间进行某种类型的翻译。从内存中表示到字节序列的转换称为<strong>编码</strong>(Encoding)，也称为<strong>序列化</strong>(serialization)，反过来称为<strong>解码</strong>(Decoding)或<strong>反序列化</strong>(deserialization)。</p>
-<h3 id="语言特定的格式"><a href="#语言特定的格式" class="headerlink" title="语言特定的格式"></a>语言特定的格式</h3><p>许多编程语言都内建了将内存对象编码为字节序列的支持。例如，Java 有 java.io.Serializable、Python 有 pickle 等。这些编码库非常方便，可以用很少的额外代码实现内存对象的保存与恢复。但是它们也有一些深层次的问题: </p>
-<ol>
-<li>这类编码通常与特定的编程语言深度绑定，其他语言很难读取这种数据</li>
-<li>数据版本控制通常是事后才考虑的。因为它们旨在快速简便地对数据进行编码，所以往往忽略了前向后向兼容性带来的麻烦问题</li>
-<li>效率往往也是事后才考虑的。例如，Java 的内置序列化由于其糟糕的性能和臃肿的编码而臭名昭著。</li>
-</ol>
-<p>因此，除非临时使用，采用语言内置编码通常是一个坏主意。</p>
-<h3 id="JSON、XML"><a href="#JSON、XML" class="headerlink" title="JSON、XML"></a>JSON、XML</h3><p>JSON、XML 和 CSV 属于文本格式，因此具有人类可读性。除了表面的语法问题之外，它们也存在一些微妙的问题: </p>
-<ul>
-<li>数值的编码多有歧义之处。XML 和 CSV 不能区分数字和字符串。JSON 虽然区分字符串与数值，但不区分整数和浮点数，而且不能指定精度</li>
-<li>JSON 和 XML 对 Unicode 字符串(即人类可读的文本)有很好的支持，但是它们不支持二进制数据</li>
-</ul>
-<p>尽管存在这些缺陷，但 JSON、XML 和 CSV 对很多需求来说已经足够好了，特别是作为数据交换格式来说。</p>
-<h3 id="二进制编码"><a href="#二进制编码" class="headerlink" title="二进制编码"></a>二进制编码</h3><p>对于仅在组织内部使用的数据，可以选择更紧凑或更快的解析格式。虽然对小数据集来说，收益可以忽略不计，但一旦达到 TB 级别，数据格式的选型就会产生巨大的影响。<br>JSON 比 XML 简洁，但与二进制格式相比还是太占空间。这一事实导致大量二进制编码版本 JSON 和 XML 的出现。</p>
-<p>我们来看一个例子，原始 JSON 如下: </p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">&#123;<br>    <span class="hljs-string">&quot;userName&quot;</span>: <span class="hljs-string">&quot;Martin&quot;</span>,<br>    <span class="hljs-string">&quot;favoriteNumber&quot;</span>: <span class="hljs-number">1337</span>,<br>    <span class="hljs-string">&quot;interests&quot;</span>: [<span class="hljs-string">&quot;daydreaming&quot;</span>, <span class="hljs-string">&quot;hacking&quot;</span>]<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>如果使用 MessagePack 对 JSON 文档进行编码，结果如下:<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig4-1.png"></p>
-<p>字节序列解释如下: </p>
-<ol>
-<li>第一个字节 0x83 表示接下来是 3 个字段(低四位=0x03)的对象 object(高四位=0x80)</li>
-<li>第二个字节 0xa8 表示接下来是 8 字节长(低四位=0x08)的字符串(高四位=0xa0)</li>
-<li>接下来八个字节是 ASCII 字符串形式的字段名称 userName。由于之前已经指明长度，不需要任何标记来标识字符串的结束位置</li>
-<li>接下来的七个字节对前缀为 0xa6 的六个字母的字符串值 Martin 进行编码，依此类推</li>
-</ol>
-<h3 id="Protocol-Buffers"><a href="#Protocol-Buffers" class="headerlink" title="Protocol Buffers"></a>Protocol Buffers</h3><p>Apache Thrift 和 Protocol Buffers(protobuf)是基于相同原理的二进制编码库。Protocol Buffers 最初是在 Google 开发的，Thrift 最初是在 Facebook 开发的。<br>Thrift 和 Protocol Buffers 都需要一个模式来编码任何数据。<br>对数据进行编码，可以使用 Thrift 接口定义语言(IDL)来描述模式: </p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">struct</span> Person &#123;<br>    <span class="hljs-number">1</span>: required <span class="hljs-built_in">string</span>       userName,<br>    <span class="hljs-number">2</span>: optional i64          favoriteNumber,<br>    <span class="hljs-number">3</span>: optional list&lt;<span class="hljs-built_in">string</span>&gt; interests<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>Protocol Buffers 的等效模式定义看起来非常相似: </p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">message Person &#123;<br>    required <span class="hljs-built_in">string</span> user_name       = <span class="hljs-number">1</span>;<br>    optional int64  favorite_number = <span class="hljs-number">2</span>;<br>    repeated <span class="hljs-built_in">string</span> interests       = <span class="hljs-number">3</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>Thrift 和 Protocol Buffers 每一个都带有一个代码生成工具，它采用了类似于这里所示的模式定义，并且生成了以各种编程语言实现模式的类。你的应用程序代码可以调用此生成的代码来对模式的记录进行编码或解码。</p>
-<p>我们主要介绍一下 protobuf。<br>Protocol Buffers(只有一种二进制编码格式)对上述例子进行相同的数据进行编码，只需要 33 个字节，结果如下:<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig4-4.png"></p>
-<h2 id="数据流的类型"><a href="#数据流的类型" class="headerlink" title="数据流的类型"></a>数据流的类型</h2><hr>
-<p>上面说过，无论何时你想要将某些数据发送到不共享内存的另一个进程，例如，只要你想通过网络发送数据或将其写入文件，就需要将它编码为一个字节序列。</p>
-<p>数据可以通过多种方式从一个流程流向另一个流程: </p>
-<ol>
-<li>通过数据库</li>
-<li>通过服务调用</li>
-<li>通过异步消息传递</li>
-</ol>
-<h3 id="数据库中的数据流"><a href="#数据库中的数据流" class="headerlink" title="数据库中的数据流"></a>数据库中的数据流</h3><p>在数据库中，写入数据库的过程对数据进行编码，从数据库读取的过程对数据进行解码。</p>
-<h3 id="服务中的数据流-REST-与-RPC"><a href="#服务中的数据流-REST-与-RPC" class="headerlink" title="服务中的数据流: REST 与 RPC"></a>服务中的数据流: REST 与 RPC</h3><p>有两种流行的 Web 服务方法: REST 和 SOAP。他们在哲学方面几乎是截然相反的。<br>REST 不是一个协议，而是一个基于 HTTP 原则的设计哲学。它强调简单的数据格式，使用 URL 来标识资源，并使用 HTTP 功能进行缓存控制，身份验证和内容类型协商。根据 REST 原则设计的 API 称为 RESTful。<br>相比之下，SOAP 是用于制作网络 API 请求的基于 XML 的协议。</p>
-<p>RPC 模型试图向远程网络服务发出请求，看起来与在同一进程中调用编程语言中的函数或方法相同。在上面提到的所有编码的基础上构建了各种 RPC 框架: 例如，Thrift 和 Avro 带有 RPC 支持，gRPC 是使用 Protocol Buffers 的 RPC 实现。</p>
-<p>使用二进制编码格式的自定义 RPC 协议可以实现比通用的 JSON over REST 更好的性能。但是，RESTful API 还有其他一些显著的优点: 方便实验和调试。由于这些原因，REST 似乎是公共 API 的主要风格。 RPC 框架的主要重点在于同一组织拥有的服务之间的请求，通常在同一数据中心内。</p>
-<h3 id="消息传递中的数据流"><a href="#消息传递中的数据流" class="headerlink" title="消息传递中的数据流"></a>消息传递中的数据流</h3><p>最后，我们简要介绍一下 RPC 和数据库之间的异步消息传递系统。与数据库类似，不是通过直接的网络连接发送消息，而是通过称为消息代理(也称为消息队列或面向消息的中间件)的中介来临时存储消息。<br>与 RPC 相比，差异在于消息传递通信通常是单向的: 发送者通常不期望收到其消息的回复。</p>
-<p>通常情况下，消息代理的使用方式如下: <strong>一个进程将消息发送到指定的队列或主题，代理确保将消息传递给那个队列或主题的一个或多个消费者或订阅者。在同一主题上可以有许多生产者和许多消费者。</strong></p>
-<p>消息代理通常不会执行任何特定的数据模型 —— 消息只是包含一些元数据的字节序列，因此你可以使用任何编码格式。</p>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%BA%94)/">
-        Previous post<br>『数据密集型应用系统设计』读书笔记(五)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%89)/">
-        Next post<br>『数据密集型应用系统设计』读书笔记(三)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?58227352"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

@@ -1,338 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>Nginx(四) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="本篇，我们来介绍一下 nginx.conf 的 http 块、server 块以及 location 块中的一些常...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?87264987">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    Nginx(四)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2019-09-22T00:00:00.000Z" itemprop="datePublished">
-                            2019-09-22 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>本篇，我们来介绍一下 nginx.conf 的 http 块、server 块以及 location 块中的一些常见基本配置。</p>
-<h3 id="定义-MIME-Type"><a href="#定义-MIME-Type" class="headerlink" title="定义 MIME-Type"></a>定义 MIME-Type</h3><p>MIME-Type 是网络资源的媒体类型，Nginx 服务器作为 Web 服务器，必须能够识别请求的资源类型。在默认的 Nginx 配置文件中，我们可以看到 http 全局块中有以下两行配置: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">include</span> mime.types;<br><span class="hljs-attribute">default_type</span> application/octet-stream;<br></code></pre></td></tr></table></figure>
-
-<p>第一行引用了 mime.types 文件，它定义了一个 types 结构，包含浏览器可以识别的 MIME 类型。<br>第二行使用 default_type 指令，配置了处理前端请求的 MIME 类型，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">default_type</span> &#123;mime-type&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>如果不加此指令，默认为 text/plain。</p>
-<h3 id="自定义服务日志"><a href="#自定义服务日志" class="headerlink" title="自定义服务日志"></a>自定义服务日志</h3><p>我们在全局块介绍过 error_log 指令，我们还可以使用 access_log 记录 Nginx 服务器提供服务过程应答的请求日志。并且 Nginx 服务器还支持对服务日志的格式、大小、输出等配置，指令为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">access_log</span> &#123;path&#125; [format];<br></code></pre></td></tr></table></figure>
-
-<p>这个指令可以在 http 块、server 块和 location 块中进行设置。默认配置为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">access_log</span> logs/access.log combined;<br></code></pre></td></tr></table></figure>
-
-<p>format 可以通过字符串名称使用 log_format 指令定义好的格式: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">log_format</span> &#123;name&#125; &#123;string&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>string 为服务日志的格式字符串，可以使用 Nginx 配置预设的一些变量获取相关内容，变量的名称使用双引号包裹，string 整体使用单引号包裹。<br>log_format 指令只能在 http 块进行配置。</p>
-<h3 id="配置-sendfile-传输文件"><a href="#配置-sendfile-传输文件" class="headerlink" title="配置 sendfile 传输文件"></a>配置 sendfile 传输文件</h3><p>基本语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">sendfile</span> <span class="hljs-literal">on</span> | <span class="hljs-literal">off</span>;<br></code></pre></td></tr></table></figure>
-
-<p>可以开启或关闭 sendfile 方式传输，默认为 off。可以在 http 块、server 块和 location 块中进行设置。</p>
-<h3 id="配置连接超时时间"><a href="#配置连接超时时间" class="headerlink" title="配置连接超时时间"></a>配置连接超时时间</h3><p>与用户建立会话连接后， Nginx 服务器可以保持这些连接一段时间，我们可以使用 keepalive_timeout 指令设置此时间: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">keepalive_timeout</span> &#123;timeout&#125; [header_timeout];<br></code></pre></td></tr></table></figure>
-
-<p>timeout 是指服务器对连接的保持时间，默认为 75s，header_timeout 是在 response header 中的 Keep-Alive 字段设置超时时间: “Keep-Alive: timeout=header_timeout”。</p>
-<p>这个指令可以在 http 块、server 块和 location 块中进行设置。</p>
-<h3 id="单连接请求数上限"><a href="#单连接请求数上限" class="headerlink" title="单连接请求数上限"></a>单连接请求数上限</h3><p>指令 keepalive-requests 用于限制用户通过某一连接向 Nginx 服务器发送请求的次数: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx">keepalive-<span class="hljs-section">requests</span> &#123;number&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>这个指令可以在 http 块、server 块和 location 块中进行设置。默认值为 100。</p>
-<h3 id="配置网络监听"><a href="#配置网络监听" class="headerlink" title="配置网络监听"></a>配置网络监听</h3><p>配置监听使用 listen 指令，配置方法常用有两种: </p>
-<ul>
-<li>监听 IP 地址</li>
-<li>监听端口</li>
-</ul>
-<h4 id="监听-IP-地址"><a href="#监听-IP-地址" class="headerlink" title="监听 IP 地址"></a>监听 IP 地址</h4><p>语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">listen</span> &#123;address&#125;[:port] [default_server] [ssl]<br></code></pre></td></tr></table></figure>
-
-<p>address 指 IP 地址，如果是 IPv6 地址，需要使用 [] 括起来，如: [fe80::1]。<br>default_server 可以将此虚拟主机设置为默认主机。</p>
-<h4 id="监听端口"><a href="#监听端口" class="headerlink" title="监听端口"></a>监听端口</h4><p>语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">listen</span> &#123;port&#125; [default_server] [ssl]<br></code></pre></td></tr></table></figure>
-
-<h3 id="基于名称的虚拟主机"><a href="#基于名称的虚拟主机" class="headerlink" title="基于名称的虚拟主机"></a>基于名称的虚拟主机</h3><p>配置主机名的指令为 server_name，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server_name</span> &#123;name&#125; ...;<br></code></pre></td></tr></table></figure>
-
-<p>可以只有一个名称，也可以多个名称并列，之间用空格分隔开。每个名称就是一个域名，在 name 中可以使用通配符，但只能用在三段字符串的首段或尾段，或两段字符串的尾段。如: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">server_name</span> *.0xfee1dead.cn www.0xfee1<span class="hljs-regexp">dead.*</span>;<br></code></pre></td></tr></table></figure>
-
-<p>在 name 中还可以使用正则表达式，使用 ~ 作为正则字符串的开始标记。</p>
-<p>在包含多个虚拟主机的配置文件中，可能出现一个名称被多个虚拟主机的 server_name 匹配成功，Nginx 做出如下规定: </p>
-<ul>
-<li>对于匹配方式的不同，按照以下优先级选择虚拟主机</li>
-</ul>
-<ol>
-<li>精准匹配</li>
-<li>通配符在起始位置匹配 server_name 成功</li>
-<li>通配符在结束位置匹配 server_name 成功</li>
-<li>正则匹配 server_name 成功</li>
-</ol>
-<ul>
-<li>以上四种匹配，如果被同一级多次匹配成功，则被首次匹配成功的虚拟主机处理</li>
-</ul>
-<h3 id="基于-IP-的虚拟主机"><a href="#基于-IP-的虚拟主机" class="headerlink" title="基于 IP 的虚拟主机"></a>基于 IP 的虚拟主机</h3><p>为 Nginx 服务器提供的每台虚拟主机配置不同 IP，需要将网卡设置为同时监听多个 IP 地址。在 Linux 系统中可以使用 ifconfig 为同一网卡添加多个 IP 别名。</p>
-<h3 id="配置-location-块"><a href="#配置-location-块" class="headerlink" title="配置 location 块"></a>配置 location 块</h3><p>在 Nginx 官方文档中定义的 location 语法结构为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">location</span> [ = | <span class="hljs-regexp">~ |</span> <span class="hljs-regexp">~* |</span><span class="hljs-regexp"> ^~</span> ] uri <br>&#123;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>其中 uri 是待匹配的请求字符串，可以是不含有正则的字符串，如: /myserver.php，也可以含有正则字符串，如: .php$。为了描述方便，不含正则称为标准 uri，含有正则称为正则 uri。</p>
-<p>如果 uri 前没有可选符号，那么匹配规则为: </p>
-<ul>
-<li>首先在 server 块的多个 location 块中搜索是否有标准 uri 和请求字符串匹配，如果有多个可以匹配，就记录匹配度最高的一个</li>
-<li>然后，再用 location 块中的正则 uri 和请求字符串匹配，当第一个正则 uri 匹配成功，结束搜索，使用该 location 块进行处理</li>
-<li>如果所有的正则匹配全部失败，就使用刚才记录的匹配度最高的 location 块进行处理</li>
-</ul>
-<p>知道了如上的匹配规则，我们在说一下可选符号的含义: </p>
-<ul>
-<li>= 用于标准 uri 之前，要求请求字符串与 uri 严格匹配。如果匹配成功，就停止搜索，使用该 location 块进行处理</li>
-<li>~ 用于正则 uri，区分大小写</li>
-<li>~* 用于正则 uri，不区分大小写</li>
-<li>^~ 用于标准 uri，要求 Nginx 服务器找到标识和请求字符串匹配度最高的 location 后，立即使用此 location 处理请求，而不再使用 location 块中的正则 uri 做匹配</li>
-</ul>
-<h3 id="配置请求的根目录"><a href="#配置请求的根目录" class="headerlink" title="配置请求的根目录"></a>配置请求的根目录</h3><p>指令 root 用来配置服务端指定目录寻找请求资源，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">root</span> &#123;path&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>此指令通常配置在 location 块中。</p>
-<h3 id="设置网站的默认首页"><a href="#设置网站的默认首页" class="headerlink" title="设置网站的默认首页"></a>设置网站的默认首页</h3><p>指令 index 可以设置网站的默认首页，他一般有两个作用: </p>
-<ul>
-<li>用户发出请求访问网站时，请求地址可以不写首页名</li>
-<li>可以对一个请求，根据请求内容设置不同的首页</li>
-</ul>
-<p>语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">index</span> &#123;file&#125; ...;<br></code></pre></td></tr></table></figure>
-
-<h3 id="基于-IP-配置-Nginx-的访问权限"><a href="#基于-IP-配置-Nginx-的访问权限" class="headerlink" title="基于 IP 配置 Nginx 的访问权限"></a>基于 IP 配置 Nginx 的访问权限</h3><p>Nginx 配置通过两种途径支持基本访问权限的控制，一种由 HTTP 标准模块 ngx_http_access_module 提供，通过 IP 来判断客户端是否拥有对 Nginx 的访问权限，有两个指令: </p>
-<ul>
-<li>allow</li>
-<li>deny</li>
-</ul>
-<h4 id="allow"><a href="#allow" class="headerlink" title="allow"></a>allow</h4><p>allow 指令用于设置可访问 Nginx 的客户端 IP。语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">allow</span> &#123;address&#125; | &#123;CIDR&#125; | all;<br></code></pre></td></tr></table></figure>
-
-<p>address 表示客户端 IP，不能同时设置多个，我们需要重复使用 allow 指令来设置多个 IP 允许访问。</p>
-<h4 id="deny"><a href="#deny" class="headerlink" title="deny"></a>deny</h4><p>deny 的作用与 allow 正好相反，用于设置禁止访问 Nginx 的客户端 IP。语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">deny</span> &#123;address&#125; | &#123;CIDR&#125; | all;<br></code></pre></td></tr></table></figure>
-
-<h3 id="基于密码配置-Nginx-的访问权限"><a href="#基于密码配置-Nginx-的访问权限" class="headerlink" title="基于密码配置 Nginx 的访问权限"></a>基于密码配置 Nginx 的访问权限</h3><p>Nginx 还支持基于 HTTP Basic Authentication 的认证。由 HTTP 标准模块 ngx_http_auth_basic_module 提供，有两个指令: </p>
-<ul>
-<li>auth_basic</li>
-<li>auth_basic_user_file</li>
-</ul>
-<h4 id="auth-basic"><a href="#auth-basic" class="headerlink" title="auth_basic"></a>auth_basic</h4><p>auth_basic 指令用于开启或关闭认证功能，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">auth_basic</span> &#123;string&#125; | off;<br></code></pre></td></tr></table></figure>
-
-<p>string 代表开启认证功能，值为验证信息。</p>
-<h4 id="auth-basic-user-file"><a href="#auth-basic-user-file" class="headerlink" title="auth_basic_user_file"></a>auth_basic_user_file</h4><p>auth_basic_user_file 指令用于设置包含用户名和密码信息的文件路径，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">auth_basic_user_file</span> &#123;file&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>file 文件格式如下: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx">name1:<span class="hljs-attribute">password1</span><br>name2:password2:comment<br>...<br></code></pre></td></tr></table></figure>
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/Nginx(%E4%BA%94)/">
-        Previous post<br>Nginx(五)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/Nginx(%E4%B8%89)/">
-        Next post<br>Nginx(三)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?46347411"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

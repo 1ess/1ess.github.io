@@ -1,312 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>MySQL(一) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="从本篇开始，我们来说说最流行的数据库 —— 关于 MySQL 的那些事儿。
-数据库概念
-数据库(Database)...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?39260350">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    MySQL(一)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2019-03-14T00:00:00.000Z" itemprop="datePublished">
-                            2019-03-14 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>从本篇开始，我们来说说最流行的数据库 —— 关于 MySQL 的那些事儿。</p>
-<h2 id="数据库概念"><a href="#数据库概念" class="headerlink" title="数据库概念"></a>数据库概念</h2><hr>
-<p>数据库(Database)是按照数据结构来组织、存储和管理数据的建立在计算机存储设备上的仓库。</p>
-<blockquote>
-<p>人们通常用数据库这个术语来代表他们使用的数据库软件。这是不正确的，它是引起混淆的根源。确切地说，数据库软件应称为 DBMS(数据库管理系统)。数据库是通过 DBMS 创建和操纵的容器。数据库可以是保存在硬设备上的文件，但也可以不是。在很大程度上说，数据库究竟是文件还是别的什么东西并不重要，因为你并不直接访问数据库; 你使用的是 DBMS，它替你访问数据库。</p>
-</blockquote>
-<h3 id="数据库分类"><a href="#数据库分类" class="headerlink" title="数据库分类"></a>数据库分类</h3><ul>
-<li>关系数据库(Relational Database)</li>
-<li>非关系数据库(NoSQL)</li>
-</ul>
-<h3 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>关系型数据库是创建在关系模型基础上的数据库，借助于集合代数等数学概念和方法来处理数据库中的数据。现实世界中的各种实体以及实体之间的各种联系均用关系模型来表示。现如今虽然对此模型有一些批评意见，但它还是数据存储的传统标准。</p>
-<p>关系模型由<strong>关系数据结构</strong>、<strong>关系操作集合</strong>、<strong>关系完整性约束</strong>三部分组成。</p>
-<p>标准数据查询语言 SQL 就是一种基于关系数据库的语言，这种语言执行对关系数据库中数据的检索和操作。</p>
-<p>典型的关系型数据库: </p>
-<ul>
-<li>MySQL</li>
-<li>PostgreSQL</li>
-<li>SQL Server</li>
-<li>Oracle</li>
-<li>Sqlite</li>
-<li>DB2</li>
-</ul>
-<p>几乎所有的数据库管理系统都配备了一个开放式数据库连接(ODBC)驱动程序，令各个数据库之间得以互相集成。</p>
-<h3 id="非关系型数据库"><a href="#非关系型数据库" class="headerlink" title="非关系型数据库"></a>非关系型数据库</h3><p>NoSQL 一词最早出现于1998年，是 Carlo Strozzi 开发的一个轻量、开源、不提供 SQL 功能的关系数据库。当代典型的关系数据库在一些数据敏感的应用中表现了糟糕的性能，例如为巨量文档创建索引、高流量网站的网页服务，以及发送流式媒体。关系型数据库的典型实现主要被调整用于执行规模小而读写频繁，或者大批量极少写访问的事务。</p>
-<p>典型的非关系型数据库: </p>
-<ol>
-<li>Key/value 硬盘存储</li>
-</ol>
-<ul>
-<li>LevelDB</li>
-<li>MemcacheDB</li>
-</ul>
-<ol start="2">
-<li>Key/value RAM 存储</li>
-</ol>
-<ul>
-<li>Redis</li>
-<li>memcached</li>
-</ul>
-<h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><hr>
-<p>结构化查询语言(Structured Query Language)简称 SQL，是一种特殊的编程语言，是一种数据库查询和程序设计语言，用于存储、查询、更新数据和管理关系数据库系统，同时也是数据库脚本文件的扩展名。</p>
-<h3 id="SQL-分类"><a href="#SQL-分类" class="headerlink" title="SQL 分类"></a>SQL 分类</h3><ol>
-<li>数据查询语言(Data Query Language，DQL): 代表指令 SELECT/SHOW</li>
-<li>数据操作语言(Data Manipulation Language，DML): 代表指令 INSERT/UPDATE/DELETE</li>
-<li>事务处理语言(Transaction Process Language，TPL): 代表指令 BEGIN TRANSACTION/COMMIT/ROLLBACK</li>
-<li>数据控制语言(Data Control Language，DCL): 代表指令 GRANT/REVOKE</li>
-<li>数据定义语言(Data Definition Language，DDL): 代表指令 CREATE/DROP</li>
-</ol>
-<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><hr>
-<p>MySQL 是一种关系型数据库管理系统，目前属于 Oracle 旗下产品。</p>
-<h3 id="安装-MySQL"><a href="#安装-MySQL" class="headerlink" title="安装 MySQL"></a>安装 MySQL</h3><h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><ol>
-<li>直接去<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/installer/">官网</a>下载 MySQL，双击安装</li>
-<li>配置环境变量，指向 mysql 的 bin 目录(默认路径: C:\Program Files\MySQL\MySQL Server 8.0\bin)</li>
-<li>配置初始化的 my.ini 配置文件</li>
-</ol>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">mysqld</span>]<br><span class="hljs-meta"># 设置3306端口</span><br>port=<span class="hljs-number">3306</span><br><span class="hljs-meta"># 设置mysql的安装目录</span><br>basedir=C:\Program Files\MySQL\MySQL Server <span class="hljs-number">8.0</span>\<br><span class="hljs-meta"># 设置mysql数据库的数据的存放目录</span><br>datadir=C:\Program Files\MySQL\MySQL Server <span class="hljs-number">8.0</span>\Data<br><span class="hljs-meta"># 允许最大连接数</span><br>max_connections=<span class="hljs-number">200</span><br><span class="hljs-meta"># 允许连接失败的次数。</span><br>max_connect_errors=<span class="hljs-number">10</span><br><span class="hljs-meta"># 服务端使用的字符集默认为UTF8</span><br>character-<span class="hljs-keyword">set</span>-server=utf8<br><span class="hljs-meta"># 创建新表时将使用的默认存储引擎</span><br><span class="hljs-literal">default</span>-storage-engine=INNODB<br><span class="hljs-meta"># 默认使用&quot;mysql_native_password&quot;插件认证</span><br><span class="hljs-meta">#mysql_native_password</span><br>default_authentication_plugin=mysql_native_password<br>[<span class="hljs-meta">mysql</span>]<br><span class="hljs-meta"># 设置mysql客户端默认字符集</span><br><span class="hljs-literal">default</span>-character-<span class="hljs-keyword">set</span>=utf8<br>[<span class="hljs-meta">client</span>]<br><span class="hljs-meta"># 设置mysql客户端连接服务端时默认使用的端口</span><br>port=<span class="hljs-number">3306</span><br><span class="hljs-literal">default</span>-character-<span class="hljs-keyword">set</span>=utf8<br></code></pre></td></tr></table></figure>
-<ol start="4">
-<li>在 MySQL 的安装目录的仓目录下执行命令: </li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">mysqld --initialize --console<br></code></pre></td></tr></table></figure>
-<ol start="5">
-<li>在管理员权限下执行命令: </li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">mysqld --install<br></code></pre></td></tr></table></figure>
-
-<p>注意: 如果提示服务已存在，则需要执行命令: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">sc delete mysql<br></code></pre></td></tr></table></figure>
-
-<h4 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h4><p>我们直接使用 homebrew 安装: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">brew install mysql<br></code></pre></td></tr></table></figure>
-
-<p>与 Windows 类似，我们还可以修改 Mysql 中配置文件，位于目录 /usr/bin/etc/my.cnf。</p>
-<h3 id="启动和停止-MySQL-服务"><a href="#启动和停止-MySQL-服务" class="headerlink" title="启动和停止 MySQL 服务"></a>启动和停止 MySQL 服务</h3><p>MySQL 是一种 C/S 架构，包括客户端和服务端。<br>服务端对应的软件: mysqld.exe<br>客户端对应的软件: mysql.exe</p>
-<h4 id="Windows-1"><a href="#Windows-1" class="headerlink" title="Windows"></a>Windows</h4><h5 id="命令行方式"><a href="#命令行方式" class="headerlink" title="命令行方式"></a>命令行方式</h5><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 启动 mysql 服务</span><br>net start mysql<br><br><span class="hljs-comment"># 关闭 mysql 服务</span><br>net stop mysql<br></code></pre></td></tr></table></figure>
-
-<h5 id="系统服务方式"><a href="#系统服务方式" class="headerlink" title="系统服务方式"></a>系统服务方式</h5><p>在计算机管理-服务(services.msc)中操作 mysql 服务。</p>
-<h4 id="Mac-1"><a href="#Mac-1" class="headerlink" title="Mac"></a>Mac</h4><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 启动 mysql 服务</span><br>brew services start mysql<br><br><span class="hljs-comment"># 关闭 mysql 服务</span><br>brew services stop mysql<br></code></pre></td></tr></table></figure>
-
-<h3 id="登录和退出-MySQL-系统"><a href="#登录和退出-MySQL-系统" class="headerlink" title="登录和退出 MySQL 系统"></a>登录和退出 MySQL 系统</h3><p>通过客户端 mysql.exe 与服务器连接认证。</p>
-<h4 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h4><p>连接认证语法: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">mysql -h&#123;ip地址或域名&#125; -P&#123;mysql 监听端口，通常3306&#125; -u&#123;用户名&#125; -p<br></code></pre></td></tr></table></figure>
-
-<h4 id="退出"><a href="#退出" class="headerlink" title="退出"></a>退出</h4><p>我们使用完 mysql 之后，由于连接数量有限，所以注意一定要断开连接。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">\q<br>\quit<br><span class="hljs-built_in">exit</span><br></code></pre></td></tr></table></figure>
-
-<p>注意: Mysql 8.0 版本和 Mysql 5.7 版本的身份验证插件不同: </p>
-<ul>
-<li>Mysql 8.0 身份验证插件为 caching_sha2_password</li>
-<li>Mysql 5.7 身份验证插件为 mysql_native_password</li>
-</ul>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/MySQL(%E4%BA%8C)/">
-        Previous post<br>MySQL(二)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/%E7%AE%97%E6%B3%95(%E4%BA%8C)/">
-        Next post<br>算法(二)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?38819312"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

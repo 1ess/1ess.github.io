@@ -1,297 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>Redis - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="公司内部准备搭建缓存系统，经过调研，决定使用 Redis 来构建这一系统，本篇，我们就说说 Redis 的那些事。...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?39733664">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    Redis
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2020-05-23T00:00:00.000Z" itemprop="datePublished">
-                            2020-05-23 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>公司内部准备搭建缓存系统，经过调研，决定使用 Redis 来构建这一系统，本篇，我们就说说 Redis 的那些事。</p>
-<h2 id="Redis-是什么"><a href="#Redis-是什么" class="headerlink" title="Redis 是什么"></a>Redis 是什么</h2><hr>
-<blockquote>
-<p>Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker. It supports data structures such as strings, hashes, lists, sets, sorted sets with range queries, bitmaps, hyperloglogs, geospatial indexes with radius queries and streams. Redis has built-in replication, Lua scripting, LRU eviction, transactions and different levels of on-disk persistence, and provides high availability via Redis Sentinel and automatic partitioning with Redis Cluster.</p>
-</blockquote>
-<p>即使从未接触过 Redis，我们通过 Redis 官网上的描述也能比较清晰的得知它能为我们做什么？简单来说，Redis 是一个开源的、基于内存的数据结构存储器，可以用作数据库、缓存和消息中间件。</p>
-<p>Redis 支持五种数据类型: </p>
-<ol>
-<li>String</li>
-<li>Hash</li>
-<li>List</li>
-<li>Set</li>
-<li>Sorted Set</li>
-</ol>
-<p>在 Redis 中，集群解决方案有三种: </p>
-<ol>
-<li>主从复制</li>
-<li>哨兵机制</li>
-<li>Cluster<br>Redis Cluster 是 Redis 的分布式解决方案，在 3.0 版本正式推出，支持自动分片，复制和高可用性。</li>
-</ol>
-<p>本篇不着眼于细节，主要关注 Redis Cluster 这一集群解决方案。</p>
-<p>根据 Redis 群集文档，按预期工作的<strong>最小群集</strong>要求至少包含 3 个主节点。但是，最适合高可用性的设置应该至少有 6 个节点，其中包括三个主节点和三个从节点，每个主节点都有一个从节点。</p>
-<h2 id="Docker-构建-Redis-Cluster"><a href="#Docker-构建-Redis-Cluster" class="headerlink" title="Docker 构建 Redis-Cluster"></a>Docker 构建 Redis-Cluster</h2><hr>
-<h3 id="网络规划"><a href="#网络规划" class="headerlink" title="网络规划"></a>网络规划</h3><p>使用 3 台虚拟机，假定 ip 分别为 192.168.221.131、192.168.221.132 和 192.168.221.133。</p>
-<table>
-<thead>
-<tr>
-<th>ip</th>
-<th>port</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>192.168.221.131</td>
-<td>7001</td>
-</tr>
-<tr>
-<td>192.168.221.131</td>
-<td>7002</td>
-</tr>
-<tr>
-<td>192.168.221.132</td>
-<td>7003</td>
-</tr>
-<tr>
-<td>192.168.221.132</td>
-<td>7004</td>
-</tr>
-<tr>
-<td>192.168.221.133</td>
-<td>7005</td>
-</tr>
-<tr>
-<td>192.168.221.133</td>
-<td>7006</td>
-</tr>
-</tbody></table>
-<h3 id="Redis-配置文件"><a href="#Redis-配置文件" class="headerlink" title="Redis 配置文件"></a>Redis 配置文件</h3><p>由于配置文件类似，可以通过脚本 redis-cluster-config.sh 批量生成配置文件。<br>redis-cluster.tmpl 文件如下: </p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">bind</span> <span class="hljs-number">192.168.221.131</span> <span class="hljs-number">127.0.0.1</span><br><span class="hljs-comment"># redis 端口</span><br><span class="hljs-attribute">port</span> <span class="hljs-variable">$&#123;PORT&#125;</span><br><span class="hljs-comment"># 关闭保护模式</span><br><span class="hljs-attribute">protected</span>-mode no<br><span class="hljs-comment"># 开启集群</span><br><span class="hljs-attribute">cluster</span>-enabled yes<br><span class="hljs-comment"># 集群节点配置</span><br><span class="hljs-attribute">cluster</span>-config-file nodes.conf<br><span class="hljs-comment"># 超时</span><br><span class="hljs-attribute">cluster</span>-node-timeout <span class="hljs-number">5000</span><br><span class="hljs-comment"># 集群节点 IP host 模式为宿主机 IP</span><br><span class="hljs-attribute">cluster</span>-announce-ip <span class="hljs-number">192.168.221.131</span><br><span class="hljs-comment"># 集群节点端口 7001 - 7006</span><br><span class="hljs-attribute">cluster</span>-announce-port <span class="hljs-variable">$&#123;PORT&#125;</span><br><span class="hljs-attribute">cluster</span>-announce-bus-port <span class="hljs-number">1</span><span class="hljs-variable">$&#123;PORT&#125;</span><br><span class="hljs-comment"># 开启 appendonly 备份模式</span><br><span class="hljs-attribute">appendonly</span> yes<br><span class="hljs-comment"># 每秒钟备份</span><br><span class="hljs-attribute">appendfsync</span> everysec<br><span class="hljs-comment"># 对 aof 文件进行压缩时，是否执行同步操作</span><br><span class="hljs-attribute">no</span>-appendfsync-<span class="hljs-literal">on</span>-rewrite no<br><span class="hljs-comment"># 当目前 aof 文件大小超过上一次重写时的 aof 文件大小的 100% 时会再次进行重写</span><br><span class="hljs-attribute">auto</span>-aof-rewrite-percentage <span class="hljs-number">100</span><br><span class="hljs-comment"># 重写前 aof 文件的大小最小值 默认 64mb</span><br><span class="hljs-attribute">auto</span>-aof-rewrite-min-size <span class="hljs-number">64</span>mb<br></code></pre></td></tr></table></figure>
-
-<p>redis-cluster-config.sh 文件如下: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-keyword">for</span> port <span class="hljs-keyword">in</span> `seq 7001 7002`; <span class="hljs-keyword">do</span> \<br>  mkdir -p ./redis-cluster/<span class="hljs-variable">$&#123;port&#125;</span>/conf \<br>  &amp;&amp; PORT=<span class="hljs-variable">$&#123;port&#125;</span> envsubst &lt; ./redis-cluster.tmpl &gt; ./redis-cluster/<span class="hljs-variable">$&#123;port&#125;</span>/conf/redis.conf \<br>  &amp;&amp; mkdir -p ./redis-cluster/<span class="hljs-variable">$&#123;port&#125;</span>/data; \<br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="docker-compose-编排"><a href="#docker-compose-编排" class="headerlink" title="docker-compose 编排"></a>docker-compose 编排</h3><p>每台机器 docker-compose.yml 文件如下: </p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.7&#x27;</span><br><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">redis7001:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">&#x27;redis&#x27;</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">redis7001</span><br>    <span class="hljs-attr">command:</span><br>      [<span class="hljs-string">&quot;redis-server&quot;</span>, <span class="hljs-string">&quot;/usr/local/etc/redis/redis.conf&quot;</span>]<br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./redis-cluster/7001/conf/redis.conf:/usr/local/etc/redis/redis.conf</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./redis-cluster/7001/data:/data</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;7001:7001&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;17001:17001&quot;</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">network_mode:</span> <span class="hljs-string">&quot;host&quot;</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">TZ=Asia/Shanghai</span><br><br>  <span class="hljs-attr">redis7002:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">&#x27;redis&#x27;</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">redis7002</span><br>    <span class="hljs-attr">command:</span><br>      [<span class="hljs-string">&quot;redis-server&quot;</span>, <span class="hljs-string">&quot;/usr/local/etc/redis/redis.conf&quot;</span>]<br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./redis-cluster/7002/conf/redis.conf:/usr/local/etc/redis/redis.conf</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./redis-cluster/7002/data:/data</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;7002:7002&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;17002:17002&quot;</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">network_mode:</span> <span class="hljs-string">&quot;host&quot;</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">TZ=Asia/Shanghai</span><br></code></pre></td></tr></table></figure>
-
-<p>每台机器执行命令: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">docker compose up -d<br></code></pre></td></tr></table></figure>
-
-<p>启动 docker。</p>
-<h3 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h3><p>使用命令: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">docker <span class="hljs-built_in">exec</span> -it redis7001 redis-cli -p 7001 --cluster create \<br> 192.168.221.131:7001 192.168.221.131:7002 \<br> 192.168.221.132:7003 192.168.221.132:7004 \<br> 192.168.221.133:7005 192.168.221.133:7006 \<br> --cluster-replicas 1<br></code></pre></td></tr></table></figure>
-
-<p>进行 redis 集群配置。</p>
-<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><hr>
-<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><p>缓存在同一时间大面积失效，例如定时刷新缓存导致的同时失效，大量请求直接打到数据库，导致数据库宕机。这一现象称为缓存雪崩。<br>处理缓存雪崩简单，在 Redis 批量存数据的时候，把每个 Key 的失效时间都加个随机值，来保证数据不会再同一时间大面积失效。</p>
-<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>缓存穿透是指缓存和数据库中都没有的数据，而用户不断发起请求，导致数据库压力过大。<br>解决方法是接口层增加校验，或者将 null 值写入缓存，设置较短的有效期，防止暴力攻击。</p>
-<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><p>跟缓存雪崩类似，缓存雪崩是因为大面积的缓存失效，打崩数据库。而缓存击穿是指一个 Key 非常热点，在不停地扛着大量的请求，大量并发集中对这一个点进行访问，当这个 Key 在失效的瞬间，持续大量并发直接落到了数据库上，就在这个 Key 上击穿了缓存。<br>我们可以使用互斥锁解决缓存击穿。</p>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/Docker%20Network/">
-        Previous post<br>Docker Network
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/RabbitMQ/">
-        Next post<br>RabbitMQ
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?42901064"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

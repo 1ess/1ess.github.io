@@ -1,267 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>10 分钟学会 tmux - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="Tmux 是一个终端复用器(terminal multiplexer)，用户可以通过 tmux 在一个终端内管理多...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?3297124">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    10 分钟学会 tmux
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2020-02-22T00:00:00.000Z" itemprop="datePublished">
-                            2020-02-22 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>Tmux 是一个终端复用器(terminal multiplexer)，用户可以通过 tmux 在一个终端内管理多个分离的 session、window 及 pane，对于同时使用多个命令行，或多个任务时非常方便。</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># Ubuntu 或 Debian</span><br>$ sudo apt install tmux<br><br><span class="hljs-comment"># CentOS 或 Fedora</span><br>$ sudo yum install tmux<br><br><span class="hljs-comment"># Mac</span><br>$ brew install tmux<br></code></pre></td></tr></table></figure>
-
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><hr>
-<h3 id="前缀键"><a href="#前缀键" class="headerlink" title="前缀键"></a>前缀键</h3><p>tmux 中所有快捷键都要通过前缀键唤起。默认的前缀键是 Ctrl-b，即先按下 Ctrl-b，快捷键才会生效。</p>
-<h3 id="session、window-及-pane-的关系"><a href="#session、window-及-pane-的关系" class="headerlink" title="session、window 及 pane 的关系"></a>session、window 及 pane 的关系</h3><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/tmux/tmux.svg" alt="tmux">
-
-<h3 id="session-管理"><a href="#session-管理" class="headerlink" title="session 管理"></a>session 管理</h3><h4 id="新建会话"><a href="#新建会话" class="headerlink" title="新建会话"></a>新建会话</h4><p>我们使用命令: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux new -s [session-name]<br></code></pre></td></tr></table></figure>
-
-<p>来新建一个 session。</p>
-<h4 id="分离会话"><a href="#分离会话" class="headerlink" title="分离会话"></a>分离会话</h4><p>我们在 tmux 中使用快捷键 Ctrl-b d 来分离当前会话，退回到默认终端界面。</p>
-<h4 id="会话列表"><a href="#会话列表" class="headerlink" title="会话列表"></a>会话列表</h4><p>我们使用命令: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux ls<br></code></pre></td></tr></table></figure>
-
-<p>列出所有会话列表。也可以使用快捷键 Ctrl-b s，来快速查看并切换会话。</p>
-<p>除了 Ctrl-b s，我们还可以使用命令: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux switch -t [session-name]<br></code></pre></td></tr></table></figure>
-
-<p>从当前会话切换到指定会话。</p>
-<h4 id="关闭会话"><a href="#关闭会话" class="headerlink" title="关闭会话"></a>关闭会话</h4><p>我们使用命令: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux kill-session -t [session-name]<br></code></pre></td></tr></table></figure>
-
-<p>来关闭会话。</p>
-<h4 id="重新返回会话"><a href="#重新返回会话" class="headerlink" title="重新返回会话"></a>重新返回会话</h4><p>我们使用命令: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux a -t [session-name]<br></code></pre></td></tr></table></figure>
-
-<p>来重新返回该会话。</p>
-<h4 id="重命名会话"><a href="#重命名会话" class="headerlink" title="重命名会话"></a>重命名会话</h4><p>我们使用快捷键 Ctrl-b $ 来重命名该会话。</p>
-<h3 id="window-管理"><a href="#window-管理" class="headerlink" title="window 管理"></a>window 管理</h3><h4 id="新建-window"><a href="#新建-window" class="headerlink" title="新建 window"></a>新建 window</h4><p>我们使用快捷键 Ctrl-b c 在该会话新建一个 window。</p>
-<h4 id="删除-window"><a href="#删除-window" class="headerlink" title="删除 window"></a>删除 window</h4><p>我们使用快捷键 Ctrl-b &amp; 删除该 window。</p>
-<h4 id="window-列表"><a href="#window-列表" class="headerlink" title="window 列表"></a>window 列表</h4><p>我们使用快捷键 Ctrl-b w 列出该 session 所有的 window。</p>
-<h4 id="重命名-window"><a href="#重命名-window" class="headerlink" title="重命名 window"></a>重命名 window</h4><p>我们使用快捷键 Ctrl-b , 可以重命名该 window。</p>
-<h3 id="pane-管理"><a href="#pane-管理" class="headerlink" title="pane 管理"></a>pane 管理</h3><h4 id="新建-pane"><a href="#新建-pane" class="headerlink" title="新建 pane"></a>新建 pane</h4><p>我们使用快捷键 Ctrl-b % 和 Ctrl-b “ 在左右和上下方向新建 pane。</p>
-<h4 id="关闭-pane"><a href="#关闭-pane" class="headerlink" title="关闭 pane"></a>关闭 pane</h4><p>我们在选定的 pane 上使用快捷键 Ctrl-b x 可以关闭该 pane。</p>
-<h4 id="切换-pane"><a href="#切换-pane" class="headerlink" title="切换 pane"></a>切换 pane</h4><p>我们使用快捷键 Ctrl-b 加方向键来切换 pane。</p>
-<h4 id="布局-pane"><a href="#布局-pane" class="headerlink" title="布局 pane"></a>布局 pane</h4><p>我们使用快捷键 Ctrl-b { 和 Ctrl-b } 可以重新布局 pane。</p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="重新加载-tmux-配置"><a href="#重新加载-tmux-配置" class="headerlink" title="重新加载 tmux 配置"></a>重新加载 tmux 配置</h4><p>我们使用命令: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">tmux source-file ~/.tmux.conf<br></code></pre></td></tr></table></figure>
-
-<p>来重新加载 tmux 配置。</p>
-<p>.tmux.conf 中常用的配置为: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># Use Alt-arrow keys without prefix key to switch panes</span><br><span class="hljs-built_in">bind</span> -n M-Left select-pane -L<br><span class="hljs-built_in">bind</span> -n M-Right select-pane -R<br><span class="hljs-built_in">bind</span> -n M-Up select-pane -U<br><span class="hljs-built_in">bind</span> -n M-Down select-pane -D<br><br><span class="hljs-comment"># reload config file</span><br><span class="hljs-built_in">bind</span> r source-file ~/.tmux.conf<br></code></pre></td></tr></table></figure>
-
-<h4 id="pane-显示时间"><a href="#pane-显示时间" class="headerlink" title="pane 显示时间"></a>pane 显示时间</h4><p>我们使用快捷键 Ctrl-b t 可以在 pane 中间显示一个时钟。</p>
-<h4 id="最大化-pane"><a href="#最大化-pane" class="headerlink" title="最大化 pane"></a>最大化 pane</h4><p>我们使用快捷键 Ctrl-b z 可以最大化当前 pane，在使用一次则还原为原大小。</p>
-<h4 id="调整-pane-大小"><a href="#调整-pane-大小" class="headerlink" title="调整 pane 大小"></a>调整 pane 大小</h4><p>我们使用快捷键 Ctrl-b Alt-方向键可以调整当前 pane 大小。</p>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/Vim%20%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86%E5%8F%8A%20vimrc%20%E9%85%8D%E7%BD%AE/">
-        Previous post<br>Vim 插件管理及 vimrc 配置
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/Shell(%E4%BA%94)/">
-        Next post<br>Shell(五)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?61961098"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

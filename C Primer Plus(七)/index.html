@@ -1,306 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>C Primer Plus(七) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="本篇，我们主要讨论字符串的性质、如何声明并初始化字符串、如何在程序中输入和输出字符串，以及如何操控字符串。
-字符串...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?81714699">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    C Primer Plus(七)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2020-07-17T00:00:00.000Z" itemprop="datePublished">
-                            2020-07-17 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>本篇，我们主要讨论字符串的性质、如何声明并初始化字符串、如何在程序中输入和输出字符串，以及如何操控字符串。</p>
-<p>字符串是 C 语言中最有用、最重要的数据类型之一。前面介绍过，字符串是以空字符(\0)结尾的 char 类型数组。我们可以把之前几篇介绍的数组和指针的知识应用于字符串。并且，由于字符串十分常用，所以 C 提供了许多专门用于处理字符串的函数，我们之后会一一介绍。</p>
-<h2 id="定义字符串"><a href="#定义字符串" class="headerlink" title="定义字符串"></a>定义字符串</h2><hr>
-<p>我们可以使用多种方式来定义字符串: </p>
-<ul>
-<li>字符串常量</li>
-<li>char 类型数组</li>
-<li>指向 char 的指针</li>
-</ul>
-<p>需要注意: 程序应该确保有足够的空间储存字符串，这一点我们稍后讨论。</p>
-<h3 id="字符串字面量-字符串常量"><a href="#字符串字面量-字符串常量" class="headerlink" title="字符串字面量(字符串常量)"></a>字符串字面量(字符串常量)</h3><p>用双引号括起来的内容称为字符串字面量(string literal)，也叫作字符串常量(string constant)。双引号中的字符和编译器自动加入末尾的 \0 字符，都作为字符串储存在内存中。</p>
-<p>从 ANSI C 标准起，如果字符串字面量之间没有间隔，或者用空白字符分隔，C 会将其视为串联起来的字符串字面量。例如: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">char</span> greeting[<span class="hljs-number">50</span>] = <span class="hljs-string">&quot;Hello, and&quot;</span><span class="hljs-string">&quot; how are&quot;</span> <span class="hljs-string">&quot; you&quot;</span><br><span class="hljs-string">&quot; today!&quot;</span>;<br><br><span class="hljs-comment">// 等价于</span><br><span class="hljs-keyword">char</span> greeting[<span class="hljs-number">50</span>] = <span class="hljs-string">&quot;Hello, and how are you today!&quot;</span>;<br></code></pre></td></tr></table></figure>
-
-<p>如果要在字符串内部使用双引号，必须在双引号前面加上一个反斜杠 \ 进行转义: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\&quot;Run, Spot, run!\&quot; exclaimed Dick.\n&quot;</span>);<br><span class="hljs-comment">// &quot;Run, Spot, run!&quot; exclaimed Dick.</span><br></code></pre></td></tr></table></figure>
-
-<p>字符串常量属于静态存储类别(static storage class)，这说明如果在函数中使用字符串常量，该字符串只会被储存一次，在整个程序的生命期内存在，即使函数被调用多次。用双引号括起来的内容被视为指向该字符串储存位置的指针。这类似于把数组名作为指向该数组位置的指针。注意如下示例的输出: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s, %p, %c&quot;</span>, <span class="hljs-string">&quot;We&quot;</span>, <span class="hljs-string">&quot;are&quot;</span>, <span class="hljs-string">&quot;champion&quot;</span>);<br>    <span class="hljs-comment">// We, 0x100000f61, c</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="字符串数组和初始化"><a href="#字符串数组和初始化" class="headerlink" title="字符串数组和初始化"></a>字符串数组和初始化</h3><p>定义字符串数组时，必须让编译器知道需要多少空间。一种方法是用足够空间的数组储存字符串。如下: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> m1[<span class="hljs-number">40</span>] = <span class="hljs-string">&quot;Limit yourself to one line&#x27;s worth.&quot;</span>;<br></code></pre></td></tr></table></figure>
-
-<p>这种形式的初始化比标准的数组初始化形式简单得多: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> m1[<span class="hljs-number">40</span>] = &#123;<br>                      <span class="hljs-string">&#x27;L&#x27;</span>, <span class="hljs-string">&#x27;i&#x27;</span>, <span class="hljs-string">&#x27;m&#x27;</span>, <span class="hljs-string">&#x27;i&#x27;</span>, <span class="hljs-string">&#x27;t&#x27;</span>, <span class="hljs-string">&#x27; &#x27;</span>, <span class="hljs-string">&#x27;y&#x27;</span>, <span class="hljs-string">&#x27;o&#x27;</span>, <span class="hljs-string">&#x27;u&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, <span class="hljs-string">&#x27;s&#x27;</span>, <span class="hljs-string">&#x27;e&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>,<br>                      <span class="hljs-string">&#x27;f&#x27;</span>, <span class="hljs-string">&#x27; &#x27;</span>, <span class="hljs-string">&#x27;t&#x27;</span>, <span class="hljs-string">&#x27;o&#x27;</span>, <span class="hljs-string">&#x27; &#x27;</span>, <span class="hljs-string">&#x27;o&#x27;</span>, <span class="hljs-string">&#x27;n&#x27;</span>, <span class="hljs-string">&#x27;e&#x27;</span>, <span class="hljs-string">&#x27; &#x27;</span>,<span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;i&#x27;</span>, <span class="hljs-string">&#x27;n&#x27;</span>, <span class="hljs-string">&#x27;e&#x27;</span>,<br>                      <span class="hljs-string">&#x27;\&quot;, &#x27;</span>s<span class="hljs-number">&#x27;</span>, <span class="hljs-string">&#x27; &#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&#x27;o&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>,<span class="hljs-string">&#x27;t&#x27;</span>, <span class="hljs-string">&#x27;h&#x27;</span>, <span class="hljs-string">&#x27;.&#x27;</span>, <span class="hljs-string">&#x27;\0&#x27;</span><br>                    &#125;;<br></code></pre></td></tr></table></figure>
-
-<p>需要特别注意最后的空字符。没有这个空字符，这就不是一个字符串，而是一个普通的字符数组。为了容纳空字符，在指定数组大小时，要确保数组的元素个数至少比字符串长度多 1。所有未被使用的元素都被自动初始化为 0(即空字符，不是数字字符 0)。</p>
-<p>通常，让编译器确定数组的大小很方便。前面介绍过，省略数组初始化声明中的大小，编译器会自动计算数组的大小: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> m2[] = <span class="hljs-string">&quot;If you can&#x27;t think of anything, fake it.&quot;</span>;<br></code></pre></td></tr></table></figure>
-
-<p>让编译器确定初始化字符数组的大小很合理。因为处理字符串的函数通常都不知道数组的大小，这些函数通过查找字符串末尾的空字符确定字符串在何处结束。<br>让编译器计算数组的大小只能用在初始化数组时。如果创建一个稍后再填充的数组，就必须在声明时指定大小。</p>
-<p>字符数组名和其他数组名一样，是该数组首元素的地址。因此: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">char</span> car[<span class="hljs-number">10</span>] = <span class="hljs-string">&quot;Tata&quot;</span>;<br><br><span class="hljs-comment">// car == &amp;car[0]、*car == &#x27;T&#x27;、*(car+1) == car[1] == &#x27;a&#x27;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="指针声明"><a href="#指针声明" class="headerlink" title="指针声明"></a>指针声明</h3><p>还可以使用指针表示法创建字符串。例如: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> * pt1 = <span class="hljs-string">&quot;Something is pointing at me.&quot;</span>;<br></code></pre></td></tr></table></figure>
-
-<p>该声明和下面的声明几乎相同: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> ar1[] = <span class="hljs-string">&quot;Something is pointing at me.&quot;</span>;<br></code></pre></td></tr></table></figure>
-
-<p>数组形式和指针形式有何不同？以上面的声明为例，数组形式(ar1[])在计算机的内存中分配为一个内含 29 个元素的数组(每个元素对应一个字符，还加上一个末尾的空字符’\0’)。每个元素被初始化为字符串字面量对应的字符。通常，字符串都作为可执行文件的一部分储存在数据段中。当把程序载入内存时，也载入了程序中的字符串。字符串储存在静态存储区(static memory)中。但是，程序在开始运行时才会为该数组分配内存。此时，才将字符串拷贝到数组中。注意，此时字符串有两个副本。一个是在静态内存中的字符串字面量，另一个是储存在 ar1 数组中的字符串。</p>
-<p>此后，编译器便把数组名 ar1 识别为该数组首元素地址(&amp;ar1[0])的别名。在数组形式中，ar1 是地址常量。可以进行类似 ar1+1 这样的操作，标识数组的下一个元素。但是不允许进行 ++ar1 这样的操作。</p>
-<p>指针形式(*pt1)也使得编译器为字符串在静态存储区预留 29 个元素的空间。另外，一旦开始执行程序，它会为指针变量 pt1 留出一个储存位置，并把字符串的地址储存在指针变量中。该变量最初指向该字符串的首字符，但是它的值可以改变。因此，可以使用递增运算符。例如，++pt1 将指向第 2 个字符(o)。</p>
-<p>字符串字面量被视为 const 数据。由于 pt1 指向这个 const 数据，所以应该把 pt1 声明为指向 const 数据的指针。这意味着不能用 pt1 改变它所指向的数据，但是仍然可以改变 pt1 的值(即，pt1 指向的位置)。如果把一个字符串字面量拷贝给一个数组，就可以随意改变数据，除非把数组声明为 const。</p>
-<h2 id="字符串输入"><a href="#字符串输入" class="headerlink" title="字符串输入"></a>字符串输入</h2><hr>
-<p>如果想把一个字符串读入程序，首先必须预留储存该字符串的空间，然后用输入函数获取该字符串。</p>
-<h3 id="分配空间"><a href="#分配空间" class="headerlink" title="分配空间"></a>分配空间</h3><p>字符串输入，第 1 件事是分配空间，以储存稍后读入的字符串。前面提到过，这意味着必须要为字符串分配足够的空间。不要指望计算机在读取字符串时顺便计算它的长度，然后再分配空间。<br>最简单的方法是，在声明时显式指明数组的大小: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">char</span> name[<span class="hljs-number">81</span>];<br></code></pre></td></tr></table></figure>
-
-<p>现在 name 是一个已分配块(81 字节)的地址。还有一种方法是使用 C 库函数来分配内存，我们之后会详细介绍。</p>
-<h3 id="gets-函数"><a href="#gets-函数" class="headerlink" title="gets() 函数"></a>gets() 函数</h3><p>在读取字符串时，scanf() 和转换说明 %s 只能读取一个单词。在程序中经常要读取一整行输入，而不仅仅是一个单词。许多年前，gets() 函数就用于处理这种情况。gets() 函数简单易用，它读取整行输入，直至遇到换行符，然后丢弃换行符，储存其余字符，并在这些字符的末尾添加一个空字符使其成为一个 C 字符串。它经常和 puts() 函数配对使用，该函数用于显示字符串，并在末尾添加换行符。</p>
-<p>需要注意:  gets() 唯一的参数是一个数组，它无法检查该数组是否装得下输入行。因此，gets() 函数只知道数组的开始处，并不知道数组中有多少个元素。如果输入的字符串过长，会导致缓冲区溢出(buffer overflow)。</p>
-<p>我们在使用编译器编译带有 gets() 函数的代码时，会产生 “the `gets’ function is dangerous and should not be used.” 警告，<br>因为该函数的不安全行为造成了安全隐患。过去，有些人通过系统编程，利用 gets() 插入和运行一些破坏系统安全的代码。制定 C99 标准的委员承认了 gets() 的问题并建议不要再使用它。C11 标准委员会采取了更强硬的态度，直接从标准中废除了 gets() 函数。然而在实际应用中，编译器为了能兼容以前的代码，大部分都继续支持 gets() 函数。</p>
-<h3 id="fgets-和-gets-s-函数"><a href="#fgets-和-gets-s-函数" class="headerlink" title="fgets() 和 gets_s() 函数"></a>fgets() 和 gets_s() 函数</h3><p>过去通常用 fgets() 来代替 gets()，fgets() 函数稍微复杂些。C11 标准新增的 gets_s() 函数也可代替 gets()。但是，它是 stdio.h 输入/输出函数系列中的可选扩展，所以支持 C11 的编译器也不一定支持它。</p>
-<p>fgets() 函数通过第 2 个参数限制读入的字符数来解决溢出的问题。该函数专门设计用于处理文件输入，所以一般情况下可能不太好用。<br>fgets() 函数的第 2 个参数指明了读入字符的最大数量。如果该参数的值是 n，那么 fgets() 将读入 n-1 个字符，或者读到遇到的第一个换行符为止。</p>
-<p>如果 fgets() 读到一个换行符，会把它储存在字符串中。这点与 gets() 不同，gets() 会丢弃换行符。<br>fgets() 函数的第 3 个参数指明要读入的文件。如果读入从键盘输入的数据，则以 stdin(标准输入)作为参数，该标识符定义在 stdio.h 中。</p>
-<p>和 puts() 类似，也存在 fputs() 函数。fputs() 函数的第 2 个参数指明它要写入的文件。如果要显示在计算机显示器上，应使用 stdout(标准输出)作为该参数。puts() 函数会在待输出字符串末尾添加一个换行符，而 fputs() 不会这样做。</p>
-<p>C11 新增的 gets_s() 函数(可选)和 fgets() 类似，用一个参数限制读入的字符数。与 fgets() 函数不同的是: </p>
-<ul>
-<li>gets_s() 只从标准输入中读取数据，所以不需要第 3 个参数</li>
-<li>如果 gets_s() 读到换行符，会丢弃它而不是储存它</li>
-</ul>
-<h2 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h2><hr>
-<p>C 库提供了多个处理字符串的函数，ANSI C 把这些函数的原型放在 string.h 头文件中。其中最常用的函数有 strlen()、strcat()、strcmp()、strncmp()、strcpy()和 strncpy()。</p>
-<h3 id="strlen-函数"><a href="#strlen-函数" class="headerlink" title="strlen() 函数"></a>strlen() 函数</h3><p>strlen() 函数用于统计字符串的长度。如下: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">fit</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *<span class="hljs-built_in">string</span>, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> size)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strlen</span>(<span class="hljs-built_in">string</span>) &gt; size)<br>    <span class="hljs-built_in">string</span>[size] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="strcat-函数"><a href="#strcat-函数" class="headerlink" title="strcat() 函数"></a>strcat() 函数</h3><p>strcat()(用于拼接字符串)函数接受两个字符串作为参数。该函数把第 2 个字符串的备份附加在第 1 个字符串末尾，并把拼接后形成的新字符串作为第 1 个字符串，第 2 个字符串不变。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string.h&gt;</span> <span class="hljs-comment">/* strcat() 函数的原型在该头文件中 */</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> SIZE 80</span><br><br><span class="hljs-function"><span class="hljs-keyword">char</span> * <span class="hljs-title">s_gets</span><span class="hljs-params">(<span class="hljs-keyword">char</span> * st, <span class="hljs-keyword">int</span> n)</span></span>;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>&#123;<br>    <span class="hljs-keyword">char</span> flower[SIZE];<br>    <span class="hljs-keyword">char</span> addon [] = <span class="hljs-string">&quot;s smell like old shoes.&quot;</span>;<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;What is your favorite flower?&quot;</span>);<br>    <span class="hljs-keyword">if</span> (s_gets(flower, SIZE)) &#123;<br>        <span class="hljs-built_in">strcat</span>(flower, addon);<br>        <span class="hljs-built_in">puts</span>(flower);<br>        <span class="hljs-built_in">puts</span>(addon);<br>    &#125; <span class="hljs-keyword">else</span><br>        <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;End of file encountered!&quot;</span>);<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;bye&quot;</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">char</span> * <span class="hljs-title">s_gets</span><span class="hljs-params">(<span class="hljs-keyword">char</span> * st, <span class="hljs-keyword">int</span> n)</span> </span>&#123;<br>    <span class="hljs-keyword">char</span> * ret_val;<br>    <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;<br>    ret_val = fgets(st, n, <span class="hljs-built_in">stdin</span>);<br>    <span class="hljs-keyword">if</span> (ret_val) &#123;<br>        <span class="hljs-keyword">while</span> (st[i] != <span class="hljs-string">&#x27;\n&#x27;</span> &amp;&amp; st[i] != <span class="hljs-string">&#x27;\0&#x27;</span>)<br>            i++;<br>    <span class="hljs-keyword">if</span> (st[i] == <span class="hljs-string">&#x27;\n&#x27;</span>)<br>        st[i] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">while</span> (getchar() != <span class="hljs-string">&#x27;\n&#x27;</span>)<br>            <span class="hljs-keyword">continue</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> ret_val;<br>&#125;<br><br><span class="hljs-comment">// What is your favorite flower?</span><br><span class="hljs-comment">// wonderflower</span><br><span class="hljs-comment">// wonderflowers smell like old shoes.</span><br><span class="hljs-comment">// s smell like old shoes.</span><br><span class="hljs-comment">// bye</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="strncat-函数"><a href="#strncat-函数" class="headerlink" title="strncat() 函数"></a>strncat() 函数</h3><p>strcat() 函数无法检查第 1 个数组是否能容纳第 2 个字符串。如果分配给第 1 个数组的空间不够大，多出来的字符溢出到相邻存储单元时就会出问题。我们可以使用 strncat()，该函数的第 3 个参数指定了最大添加字符数。</p>
-<h3 id="strcmp-函数"><a href="#strcmp-函数" class="headerlink" title="strcmp() 函数"></a>strcmp() 函数</h3><p>strcmp 可以比较两个字符串，注意该函数要比较的是字符串的内容，不是字符串的地址。该函数通过比较运算符来比较字符串，就像比较数字一样。如果两个字符串参数相同，该函数就返回 0，否则返回非零值。如果在字母表中第 1 个字符串位于第 2 个字符串前面，strcmp() 就返回负数，反之 strcmp() 则返回正数。</p>
-<h3 id="strncmp-函数"><a href="#strncmp-函数" class="headerlink" title="strncmp() 函数"></a>strncmp() 函数</h3><p>strcmp() 函数比较字符串中的字符，直到发现不同的字符为止，这一过程可能会持续到字符串的末尾。而 strncmp() 函数在比较两个字符串时，可以比较到字符不同的地方，也可以只比较第 3 个参数指定的字符数。</p>
-<h3 id="strcpy-和-strncpy-函数"><a href="#strcpy-和-strncpy-函数" class="headerlink" title="strcpy() 和 strncpy() 函数"></a>strcpy() 和 strncpy() 函数</h3><p>如果 pts1 和 pts2 都是指向字符串的指针，那么下面语句拷贝的是字符串的地址而不是字符串本身: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">pts2 = pts1;<br></code></pre></td></tr></table></figure>
-
-<p>如果希望拷贝整个字符串，要使用 strcpy() 函数。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">char</span> target[<span class="hljs-number">20</span>];<br><span class="hljs-keyword">int</span> x;<br>x = <span class="hljs-number">50</span>;                   <span class="hljs-comment">/* 数字赋值*/</span><br><span class="hljs-built_in">strcpy</span>(target, <span class="hljs-string">&quot;Hi ho!&quot;</span>); <span class="hljs-comment">/* 字符串赋值*/</span><br>target = <span class="hljs-string">&quot;So long&quot;</span>;       <span class="hljs-comment">/* 语法错误 */</span><br></code></pre></td></tr></table></figure>
-
-<p>strcpy() 接受两个字符串指针作为参数，可以把指向源字符串声明为指针、数组名或字符串常量，而指向源字符串副本的第 1 个指针应指向一个数据对象(如数组)，且该对象有足够的空间储存源字符串的副本。<br>注意: </p>
-<ul>
-<li>strcpy() 的返回类型是 char *，该函数返回的是第 1 个参数的值</li>
-<li>第 1 个参数不必指向数组的开始</li>
-</ul>
-<p>strcpy() 和 strcat() 都有同样的问题，它们都不能检查目标空间是否能容纳源字符串的副本。拷贝字符串用 strncpy() 更安全，该函数的第 3 个参数指明可拷贝的最大字符数。</p>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/%E9%87%8D%E5%AD%A6%20SQL(%E4%B8%80)/">
-        Previous post<br>重学 SQL(一)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/C%20Primer%20Plus(%E5%85%AD)/">
-        Next post<br>C Primer Plus(六)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?2007975"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

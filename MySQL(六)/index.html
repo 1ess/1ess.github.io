@@ -1,328 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>MySQL(六) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="本篇，我们说说 MySQL 中的外键、视图以及事务安全等问题。
-外键
-如果公共关键字在一个关系中是主关键字，那么这...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?87307623">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    MySQL(六)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2019-03-28T00:00:00.000Z" itemprop="datePublished">
-                            2019-03-28 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>本篇，我们说说 MySQL 中的外键、视图以及事务安全等问题。</p>
-<h2 id="外键"><a href="#外键" class="headerlink" title="外键"></a>外键</h2><hr>
-<p>如果公共关键字在一个关系中是主关键字，那么这个公共关键字被称为另一个关系的外键。<br>以另一个关系的外键作为主关键字的表称为主表，具有此外键的表称为主表的从表，外键又称为外关键字。</p>
-<h3 id="外键操作"><a href="#外键操作" class="headerlink" title="外键操作"></a>外键操作</h3><h4 id="增加外键"><a href="#增加外键" class="headerlink" title="增加外键"></a>增加外键</h4><p>MySQL 中提供两种方式增加外键: </p>
-<ol>
-<li><p>在创建表时，直接新增外键<br>基本语法: [constraint {外键名}] foregin key({外键字段}) references {主表}(主键);</p>
-</li>
-<li><p>在创建表后，再新增外键<br>基本语法: alter table {从表名} add [constraint {外键名}] foregin key({外键字段}) references {主表}(主键);</p>
-</li>
-</ol>
-<h4 id="外键基本要求"><a href="#外键基本要求" class="headerlink" title="外键基本要求"></a>外键基本要求</h4><ol>
-<li>外键字段需要保证与关联的主表的主键字段类型一致</li>
-<li>基本属性也要相同</li>
-<li>如果在表后增加外键，对数据有一定要求</li>
-<li>外键只能使用 innodb 引擎</li>
-</ol>
-<h3 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h3><p>外键约束: 通过建立外键关系之后，对主表和从表都会有一定数据约束。</p>
-<h4 id="约束的基本概念"><a href="#约束的基本概念" class="headerlink" title="约束的基本概念"></a>约束的基本概念</h4><ol>
-<li>当一个外键产生时，从表会受制于主表数据的存在从而导致数据不能进行某些不符合规范的操作(不能插入主表不存在的数据)</li>
-<li>如果一个表被其他表外键引入，那么该表的数据操作就不能随意，必须保证从表数据的有效性(不能删除从表存在的数据)</li>
-</ol>
-<h4 id="外键约束的概念"><a href="#外键约束的概念" class="headerlink" title="外键约束的概念"></a>外键约束的概念</h4><p>可以在创建外键时，对外键约束进行选择性的操作。</p>
-<p>基本语法: add foregin key({外键字段}) references {主表名}(主键) on {约束模式};</p>
-<p>约束模式有三种: </p>
-<ol>
-<li>district，严格模式，默认，不允许操作</li>
-<li>cascade，级联模式，一起操作变化</li>
-<li>set null，置空模式，主表变化，从表字段置空，前提是从表该外键字段允许为空</li>
-</ol>
-<p>常用约束: on update cascade on delete set null;</p>
-<h4 id="约束的作用"><a href="#约束的作用" class="headerlink" title="约束的作用"></a>约束的作用</h4><p>保证数据的完整性: 主表数据与从表数据一致。<br>但是外键很强大，但是很少使用，因为其可能会导致业务无法把握。</p>
-<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><hr>
-<h3 id="视图基本操作"><a href="#视图基本操作" class="headerlink" title="视图基本操作"></a>视图基本操作</h3><h4 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h4><p>视图的本质是 SQL 指令(select 语句)。<br>基本语法: create view {视图名} as select 指令</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 两表具有同名字段会有问题</span><br><span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> student_v <span class="hljs-keyword">as</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_student <span class="hljs-keyword">as</span> s <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> my_class <span class="hljs-keyword">as</span> c <span class="hljs-keyword">on</span> s.class_id <span class="hljs-operator">=</span> c.class_id;<br><br><span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> student_v <span class="hljs-keyword">as</span> <span class="hljs-keyword">select</span> s.<span class="hljs-operator">*</span>, c.name <span class="hljs-keyword">from</span> my_student <span class="hljs-keyword">as</span> s <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> my_class <span class="hljs-keyword">as</span> c <span class="hljs-keyword">on</span> s.class_id <span class="hljs-operator">=</span> c.class_id;<br></code></pre></td></tr></table></figure>
-
-<h4 id="使用视图"><a href="#使用视图" class="headerlink" title="使用视图"></a>使用视图</h4><p>视图是一张虚拟表，可以把视图当作”表”来操作，但是视图本身没有数据，是临时执行 select 语句得到对应的结果。<br>基本语法: select 字段列表 from {视图名};</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> student_v;<br></code></pre></td></tr></table></figure>
-
-<h4 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h4><p>本质是修改视图对应的查询语句。<br>基本语法: alter view {视图名} as 新 select 指令</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">alter</span> <span class="hljs-keyword">view</span> student_v <span class="hljs-keyword">as</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> my_student <span class="hljs-keyword">as</span> s <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> my_class <span class="hljs-keyword">as</span> c <span class="hljs-keyword">using</span>(class_id);<br></code></pre></td></tr></table></figure>
-
-<h4 id="删除视图"><a href="#删除视图" class="headerlink" title="删除视图"></a>删除视图</h4><p>基本语法: drop view {视图名};</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">drop</span> <span class="hljs-keyword">view</span> student_v;<br></code></pre></td></tr></table></figure>
-
-<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><hr>
-<p>事务(Transaction)是访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。事务通常由高级数据库操纵语言或编程语言书写的用户程序的执行所引起的。<br>事务由事务开始(Begin Transaction)和事务结束(End Transaction)之间执行的全体操作组成。</p>
-<h3 id="事务的基本原理"><a href="#事务的基本原理" class="headerlink" title="事务的基本原理"></a>事务的基本原理</h3><p>MySQL(Innodb) 允许将事务统一进行管理，将用户操作暂存，不直接操作数据表，等用户确认结果之后再进行操作。<br>事务在 MySQL 中通常是<strong>自动提交</strong>，也可以<strong>手动事务</strong>。</p>
-<h3 id="自动事务"><a href="#自动事务" class="headerlink" title="自动事务"></a>自动事务</h3><p>自动事务(autocommit): 当客户端发送一条 SQL 指令(写操作)，给服务器时，服务器在执行之后，不用等待用户反馈结果，自动将结果同步到数据表。<br>关闭自动事务: set autocommit = off;<br>一旦关闭自动事务，就需要用户来提供是否同步的指令: </p>
-<ol>
-<li>Commit;: 提交(同步到数据表并清空该事务)</li>
-<li>Rollback;: 回滚(清空该事务)</li>
-</ol>
-<p>执行事务端的客户端，在提供是否同步指令之前，该客户端仍可以根据日志对数据加工，返回同步之后的结果。</p>
-<p>通常我们不关闭自动事务。</p>
-<h3 id="手动事务"><a href="#手动事务" class="headerlink" title="手动事务"></a>手动事务</h3><h4 id="开启事务"><a href="#开启事务" class="headerlink" title="开启事务"></a>开启事务</h4><p>从该语句开始，之后的语句都不会直接写入数据库，而是保存在事务日志中。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 开启事务</span><br><span class="hljs-keyword">start</span> transaction; <br><span class="hljs-comment">-- 有的数据库使用 begin transaction;</span><br></code></pre></td></tr></table></figure>
-
-<h4 id="执行事务"><a href="#执行事务" class="headerlink" title="执行事务"></a>执行事务</h4><p>执行需要在事务中执行的 SQL 指令。</p>
-<h4 id="提交事务或回滚"><a href="#提交事务或回滚" class="headerlink" title="提交事务或回滚"></a>提交事务或回滚</h4><figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 提交</span><br><span class="hljs-keyword">commit</span>;<br><span class="hljs-comment">-- 回滚</span><br><span class="hljs-keyword">rollback</span>;<br></code></pre></td></tr></table></figure>
-
-<h4 id="回滚点-savepoint"><a href="#回滚点-savepoint" class="headerlink" title="回滚点(savepoint)"></a>回滚点(savepoint)</h4><p>当有一系列事务操作，可以设置回滚点，使得当有事务操作失败时，可以回到该位置重新开始执行。<br>基本语法: savepoint {回滚点名};</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 设置回滚点</span><br><span class="hljs-keyword">savepoint</span> sp1;<br><br><span class="hljs-comment">-- 回到回滚点</span><br><span class="hljs-keyword">rollback</span> sp1;<br></code></pre></td></tr></table></figure>
-
-<h3 id="事务特点"><a href="#事务特点" class="headerlink" title="事务特点"></a>事务特点</h3><p>事务具有四个特性(ACID): </p>
-<ol>
-<li>原子性(Atomicity): 事务被视为不可分割的最小单元，事务的所有操作要么全部提交成功，要么全部失败回滚</li>
-<li>一致性(Consistency): 数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对一个数据的读取结果都是相同的</li>
-<li>隔离性(Isolation): 一个事务所做的修改在最终提交以前，对其它事务是不可见的</li>
-<li>持久性(Durability): 一旦事务提交，则其所做的修改将会永远保存到数据库中。即使系统发生崩溃，事务执行的结果也不能丢失</li>
-</ol>
-<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/mysql/mysql1.jpg"></p>
-<p>事务的 ACID 特性概念简单，但不是很好理解，主要是因为这几个特性不是一种平级关系: </p>
-<ul>
-<li>只有满足一致性，事务的执行结果才是正确的</li>
-<li>在无并发的情况下，事务串行执行，隔离性一定能够满足。此时只要能满足原子性，就一定能满足一致性</li>
-<li>在并发的情况下，多个事务并行执行，事务不仅要满足原子性，还需要满足隔离性，才能满足一致性</li>
-<li>事务满足持久化是为了能应对数据库崩溃的情况</li>
-</ul>
-<h3 id="并发一致性问题"><a href="#并发一致性问题" class="headerlink" title="并发一致性问题"></a>并发一致性问题</h3><p>在并发环境下，事务的隔离性很难保证，因此会出现很多并发一致性问题。产生并发不一致性问题主要原因是破坏了事务的隔离性，解决方法是通过并发控制来保证隔离性。并发控制可以通过封锁来实现，但是封锁操作需要用户自己控制，相当复杂。数据库管理系统提供了事务的隔离级别，让用户以一种更轻松的方式处理并发一致性问题。</p>
-<h3 id="封锁"><a href="#封锁" class="headerlink" title="封锁"></a>封锁</h3><h4 id="封锁粒度"><a href="#封锁粒度" class="headerlink" title="封锁粒度"></a>封锁粒度</h4><p>MySQL 中提供了两种封锁粒度: </p>
-<ul>
-<li>行级锁</li>
-<li>表级锁</li>
-</ul>
-<p>应该尽量只锁定需要修改的那部分数据，而不是所有的资源。锁定的数据量越少，发生锁争用的可能就越小，系统的并发程度就越高。<br>但是加锁需要消耗资源，锁的各种操作(包括获取锁、释放锁、以及检查锁状态)都会增加系统开销。因此封锁粒度越小，系统开销就越大。<br>在选择封锁粒度时，需要在锁开销和并发程度之间做一个权衡。</p>
-<h4 id="封锁类型"><a href="#封锁类型" class="headerlink" title="封锁类型"></a>封锁类型</h4><h5 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h5><ul>
-<li>排它锁(Exclusive)，简写为 X 锁，又称写锁</li>
-<li>共享锁(Shared)，简写为 S 锁，又称读锁</li>
-</ul>
-<p>有以下两个规定: </p>
-<ul>
-<li>一个事务对数据对象 A 加了 X 锁，就可以对 A 进行读取和更新。加锁期间其它事务不能对 A 加任何锁</li>
-<li>一个事务对数据对象 A 加了 S 锁，可以对 A 进行读取操作，但是不能进行更新操作。加锁期间其它事务能对 A 加 S 锁，但是不能加 X 锁</li>
-</ul>
-<h5 id="意向锁"><a href="#意向锁" class="headerlink" title="意向锁"></a>意向锁</h5><p>使用意向锁(Intention Locks)可以更容易地支持多粒度封锁。<br>在存在行级锁和表级锁的情况下，事务 T 想要对表 A 加 X 锁，就需要先检测是否有其它事务对表 A 或者表 A 中的任意一行加了锁，那么就需要对表 A 的每一行都检测一次，这是非常耗时的。</p>
-<p>意向锁在原来的 X/S 锁之上引入了 IX/IS，IX/IS 都是表锁，用来表示一个事务想要在表中的某个数据行上加 X 锁或 S 锁。有以下两个规定: </p>
-<ul>
-<li>一个事务在获得某个数据行对象的 S 锁之前，必须先获得表的 IS 锁或者更强的锁</li>
-<li>一个事务在获得某个数据行对象的 X 锁之前，必须先获得表的 IX 锁</li>
-</ul>
-<p>通过引入意向锁，事务 T 想要对表 A 加 X 锁，只需要先检测是否有其它事务对表 A 加了 X/IX/S/IS 锁，如果加了就表示有其它事务正在使用这个表或者表中某一行的锁，因此事务 T 加 X 锁失败。</p>
-<h4 id="封锁协议"><a href="#封锁协议" class="headerlink" title="封锁协议"></a>封锁协议</h4><ol>
-<li>一级封锁协议: 事务 T 要修改数据 A 时必须加 X 锁，直到 T 结束才释放锁。可以解决丢失修改问题，因为不能同时有两个事务对同一个数据进行修改，那么事务的修改就不会被覆盖</li>
-<li>二级封锁协议: 在一级的基础上，要求读取数据 A 时必须加 S 锁，读取完马上释放 S 锁。可以解决读脏数据问题，因为如果一个事务在对数据 A 进行修改，根据 1 级封锁协议，会加 X 锁，那么就不能再加 S 锁了，也就是不会读入数据</li>
-<li>三级封锁协议: 在二级的基础上，要求读取数据 A 时必须加 S 锁，直到事务结束了才能释放 S 锁。可以解决不可重复读的问题，因为读 A 时，其它事务不能对 A 加 X 锁，从而避免了在读的期间数据发生改变</li>
-</ol>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/MySQL(%E4%B8%83)/">
-        Previous post<br>MySQL(七)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/MySQL(%E4%BA%94)/">
-        Next post<br>MySQL(五)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?47542861"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

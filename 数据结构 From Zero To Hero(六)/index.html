@@ -1,232 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>数据结构 From Zero To Hero(六) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="本篇，我们介绍一种用于超快检索的数据结构 —— 哈希表(Hash Tables)或者称为字典(Dictionary...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?15074845">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    数据结构 From Zero To Hero(六)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2021-02-27T00:00:00.000Z" itemprop="datePublished">
-                            2021-02-27 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>本篇，我们介绍一种用于超快检索的数据结构 —— 哈希表(Hash Tables)或者称为字典(Dictionary)。</p>
-<p>几乎所有的编程语言都有对应的实现，例如 Java 中的 HashMap、JavaScript 中的 Object、C# 中的 Dictionary。</p>
-<h3 id="First-Non-repeated-Character"><a href="#First-Non-repeated-Character" class="headerlink" title="First Non-repeated Character"></a>First Non-repeated Character</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">char</span> <span class="hljs-title">FirstNonRepeatedCharacter</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> input</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> map = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">char</span>, <span class="hljs-built_in">int</span>&gt;();<br>    <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> ch <span class="hljs-keyword">in</span> input)<br>    &#123;<br>        <span class="hljs-keyword">var</span> count = map.Keys.Contains(ch) ? map[ch] : <span class="hljs-number">0</span>;<br>        map[ch] = count++;<br>    &#125;<br><br>    <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> item <span class="hljs-keyword">in</span> input)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (map[item] == <span class="hljs-number">1</span>)<br>        &#123;<br>            <span class="hljs-keyword">return</span> item;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">default</span>(<span class="hljs-built_in">char</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="Hash-Collision"><a href="#Hash-Collision" class="headerlink" title="Hash Collision"></a>Hash Collision</h3><p>哈希函数会使用哈希算法根据输入计算出哈希表的 Value 实际存储的索引，可能发生不同输入计算出同一索引值的情况，这种我们就称之为哈希碰撞。</p>
-<img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/hashtable/hash_collision.png" width="400px" alt="">
-
-<p>比较常用的有两种方式解决哈希碰撞: </p>
-<ol>
-<li>Chaining</li>
-<li>Open Addressing</li>
-</ol>
-<h3 id="自己构建一个哈希表"><a href="#自己构建一个哈希表" class="headerlink" title="自己构建一个哈希表"></a>自己构建一个哈希表</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">HashTable</span>&lt;<span class="hljs-title">T1</span>, <span class="hljs-title">T2</span>&gt;<br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Entry</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Entry</span>(<span class="hljs-params">T1 key, T2 <span class="hljs-keyword">value</span></span>)</span><br>        &#123;<br>            Key = key;<br>            Value = <span class="hljs-keyword">value</span>;<br>        &#125;<br>        <span class="hljs-keyword">public</span> T1 Key;<br>        <span class="hljs-keyword">public</span> T2 Value;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> LinkedList&lt;Entry&gt;[] enties;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">HashTable</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> capacity</span>)</span><br>    &#123;<br>        enties = <span class="hljs-keyword">new</span> LinkedList&lt;Entry&gt;[capacity];<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Put</span>(<span class="hljs-params">T1 key, T2 <span class="hljs-keyword">value</span></span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> entry = GetEntry(key);<br>        <span class="hljs-keyword">if</span> (entry != <span class="hljs-literal">null</span>)<br>        &#123;<br>            entry.Value = <span class="hljs-keyword">value</span>;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br><br>        GetOrCreateBucket(key).AddLast(<span class="hljs-keyword">new</span> Entry(key, <span class="hljs-keyword">value</span>));<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> T2 <span class="hljs-title">Get</span>(<span class="hljs-params">T1 key</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> entry = GetEntry(key);<br>        <span class="hljs-keyword">return</span> entry == <span class="hljs-literal">null</span> ? <span class="hljs-literal">default</span>(T2) : entry.Value;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Remove</span>(<span class="hljs-params">T1 key</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> entry = GetEntry(key);<br>        <span class="hljs-keyword">if</span> (entry != <span class="hljs-literal">null</span>)<br>        &#123;<br>            <span class="hljs-keyword">var</span> bucket = GetBucket(key);<br>            bucket.Remove(entry);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> LinkedList&lt;Entry&gt; <span class="hljs-title">GetBucket</span>(<span class="hljs-params">T1 key</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> enties[Hash(key)];<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> LinkedList&lt;Entry&gt; <span class="hljs-title">GetOrCreateBucket</span>(<span class="hljs-params">T1 key</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> index = Hash(key);<br>        <span class="hljs-keyword">if</span> (enties[index] == <span class="hljs-literal">null</span>)<br>        &#123;<br>            enties[index] = <span class="hljs-keyword">new</span> LinkedList&lt;Entry&gt;();<br>        &#125;<br>        <span class="hljs-keyword">return</span> enties[index];<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> Entry <span class="hljs-title">GetEntry</span>(<span class="hljs-params">T1 key</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> index = Hash(key);<br>        <span class="hljs-keyword">var</span> bucket = enties[index];<br>        <span class="hljs-keyword">if</span> (bucket != <span class="hljs-literal">null</span>)<br>        &#123;<br>            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> entry <span class="hljs-keyword">in</span> bucket)<br>            &#123;<br>                <span class="hljs-keyword">if</span> (entry.Key.Equals(key))<br>                &#123;<br>                    <span class="hljs-keyword">return</span> entry;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">int</span> <span class="hljs-title">Hash</span>(<span class="hljs-params">T1 key</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> Math.Abs(key.GetHashCode() % enties.Length);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%20From%20Zero%20To%20Hero(%E4%B8%83)/">
-        Previous post<br>数据结构 From Zero To Hero(七)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%20From%20Zero%20To%20Hero(%E4%BA%94)/">
-        Next post<br>数据结构 From Zero To Hero(五)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?23826870"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

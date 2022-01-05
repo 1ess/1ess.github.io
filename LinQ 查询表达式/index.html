@@ -1,281 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>LinQ 查询表达式 - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="最近的工作是对一个复杂数据库进行操作，模型类之间的关系很复杂。操作方式使用了 LINQ，之前一直对 LINQ 的查...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?33814294">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    LinQ 查询表达式
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2019-02-20T00:00:00.000Z" itemprop="datePublished">
-                            2019-02-20 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>最近的工作是对一个复杂数据库进行操作，模型类之间的关系很复杂。操作方式使用了 LINQ，之前一直对 LINQ 的查询语法不太喜欢，这次使用之后，感觉比方法语法更容易接受，因此详细总结一下查询表达式的语法。</p>
-<p>数据查询历来都表示为简单的字符串，没有编译时类型检查。 此外，对于每种数据源，还需要学习不同的查询语言: SQL 数据库、XML 文档以及各种 Web 服务等。借助 LINQ，查询成为了最高级的语言构造，就像类、方法和事件一样。</p>
-<p>LINQ 最明显的”语言集成”部分就是查询表达式。 使用相同的基本查询表达式模式来查询和转换 SQL 数据库、ADO .NET 数据集、XML 文档以及 .NET 集合中的数据。<br>从应用程序的角度来看，原始源数据的特定类型和结构并不重要。应用程序始终将源数据视为 IEnumerable<T> 或 IQueryable<T> 集合。 </p>
-<p>对于源序列，查询可能会执行三种操作之一: </p>
-<ul>
-<li>检索元素的子集以生成新序列，而不修改各个元素</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// scores 是 int[]</span><br>IEnumerable&lt;<span class="hljs-built_in">int</span>&gt; highScoresQuery =<br>    <span class="hljs-keyword">from</span> score <span class="hljs-keyword">in</span> scores<br>    <span class="hljs-keyword">where</span> score &gt; <span class="hljs-number">80</span><br>    <span class="hljs-keyword">orderby</span> score <span class="hljs-keyword">descending</span><br>    <span class="hljs-keyword">select</span> score;<br></code></pre></td></tr></table></figure>
-<ul>
-<li>将序列转换为新类型的对象</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">IEnumerable&lt;<span class="hljs-built_in">string</span>&gt; highScoresQuery2 =<br>    <span class="hljs-keyword">from</span> score <span class="hljs-keyword">in</span> scores<br>    <span class="hljs-keyword">where</span> score &gt; <span class="hljs-number">80</span><br>    <span class="hljs-keyword">orderby</span> score <span class="hljs-keyword">descending</span><br>    <span class="hljs-keyword">select</span> <span class="hljs-string">$&quot;The score is <span class="hljs-subst">&#123;score&#125;</span>&quot;</span>;<br></code></pre></td></tr></table></figure>
-<ul>
-<li>检索有关源数据的单独值</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">int</span> highScoreCount =<br>    (<span class="hljs-keyword">from</span> score <span class="hljs-keyword">in</span> scores<br>     <span class="hljs-keyword">where</span> score &gt; <span class="hljs-number">80</span><br>     <span class="hljs-keyword">select</span> score)<br>     .Count();<br></code></pre></td></tr></table></figure>
-
-<h3 id="查询表达式是什么"><a href="#查询表达式是什么" class="headerlink" title="查询表达式是什么"></a>查询表达式是什么</h3><p>查询表达式是以查询语法表示的查询。 </p>
-<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p>查询表达式必须以 from 子句开头，且必须以 select 或 group 子句结尾。 在第一个 from 子句与最后一个 select 或 group 子句之间，可以包含以下这些可选子句中的一个或多个: where、orderby、join、let 甚至是其他 from 子句。 还可以使用 into 关键字，使 join 或 group 子句的结果可以充当相同查询表达式中的其他查询子句的源。</p>
-<h3 id="查询变量"><a href="#查询变量" class="headerlink" title="查询变量"></a>查询变量</h3><p>在 LINQ 中，查询变量是存储查询而不是查询结果的任何变量。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// Query Expression.</span><br>    IEnumerable&lt;<span class="hljs-built_in">int</span>&gt; scoreQuery = <span class="hljs-comment">//query variable</span><br>        <span class="hljs-keyword">from</span> score <span class="hljs-keyword">in</span> scores <span class="hljs-comment">//required</span><br>        <span class="hljs-keyword">where</span> score &gt; <span class="hljs-number">80</span> <span class="hljs-comment">// optional</span><br>        <span class="hljs-keyword">orderby</span> score <span class="hljs-keyword">descending</span> <span class="hljs-comment">// optional</span><br>        <span class="hljs-keyword">select</span> score; <span class="hljs-comment">//must end with select or group</span><br></code></pre></td></tr></table></figure>
-
-<p>上面的示例中，scoreQuery 是查询变量，它有时仅仅称为查询。 </p>
-<p>查询变量可以存储采用查询语法、方法语法或是两者的组合进行表示的查询。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">//Query syntax</span><br>IEnumerable&lt;City&gt; queryMajorCities =<br>    <span class="hljs-keyword">from</span> city <span class="hljs-keyword">in</span> cities<br>    <span class="hljs-keyword">where</span> city.Population &gt; <span class="hljs-number">100000</span><br>    <span class="hljs-keyword">select</span> city;<br><br><span class="hljs-comment">// Method-based syntax</span><br>IEnumerable&lt;City&gt; queryMajorCities2 = cities.Where(c =&gt; c.Population &gt; <span class="hljs-number">100000</span>);<br></code></pre></td></tr></table></figure>
-
-<h3 id="开始查询表达式"><a href="#开始查询表达式" class="headerlink" title="开始查询表达式"></a>开始查询表达式</h3><p>查询表达式必须以 from 子句开头，它指定数据源以及范围变量，范围变量表示遍历源序列时，源序列中的每个连续元素。范围变量基于数据源中元素的类型进行强类型化。<br>因为范围变量是强类型，所以可以使用点运算符访问该类型的任何可用成员。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">IEnumerable&lt;Country&gt; countryAreaQuery =<br>    <span class="hljs-keyword">from</span> country <span class="hljs-keyword">in</span> countries<br>    <span class="hljs-keyword">where</span> country.Area &gt; <span class="hljs-number">500000</span> <span class="hljs-comment">//sq km</span><br>    <span class="hljs-keyword">select</span> country;<br></code></pre></td></tr></table></figure>
-
-<p>查询表达式可能会包含多个 from 子句。在源序列中的每个元素本身是集合或包含集合时，可使用其他 from 子句。 </p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">IEnumerable&lt;City&gt; cityQuery =<br>    <span class="hljs-keyword">from</span> country <span class="hljs-keyword">in</span> countries<br>    <span class="hljs-keyword">from</span> city <span class="hljs-keyword">in</span> country.Cities<br>    <span class="hljs-keyword">where</span> city.Population &gt; <span class="hljs-number">10000</span><br>    <span class="hljs-keyword">select</span> city;<br></code></pre></td></tr></table></figure>
-
-<h3 id="结束查询表达式"><a href="#结束查询表达式" class="headerlink" title="结束查询表达式"></a>结束查询表达式</h3><p>查询表达式必须以 group 子句或 select 子句结尾。</p>
-<h4 id="group-子句"><a href="#group-子句" class="headerlink" title="group 子句"></a>group 子句</h4><p>使用 group 子句可生成按指定键组织的组的序列。键可以是任何数据类型。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> queryCountryGroups =<br>    <span class="hljs-keyword">from</span> country <span class="hljs-keyword">in</span> countries<br>    <span class="hljs-keyword">group</span> country <span class="hljs-keyword">by</span> country.Name[<span class="hljs-number">0</span>];<br></code></pre></td></tr></table></figure>
-
-<h4 id="select-子句"><a href="#select-子句" class="headerlink" title="select 子句"></a>select 子句</h4><p>使用 select 子句可生成所有其他类型的序列。简单 select 子句只生成类型与数据源中包含的对象相同的对象的序列。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">IEnumerable&lt;Country&gt; sortedQuery =<br>    <span class="hljs-keyword">from</span> country <span class="hljs-keyword">in</span> countries<br>    <span class="hljs-keyword">orderby</span> country.Area<br>    <span class="hljs-keyword">select</span> country;<br></code></pre></td></tr></table></figure>
-
-<p>select 子句可以用于将源数据转换为新类型的序列，此转换也称为投影。<br>请注意，新对象使用对象初始值设定项进行初始化。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// Here var is required because the query</span><br><span class="hljs-comment">// produces an anonymous type.</span><br><span class="hljs-keyword">var</span> queryNameAndPop =<br>    <span class="hljs-keyword">from</span> country <span class="hljs-keyword">in</span> countries<br>    <span class="hljs-keyword">select</span> <span class="hljs-keyword">new</span> &#123; Name = country.Name, Pop = country.Population &#125;;<br></code></pre></td></tr></table></figure>
-
-<h3 id="使用-into-进行延续"><a href="#使用-into-进行延续" class="headerlink" title="使用 into 进行延续"></a>使用 into 进行延续</h3><p>可以在 select 或 group 子句中使用 into 关键字创建存储查询的临时标识符。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// percentileQuery is an IEnumerable&lt;IGrouping&lt;int, Country&gt;&gt;</span><br><span class="hljs-keyword">var</span> percentileQuery =<br>    <span class="hljs-keyword">from</span> country <span class="hljs-keyword">in</span> countries<br>    <span class="hljs-keyword">let</span> percentile = (<span class="hljs-built_in">int</span>) country.Population / <span class="hljs-number">10</span>_000_000<br>    <span class="hljs-keyword">group</span> country <span class="hljs-keyword">by</span> percentile <span class="hljs-keyword">into</span> countryGroup<br>    <span class="hljs-keyword">where</span> countryGroup.Key &gt;= <span class="hljs-number">20</span><br>    <span class="hljs-keyword">orderby</span> countryGroup.Key<br>    <span class="hljs-keyword">select</span> countryGroup;<br></code></pre></td></tr></table></figure>
-
-<h3 id="筛选、排序和联接"><a href="#筛选、排序和联接" class="headerlink" title="筛选、排序和联接"></a>筛选、排序和联接</h3><p>在开头 from 子句与结尾 select 或 group 子句之间，所有其他子句(where、join、orderby、from、let)都是可选的。任何可选子句都可以在查询正文中使用零次或多次。</p>
-<h4 id="where-子句"><a href="#where-子句" class="headerlink" title="where 子句"></a>where 子句</h4><p>使用 where 子句可基于一个或多个谓词表达式，从源数据中筛选出元素。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">IEnumerable&lt;City&gt; queryCityPop =<br>    <span class="hljs-keyword">from</span> city <span class="hljs-keyword">in</span> cities<br>    <span class="hljs-keyword">where</span> city.Population &lt; <span class="hljs-number">200000</span> &amp;&amp; city.Population &gt; <span class="hljs-number">100000</span><br>    <span class="hljs-keyword">select</span> city;<br></code></pre></td></tr></table></figure>
-
-<h4 id="orderby-子句"><a href="#orderby-子句" class="headerlink" title="orderby 子句"></a>orderby 子句</h4><p>使用 orderby 子句可按升序或降序对结果进行排序。还可以指定次要排序顺序。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">IEnumerable&lt;Country&gt; querySortedCountries =<br>    <span class="hljs-keyword">from</span> country <span class="hljs-keyword">in</span> countries<br>    <span class="hljs-keyword">orderby</span> country.Area, country.Population <span class="hljs-keyword">descending</span><br>    <span class="hljs-keyword">select</span> country;<br></code></pre></td></tr></table></figure>
-
-<p>注意: ascending 关键字是可选的，如果未指定任何顺序，则它是默认排序顺序。</p>
-<h4 id="join-子句"><a href="#join-子句" class="headerlink" title="join 子句"></a>join 子句</h4><p>使用 join 子句可基于每个元素中指定的键之间的相等比较，将一个数据源中的元素与另一个数据源中的元素进行关联和/或合并。在 LINQ 中，联接操作是对元素属于不同类型的对象序列执行。联接了两个序列之后，必须使用 select 或 group 语句指定要存储在输出序列中的元素，还可以使用匿名类型将每组关联元素中的属性合并到输出序列的新类型中。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> categoryQuery =<br>    <span class="hljs-keyword">from</span> cat <span class="hljs-keyword">in</span> categories<br>    <span class="hljs-keyword">join</span> prod <span class="hljs-keyword">in</span> products <span class="hljs-keyword">on</span> cat <span class="hljs-keyword">equals</span> prod.Category<br>    <span class="hljs-keyword">select</span> <span class="hljs-keyword">new</span> &#123; Category = cat, Name = prod.Name &#125;;<br></code></pre></td></tr></table></figure>
-
-<p>还可以通过使用 into 关键字将 join 操作的结果存储到临时变量中来执行分组联接。 </p>
-<h4 id="let-子句"><a href="#let-子句" class="headerlink" title="let 子句"></a>let 子句</h4><p>使用 let 子句可将表达式(如方法调用)的结果存储在新范围变量中。 </p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">string</span>[] names = &#123; <span class="hljs-string">&quot;Svetlana Omelchenko&quot;</span>, <span class="hljs-string">&quot;Claire O&#x27;Donnell&quot;</span>, <span class="hljs-string">&quot;Sven Mortensen&quot;</span>, <span class="hljs-string">&quot;Cesar Garcia&quot;</span> &#125;;<br>IEnumerable&lt;<span class="hljs-built_in">string</span>&gt; queryFirstNames =<br>    <span class="hljs-keyword">from</span> name <span class="hljs-keyword">in</span> names<br>    <span class="hljs-keyword">let</span> firstName = name.Split(<span class="hljs-string">&#x27; &#x27;</span>)[<span class="hljs-number">0</span>]<br>    <span class="hljs-keyword">select</span> firstName;<br></code></pre></td></tr></table></figure>
-
-<h3 id="查询表达式中的子查询"><a href="#查询表达式中的子查询" class="headerlink" title="查询表达式中的子查询"></a>查询表达式中的子查询</h3><p>查询子句本身可能包含查询表达式，这有时称为子查询。每个子查询都以自己的 from 子句开头，该子句不一定指向第一个 from 子句中的相同数据源。 </p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> queryGroupMax =<br>    <span class="hljs-keyword">from</span> student <span class="hljs-keyword">in</span> students<br>    <span class="hljs-keyword">group</span> student <span class="hljs-keyword">by</span> student.GradeLevel <span class="hljs-keyword">into</span> studentGroup<br>    <span class="hljs-keyword">select</span> <span class="hljs-keyword">new</span><br>    &#123;<br>        Level = studentGroup.Key,<br>        HighestScore =<br>            (<span class="hljs-keyword">from</span> student2 <span class="hljs-keyword">in</span> studentGroup<br>             <span class="hljs-keyword">select</span> student2.Scores.Average())<br>             .Max()<br>    &#125;;<br></code></pre></td></tr></table></figure>
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%B8%80)/">
-        Previous post<br>数据结构(一)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/%E8%A3%85%E4%BF%AE/">
-        Next post<br>装修
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?68393845"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

@@ -1,334 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>IndexedDB 基础 - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="这一篇，由于在自己项目中采用的前端存储 —— IndexedDB，所以这一篇就介绍一些关于 IndexedDB 的...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?27638060">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    IndexedDB 基础
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2018-07-15T00:00:00.000Z" itemprop="datePublished">
-                            2018-07-15 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>这一篇，由于在自己项目中采用的前端存储 —— IndexedDB，所以这一篇就介绍一些关于 IndexedDB 的知识。</p>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><hr>
-<p>在前端开发当中，有时会因为某些需求，要将一些数据存储在前端本地。我们回顾一下有几种手段可依然我们在前端存储数据。</p>
-<h3 id="Cookies"><a href="#Cookies" class="headerlink" title="Cookies"></a>Cookies</h3><p>在前端的<strong>上古时代</strong>里，前端想要存储数据，只有一种方式，那就是 Cookies。但是，Cookies 虽然可以做前端存储方案，但是却也有着很多局限性。</p>
-<ul>
-<li>首先它的存储空间大小只有 4K</li>
-<li>其次它的存储有效时间有限制</li>
-<li>然后存在 Cookie 中的数据，在你每次进行请求的时候都会将它带上，使得每次的请求数据都会无意义的增大</li>
-<li>最重要的一点，Cookies 设计之初就不是就是让前端存数据用的，它只是为了让网站验证用户身份而使用的</li>
-</ul>
-<h3 id="Web-Storage"><a href="#Web-Storage" class="headerlink" title="Web Storage"></a>Web Storage</h3><p>为了克服 Cookies 作为前端存储有这许多缺点，经过前端社区的不断努力，在 HTML5 中有了真正的前端存储方案 Web Storage。<br>它分为两种: </p>
-<ul>
-<li>localStorage</li>
-<li>sessionStorage</li>
-</ul>
-<p>对比 Cookies，Web Storage 的优势很明显: </p>
-<ul>
-<li>存储空间更大，有5M大小</li>
-<li>在浏览器发送请求是不会带上 Web Storage 里的数据</li>
-<li>更加友好的 API</li>
-<li>可以做永久存储(localStorage)</li>
-</ul>
-<p>但是随着前端的不断发展，Web Storage 也有了一些不太合适的地方: </p>
-<ul>
-<li>随着web应用程序的不断发展，5M 的存储大小对于一些大型的 web 应用程序来说有些不够</li>
-<li>Web Storage 只能存储 string 类型的数据.对于 object 类型的数据只能先用 JSON.stringify() 转换一下再进行存储</li>
-</ul>
-<p>基于上述原因，前端社区又提出了浏览器数据库存储这个概念。而 Web SQL Database 和 IndexedDB(索引数据库)是对这个概念的实现。<br>其中 Web SQL Database 在目前来说基本已经被放弃。所以目前主流的浏览器数据库的实现就是 IndexedDB(索引数据库)。</p>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><hr>
-<blockquote>
-<p>使用 IndexedDB，你可以存储或者获取数据，使用一个 key 索引。 你可以在事务(transaction)中完成对数据的修改。和大多数 web 存储解决方案相同，IndexedDB 也遵从同源协议(same-origin policy)， 所以你只能访问同域中存储的数据，而不能访问其他域的。</p>
-</blockquote>
-<p>API 包含异步(asynchronous) API 和同步(synchronous)API 两种。  异步 API 适合大多数情况，同步 API 必须同 WebWorkers 一同使用。目前，没有主流浏览器支持同步 API。 即使同步 API 被支持了，我们通常也会在大多数的情况使用异步 API。<br>IndexedDB 是 WebSQL 数据库的取代品。 IndexedDB 和 WebSQL 的不同点在于: WebSQL 是关系型数据库而 IndexedDB 是 key-value 型数据库。</p>
-<p>简单而言，IndexedDB 就是一个基于事务操作的 key-value 型前端数据库。其 API 大多是异步的。</p>
-<p>IndexedDB 是一个比较复杂的 API，涉及不少概念。它把不同的实体，抽象成一个个对象接口。学习这个 API，就是学习它的各种对象接口。</p>
-<ul>
-<li>数据库: IDBDatabase 对象</li>
-<li>对象仓库: IDBObjectStore 对象</li>
-<li>事务: IDBTransaction 对象</li>
-<li>索引: IDBIndex 对象</li>
-</ul>
-<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>数据库是一系列相关数据的容器。每个域名(严格的说，是协议 + 域名 + 端口)都可以新建任意多个数据库。IndexedDB 数据库有版本的概念。同一个时刻，只能有一个版本的数据库存在。如果要修改数据库结构(新增或删除表、索引或者主键)，只能通过升级数据库版本完成。</p>
-<h3 id="对象仓库"><a href="#对象仓库" class="headerlink" title="对象仓库"></a>对象仓库</h3><p>每个数据库包含若干个对象仓库(object store)。它类似于关系型数据库的表格。</p>
-<h3 id="数据记录"><a href="#数据记录" class="headerlink" title="数据记录"></a>数据记录</h3><p>对象仓库保存的是数据记录。每条记录类似于关系型数据库的行，但是只有主键和数据体两部分。主键用来建立默认的索引，必须是不同的，否则会报错。主键可以是数据记录里面的一个属性，也可以指定为一个递增的整数编号。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">&#123; <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;foo&#x27;</span> &#125;<br></code></pre></td></tr></table></figure>
-
-<p>上面的对象中，id 属性可以当作主键。数据体可以是任意数据类型，不限于对象。</p>
-<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>为了加速数据的检索，可以在对象仓库里面，为不同的属性建立索引。</p>
-<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>数据记录的读写和删改，都要通过事务完成。事务对象提供 error、abort 和 complete 三个事件，用来监听操作结果。</p>
-<h2 id="基本模式"><a href="#基本模式" class="headerlink" title="基本模式"></a>基本模式</h2><hr>
-<p>IndexedDB 鼓励使用的基本模式如下所示: </p>
-<ol>
-<li>打开数据库并且开始一个事务</li>
-<li>创建一个 object store</li>
-<li>构建一个请求来执行一些数据库操作，像增加或提取数据等</li>
-<li>通过监听正确类型的 DOM 事件以等待操作完成</li>
-<li>在操作结果上进行一些操作(可以在 request 对象中找到)</li>
-</ol>
-<h2 id="IndexedDB-的使用"><a href="#IndexedDB-的使用" class="headerlink" title="IndexedDB 的使用"></a>IndexedDB 的使用</h2><hr>
-<h3 id="创建一个-IndexedDB-数据库"><a href="#创建一个-IndexedDB-数据库" class="headerlink" title="创建一个 IndexedDB 数据库"></a>创建一个 IndexedDB 数据库</h3><p>使用 IndexedDB 的第一步是打开数据库，使用 indexedDB.open() 方法。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> DBName = <span class="hljs-string">&quot;IndexedDB&quot;</span>;<br><span class="hljs-keyword">const</span> DBVersion = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">const</span> request = indexedDB.open(DBName, DBVersion);<br><span class="hljs-keyword">var</span> db;<br><br>request.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    db = request.result;<span class="hljs-comment">//通过 request 对象的 result 属性拿到数据库对象。</span><br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;连接数据库成功&quot;</span>);<br>&#125;<br><br>request.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;连接数据库失败&quot;</span>);<br>&#125;<br><br>request.onupgradeneeded = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    db = event.target.result;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>open() 方法接受可以接受两个参数: 第一个是数据库名，第二个是数据库的版本号，同时返回一个 IDBOpenDBRequest 对象用于操作数据库。<br>其中对于 open() 的第一个参数数据库名，open() 会先去查找本地是否已有这个数据库，如果有则直接将这个数据库返回，如果没有，则先创建这个数据库，再返回。<br>对于第二个参数版本号，则是一个可选参数，如果不传，默认为 1，但如果传入就必须是一个整数。<br>我们可以通过监听 indexedDB.open() 方法返回的一个 IDBOpenDBRequest 对象的 success 、error 和 upgradeneeded 事件来执行相应的操作。<br>如果指定的版本号，大于数据库的实际版本号，就会发生数据库升级事件 upgradeneeded。这时通过事件对象的 target.result 属性，拿到数据库实例。</p>
-<h3 id="创建一个对象仓库"><a href="#创建一个对象仓库" class="headerlink" title="创建一个对象仓库"></a>创建一个对象仓库</h3><p>有了刚刚创建的数据库之后，我们可能就想要去存储数据了，但是只有数据库还不够，我们还需要有对象仓库(object store)，对象仓库是 IndexedDB 数据库的基础，其类似于关系型数据库中表的概念。</p>
-<blockquote>
-<p>要创建一个对象仓库必须在 upgradeneeded 事件中，而 upgradeneeded 事件只会在版本号更新，或者第一次创建的时候触发。这是因为 IndexedDB API 中不允许数据库中的数据仓库在同一版本中发生变化。</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> DBName = <span class="hljs-string">&quot;IndexedDB&quot;</span>;<br><span class="hljs-keyword">const</span> DBVersion = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">const</span> request = indexedDB.open(DBName, DBVersion);<br><span class="hljs-keyword">var</span> db;<br>request.onupgradeneeded = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    db = e.target.result;<br>    <span class="hljs-keyword">var</span> objectStore;<br>    <span class="hljs-keyword">if</span> (!db.objectStoreNames.contains(<span class="hljs-string">&#x27;Users&#x27;</span>)) &#123;<br>        <span class="hljs-keyword">const</span> store = db.createObjectStore(<span class="hljs-string">&#x27;Users&#x27;</span>, &#123;<span class="hljs-attr">keyPath</span>: <span class="hljs-string">&#x27;userId&#x27;</span>, <span class="hljs-attr">autoIncrement</span>: <span class="hljs-literal">false</span>&#125;);<br>        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;创建对象仓库成功&#x27;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>通过监听 upgradeneeded 事件，并在这个事件触发时使用 createObjectStore() 方法创建了一个对象仓库。<br>createObjectStore() 方法接受两个参数: 第一个是对象仓库的名字，在同一数据库中，仓库名不能重复，所以才创建前要判断。第二个是可选参数，用于指定数据的主键，以及是否自增主键。</p>
-<h3 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h3><p>新建对象仓库以后，下一步可以新建索引。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> DBName = <span class="hljs-string">&quot;IndexedDB&quot;</span>;<br><span class="hljs-keyword">const</span> DBVersion = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">const</span> request = indexedDB.open(DBName, DBVersion);<br><span class="hljs-keyword">var</span> db;<br>request.onupgradeneeded = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    db = e.target.result;<br>    <span class="hljs-keyword">var</span> objectStore;<br>    <span class="hljs-keyword">if</span> (!db.objectStoreNames.contains(<span class="hljs-string">&#x27;Users&#x27;</span>)) &#123;<br>        <span class="hljs-keyword">const</span> store = db.createObjectStore(<span class="hljs-string">&#x27;Users&#x27;</span>, &#123;<span class="hljs-attr">keyPath</span>: <span class="hljs-string">&#x27;userId&#x27;</span>, <span class="hljs-attr">autoIncrement</span>: <span class="hljs-literal">false</span>&#125;);<br>        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;创建对象仓库成功&#x27;</span>);<br>    &#125;<br>    objectStore.createIndex(<span class="hljs-string">&#x27;userName&#x27;</span>, <span class="hljs-string">&#x27;userName&#x27;</span>, &#123; <span class="hljs-attr">unique</span>: <span class="hljs-literal">false</span> &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="创建事务"><a href="#创建事务" class="headerlink" title="创建事务"></a>创建事务</h3><p>现在我们有了数据库和对象仓库了，但目前仍不能存储数据了，我们还需要 —— 事务。</p>
-<blockquote>
-<p>一个数据库事务通常包含了一个序列的对数据库的读/写操作。它的存在包含有以下两个目的: </p>
-<ol>
-<li>为数据库操作序列提供了一个从失败中恢复到正常状态的方法，同时提供了数据库即使在异常状态下仍能保持一致性的方法。</li>
-<li>当多个应用程序在并发访问数据库时，可以在这些应用程序之间提供一个隔离方法，以防止彼此的操作互相干扰。</li>
-</ol>
-</blockquote>
-<p>简单来说，事务就是用来保证数据库操作要么全部成功，要么全部失败的一种限制。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> DBName = <span class="hljs-string">&quot;IndexedDB&quot;</span>;<br><span class="hljs-keyword">const</span> DBVersion = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">const</span> request = indexedDB.open(DBName, DBVersion);<br><span class="hljs-keyword">var</span> db;<br>request.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    db = e.target.result;<br>    <span class="hljs-keyword">const</span> tx = db.transaction(<span class="hljs-string">&#x27;Users&#x27;</span>,<span class="hljs-string">&#x27;readwrite&#x27;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>使用 transaction() 来创建一个事务。transaction() 接受两个参数: 第一个是你要操作的对象仓库名称。第二个是你创建的事务模式。传入 readonly 时只能对对象仓库进行读操作，无法写操作。可以传入readwrite 进行读写操作。</p>
-<h3 id="操作数据"><a href="#操作数据" class="headerlink" title="操作数据"></a>操作数据</h3><p>有了数据库、对象仓库、事务之后，我们就可以操作数据了: </p>
-<ul>
-<li>add(): 增加数据。接收一个参数，为需要保存到对象仓库中的对象</li>
-<li>put(): 增加或修改数据。接收一个参数，为需要保存到对象仓库中的对象</li>
-<li>get(): 获取数据。接收一个参数，为需要获取数据的主键值</li>
-<li>delete(): 删除数据。接收一个参数，为需要获取数据的主键值</li>
-<li>clear(): 清除记录。无参数</li>
-<li>count(): 返回记录数量。接受 0 或一个参数，不带参数时，该方法返回当前对象仓库的所有记录数量。如果主键或 IDBKeyRange 对象作为参数，则返回对应的记录数量</li>
-</ul>
-<blockquote>
-<p>add 和 put 的作用类似，区别在于 put 保存数据时，如果该数据的主键在数据库中已经有相同主键的时候，则会修改数据库中对应主键的对象，而使用 add 保存数据，如果该主键已经存在，则保存失败。</p>
-</blockquote>
-<h4 id="add"><a href="#add" class="headerlink" title="add"></a>add</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> DBName = <span class="hljs-string">&quot;IndexedDB&quot;</span>;<br><span class="hljs-keyword">const</span> DBVersion = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">const</span> request = indexedDB.open(DBName, DBVersion);<br><span class="hljs-keyword">var</span> db;<br><br>request.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    db = e.target.result;<br>    <span class="hljs-keyword">const</span> tx = db.transaction(<span class="hljs-string">&#x27;Users&#x27;</span>,<span class="hljs-string">&#x27;readwrite&#x27;</span>);<br>    <span class="hljs-keyword">const</span> store = tx.objectStore(<span class="hljs-string">&#x27;Users&#x27;</span>);<br><br>    <span class="hljs-comment">// 保存数据</span><br>    <span class="hljs-keyword">const</span> reqAdd = store.add(&#123;<span class="hljs-string">&#x27;userId&#x27;</span>: <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;userName&#x27;</span>: <span class="hljs-string">&#x27;1ess&#x27;</span>, <span class="hljs-string">&#x27;userAge&#x27;</span>: <span class="hljs-number">26</span>&#125;);<br>    reqAdd.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;保存成功&#x27;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="get"><a href="#get" class="headerlink" title="get"></a>get</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> DBName = <span class="hljs-string">&quot;IndexedDB&quot;</span>;<br><span class="hljs-keyword">const</span> DBVersion = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">const</span> request = indexedDB.open(DBName, DBVersion);<br><br>request.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    <span class="hljs-keyword">const</span> db = e.target.result;<br>    <span class="hljs-keyword">const</span> tx = db.transaction(<span class="hljs-string">&#x27;Users&#x27;</span>,<span class="hljs-string">&#x27;readwrite&#x27;</span>);<br>    <span class="hljs-keyword">const</span> store = tx.objectStore(<span class="hljs-string">&#x27;Users&#x27;</span>);<br>    <span class="hljs-comment">// 获取数据</span><br>    <span class="hljs-keyword">const</span> reqGet = store.get(<span class="hljs-number">1</span>);<br>    reqGet.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>      <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.result.userName);<span class="hljs-comment">// 1ess</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> DBName = <span class="hljs-string">&quot;IndexedDB&quot;</span>;<br><span class="hljs-keyword">const</span> DBVersion = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">const</span> request = indexedDB.open(DBName, DBVersion);<br><br>request.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    <span class="hljs-keyword">const</span> db = e.target.result;<br>    <span class="hljs-keyword">const</span> tx = db.transaction(<span class="hljs-string">&#x27;Users&#x27;</span>,<span class="hljs-string">&#x27;readwrite&#x27;</span>);<br>    <span class="hljs-keyword">const</span> store = tx.objectStore(<span class="hljs-string">&#x27;Users&#x27;</span>);<br>    <span class="hljs-comment">// 删除数据</span><br>   <span class="hljs-keyword">const</span> reqDelete = store.delete(<span class="hljs-number">1</span>);<br><br>    reqDelete.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;删除数据成功&#x27;</span>);    <span class="hljs-comment">// 1ess</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="使用游标"><a href="#使用游标" class="headerlink" title="使用游标"></a>使用游标</h3><p>我们使用 get() 方法传入一个主键来获取数据，但是这样只能够获取到一条数据，如果我们想要获取多条数据了怎么办？我们可以使用游标，来获取一个区间内的数据。<br>要使用游标，我们需要先使用对象仓库的 openCursor() 方法，创建并打开。<br>openCursor() 方法接受两个参数: 第一个是范围，范围可以是一个 IDBKeyRange 对象。第二个参数是方向。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> DBName = <span class="hljs-string">&quot;IndexedDB&quot;</span>;<br><span class="hljs-keyword">const</span> DBVersion = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">const</span> request = indexedDB.open(DBName, DBVersion);<br><br>request.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    <span class="hljs-keyword">const</span> db = e.target.result;<br>    <span class="hljs-keyword">const</span> tx = db.transaction(<span class="hljs-string">&#x27;Users&#x27;</span>,<span class="hljs-string">&#x27;readwrite&#x27;</span>);<br>    <span class="hljs-keyword">const</span> store = tx.objectStore(<span class="hljs-string">&#x27;Users&#x27;</span>);<br>    <span class="hljs-keyword">const</span> range = IDBKeyRange.bound(<span class="hljs-number">1</span>,<span class="hljs-number">10</span>);<br>    <span class="hljs-keyword">const</span> req = store.openCursor(range, <span class="hljs-string">&#x27;next&#x27;</span>);<br>    <br>    req.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>        <span class="hljs-keyword">const</span> cursor = <span class="hljs-built_in">this</span>.result;<br>        <span class="hljs-keyword">if</span>(cursor)&#123;<br>            <span class="hljs-comment">//通常将 cursor.value 添加到数组中</span><br>            cursor.continue();<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;检索结束&#x27;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="使用索引"><a href="#使用索引" class="headerlink" title="使用索引"></a>使用索引</h3><p>在上面代码中我们获取数据都是用的主键。但是在很多情况下我们并不知道我们需要数据的主键是什么，我们知道一个大概的条件，这个时候我们就需要用到索引来进行有条件查找。</p>
-<h4 id="创建索引-1"><a href="#创建索引-1" class="headerlink" title="创建索引"></a>创建索引</h4><p>使用对象仓库的 createIndex() 方法来创建一个索引。createIndex() 方法接收三个参数: 第一个参数 name 是索引名，不能重复。第二个参数 keyPath 是你要在存储对象上的那个属性上建立索引，可以是一个单个的 key 值，也可以是一个包含 key 值集合的数组。第三个参数 optionalParameters 是一个可选的对象参数{ unique, multiEntry }，unique: 用来指定索引值是否可以重复。multiEntry: 当第二个参数 keyPath 为一个数组时，如果 multiEntry 是 true，则会以数组中的每个元素建立一条索引。如果是 false，则以整个数组为 keyPath 值，添加一条索引。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> DBName = <span class="hljs-string">&quot;IndexedDB&quot;</span>;<br><span class="hljs-keyword">const</span> DBVersion = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">const</span> request = indexedDB.open(DBName, DBVersion);<br><br>request.onupgradeneeded = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    <span class="hljs-keyword">const</span> db = e.target.result;<br>    <span class="hljs-keyword">const</span> store = db.createObjectStore(<span class="hljs-string">&#x27;Users&#x27;</span>, &#123;<span class="hljs-attr">keyPath</span>: <span class="hljs-string">&#x27;userId&#x27;</span>, <span class="hljs-attr">autoIncrement</span>: <span class="hljs-literal">false</span>&#125;);<br>    <span class="hljs-keyword">const</span> idx = store.createIndex(<span class="hljs-string">&#x27;ageIndex&#x27;</span>,<span class="hljs-string">&#x27;age&#x27;</span>,&#123;<span class="hljs-attr">unique</span>: <span class="hljs-literal">false</span>&#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="使用索引-1"><a href="#使用索引-1" class="headerlink" title="使用索引"></a>使用索引</h4><p>在创建了一条索引之后我们就可以来使用它了。我们使用对象仓库上的 index 方法，通过传入一个索引名，来拿到一个索引对象。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> index = store.index(<span class="hljs-string">&#x27;ageIndex&#x27;</span>);<br></code></pre></td></tr></table></figure>
-
-<p>然后我们就可以使用这个索引了。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> DBName = <span class="hljs-string">&quot;IndexedDB&quot;</span>;<br><span class="hljs-keyword">const</span> DBVersion = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">const</span> request = indexedDB.open(DBName, DBVersion);<br><br>request.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>    <span class="hljs-keyword">const</span> db = e.target.result;<br>    <span class="hljs-keyword">const</span> tx = db.transaction(<span class="hljs-string">&#x27;Users&#x27;</span>,<span class="hljs-string">&#x27;readwrite&#x27;</span>);<br>    <span class="hljs-keyword">const</span> store = tx.objectStore(<span class="hljs-string">&#x27;Users&#x27;</span>);<br>    <span class="hljs-keyword">const</span> index = store.index(<span class="hljs-string">&#x27;ageIndex&#x27;</span>);<br><br>    <span class="hljs-keyword">const</span> req = index.openCursor(IDBKeyRange.lowerBound(<span class="hljs-number">20</span>), <span class="hljs-string">&#x27;next&#x27;</span>);<br><br>    req.onsuccess = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>&#123;<br>      <span class="hljs-keyword">const</span> cursor = e.target.result;<br>        <span class="hljs-keyword">if</span>(cursor)&#123;<br>            <span class="hljs-built_in">console</span>.log(cursor.value.age);<br>            cursor.continue();<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;检索结束&#x27;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/JavaScript(%E4%B8%80)/">
-        Previous post<br>JavaScript(一)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/Docker%20%E5%9F%BA%E7%A1%80/">
-        Next post<br>Docker 基础
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?77389994"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

@@ -1,288 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>『计算机的组成与设计』-计算机概要与技术 - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="特别喜欢下面机械工业出版社出版者的话
-
-文艺复兴以降，源远流长的科学精神和逐步形成的学术规范，使西方国家在自然科学...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?79372292">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    『计算机的组成与设计』-计算机概要与技术
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2018-05-07T00:00:00.000Z" itemprop="datePublished">
-                            2018-05-07 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>特别喜欢下面机械工业出版社出版者的话</p>
-<blockquote>
-<p>文艺复兴以降，源远流长的科学精神和逐步形成的学术规范，使西方国家在自然科学的各个领域取得了垄断性的优势；也正是这样的优势，使美国在信息技术发展的六十年间名家辈出，独领风骚。</p>
-</blockquote>
-<p>在最近的中兴制裁风波中，充分体现了，核心技术落后就要陷于受制于人的窘境。我们应正视与发达国家的差距，不要以为出现微信，淘宝这样相对有实力的软件，就产生中国就已经在计算机科学方面处于世界领先地位的假象。如果没有核心竞争力，一切都是空中楼阁。<br>不论硬件、软件都应有深入的研究，即使我们可能只是软件开发人员，有许多概念只有我们理解硬件之后才会对软件中某些相关概念有更深刻的理解体会。<br>言归正传，我希望做一个计算机组成与设计系列，记录一下关于软硬件接口的方方面面。</p>
-<hr>
-<p>电子计算机自 20 世纪 40 年代后期诞生以来，其创新型的竞争带来了史无前例的进步。<br>如果运输业能够以计算机工业的速度发展，那么我们只需要花费一美分就可以在一秒钟之内，从纽约赶到伦敦。<br>沿着农业革命，工业革命的发展，计算机促使了人类的第三个革命 - 信息革命。计算机革命一直在向前推进。每当计算成本降低 10 倍，计算机的发展机遇就会增加 10 倍。  </p>
-<h2 id="计算应用的分类及其特性"><a href="#计算应用的分类及其特性" class="headerlink" title="计算应用的分类及其特性"></a>计算应用的分类及其特性</h2><hr>
-<h3 id="计算机主要包括以下三类应用"><a href="#计算机主要包括以下三类应用" class="headerlink" title="计算机主要包括以下三类应用"></a>计算机主要包括以下三类应用</h3><ol>
-<li>个人计算机(Personal Computer，PC)</li>
-<li>服务器(Server)服务器的制造技术和桌面计算机差不多，但能提供更强的<strong>计算</strong>、<strong>存储</strong>以及 <strong>I/O 能力</strong>。(高端服务器称为超级计算机，由上千台处理器组成，内存为 terabyte 级)</li>
-<li>嵌入式计算机(Embedded Computer)是数量最多的一类计算机。嵌入式对成本或功耗有严格限制，对故障非常敏感，因此一般通过简单设计来获得可靠性。</li>
-</ol>
-<p><strong>注意: 许多嵌入式处理器使用处理器核，处理器核是利用硬件描述语言(Verilog 或 VHDL)描述的处理器版本，使得设计者能够把其他专用硬件与之集成起来制造在一块芯片上。</strong>  </p>
-<h3 id="后-PC-时代"><a href="#后-PC-时代" class="headerlink" title="后 PC 时代"></a>后 PC 时代</h3><ol>
-<li>代替 PC 的是<strong>个人移动设备</strong>(Personal Mobile Device，PMD)</li>
-<li><strong>云计算</strong>(Cloud Computing)替代了传统的服务器，他依赖于被称为<strong>仓储规模计算机</strong>(Warehouse Scale Computer，WSC)的巨型数据中心，在网络上提供服务的大规模服务器集群，运营商根据需求来租用不同数量的服务器</li>
-</ol>
-<h2 id="计算机系统结构中的-8-个伟大思想"><a href="#计算机系统结构中的-8-个伟大思想" class="headerlink" title="计算机系统结构中的 8 个伟大思想"></a>计算机系统结构中的 8 个伟大思想</h2><hr>
-<ol>
-<li><strong>面向摩尔定律的设计</strong><br>计算机设计者面临的一个永恒的问题就是摩尔定律(Moore’ Law)驱动的快速开发。<br>摩尔定律指出: 单芯片上的集成度每 18-24 个月翻一番。计算机设计者必须预测其设计完成时的工艺水平，而不是设计开始时的。  </li>
-<li><strong>使用抽象简化设计</strong><br>提高硬件和软件生产率的主要技术之一就是使用抽象(abstraction)来表示不同的设计层次，在高层次中看不到低层次细节，只能看到简化模型。  </li>
-<li><strong>加速大概率事件</strong><br>加速大概率事件远比优化小概率事件更能提高性能。  </li>
-<li><strong>通过并行提高性能</strong>  </li>
-<li><strong>通过流水线提高性能</strong>  </li>
-<li><strong>通过预测提高性能</strong>  </li>
-<li><strong>存储器层次</strong>  </li>
-<li><strong>通过冗余提高可靠性</strong>  </li>
-</ol>
-<h2 id="程序概念入门"><a href="#程序概念入门" class="headerlink" title="程序概念入门"></a>程序概念入门</h2><hr>
-<p>计算机中的硬件只能执行极为简单的低级指令。从复杂的应用程序到简单的指令需要经过几个软件层次来将复杂的高层次操作逐步解释或翻译成简单的计算机指令，这就是伟大思想<strong>抽象</strong>的一个例子。<br>软硬件层次结构: 外层应用软件，内层硬件，中间是<strong>系统软件</strong>(System Software)<br>系统软件是提供常用服务的软件，包括<strong>操作系统</strong>、<strong>编译程序</strong>、<strong>加载程序</strong>和<strong>汇编程序</strong>等。  </p>
-<p>对现代计算机必不可少的两个系统软件是: </p>
-<ol>
-<li><strong>操作系统</strong> 是用户程序和硬件之间的接口，为用户提供各种服务和监控功能。操作系统最重要的作用是: </li>
-</ol>
-<ul>
-<li>处理基本的输入输出。</li>
-<li>分配外存和内存。</li>
-<li>为多个应用程序提供共享的计算机资源的服务  </li>
-</ul>
-<ol start="2">
-<li><strong>编译程序</strong> 完成另外的功能: 把高级语言编写的程序翻译成硬件能执行的指令</li>
-</ol>
-<h3 id="从高级语言到硬件语言"><a href="#从高级语言到硬件语言" class="headerlink" title="从高级语言到硬件语言"></a>从高级语言到硬件语言</h3><p>我们通常认为的计算机语言就是<strong>二进制数</strong>。<br>指令(instruction)指能够被计算机识别并执行的位串。之后的一篇我们会讲解为什么位串既能表示指令又能表示数据，这是现代计算机的基础(存储程序概念)。<br>第一代程序员直接使用二进制数与计算机通信。这种机器可以直接理解的二进制语言称为<strong>机器语言 machine language</strong>。<br>随后设计人员发明了一种汇编程序(assembler)的软件，将助记符形式的指令自动翻译成对应的二进制数。这种符号语言至今仍在使用，即<strong>汇编语言 assembly language</strong>。<br>最后设计人员有发明了<strong>高级语言 high-level programming language</strong>和编译程序。<br><strong>高级语言的程序通过编译程序编译为汇编语言程序，再通过汇编程序汇编为机器语言程序，在由计算机执行</strong></p>
-<h2 id="硬件概念入门"><a href="#硬件概念入门" class="headerlink" title="硬件概念入门"></a>硬件概念入门</h2><hr>
-<p>任何一台计算机的基础硬件都要完成相同的基本功能：<strong>输入数据</strong>，<strong>输出数据</strong>，<strong>处理数据</strong>和<strong>存储数据</strong>。<br>组成据算计的 5 个经典部件(冯诺伊曼结构)是：<strong>输入</strong>，<strong>输出</strong>，<strong>存储器</strong>，<strong>数据通路(运算器)<strong>和</strong>控制器</strong>。最后两个部件合称为<strong>处理器 Centeral Processor Unit，CPU</strong>。<br>数据通路(datapath)负责完成<strong>算术运算</strong>，控制器(control)负责<strong>指导数据通路，存储器和 I/O 设备按照指令正确执行</strong>。  </p>
-<h3 id="运算器"><a href="#运算器" class="headerlink" title="运算器"></a>运算器</h3><p>运算器用于算术运算和逻辑运算。<br>算术运算: 加减乘除等<br>逻辑运算: 与或非等<br>其核心部件是 ALU，算术逻辑单元有两个输入一个输出。  </p>
-<h3 id="计算机执行一条指令的步骤"><a href="#计算机执行一条指令的步骤" class="headerlink" title="计算机执行一条指令的步骤"></a>计算机执行一条指令的步骤</h3><ol>
-<li>取指(Fetch)</li>
-<li>译码(Decode)</li>
-<li>执行(Execute)</li>
-<li>回写(Write-back)  </li>
-</ol>
-<p>CPU 与主存之间通过系统总线相连(包括<strong>控制总线</strong>，<strong>地址总线</strong>，<strong>数据总线</strong>)。并且 CPU 内存有内部总线用于内部数据传递。<br>现代计算机主存一般按字节编址，也就是每个存储单元可以存储 8bit。  </p>
-<ul>
-<li>地址总线用来寻址，如果地址总线的宽度为 n，则可以管理的存储单元最多为 2<sup>n</li>
-<li>数据总线用来传输数据，一般数据总线宽度为存储单元宽的整数倍</li>
-<li>控制总线用来控制读，写完成信号</li>
-</ul>
-<p>内存(memory)是程序运行时的存储空间，同时也用于保存程序运行时所使用的数据。<br><strong>内存由 DRAM 芯片组成</strong>。DRAM 是 dynamic random access memory 的缩写。与串行访问内存(磁带)相比，不论数据存储在什么位置，DRAM 访问内存所需要的时间都相同。<br>在<strong>处理器内部使用的是另一种存储器 - 缓存 cache memory</strong>。缓存是一种小而快的存储设备。它采用另一种技术称为 SRAM，也就是 static random access memory。速度比 DRAM 快，集成度低，价格高。<br><strong>注意: 在这里我们说的缓存(cache memory)和我们在应用层说的缓存(cache)是两个概念。</strong>  </p>
-<p>硬件和底层软件之间的接口，被命名为计算机的指令集体系结构(instruction set architecture)。<br>提供给应用程序员的基本指令集和操作系统接口合称为应用二进制接口(ABI)。 </p>
-<h3 id="数据安全"><a href="#数据安全" class="headerlink" title="数据安全"></a>数据安全</h3><p>计算机内存是易失性存储器，一旦关掉电源，所有数据就丢失了，与之不同的是，掉电之后仍可保存数据的存储器，称为非易失性存储器。<br>我们将易失性存储器称为主存(main memory)，将非易失性存储器称为二级存储器(secondry memory)。DRAM 在主存占主导地位，磁盘在二级存储器占主导地位。闪存(flash memory)在移动设备代替了磁盘。  </p>
-<h3 id="现代计算机主板发展"><a href="#现代计算机主板发展" class="headerlink" title="现代计算机主板发展"></a>现代计算机主板发展</h3><p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/mainboard/computer-organization1.png" alt="现代计算机主板发展"><br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/mainboard/computer-organization2.png" alt="现代计算机主板发展"><br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/mainboard/computer-organization3.png" alt="现代计算机主板发展"></p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li>SoC(系统芯片，System on Chip)是一个将电脑或其他电子系统集成到单一芯片的集成电路。如果在 PC 时代我们说一个电脑的核心是 CPU，那么在智能终端时代，手机的核心就是这个 SoC。</li>
-</ul>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/%5B%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E8%AE%BE%E8%AE%A1%5D-%E6%8C%87%E4%BB%A4%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E8%AF%AD%E8%A8%80/">
-        Previous post<br>『计算机的组成与设计』-指令：计算机的语言
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
-        Next post<br>计算机网络
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?31980162"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

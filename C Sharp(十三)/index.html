@@ -1,258 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>C Sharp(十三) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="这一篇，我们看看 C# 中的枚举器和迭代器的基本概念。之前我们说过可以使用 foreach 来遍历数组元素，本篇来...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?30974730">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    C Sharp(十三)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2018-11-19T00:00:00.000Z" itemprop="datePublished">
-                            2018-11-19 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>这一篇，我们看看 C# 中的枚举器和迭代器的基本概念。<br>之前我们说过可以使用 foreach 来遍历数组元素，本篇来讨论为什么数组可以使用 foreach 语句处理，我们可以还使用迭代器来使得自定义类型也可以使用 foreach。</p>
-<h2 id="枚举器和可枚举类型"><a href="#枚举器和可枚举类型" class="headerlink" title="枚举器和可枚举类型"></a>枚举器和可枚举类型</h2><hr>
-<p>为什么数组可以使用 foreach 呢？因为数组可以提供一个枚举器(enumerator)对象。枚举器对象可以依次返回数组元素。<br>获取一个对象的枚举器可以调用对象的 GetEnumerator 方法。实现了 GetEnumerator 方法的对象称为可枚举(enumerable)对象。</p>
-<p>foreach 语句就是用来配合可枚举类型一起使用的，他会执行下列行为: </p>
-<ul>
-<li>调用 GetEnumerator 方法获取对象的枚举器</li>
-<li>从枚举器请求每一项作为迭代变量(iteration variable)，我们可以读取该变量但不能改变</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">foreach</span> (Type ValName <span class="hljs-keyword">in</span> EnumerableObject) &#123;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="IEnumerator"><a href="#IEnumerator" class="headerlink" title="IEnumerator"></a>IEnumerator</h3><p>实现 IEnumerator 接口的枚举器包含三个函数成员: </p>
-<ul>
-<li>Current: 返回当前位置项的属性，只读</li>
-<li>MoveNext: 把枚举器位置前进到集合下一项的方法，返回布尔值，位置有效返回 true，无效(到达尾部)返回 false。枚举器原始位置在第一项之前，因此在使用 Current 之前必须先调用 MoveNext</li>
-<li>Reset: 位置重置为原始状态</li>
-</ul>
-<p>下面代码与直接使用 foreach 产生的结果是一样的: </p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System.Collections;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] args</span>)</span><br>    &#123;<br>        <span class="hljs-built_in">int</span>[] MyArr = &#123; <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span> &#125;;<br>        IEnumerator ie = MyArr.GetEnumerator();<br>        <span class="hljs-keyword">while</span> (ie.MoveNext())<br>        &#123;<br>            <span class="hljs-built_in">int</span> current = (<span class="hljs-built_in">int</span>)ie.Current;<br>            Console.WriteLine(current);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="IEnumerable"><a href="#IEnumerable" class="headerlink" title="IEnumerable"></a>IEnumerable</h3><p>可枚举类型是指实现了 IEnumerable 接口的类。IEnumerable 只有一个函数成员: </p>
-<ul>
-<li>GetEnumerator: 获取可枚举类型的枚举器</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System.Collections;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span> : <span class="hljs-title">IEnumerable</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> IEnumerator <span class="hljs-title">GetEnumerator</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-comment">//...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="使用-IEnumerator-和-IEnumerable-示例"><a href="#使用-IEnumerator-和-IEnumerable-示例" class="headerlink" title="使用 IEnumerator 和 IEnumerable 示例"></a>使用 IEnumerator 和 IEnumerable 示例</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System.Collections;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">ColorEnumerator</span> : <span class="hljs-title">IEnumerator</span><br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span>[] _colors;<br>    <span class="hljs-keyword">private</span> <span class="hljs-built_in">int</span> _position = <span class="hljs-number">-1</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ColorEnumerator</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] colors</span>)</span><br>    &#123;<br>        _colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>[colors.Length];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; colors.Length; i++) &#123;<br>            _colors[i] = colors[i];<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">object</span> Current &#123;<br>        <span class="hljs-keyword">get</span> &#123;<br>            <span class="hljs-keyword">if</span> (_position &lt;= <span class="hljs-number">-1</span> || _position &gt;= _colors.Length) &#123;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException();<br>            &#125;<br>            <span class="hljs-keyword">return</span> _colors[_position];<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">MoveNext</span>(<span class="hljs-params">(</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">if</span> (_position &lt; _colors.Length - <span class="hljs-number">1</span>) &#123;<br>            _position++;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Reset</span>(<span class="hljs-params"></span>)</span> <br>    &#123;<br>        _position = <span class="hljs-number">-1</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Colors</span> : <span class="hljs-title">IEnumerable</span><br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span>[] _colors;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Colors</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] colors</span>)</span><br>    &#123;<br>        _colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>[colors.Length];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; colors.Length; i++) &#123;<br>            _colors[i] = colors[i];<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> IEnumerator <span class="hljs-title">GetEnumerator</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ColorEnumerator(_colors);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Progeam</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        Colors colors = <span class="hljs-keyword">new</span> Colors(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>[] &#123;<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;yellow&quot;</span>&#125;);<br>        <span class="hljs-keyword">foreach</span> (<span class="hljs-built_in">string</span> color <span class="hljs-keyword">in</span> colors) &#123;<br>            Console.WriteLine(color);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="泛型枚举接口"><a href="#泛型枚举接口" class="headerlink" title="泛型枚举接口"></a>泛型枚举接口</h3><p>之前我们写的都是非泛型版本，实际工作中，我们基本都使用泛型版本的 IEnumerator<T> 和 IEnumerable<T> 。非泛型版本只是兼任 2.0 版本之前无泛型的遗留代码。</p>
-<p>泛型与非泛型版本的主要区别是: </p>
-<ul>
-<li>IEnumerable<T> 接口的 GetEnumerator 方法要返回实现 IEnumerator<T> 接口的枚举器实例</li>
-<li>泛型版本的 Current 属性返回的不是 object 类型，而是实际类型的对象</li>
-</ul>
-<h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><p>C# 2.0 之后，提供了更简单的创建枚举器和可枚举类型的方式。这种结构称为迭代器(iterator)。</p>
-<ul>
-<li>迭代器返回一个泛型的枚举器</li>
-<li>yield return 语句声明这是枚举的下一项</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> IEnumerator&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">BlackAndWhite</span>(<span class="hljs-params"></span>)</span><br>&#123;<br>    <span class="hljs-keyword">yield</span> <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;black&quot;</span>;<br>    <span class="hljs-keyword">yield</span> <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;gray&quot;</span>;<br>    <span class="hljs-keyword">yield</span> <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;white&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/C%20Sharp(%E5%8D%81%E5%9B%9B)/">
-        Previous post<br>C Sharp(十四)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/C%20Sharp(%E5%8D%81%E4%BA%8C)/">
-        Next post<br>C Sharp(十二)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?23360120"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

@@ -1,247 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>C Primer Plus(三) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="本篇主要介绍一下输入、输出以及缓冲输入和无缓冲输入相关知识。
-在计算机编程过程中，输入和输出是绕不开的知识点，如输...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?29891411">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    C Primer Plus(三)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2020-06-13T00:00:00.000Z" itemprop="datePublished">
-                            2020-06-13 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>本篇主要介绍一下输入、输出以及缓冲输入和无缓冲输入相关知识。</p>
-<p>在计算机编程过程中，输入和输出是绕不开的知识点，如输入输出设备、数据的输入输出、以及输入输出函数(I/O 函数)等等。I/O 函数(如 printf()、scanf()、getchar()、putchar() 等)负责把信息传送到程序中。要注意的是输入/输出函数并不是 C 定义的一部分，C 把开发这些函数的任务留给编译器的实现者来完成。在实际应用中，UNIX 系统中的 C 实现为这些函数提供了一个模型。ANSI C 库则吸取成功的经验，把大量 UNIX I/O函数囊括其中。</p>
-<h2 id="单字符-I-O-函数"><a href="#单字符-I-O-函数" class="headerlink" title="单字符 I/O 函数"></a>单字符 I/O 函数</h2><hr>
-<p>getchar() 和 putchar() 每次只处理一个字符。我们称之为单字符 I/O 函数。getchar() 和 putchar() 函数包含在 stdio.h 头文件中(其实，getchar() 和 putchar() 都不是真正的函数，它们被定义为供预处理器使用的宏，之后我们会再讨论)，我们看一个简单的例子: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>&#123;<br>    <span class="hljs-keyword">char</span> ch;<br>    <span class="hljs-keyword">while</span>((ch = getchar()) != <span class="hljs-string">&#x27;#&#x27;</span>) &#123;<br>        <span class="hljs-built_in">putchar</span>(ch);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>为何输入的字符能直接显示在屏幕上？如果用一个特殊字符(如上面的例子 #)来结束输入，就无法在文本中使用这个字符，是否有更好的方法结束输入？</p>
-<p>要回答这些问题，我们首先要了解 C 程序如何处理键盘输入，尤其是缓冲和标准输入文件的概念。</p>
-<h2 id="缓冲区"><a href="#缓冲区" class="headerlink" title="缓冲区"></a>缓冲区</h2><hr>
-<p>在老式系统，如果用户输入字符后立即重复打印该字符属于无缓冲输入。对于现代大部分系统在用户按下 Enter 键之前不会重复打印刚输入的字符，这种输入形式属于缓冲输入。用户输入的字符被收集并储存在一个被称为缓冲区(buffer)的临时存储区，按下Enter键后，程序才可使用用户输入的字符。ANSI C 和后续的 C 标准都规定输入是缓冲的。</p>
-<p>缓冲分为两类：完全缓冲 I/O 和行缓冲 I/O。</p>
-<ul>
-<li>完全缓冲输入指的是当缓冲区被填满时才刷新缓冲区(内容被发送至目的地)，通常出现在文件输入中。缓冲区的大小取决于系统，常见的大小是 512 字节和 4096字节</li>
-<li>行缓冲 I/O 指的是在出现换行符时刷新缓冲区。键盘输入通常是行缓冲输入，所以在按下 Enter 键后才刷新缓冲区</li>
-</ul>
-<h2 id="文件、流和键盘输入"><a href="#文件、流和键盘输入" class="headerlink" title="文件、流和键盘输入"></a>文件、流和键盘输入</h2><hr>
-<p>C 是一门强大、灵活的语言，有许多用于打开、读取、写入和关闭文件的库函数。从较低层面上，C 可以使用主机操作系统的基本文件工具直接处理文件，这些直接调用操作系统的函数被称为底层 I/O (low-level I/O)。由于计算机系统各不相同，所以不可能为普通的底层 I/O 函数创建标准库，ANSI C 也不打算这样做。而从较高层面上，C 可以通过标准 I/O 包(standard I/O package)来处理文件。在这一层面上，具体的 C 实现负责处理不同系统的差异。</p>
-<p>使用标准 I/O 包，无需考虑例如不同的系统储存文件的方式、使用什么换行符标记行末尾等差异。从概念上看，C 程序处理的是流而不是直接处理文件。流(stream)是一个实际输入或输出映射的理想化数据流。打开文件的过程就是把流与文件相关联，而且读写都通过流来完成。<br>我们要把键盘和显示设备视为每个 C 程序自动打开的文件。stdin 流表示键盘输入，stdout 流表示屏幕输出。getchar()、putchar()、printf() 和 scanf() 函数都是标准 I/O 包的成员，处理这两个流。</p>
-<h3 id="文件结尾"><a href="#文件结尾" class="headerlink" title="文件结尾"></a>文件结尾</h3><p>检测文件结尾的一种方法是，在文件末尾放一个特殊的字符标记文件结尾。IBM-DOS 和 MS-DOS 的文本文件曾经用过这种方法。这些操作系统可以使用内嵌的 Ctrl+Z 字符来标记文件结尾。</p>
-<p>操作系统使用的另一种方法是储存文件大小的信息。MS-DOS 及其相关系统使用这种方法处理二进制文件，因为用这种方法可以在文件中储存所有的字符，包括 Ctrl+Z。新版的 DOS 也使用这种方法处理文本文件。UNIX 使用这种方法处理所有的文件。</p>
-<p>无论操作系统实际使用何种方法检测文件结尾，在 C 语言中，用 getchar() 读取文件检测到文件结尾时将返回一个特殊的值，即 EOF(end of file)。scanf() 函数检测到文件结尾时也返回 EOF。通常， EOF 定义在 stdio.h 文件中: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EOF (-1)</span><br></code></pre></td></tr></table></figure>
-
-<p>因为 getchar() 函数的返回值通常都介于 0 - 127，这些值对应标准字符集。但是，如果系统能识别扩展字符集，该函数的返回值可能在 0 - 255 之间。无论哪种情况，-1 都不对应任何字符，所以，该值可用于标记文件结尾。</p>
-<p>注意: 如果使用键盘输入，要设法输入 EOF 字符。在大多数 UNIX 和 Linux 系统中，在一行开始处按下 Ctrl+D 会传输文件结尾信号。许多微型计算机系统都把一行开始处的 Ctrl+Z 识别为文件结尾信号，一些系统把任意位置的 Ctrl+Z 解释成文件结尾信号。</p>
-<p>注意: scanf() 返回值是到第一个错误的输入形式为止，所有符合格式符的正确输入的个数。</p>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/C%20Primer%20Plus(%E5%9B%9B)/">
-        Previous post<br>C Primer Plus(四)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/C%20Primer%20Plus(%E4%BA%8C)/">
-        Next post<br>C Primer Plus(二)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?26182912"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

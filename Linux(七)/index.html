@@ -1,308 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>Linux(七) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="
-破帽遮颜过闹市，漏船载酒泛中流，躲进小楼成一统，管他冬夏与春秋。 
-
-本篇，我们在来说一下在 Linux 下，有...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?82332287">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    Linux(七)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2019-07-19T00:00:00.000Z" itemprop="datePublished">
-                            2019-07-19 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <blockquote>
-<p>破帽遮颜过闹市，漏船载酒泛中流，躲进小楼成一统，管他冬夏与春秋。 </p>
-</blockquote>
-<p>本篇，我们在来说一下在 Linux 下，有关进程和内存与磁盘的相关知识。</p>
-<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><hr>
-<h3 id="进程的查看"><a href="#进程的查看" class="headerlink" title="进程的查看"></a>进程的查看</h3><p>常用查看命令: </p>
-<ul>
-<li>ps</li>
-<li>pstree</li>
-<li>top</li>
-</ul>
-<h3 id="进程的控制命令"><a href="#进程的控制命令" class="headerlink" title="进程的控制命令"></a>进程的控制命令</h3><h4 id="跳转优先级"><a href="#跳转优先级" class="headerlink" title="跳转优先级"></a>跳转优先级</h4><ul>
-<li>nice: 范围 -20 到 19，值越小优先级越高</li>
-<li>renice</li>
-</ul>
-<h4 id="作业控制"><a href="#作业控制" class="headerlink" title="作业控制"></a>作业控制</h4><ul>
-<li>ctrl+z: 停止作业</li>
-<li>jobs: 获取作业列表</li>
-<li>fg [任务编号]: 使其为前台作业运行</li>
-<li>bg [任务编号]: 使其为后台作业运行</li>
-</ul>
-<h3 id="进程的通信方式-——-信号"><a href="#进程的通信方式-——-信号" class="headerlink" title="进程的通信方式 —— 信号"></a>进程的通信方式 —— 信号</h3><p>信号是进程间通信的方式之一。<br>常用命令: </p>
-<ul>
-<li>kill -l: 查看支持的信号</li>
-<li>ctrl+c: SIGINT</li>
-<li>kill -9 [pid]: SIGKILL </li>
-<li>kill [pid]: SIGTERM</li>
-</ul>
-<h3 id="服务管理-systemctl"><a href="#服务管理-systemctl" class="headerlink" title="服务管理 systemctl"></a>服务管理 systemctl</h3><p>CentOS 7 之前，使用 service 命令来管理服务，7 之后使用 systemctl 命令来管理服务。<br>软件包安装的服务单元存储在 /usr/lib/systemd/system/</p>
-<p>常见操作: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">systemctl start/stop/restart/reload/<span class="hljs-built_in">enable</span>/<span class="hljs-built_in">disable</span>/status [服务名]<br>systemctl daemon-reload<br></code></pre></td></tr></table></figure>
-
-<h3 id="SELinux"><a href="#SELinux" class="headerlink" title="SELinux"></a>SELinux</h3><p>安全增强式 Linux(SELinux，Security-Enhanced Linux)是一个 Linux 内核的安全模组，其提供了访问控制安全策略机制。</p>
-<h2 id="内存与磁盘"><a href="#内存与磁盘" class="headerlink" title="内存与磁盘"></a>内存与磁盘</h2><hr>
-<h3 id="查看内存和磁盘的使用率"><a href="#查看内存和磁盘的使用率" class="headerlink" title="查看内存和磁盘的使用率"></a>查看内存和磁盘的使用率</h3><ul>
-<li>内存查看常用指令: </li>
-</ul>
-<ol>
-<li>top</li>
-<li>free</li>
-</ol>
-<ul>
-<li>磁盘查看常用指令: </li>
-</ul>
-<ol>
-<li>fdisk</li>
-<li>df</li>
-<li>du</li>
-</ol>
-<h3 id="ext4-文件系统"><a href="#ext4-文件系统" class="headerlink" title="ext4 文件系统"></a>ext4 文件系统</h3><p>Linux 支持多种文件系统，常见的有: ext4，xfs，NTFS(需要安装额外软件)<br>ext4 文件系统基本结构比较复杂: </p>
-<ul>
-<li>超级块</li>
-<li>超级块副本</li>
-<li>inode</li>
-<li>datablock</li>
-</ul>
-<p>其中 inode 是非常重要的，是理解 Unix/Linux 文件系统和硬盘储存的基础。<br>文件储存在硬盘上，硬盘的<strong>文件存储</strong>单位叫做”扇区”(Sector)。每个扇区储存 512 字节(相当于 0.5KB)<br>操作系统读取硬盘的时候，不会一个个扇区地读取，而是一次性连续读取多个扇区，即一次性读取一个”块”(block)。这种由多个扇区组成的”块”，是<strong>文件存取</strong>的最小单位。”块”的大小，最常见的是 4KB，即连续八个 sector 组成一个 block。</p>
-<p>文件数据都储存在”块”中，那么很显然，我们还必须找到一个地方储存文件的元信息，比如文件的创建者、创建日期、大小等等。这种储存文件元信息的区域就叫做 inode。</p>
-<p>可以用 stat 命令，查看某个文件的 inode 信息: </p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">stat</span> xx.md<br></code></pre></td></tr></table></figure>
-
-<p><strong>特别注意: 除了文件名以外的所有文件信息，都存在 inode 之中。</strong></p>
-<h4 id="inode-号码"><a href="#inode-号码" class="headerlink" title="inode 号码"></a>inode 号码</h4><p>每个 inode 都有一个号码，Unix/Linux 系统内部不使用文件名，而使用 inode 号码来识别文件。<br>表面上，用户通过文件名，打开文件。实际上，系统内部这个过程分成三步: </p>
-<ol>
-<li>首先，系统找到这个文件名对应的 inode 号码</li>
-<li>其次，通过 inode 号码，获取 inode 信息</li>
-<li>最后，根据 inode 信息，找到文件数据所在的 block，读出数据</li>
-</ol>
-<h4 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h4><p>一般情况下，文件名和 inode 号码是”一一对应”关系，每个 inode 号码对应一个文件名。但是，Unix/Linux 系统允许，多个文件名指向同一个 inode 号码。这意味着，可以用不同的文件名访问同样的内容；对文件内容进行修改，会影响到所有文件名；但是，删除一个文件名，不影响另一个文件名的访问。这种情况就被称为”硬链接”(hard link)。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">ln [源文件] [目标文件]<br></code></pre></td></tr></table></figure>
-
-<p>inode 信息中有一项叫做”链接数”，记录指向该 inode 的文件名总数，这时就会增加 1。<br>反过来，删除一个文件名，就会使得 inode 节点中的”链接数”减 1。当这个值减到 0，系统就会回收这个 inode 号码，以及其所对应 block 区域。</p>
-<p>注意: 每个目录都有 . 和 ..，前者的 inode 号码就是当前目录的 inode 号码，等同于当前目录的”硬链接”；后者的 inode 号码就是当前目录的父目录的 inode 号码，等同于父目录的”硬链接”。所以，任何一个目录的”硬链接”总数，总是等于 1 加上它的子目录总数。</p>
-<h4 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h4><p>文件 A 和文件 B 的 inode 号码虽然不一样，但是文件 A 的内容是文件 B 的路径。读取文件 A 时，系统会自动将访问者导向文件 B。因此，无论打开哪一个文件，最终读取的都是文件 B。这时，文件 A 就称为文件B的”软链接”(soft link)<br>这意味着，文件 A 依赖于文件 B 而存在，如果删除了文件 B，打开文件 A 就会报错: “No such file or directory”。这是软链接与硬链接最大的不同。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">ln -s [源文文件或目录] [目标文件或目录]<br></code></pre></td></tr></table></figure>
-
-<h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><hr>
-<p>Linux 中，常见的日志: </p>
-<ul>
-<li>定时任务: /var/log/cron</li>
-<li>打印信息: /var/log/cups/</li>
-<li>错误登录: /var/log/btmp，不能直接查看，需要使用 lastb 命令查看</li>
-<li>重要信息: /var/log/messages，如果系统出现问题，首先要检查该文件</li>
-</ul>
-<h3 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h3><p>日志文件格式为: 事件产生时间 发生事件的服务器名称 发生事件的服务名称 事件的具体信息</p>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/Linux(%E5%85%AB)/">
-        Previous post<br>Linux(八)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/Linux(%E5%85%AD)/">
-        Next post<br>Linux(六)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?78596844"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

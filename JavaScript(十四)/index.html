@@ -1,339 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>JavaScript(十四) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="这一篇，我们讲讲 ES6 的新特性。
-变量
-var 的缺点
-可以重复声明
-
-var a = 12;var a = ...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?83751369">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    JavaScript(十四)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2018-09-22T00:00:00.000Z" itemprop="datePublished">
-                            2018-09-22 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>这一篇，我们讲讲 ES6 的新特性。</p>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><hr>
-<h3 id="var-的缺点"><a href="#var-的缺点" class="headerlink" title="var 的缺点"></a>var 的缺点</h3><ol>
-<li>可以重复声明</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> a = <span class="hljs-number">12</span>;<br><span class="hljs-keyword">var</span> a = <span class="hljs-number">5</span>;<br>alert(a);  <span class="hljs-comment">//5</span><br></code></pre></td></tr></table></figure>
-<ol start="2">
-<li>无法限制修改</li>
-<li>没有块级作用域</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">if</span> (<span class="hljs-literal">true</span>) &#123;<br>    <span class="hljs-keyword">var</span> a = <span class="hljs-number">12</span>;<br>&#125;<br><br>alert(a);<br></code></pre></td></tr></table></figure>
-
-<h3 id="let-和-const"><a href="#let-和-const" class="headerlink" title="let 和 const"></a>let 和 const</h3><p>let 和 const 解决了之前 var 的问题。首先，let 和 const 声明的变量不能重复声明。其次，使用 let 声明的变量是可以修改的，而使用 const 声明的变量是不能修改的(也就是其他语言的常量)。最后，使用 let 和 const 声明的变量有块级作用域。</p>
-<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><hr>
-<h3 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h3><ol>
-<li>如果只有一个参数，圆括号可以省略</li>
-<li>如果只有一个 return 语句，花括号和 return 关键字可以省略</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> addOne = <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> e + <span class="hljs-number">1</span>;<br>addOne(<span class="hljs-number">5</span>);  <span class="hljs-comment">//6</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h3><ol>
-<li>剩余参数(必须放在最后)</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> show = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a, b, ...args</span>) </span>&#123;<br>    alert(a);<br>    alert(b);<br>    alert(args);<br>&#125;<br><br>show(<span class="hljs-number">12</span>, <span class="hljs-number">15</span>, <span class="hljs-number">8</span>, <span class="hljs-number">23</span>, <span class="hljs-number">2</span>);  <span class="hljs-comment">// [8, 23, 2]</span><br><br><span class="hljs-keyword">const</span> say = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">&#123;name, ...rest&#125;</span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(rest);<br>&#125;<br><br>say(&#123;<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;1ess&#x27;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>&#125;);  <span class="hljs-comment">// &#123;age: 18&#125;</span><br></code></pre></td></tr></table></figure>
-
-<p>如果参数不是对象，则剩余参数 rest 是数组，否则，rest 是对象。</p>
-<ol start="2">
-<li>默认参数</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> show = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a, b = <span class="hljs-number">10</span>, c = <span class="hljs-number">20</span></span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(a);<br>    <span class="hljs-built_in">console</span>.log(b);<br>    <span class="hljs-built_in">console</span>.log(c);<br> &#125;<br>        <br>show(<span class="hljs-number">99</span>);<br></code></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>展开运算符</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> arr1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><span class="hljs-keyword">let</span> arr2 = [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>];<br><br><span class="hljs-keyword">let</span> arr = [...arr1, ...arr2];  <span class="hljs-comment">//1, 2, 3, 4, 5, 6</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>ES7 也允许对象使用展开运算符，相当于复制一个新对象</strong></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> a = &#123;<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;1ess&#x27;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">20</span>&#125;;<br><span class="hljs-keyword">const</span> b = &#123;...a&#125;;<br><span class="hljs-built_in">console</span>.log(b);<br></code></pre></td></tr></table></figure>
-
-<h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><hr>
-<ol>
-<li>左右两侧结构必须一样</li>
-<li>声明的同时必须初始化</li>
-<li>解构赋值也可以使用剩余参数</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> [a, b, c] = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><span class="hljs-built_in">console</span>.log(a, b, c);  <span class="hljs-comment">//1, 2, 3</span><br><br><span class="hljs-keyword">let</span> &#123;a, c, d&#125; = &#123;<span class="hljs-attr">a</span>: <span class="hljs-number">12</span>, <span class="hljs-attr">c</span>: <span class="hljs-number">5</span>, <span class="hljs-attr">d</span>: <span class="hljs-number">16</span>&#125;;<br><span class="hljs-built_in">console</span>.log(a, c, d);  <span class="hljs-comment">//12, 5, 16</span><br><br><span class="hljs-keyword">let</span> [&#123;a, b&#125;, [n1, n2, n3], c, d] = [&#123;<span class="hljs-attr">a</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">b</span> : <span class="hljs-number">20</span>&#125;, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], <span class="hljs-number">4</span>, <span class="hljs-string">&#x27;c&#x27;</span>];<br><span class="hljs-built_in">console</span>.log(a, b, c, d, n1, n2, n3);  <span class="hljs-comment">//10, 20, 4, c, 1, 2, 3</span><br><br><span class="hljs-comment">//粒度控制</span><br><span class="hljs-keyword">let</span> [json, [n1, n2, n3], c, d] = [&#123;<span class="hljs-attr">a</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">b</span> : <span class="hljs-number">20</span>&#125;, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], <span class="hljs-number">4</span>, <span class="hljs-string">&#x27;c&#x27;</span>];<br><span class="hljs-built_in">console</span>.log(json, c, d, n1, n2, n3);  <span class="hljs-comment">//object, 4, c, 1, 2, 3</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>数组和对象都可以使用解构赋值。</strong></p>
-<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><hr>
-<ol>
-<li>includes() 方法判断元素是否存在于该数组</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> arr = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><span class="hljs-built_in">console</span>.log(arr.includes(<span class="hljs-number">2</span>));  <span class="hljs-comment">//true</span><br></code></pre></td></tr></table></figure>
-<ol start="2">
-<li>for … of 循环迭代器</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> arr = [<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>];<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> iterator <span class="hljs-keyword">of</span> arr) &#123;<br>    <span class="hljs-built_in">console</span>.log(iterator);  <span class="hljs-comment">//10, 20, 30</span><br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>由于对象不可迭代，因此无法使用 for … of 遍历对象。注意与 for … in 的区别。</p>
-<ol start="3">
-<li>keys()、values()、entries() 方法</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> arr = [<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>];<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> key <span class="hljs-keyword">of</span> arr.keys()) &#123;<br>    <span class="hljs-built_in">console</span>.log(key);  <span class="hljs-comment">//0, 1, 2</span><br>&#125;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> value <span class="hljs-keyword">of</span> arr.values()) &#123;<br>    <span class="hljs-built_in">console</span>.log(value);  <span class="hljs-comment">//10, 20, 30</span><br>&#125;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> [key, value] <span class="hljs-keyword">of</span> arr.entries()) &#123;<br>    <span class="hljs-built_in">console</span>.log(key);  <span class="hljs-comment">//0, 1, 2</span><br>    <span class="hljs-built_in">console</span>.log(value);  <span class="hljs-comment">//10, 20, 30</span><br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><hr>
-<ol>
-<li>startsWith 和 endsWith</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> str = <span class="hljs-string">&#x27;Hello ES6!&#x27;</span>;<br>alert(str.startsWith(<span class="hljs-string">&#x27;Hello&#x27;</span>));  <span class="hljs-comment">//true</span><br>alert(str.endsWith(<span class="hljs-number">6</span>));  <span class="hljs-comment">//false</span><br></code></pre></td></tr></table></figure>
-<ol start="2">
-<li>字符串模板</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> result = <span class="hljs-number">10</span>;<br><span class="hljs-keyword">let</span> str = <span class="hljs-string">`&lt;div&gt;<span class="hljs-subst">$&#123;result&#125;</span>&lt;/div&gt;`</span>;<br>alert(str);  <span class="hljs-comment">//&lt;div&gt;10&lt;/div&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><hr>
-<h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><p>在 ES6 之前，JS 对于面向对象的支持不好，想要实现一个类，如下: </p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">User</span>(<span class="hljs-params">name, pwd</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.name = name;<br>    <span class="hljs-built_in">this</span>.pwd = pwd;<br>&#125;<br><br>User.prototype.showName = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    alert(<span class="hljs-built_in">this</span>.name);<br>&#125;;<br><br>User.prototype.showPwd= <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    alert(<span class="hljs-built_in">this</span>.pwd);<br>&#125;;<br><br><span class="hljs-keyword">let</span> user = <span class="hljs-keyword">new</span> User(<span class="hljs-string">&#x27;1ess&#x27;</span>, <span class="hljs-string">&#x27;123456&#x27;</span>);<br>user.showName();<br>user.showPwd();<br></code></pre></td></tr></table></figure>
-
-<p>感觉很分散、别扭、不清晰，在 ES6 之后，JS 终于支持 class 关键字，可以很常规的定义一个对象了: </p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name, pwd</span>)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>        <span class="hljs-built_in">this</span>.pwd = pwd;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-title">showName</span>(<span class="hljs-params"></span>)</span> &#123;<br>        alert(<span class="hljs-built_in">this</span>.name);<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-title">showPwd</span>(<span class="hljs-params"></span>)</span> &#123;<br>        alert(<span class="hljs-built_in">this</span>.pwd);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">let</span> user = <span class="hljs-keyword">new</span> User(<span class="hljs-string">&#x27;1ess&#x27;</span>, <span class="hljs-string">&#x27;123456&#x27;</span>);<br>user.showName();<br>user.showPwd();<br></code></pre></td></tr></table></figure>
-
-<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><p>在 ES6 之前实现继承，也是很别扭: </p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VipUser</span>(<span class="hljs-params">name, pwd, level</span>) </span>&#123;<br>        User.call(<span class="hljs-built_in">this</span>, name, pwd);<br>        <span class="hljs-built_in">this</span>.level = level;<br>&#125;<br><br>VipUser.prototype = <span class="hljs-keyword">new</span> User();<br>VipUser.prototype.constructor = VipUser;<br>VipUser.prototype.showLevel = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>        alert(<span class="hljs-built_in">this</span>.level);<br>&#125;<br><br><span class="hljs-keyword">let</span> user = <span class="hljs-keyword">new</span> VipUser(<span class="hljs-string">&#x27;1ess&#x27;</span>, <span class="hljs-string">&#x27;123456&#x27;</span>, <span class="hljs-number">10</span>);<br>user.showName();<br>user.showPwd();<br>user.showLevel();<br></code></pre></td></tr></table></figure>
-
-<p>在 ES6 之后，JS 支持 extends 和 super 关键字，可以很常规的继承一个对象了: </p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VipUser</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">User</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name, pwd, level</span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>(name, pwd);<br>        <span class="hljs-built_in">this</span>.level = level;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-title">showLevel</span>(<span class="hljs-params"></span>)</span> &#123;<br>        alert(<span class="hljs-built_in">this</span>.level);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">let</span> user = <span class="hljs-keyword">new</span> VipUser(<span class="hljs-string">&#x27;1ess&#x27;</span>, <span class="hljs-string">&#x27;123456&#x27;</span>, <span class="hljs-number">10</span>);<br>user.showName();<br>user.showPwd();<br>user.showLevel();<br></code></pre></td></tr></table></figure>
-
-<h3 id="set-和-get"><a href="#set-和-get" class="headerlink" title="set 和 get"></a>set 和 get</h3><p>ES6 使用 set 和 get 定义属性: </p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name</span>)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>    &#125;<br>    <span class="hljs-keyword">set</span> <span class="hljs-title">age</span>(<span class="hljs-params">val</span>) &#123;<br>        <span class="hljs-built_in">this</span>._age = val;<br>    &#125;<br>    <span class="hljs-keyword">get</span> <span class="hljs-title">age</span>() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>._age;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">let</span> p = <span class="hljs-keyword">new</span> Person(<span class="hljs-string">&#x27;1ess&#x27;</span>);<br>p.age = <span class="hljs-number">26</span>;<br><span class="hljs-built_in">console</span>.log(p.age);  <span class="hljs-comment">//26</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><hr>
-<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><ol>
-<li>必须使用双引号</li>
-<li>所有的 key 必须使用引号包裹</li>
-</ol>
-<p>当我们想把 JSON 对象变为字符串时，使用 JSON.stringify() 方法。当我们想把 JSON 字符串转为对象时，使用 JSON.parse() 方法。</p>
-<h3 id="简写"><a href="#简写" class="headerlink" title="简写"></a>简写</h3><ol>
-<li>当 key 与 value 同名时，可以简写: </li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> a = <span class="hljs-number">10</span>;<br><span class="hljs-keyword">let</span> b = <span class="hljs-number">20</span>;<br><span class="hljs-keyword">let</span> json = &#123;a, b&#125;;<br></code></pre></td></tr></table></figure>
-<ol start="2">
-<li>如果有方法，也可以使用简写: </li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> json = &#123;<br>    <span class="hljs-attr">a</span>: <span class="hljs-number">10</span>;<br>    <span class="hljs-function"><span class="hljs-title">show</span>(<span class="hljs-params"></span>)</span> &#123;<br>        alert(a);  <span class="hljs-comment">//10</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><hr>
-<p>用同步一样的方式，来书写异步代码。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">Promise</span>.all([<br>    $.ajax(url: <span class="hljs-string">&#x27;/a&#x27;</span>, <span class="hljs-attr">dataType</span>: <span class="hljs-string">&#x27;json&#x27;</span>),<br>    $.ajax(url: <span class="hljs-string">&#x27;/b&#x27;</span>, <span class="hljs-attr">dataType</span>: <span class="hljs-string">&#x27;json&#x27;</span>),<br>]).then(<span class="hljs-function"><span class="hljs-params">results</span>=&gt;</span>&#123;<br>    <span class="hljs-keyword">let</span> [res1, res2] = results;<br>   <span class="hljs-comment">//res1</span><br>   <span class="hljs-comment">//res2</span><br>&#125;, <span class="hljs-function"><span class="hljs-params">error</span>=&gt;</span>&#123;<br>    <span class="hljs-comment">//error</span><br>&#125;);<br></code></pre></td></tr></table></figure>
-
-<h2 id="import"><a href="#import" class="headerlink" title="import"></a>import</h2><hr>
-<p>ES6 引用其他库文件的语法变化。在 ES6 之前，我们一般都是通过 require 方法把库文件导出的方法保存在一个变量中。在 ES6 当中引入了一组个新的关键字 import/export。一般我们都会在文件的开头引入我们需要使用的模块或方法。<br>我们在一个文件中导入的模块或方法是从另一个文件中导出的。如果是使用 export default 语句导出的方法，我们直接定义其变量名称，这样的方法每个文件只能导出一个: </p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// other.js</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;export default function&quot;</span>);<br>&#125;<br><span class="hljs-comment">// index.js</span><br><span class="hljs-keyword">import</span> defaultFunc <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;other&#x27;</span>;<br></code></pre></td></tr></table></figure>
-
-<p>仅用 export 导出的方法，在使用时，则需要把它们包含在大括号里: </p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// another.js</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> foo = <span class="hljs-string">&#x27;foo&#x27;</span>;<br><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bar</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;bar function&quot;</span>);<br>&#125;<br><br><span class="hljs-comment">// index.js</span><br><span class="hljs-keyword">import</span> &#123;foo, bar&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;another&#x27;</span>;<br></code></pre></td></tr></table></figure>
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/%E9%9A%8F%E4%BE%BF%E8%81%8A%E8%81%8A/">
-        Previous post<br>随便聊聊
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/JavaScript(%E5%8D%81%E4%B8%89)/">
-        Next post<br>JavaScript(十三)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?68322463"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

@@ -1,296 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>HTML(二) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="上一篇讲了 HTML 中 head 部分重要的子元素，本篇将要讲解 body 元素中所有重要的子元素。
-h 元素(...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?82726345">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    HTML(二)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2018-06-16T00:00:00.000Z" itemprop="datePublished">
-                            2018-06-16 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>上一篇讲了 HTML 中 head 部分重要的子元素，本篇将要讲解 body 元素中所有重要的子元素。</p>
-<h2 id="h-元素-heading，h1-h6"><a href="#h-元素-heading，h1-h6" class="headerlink" title="h 元素(heading，h1 ~ h6)"></a>h 元素(heading，h1 ~ h6)</h2><hr>
-<p>h1 ~ h6 是各个区块的标题，根据表示数字不同，显示的字体大小，代表的意思也各不相同。<br>我们应根据页面的情况，合理使用不同大小的标题。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>1级标题<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>2级标题<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>3级标题<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>4级标题<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">h5</span>&gt;</span>5级标题<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>6级标题<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="p-元素-paragraph"><a href="#p-元素-paragraph" class="headerlink" title="p 元素(paragraph)"></a>p 元素(paragraph)</h2><hr>
-<p>p 标记表示文章自然段。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>段落<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="br-元素"><a href="#br-元素" class="headerlink" title="br 元素"></a>br 元素</h2><hr>
-<p>br 元素在文本中生成一个换行(回车)符号。  </p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="hr-元素"><a href="#hr-元素" class="headerlink" title="hr 元素"></a>hr 元素</h2><hr>
-<p>hr 元素表示段落级元素之间的主题转换。在 HTML 的早期版本中，它是一个水平线。现在它仍能在可视化浏览器中表现为水平线，但目前被定义为语义上的，而不是表现层面上。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="文本格式化元素"><a href="#文本格式化元素" class="headerlink" title="文本格式化元素"></a>文本格式化元素</h2><hr>
-<h3 id="b-元素-Blod"><a href="#b-元素-Blod" class="headerlink" title="b 元素(Blod)"></a>b 元素(Blod)</h3><figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>Blod text<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="i-元素-Italic"><a href="#i-元素-Italic" class="headerlink" title="i 元素(Italic)"></a>i 元素(Italic)</h3><figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">i</span>&gt;</span>Italic text<span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="strong-元素-Strong"><a href="#strong-元素-Strong" class="headerlink" title="strong 元素(Strong)"></a>strong 元素(Strong)</h3><figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Important text<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="em-元素-Emphasize"><a href="#em-元素-Emphasize" class="headerlink" title="em 元素(Emphasize)"></a>em 元素(Emphasize)</h3><figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>Emphasize text<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>注意: 虽然 strong 元素和 b 元素，em 元素和 i 元素在浏览器中的表现相同，但是语义不同。</strong></p>
-<h3 id="del-元素-Deleted"><a href="#del-元素-Deleted" class="headerlink" title="del 元素(Deleted)"></a>del 元素(Deleted)</h3><figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">del</span>&gt;</span>Deleted text<span class="hljs-tag">&lt;/<span class="hljs-name">del</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="ins-元素-Inserted"><a href="#ins-元素-Inserted" class="headerlink" title="ins 元素(Inserted)"></a>ins 元素(Inserted)</h3><figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">ins</span>&gt;</span>Inserted text<span class="hljs-tag">&lt;/<span class="hljs-name">ins</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="s-元素-Strikethrough"><a href="#s-元素-Strikethrough" class="headerlink" title="s 元素(Strikethrough)"></a>s 元素(Strikethrough)</h3><figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">s</span>&gt;</span>Strikethrough text<span class="hljs-tag">&lt;/<span class="hljs-name">s</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="u-元素-Underlined"><a href="#u-元素-Underlined" class="headerlink" title="u 元素(Underlined)"></a>u 元素(Underlined)</h3><figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">u</span>&gt;</span>Underlined text<span class="hljs-tag">&lt;/<span class="hljs-name">u</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>注意: 虽然 del 元素和 s 元素，ins 元素和 u 元素在浏览器中的表现相同，但是语义不同。并且 s 元素和 u 元素已经在 HTML5 规范中被取消。</strong></p>
-<h3 id="small-元素-Smaller"><a href="#small-元素-Smaller" class="headerlink" title="small 元素(Smaller)"></a>small 元素(Smaller)</h3><figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">small</span>&gt;</span>Small text<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="mark-元素-Marked"><a href="#mark-元素-Marked" class="headerlink" title="mark 元素(Marked)"></a>mark 元素(Marked)</h3><figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">mark</span>&gt;</span>Marked text<span class="hljs-tag">&lt;/<span class="hljs-name">mark</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="pre-元素-Preformatted"><a href="#pre-元素-Preformatted" class="headerlink" title="pre 元素(Preformatted)"></a>pre 元素(Preformatted)</h3><p>pre 标记会显示格式化后的文本，包围在 pre 标记内的文本会保留空格和换行，而文本也以等宽字体来显示。<br>通常，浏览器会按下面规则表示自然段内的内容: </p>
-<ol>
-<li>连续的半角空格会被压缩为一个半角空格</li>
-<li>Tab 会被压缩为一个半角空格</li>
-<li>换行会被压缩为一个半角空格</li>
-<li>自然段内文本会根据浏览器宽度自动换行显示</li>
-</ol>
-<p>但在 pre 标记内，以上规则全都无效。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">pre</span>&gt;</span><br>    把酒祝东风，且共从容，垂杨紫陌洛城东。总是当时携手处，游遍芳丛。<br>    聚散苦匆匆，此恨无穷。今年花胜去年红。可惜明年花更好，知与谁同？<br><span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="code-元素-Code"><a href="#code-元素-Code" class="headerlink" title="code 元素(Code)"></a>code 元素(Code)</h3><p>code 标记是计算机语言代码的描述，如果页面内有程序源代码，应使用 code 标记。与 pre 标记配合使用。<br>根据程序语言不同，我们可以为 code 添加不同的 language-xxx 的 class 属性。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">pre</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;language-javascript&quot;</span>&gt;</span><br>           var s = &quot;Hello World!&quot;;<br>           var i = 1;<br>           if (i == 1) &#123;<br>               alert(s);<br>           &#125;<br>        <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="q-元素-Short-quotation"><a href="#q-元素-Short-quotation" class="headerlink" title="q 元素(Short quotation)"></a>q 元素(Short quotation)</h3><p>q 标记表示语句的引用。浏览器会自动加上双引号。<br>注意: 引用段落时，请使用 blockquote 标记<br>常用属性: cite 表示引用出处。如果是网站，则值为 URL，如果是书籍，则值为 ISBN。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">q</span> <span class="hljs-attr">cite</span>=<span class="hljs-string">&quot;https://baike.baidu.com/item/%E4%BA%8E%E6%88%91%E5%BF%83%E6%9C%89%E6%88%9A%E6%88%9A%E7%84%89&quot;</span>&gt;</span>于我心有戚戚焉<span class="hljs-tag">&lt;/<span class="hljs-name">q</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="blockquote-元素-Long-quotation"><a href="#blockquote-元素-Long-quotation" class="headerlink" title="blockquote 元素(Long quotation)"></a>blockquote 元素(Long quotation)</h3><p>blockquote 标记是以自然段为单位的引用。<br>常用属性: cite 表示引用出处。如果是网站，则值为 URL，如果是书籍，则值为 ISBN。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">blockquote</span> <span class="hljs-attr">cite</span>=<span class="hljs-string">&quot;https://baike.baidu.com/item/%E9%BD%90%E6%A1%93%E6%99%8B%E6%96%87%E4%B9%8B%E4%BA%8B/7336481&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>王说，曰: &quot;云: &#x27;他人有心，予忖度之。&#x27;──夫子之谓也。夫我乃行之，反而求之，不得吾心；夫子言之，于我心有戚戚焉。&quot;此心之所以合于王者，何也？&quot;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>曰: &quot;有复于王者曰: &#x27;吾力足以举百钧&#x27;，而不足以举一羽；&#x27;明足以察秋毫之末&#x27;，而不见舆薪，则王许之乎？&quot;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>曰: &quot;否。&quot;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">blockquote</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="cite-元素-Citation"><a href="#cite-元素-Citation" class="headerlink" title="cite 元素(Citation)"></a>cite 元素(Citation)</h3><p>cite 标记表示书籍，电影，音乐等标题，出处。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">blockquote</span> <span class="hljs-attr">cite</span>=<span class="hljs-string">&quot;urn:isbn:1234567890&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">cite</span>&gt;</span>Head First HTML And CSS<span class="hljs-tag">&lt;/<span class="hljs-name">cite</span>&gt;</span>是一本好书！<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">blockquote</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="dfn-元素-Define"><a href="#dfn-元素-Define" class="headerlink" title="dfn 元素(Define)"></a>dfn 元素(Define)</h3><p>dfn 标记表示短语定义，用于专有名词。</p>
-<ul>
-<li>如果 dfn 有 title 属性，则该属性值表示短语的定义</li>
-<li>如果 dfn 内有 abbr 标记，且 abbr 有 title 属性，则该属性值表示短语的定义</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">dfn</span> <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;服务器软件&quot;</span>&gt;</span>Apache<span class="hljs-tag">&lt;/<span class="hljs-name">dfn</span>&gt;</span> 是最流行的 web 服务器。<br></code></pre></td></tr></table></figure>
-
-<h3 id="abbr-元素-Abbreviation"><a href="#abbr-元素-Abbreviation" class="headerlink" title="abbr 元素(Abbreviation)"></a>abbr 元素(Abbreviation)</h3><p>abbr 标记表示缩略语，与 dfn 配合使用。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML">I Love <span class="hljs-tag">&lt;<span class="hljs-name">dfn</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">abbr</span> <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Hyper-Text Markup Language&quot;</span>&gt;</span>HTML<span class="hljs-tag">&lt;/<span class="hljs-name">abbr</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dfn</span>&gt;</span>。<br></code></pre></td></tr></table></figure>
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/HTML(%E4%B8%89)/">
-        Previous post<br>HTML(三)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/HTML(%E4%B8%80)/">
-        Next post<br>HTML(一)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?80800074"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

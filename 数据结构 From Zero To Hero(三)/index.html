@@ -1,236 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>数据结构 From Zero To Hero(三) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="本篇，我们来介绍除了数组之外另一种线性结构 —— 链表(LinkedList)。
-链表解决了数组存在的很多问题，当...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?4684795">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    数据结构 From Zero To Hero(三)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2021-02-15T00:00:00.000Z" itemprop="datePublished">
-                            2021-02-15 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>本篇，我们来介绍除了数组之外另一种线性结构 —— 链表(LinkedList)。</p>
-<p>链表解决了数组存在的很多问题，当然也引入了新的问题。不同于数组，链表可以自动缩放。</p>
-<p>每个链表元素称为节点(Node)，每个节点由两部分组成，分别称为数据域和指针域。我们把第一个节点称为头节点(HEAD)，最后一个节点称为尾节点(TAIL)。</p>
-<p>链表还是之后两篇要学习的栈和队列的基础。我们一定要打好基础，现在让我们来自己构建一下链表的常用操作吧。</p>
-<h3 id="自己构建一个链表"><a href="#自己构建一个链表" class="headerlink" title="自己构建一个链表"></a>自己构建一个链表</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// Node 节点</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>&lt;<span class="hljs-title">T</span>&gt;<br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Node</span>(<span class="hljs-params">T <span class="hljs-keyword">value</span></span>)</span><br>    &#123;<br>        Value = <span class="hljs-keyword">value</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> T Value &#123; <span class="hljs-keyword">get</span>; &#125;<br>    <span class="hljs-keyword">public</span> Node&lt;T&gt; Next &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">LinkedList</span>&lt;<span class="hljs-title">T</span>&gt;<br>&#123;<br>    <span class="hljs-keyword">private</span> Node&lt;T&gt; _first;<br>    <span class="hljs-keyword">private</span> Node&lt;T&gt; _last;<br>    <span class="hljs-keyword">private</span> <span class="hljs-built_in">int</span> _size;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddFirst</span>(<span class="hljs-params">T item</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> current = <span class="hljs-keyword">new</span> Node&lt;T&gt;(item);<br>        <span class="hljs-keyword">if</span> (IsEmpty())<br>        &#123;<br>            _first = _last = current;<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            current.Next = _first;<br>            _first = current;<br>        &#125;<br><br>        _size++;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddLast</span>(<span class="hljs-params">T item</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> current = <span class="hljs-keyword">new</span> Node&lt;T&gt;(item);<br>        <span class="hljs-keyword">if</span> (IsEmpty())<br>        &#123;<br>            _first = _last = current;<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            _last.Next = current;<br>            _last = current;<br>        &#125;<br><br>        _size++;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DeleteFirst</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-keyword">if</span> (IsEmpty())<br>        &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IndexOutOfRangeException();<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (_first == _last)<br>        &#123;<br>            _first = _last = <span class="hljs-literal">null</span>;<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            <span class="hljs-keyword">var</span> second = _first.Next;<br>            _first.Next = <span class="hljs-literal">null</span>;<br>            _first = second;<br>        &#125;<br><br>        _size--;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DeleteLast</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-keyword">if</span> (IsEmpty())<br>        &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IndexOutOfRangeException();<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (_first == _last)<br>        &#123;<br>            _first = _last = <span class="hljs-literal">null</span>;<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            <span class="hljs-keyword">var</span> previous = GetPrevious(_last);<br>            <span class="hljs-keyword">if</span> (previous == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;<br>            previous.Next = <span class="hljs-literal">null</span>;<br>            _last = previous;<br>        &#125;<br><br>        _size--;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">Contains</span>(<span class="hljs-params">T item</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> IndexOf(item) != <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> <span class="hljs-title">IndexOf</span>(<span class="hljs-params">T item</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> current = _first;<br>        <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">null</span>)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (Equals(current.Value, item))<br>            &#123;<br>                <span class="hljs-keyword">return</span> index;<br>            &#125;<br><br>            index++;<br>            current = current.Next;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> T[] <span class="hljs-title">ToArray</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> array = <span class="hljs-keyword">new</span> T[_size];<br>        <span class="hljs-keyword">var</span> current = _first;<br>        <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">null</span>)<br>        &#123;<br>            array[index++] = current.Value;<br>            current = current.Next;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> array;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> <span class="hljs-title">Size</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> _size;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">IsEmpty</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> _first == <span class="hljs-literal">null</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> Node&lt;T&gt; <span class="hljs-title">GetPrevious</span>(<span class="hljs-params">Node&lt;T&gt; node</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> current = _first;<br>        <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">null</span>)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (current.Next == node)<br>            &#123;<br>                <span class="hljs-keyword">return</span> current;<br>            &#125;<br>            current = current.Next;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="Types-of-Linked-Listes"><a href="#Types-of-Linked-Listes" class="headerlink" title="Types of Linked Listes"></a>Types of Linked Listes</h3><p>常见有两种链表: </p>
-<ul>
-<li>单向链表</li>
-<li>双向链表</li>
-<li>循环列表</li>
-</ul>
-<p>我们刚才构建了自己的单向链表，并且知道了删除尾节点的时间复杂度为 O(n)，双向链表就可以解决这个问题。</p>
-<h3 id="Reversing-a-Linked-List"><a href="#Reversing-a-Linked-List" class="headerlink" title="Reversing a Linked List"></a>Reversing a Linked List</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">//        first        last </span><br><span class="hljs-comment">// origin [10 -&gt; 20 -&gt; 30]</span><br><span class="hljs-comment">//         last         first</span><br><span class="hljs-comment">// reverse [10 &lt;- 20 &lt;- 30]</span><br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Reverse</span>(<span class="hljs-params"></span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> first = _first;<br>    <span class="hljs-keyword">var</span> second = _first.Next;<br>    <span class="hljs-keyword">while</span>(second != <span class="hljs-literal">null</span>)<br>    &#123;<br>        <span class="hljs-keyword">var</span> third = second.Next;<br>        second.Next = first;<br>        first = second;<br>        second = third;<br>    &#125;<br><br>    _last = _first;<br>    _last.Next = <span class="hljs-literal">null</span>;<br>    _first = first;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="Kth-Node-from-the-End"><a href="#Kth-Node-from-the-End" class="headerlink" title="Kth Node from the End"></a>Kth Node from the End</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// [10 -&gt; 20 -&gt; 30 -&gt; 40 -&gt; 50]</span><br><span class="hljs-comment">// K = 1 (50)</span><br><span class="hljs-comment">// K = 2 (40)</span><br><span class="hljs-comment">// K = 3 (30)</span><br><br><span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">GetKthFromTheEnd</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> k</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (IsEmpty())<br>    &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;Linked List Can Not Be Null&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (k &lt;= <span class="hljs-number">0</span> || k &gt; _size)<br>    &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ArgumentOutOfRangeException();<br>    &#125;<br><br>    <span class="hljs-keyword">var</span> first = _first;<br>    <span class="hljs-keyword">var</span> second = _first;<br>    <span class="hljs-keyword">var</span> distance = k - <span class="hljs-number">1</span>;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; distance; i++)<br>    &#123;<br>        second = second.Next;<br>    &#125;<br><br>    <span class="hljs-keyword">while</span> (second.Next != <span class="hljs-literal">null</span>)<br>    &#123;<br>        second = second.Next;<br>        first = first.Next;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> first.Value;<br>&#125;<br></code></pre></td></tr></table></figure>
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%20From%20Zero%20To%20Hero(%E5%9B%9B)/">
-        Previous post<br>数据结构 From Zero To Hero(四)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%20From%20Zero%20To%20Hero(%E4%BA%8C)/">
-        Next post<br>数据结构 From Zero To Hero(二)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?51194341"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

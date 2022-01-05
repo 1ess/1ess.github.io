@@ -1,281 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>C Primer Plus(五) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="作为程序员，不可避免地要处理大量相关数据。通常，数组能高效便捷地处理这种数据。本篇，我们就来说说 C 语言中数组的...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?53878228">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    C Primer Plus(五)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2020-07-01T00:00:00.000Z" itemprop="datePublished">
-                            2020-07-01 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>作为程序员，不可避免地要处理大量相关数据。通常，数组能高效便捷地处理这种数据。本篇，我们就来说说 C 语言中数组的知识。</p>
-<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><hr>
-<p>C 语言的数组由数据类型相同的一系列元素组成。需要使用数组时，通过声明数组告诉编译器数组中内含多少元素和这些元素的类型。编译器根据这些信息正确地创建数组。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">float</span> candy[<span class="hljs-number">10</span>];<br><span class="hljs-keyword">char</span> code[<span class="hljs-number">12</span>];<br><span class="hljs-keyword">int</span> states[<span class="hljs-number">10</span>];<br></code></pre></td></tr></table></figure>
-
-<p>方括号([])表明声明的变量是数组，方括号中的数字表明数组中的元素个数。访问数组中的元素，通过使用数组下标数(也称为索引)表示数组中的各元素。数组元素的编号从 0 开始。</p>
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>C 使用如下语法来初始化数组: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">int</span> powers[<span class="hljs-number">8</span>] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">16</span>, <span class="hljs-number">32</span>, <span class="hljs-number">64</span>, <span class="hljs-number">128</span>&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>用以逗号分隔的值列表(用花括号括起来)来初始化数组，各值之间用逗号分隔。用数组前必须先初始化它。否则，编译器使用的值是内存相应位置上的现有值。如果初始化列表中缺少元素，则该位置上的元素为 0。<br>也就是说如果不初始化数组，数组元素和未初始化的普通变量一样，其中储存的都是垃圾值；但是，如果部分初始化数组，剩余的元素就会被初始化为 0。</p>
-<p>如果初始化列表的项数多于数组元素个数，则会出现数组越界错误。<br>如果初始化数组时省略方括号中的数字，编译器会根据初始化列表中的项数来确定数组的大小。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> days[] = &#123; <span class="hljs-number">31</span>, <span class="hljs-number">28</span>, <span class="hljs-number">31</span>, <span class="hljs-number">30</span>, <span class="hljs-number">31</span>, <span class="hljs-number">30</span>, <span class="hljs-number">31</span>, <span class="hljs-number">31</span>, <span class="hljs-number">30</span>, <span class="hljs-number">31</span> &#125;;<br></code></pre></td></tr></table></figure>
-
-<p>我们可以使用 sizeof 运算符算出数组大小。sizeof 运算符给出它的运算对象的大小(以字节为单位)。所以 sizeof days 是整个数组的大小(以字节为单位)，sizeof day[0] 是数组中一个元素的大小(以字节为单位)。整个数组的大小除以单个元素的大小就是数组元素的个数。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">var size = <span class="hljs-keyword">sizeof</span> days / <span class="hljs-keyword">sizeof</span> days[<span class="hljs-number">0</span>];<br></code></pre></td></tr></table></figure>
-
-<p>还有一种初始化数组的方法，但这种方法仅限于初始化字符数组。我们下一篇介绍。</p>
-<h3 id="指定初始化器"><a href="#指定初始化器" class="headerlink" title="指定初始化器"></a>指定初始化器</h3><p>C99 增加了一个新特性: 指定初始化器(designated initializer)。利用该特性可以初始化指定的数组元素。<br>例如，只初始化数组中的最后一个元素。对于传统的 C 初始化语法，需要如下声明: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">int</span> arr[<span class="hljs-number">6</span>] = &#123;<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">12</span>&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>而 C99 规定，可以在初始化列表中使用带方括号的下标指明待初始化的元素: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">int</span> arr[<span class="hljs-number">6</span>] = &#123;[<span class="hljs-number">5</span>] = <span class="hljs-number">12</span>&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>关于指定初始化器，比较复杂的例子如下: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MONTHS 12</span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> days[MONTHS] = &#123; <span class="hljs-number">31</span>, <span class="hljs-number">28</span>, [<span class="hljs-number">4</span>] = <span class="hljs-number">31</span>, <span class="hljs-number">30</span>, <span class="hljs-number">31</span>, [<span class="hljs-number">1</span>] = <span class="hljs-number">29</span> &#125;;<br>    <span class="hljs-keyword">int</span> i;<br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; MONTHS; i++) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, i+<span class="hljs-number">1</span>, days[i]);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-comment">// 1 31</span><br><span class="hljs-comment">// 2 29</span><br><span class="hljs-comment">// 3 0</span><br><span class="hljs-comment">// 4 0</span><br><span class="hljs-comment">// 5 31</span><br><span class="hljs-comment">// 6 30</span><br><span class="hljs-comment">// 7 31</span><br><span class="hljs-comment">// 8 0</span><br><span class="hljs-comment">// 9 0</span><br><span class="hljs-comment">// 10 0</span><br><span class="hljs-comment">// 11 0</span><br><span class="hljs-comment">// 12 0</span><br></code></pre></td></tr></table></figure>
-
-<p>以上输出揭示了指定初始化器的两个重要特性: </p>
-<ul>
-<li>如果指定初始化器后面有更多的值，如该例中的初始化列表中的片段 [4] = 31, 30, 31，那么后面这些值将被用于初始化指定元素后面的元素</li>
-<li>如果再次初始化指定的元素，那么最后的初始化将会取代之前的初始化，如该例中初始化列表开始时把 days[1] 初始化为 28，但是 days[1] 又被后面的指定初始化 [1] = 29 初始化为 29</li>
-</ul>
-<p>如果未指定元素大小，编译器会把数组的大小设置为足够装得下初始化的值。如: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">int</span> staff[] = &#123;<span class="hljs-number">1</span>, [<span class="hljs-number">6</span>] = <span class="hljs-number">4</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>&#125;;<br><br></code></pre></td></tr></table></figure>
-
-<p>staff 数组的元素个数为 9。</p>
-<h3 id="数组元素赋值"><a href="#数组元素赋值" class="headerlink" title="数组元素赋值"></a>数组元素赋值</h3><p>声明数组后，可以借助数组下标(或索引)给数组元素赋值。如: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> SIZE 50</span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> counter, evens[SIZE];<br>    <span class="hljs-keyword">for</span> (counter = <span class="hljs-number">0</span>; counter &lt; SIZE; counter++)<br>        evens[counter] = <span class="hljs-number">2</span> * counter;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>注意: </p>
-<ul>
-<li>C 不允许把数组作为一个单元赋给另一个数组，除初始化以外也不允许使用花括号列表的形式赋值</li>
-<li>编译器不会检查数组下标是否使用得当。在 C 标准中，使用越界下标的结果是未定义的。这意味着程序看上去可以运行，但是运行结果很奇怪，或异常中止</li>
-</ul>
-<h2 id="指针和数组"><a href="#指针和数组" class="headerlink" title="指针和数组"></a>指针和数组</h2><hr>
-<p>前面章节我们介绍过指针，指针提供一种以符号形式使用地址的方法。其实，数组表示法是在变相地使用指针。<br>数组名是数组首元素的地址。也就是说，如果 arr 是一个数组，下面的语句成立: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">arr == &amp;arr[<span class="hljs-number">0</span>]; <span class="hljs-comment">//数组名是数组首元素地址</span><br></code></pre></td></tr></table></figure>
-
-<p>arr 和 &amp;arr[0] 两者都是常量，在程序的运行过程中，不会改变。但是，可以把它们赋值给指针变量，然后可以修改指针变量的值，需要注意指针加上一个数时，它的值如何变化。在 C 中，指针加 1 指的是增加一个存储单元。对数组而言，这意味着加 1 后的地址是下一个元素的地址。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> SIZE 4</span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>&#123;<br>    <span class="hljs-keyword">short</span> dates[SIZE];<br>    <span class="hljs-keyword">short</span> * pti;<br>    <span class="hljs-keyword">short</span> index;<br>    <span class="hljs-keyword">double</span> bills[SIZE];<br>    <span class="hljs-keyword">double</span> * ptf;<br>    pti = dates;<br>    ptf = bills;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%23s %15s\n&quot;</span>, <span class="hljs-string">&quot;short&quot;</span>, <span class="hljs-string">&quot;double&quot;</span>);<br>    <span class="hljs-keyword">for</span> (index = <span class="hljs-number">0</span>; index &lt; SIZE; index++)<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;pointers + %d: %10p %10p\n&quot;</span>, index, pti + index, ptf + index);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-comment">//         short        double</span><br><span class="hljs-comment">// pointers + 0: 0x7fff5fbff8dc 0x7fff5fbff8a0</span><br><span class="hljs-comment">// pointers + 1: 0x7fff5fbff8de 0x7fff5fbff8a8</span><br><span class="hljs-comment">// pointers + 2: 0x7fff5fbff8e0 0x7fff5fbff8b0</span><br><span class="hljs-comment">// pointers + 3: 0x7fff5fbff8e2 0x7fff5fbff8b8</span><br></code></pre></td></tr></table></figure>
-
-<p>第 2 行打印的是两个数组开始的地址，下一行打印的是指针加 1 后的地址，即下一个元素的地址，分别观察不同类型的数组元素的地址偏移有何不同。(我们目前使用的系统中，short 类型占用 2 字节，double 类型占用 8 字节)</p>
-<p>下面的等式体现了 C 语言的灵活性: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">dates + <span class="hljs-number">2</span> == &amp;date[<span class="hljs-number">2</span>]   <span class="hljs-comment">// 相同的地址</span><br>*(dates + <span class="hljs-number">2</span>) == dates[<span class="hljs-number">2</span>]  <span class="hljs-comment">// 相同的值</span><br></code></pre></td></tr></table></figure>
-
-<p>以上关系表明了数组和指针的关系十分密切，可以使用指针标识数组的元素和获得元素的值。从本质上看，同一个对象有两种表示法。实际上，C 语言标准在描述数组表示法时确实借助了指针。</p>
-<h3 id="数组作为函数参数"><a href="#数组作为函数参数" class="headerlink" title="数组作为函数参数"></a>数组作为函数参数</h3><ol>
-<li>数组名作为函数形参时，在函数体内，其失去了本身的内涵，仅仅只是一个指针</li>
-<li>在失去其内涵的同时，它还失去了其常量特性，可以作自增、自减等操作，可以被修改</li>
-</ol>
-<p>所以，数据名作为函数形参时，其全面沦落为一个普通指针！</p>
-<p>顺带一提，不要混淆如下代码: </p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">*(dates+<span class="hljs-number">2</span>);<br><br>*dates+<span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure>
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/C%20Primer%20Plus(%E5%85%AD)/">
-        Previous post<br>C Primer Plus(六)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/C%20Primer%20Plus(%E5%9B%9B)/">
-        Next post<br>C Primer Plus(四)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?70878440"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

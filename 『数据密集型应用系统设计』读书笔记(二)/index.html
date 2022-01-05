@@ -1,261 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>『数据密集型应用系统设计』读书笔记(二) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="
-语言的边界就是世界的边界。
-
-在本章中，我们将研究一系列用于数据存储和查询的通用数据模型。特别地，我们将比较关系...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?64702505">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    『数据密集型应用系统设计』读书笔记(二)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2021-12-18T00:00:00.000Z" itemprop="datePublished">
-                            2021-12-18 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <blockquote>
-<p>语言的边界就是世界的边界。</p>
-</blockquote>
-<p>在本章中，我们将研究一系列用于数据存储和查询的通用数据模型。特别地，我们将比较关系模型，文档模型和少量基于图形的数据模型。我们还将查看各种查询语言并比较它们的用例。</p>
-<h2 id="数据模型与查询语言"><a href="#数据模型与查询语言" class="headerlink" title="数据模型与查询语言"></a>数据模型与查询语言</h2><hr>
-<h3 id="关系模型与文档模型"><a href="#关系模型与文档模型" class="headerlink" title="关系模型与文档模型"></a>关系模型与文档模型</h3><p>现在最著名的数据模型可能是 SQL，它基于 Edgar Codd 在 1970 年提出的关系模型。关系数据库已经持续称霸了大约 25~30 年，现在，NoSQL 开始了最新一轮尝试，试图推翻关系模型的统治地位。<br>采用 NoSQL 数据库的背后有几个驱动因素，其中包括: </p>
-<ol>
-<li>需要比关系数据库更好的可伸缩性，包括非常大的数据集或非常高的写入吞吐量</li>
-<li>相比商业数据库产品，免费和开源软件更受偏爱</li>
-<li>关系模型不能很好地支持一些特殊的查询操作</li>
-<li>受限于关系模型的限制，渴望一种更具动态性与表现力的数据模型</li>
-</ol>
-<p>不同的应用程序有不同的需求，因此，在可预见的未来，关系数据库似乎可能会继续与各种非关系数据库一起使用。</p>
-<h3 id="对象关系不匹配"><a href="#对象关系不匹配" class="headerlink" title="对象关系不匹配"></a>对象关系不匹配</h3><p>目前大多数应用程序开发都使用面向对象的编程语言来开发，如果数据存储在关系表中，那么需要一个笨拙的转换层，处于应用程序代码中的对象和表，行，列的数据库模型之间。ORM 框架虽然可以减少这个转换层所需的样板代码的数量，但是它们不能完全隐藏这两个模型之间的差异。</p>
-<p>例如，简历信息如果使用 SQL 数据库表示如下:<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig2-1.png"></p>
-<p>而同样的信息，使用 JSON 文档表示如下: </p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">&#123;<br>  <span class="hljs-string">&quot;user_id&quot;</span>: <span class="hljs-number">251</span>,<br>  <span class="hljs-string">&quot;first_name&quot;</span>: <span class="hljs-string">&quot;Bill&quot;</span>,<br>  <span class="hljs-string">&quot;last_name&quot;</span>: <span class="hljs-string">&quot;Gates&quot;</span>,<br>  <span class="hljs-string">&quot;summary&quot;</span>: <span class="hljs-string">&quot;Co-chair of the Bill &amp; Melinda Gates... Active blogger.&quot;</span>,<br>  <span class="hljs-string">&quot;region_id&quot;</span>: <span class="hljs-string">&quot;us:91&quot;</span>,<br>  <span class="hljs-string">&quot;industry_id&quot;</span>: <span class="hljs-number">131</span>,<br>  <span class="hljs-string">&quot;photo_url&quot;</span>: <span class="hljs-string">&quot;/p/7/000/253/05b/308dd6e.jpg&quot;</span>,<br>  <span class="hljs-string">&quot;positions&quot;</span>: [<br>    &#123;<br>      <span class="hljs-string">&quot;job_title&quot;</span>: <span class="hljs-string">&quot;Co-chair&quot;</span>,<br>      <span class="hljs-string">&quot;organization&quot;</span>: <span class="hljs-string">&quot;Bill &amp; Melinda Gates Foundation&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;job_title&quot;</span>: <span class="hljs-string">&quot;Co-founder, Chairman&quot;</span>,<br>      <span class="hljs-string">&quot;organization&quot;</span>: <span class="hljs-string">&quot;Microsoft&quot;</span><br>    &#125;<br>  ],<br>  <span class="hljs-string">&quot;education&quot;</span>: [<br>    &#123;<br>      <span class="hljs-string">&quot;school_name&quot;</span>: <span class="hljs-string">&quot;Harvard University&quot;</span>,<br>      <span class="hljs-string">&quot;start&quot;</span>: <span class="hljs-number">1973</span>,<br>      <span class="hljs-string">&quot;end&quot;</span>: <span class="hljs-number">1975</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;school_name&quot;</span>: <span class="hljs-string">&quot;Lakeside School, Seattle&quot;</span>,<br>      <span class="hljs-string">&quot;start&quot;</span>: <span class="hljs-literal">null</span>,<br>      <span class="hljs-string">&quot;end&quot;</span>: <span class="hljs-literal">null</span><br>    &#125;<br>  ],<br>  <span class="hljs-string">&quot;contact_info&quot;</span>: &#123;<br>    <span class="hljs-string">&quot;blog&quot;</span>: <span class="hljs-string">&quot;http://thegatesnotes.com&quot;</span>,<br>    <span class="hljs-string">&quot;twitter&quot;</span>: <span class="hljs-string">&quot;http://twitter.com/BillGates&quot;</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>有一些开发人员认为 JSON 模型减少了应用程序代码和存储层之间的差异。不过，JSON 作为数据编码格式也存在问题，我们将在之后章节详细讨论。</p>
-<h3 id="关系型数据库与文档数据库的对比"><a href="#关系型数据库与文档数据库的对比" class="headerlink" title="关系型数据库与文档数据库的对比"></a>关系型数据库与文档数据库的对比</h3><p>将关系数据库与文档数据库进行比较时，可以考虑许多方面的差异，包括它们的容错属性和并发性。本章将只关注数据模型中的差异。</p>
-<p>支持文档数据模型的主要论据是架构灵活性，因局部性而拥有更好的性能，以及对于某些应用程序而言更接近于应用程序使用的数据结构。<br>关系模型优势在于通过为连接提供更好的支持以及支持多对一和多对多的关系。</p>
-<p>文档数据库是读时模式(schema-on-read，数据的结构是隐含的，只有在数据被读取时才被解释)，相应的是写时模式(schema-on-write，传统的关系数据库方法中，模式明确，且数据库确保所有的数据都符合其模式)，读时模式类似于编程语言中的动态类型检查，而写时模式类似于静态类型检查。就像静态和动态类型检查的相对优点具有很大的争议性一样，数据库中模式的强制性是一个具有争议的话题，一般来说没有正确或错误的答案。</p>
-<h3 id="文档和关系数据库的融合"><a href="#文档和关系数据库的融合" class="headerlink" title="文档和关系数据库的融合"></a>文档和关系数据库的融合</h3><p>自 2000 年代中期以来，大多数关系数据库系统都已支持 XML、JSON 文档，而在文档数据库中，一些查询语言中也支持类似关系的连接。随着时间的推移，关系数据库和文档数据库似乎变得越来越相似，数据模型得以相互补充。</p>
-<h2 id="数据查询语言"><a href="#数据查询语言" class="headerlink" title="数据查询语言"></a>数据查询语言</h2><hr>
-<p>当引入关系模型时，关系模型包含了一种查询数据的新方法: SQL 是一种”声明式”查询语言。Web 中的 CSS 也是一种”声明式”查询语言。<br>声明式查询语言是迷人的，因为它通常比命令式 API 更加简洁和容易。更重要的是，它还隐藏了数据库引擎的实现细节，这使得数据库系统可以在无需对查询做任何更改的情况下进行性能提升。</p>
-<h2 id="图数据模型"><a href="#图数据模型" class="headerlink" title="图数据模型"></a>图数据模型</h2><hr>
-<p>如上所述，多对多关系是不同数据模型之间具有区别性的重要特征。如果你的应用程序大多数的关系是一对多关系(树状结构化数据)，甚至大多数记录之间不存在关系，那么使用文档模型是合适的。</p>
-<p>但是，要是多对多关系在你的数据中很常见呢？关系模型可以处理多对多关系的简单情况，但是随着数据之间的连接变得更加复杂，将数据建模为图显得更加自然。<br>一个图由两种对象组成: </p>
-<ol>
-<li>顶点(vertices，也称为节点 nodes 或实体 entities)</li>
-<li>边(edges，也称为关系 relationships 或弧 arcs)</li>
-</ol>
-<p>典型的例子包括: </p>
-<ul>
-<li>社交图谱: 顶点是人，边指示哪些人彼此认识</li>
-<li>网络图谱: 顶点是网页，边缘表示指向其他页面的HTML链接</li>
-<li>公路或铁路网络: 顶点是交叉路口，边线代表它们之间的道路或铁路线</li>
-</ul>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%89)/">
-        Previous post<br>『数据密集型应用系统设计』读书笔记(三)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%80)/">
-        Next post<br>『数据密集型应用系统设计』读书笔记(一)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?31037762"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

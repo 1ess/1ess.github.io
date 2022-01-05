@@ -1,283 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>Nginx(三) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="本篇，我们来介绍一下 nginx.conf 的全局块以及 events 块中的一些常见基本配置。
-配置运行 Ngi...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?69844330">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    Nginx(三)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2019-09-19T00:00:00.000Z" itemprop="datePublished">
-                            2019-09-19 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>本篇，我们来介绍一下 nginx.conf 的全局块以及 events 块中的一些常见基本配置。</p>
-<h3 id="配置运行-Nginx-的用户和组"><a href="#配置运行-Nginx-的用户和组" class="headerlink" title="配置运行 Nginx 的用户和组"></a>配置运行 Nginx 的用户和组</h3><p>用于配置运行 Nginx 服务器的用户和组的指令为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">user</span> &#123;user&#125; [group];<br></code></pre></td></tr></table></figure>
-
-<p>只有被设置的用户或用户组才有权限启动 Nginx 进程。如果想所有用户都可以运行 Nginx 进程，有两种办法: </p>
-<ul>
-<li>将本行命令注释</li>
-</ul>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment"># user &#123;user&#125; [group];</span><br></code></pre></td></tr></table></figure>
-<ul>
-<li>将用户和用户组设置为 nobody，这也是默认情况</li>
-</ul>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">user</span> nobody nobody<br></code></pre></td></tr></table></figure>
-
-<p>user 指令只能用于全局块。</p>
-<h3 id="配置允许生成的-worker-process-数"><a href="#配置允许生成的-worker-process-数" class="headerlink" title="配置允许生成的 worker process 数"></a>配置允许生成的 worker process 数</h3><p>配置语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">worker_process</span> &#123;number&#125; | auto;<br></code></pre></td></tr></table></figure>
-
-<ul>
-<li>number 为指定 Nginx 进程最大产生的 worker process 数目</li>
-<li>设置为 auto，则 Nginx 进程会自动检测</li>
-</ul>
-<p>在默认的配置文件中，number = 1。此指令也只能用于全局块。</p>
-<h3 id="配置-Nginx-进程-PID-存放路径"><a href="#配置-Nginx-进程-PID-存放路径" class="headerlink" title="配置 Nginx 进程 PID 存放路径"></a>配置 Nginx 进程 PID 存放路径</h3><p>配置语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">pid</span> &#123;file&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>我们在 file 中指定存放的路径和文件名称。Nginx 默认配置文件将此文件存放在 Nginx 安装目录的 logs 文件夹下，文件名为 nginx.pid。<br>此指令也只能用于全局块。</p>
-<h3 id="配置错误日志存放路径"><a href="#配置错误日志存放路径" class="headerlink" title="配置错误日志存放路径"></a>配置错误日志存放路径</h3><p>在全局块、http 块、server 块以及 location 块中都可以对 Nginx 服务器的日志进行相关配置。使用的指令都是 error_log，其语法结构为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">error_log</span> &#123;file&#125; [<span class="hljs-attribute">debug</span> | <span class="hljs-literal">info</span> | <span class="hljs-literal">notice</span> | <span class="hljs-literal">warn</span> | <span class="hljs-literal">error</span> | <span class="hljs-literal">crit</span> | alert | emerg];<br></code></pre></td></tr></table></figure>
-
-<p>如果日志级别为 debug，我们需要在编译时使用 –with-debug 开启 debug 开关。并且设置某一级别，比这一级别高的日志也会被记录。<br>注意: 指定的文件对于运行 Nginx 进程的用户需要有读写权限。</p>
-<h3 id="配置文件的引入"><a href="#配置文件的引入" class="headerlink" title="配置文件的引入"></a>配置文件的引入</h3><p>在一些情况，我们可能需要将其他的 Nginx 配置引用到当前的主配置文件中。Nginx 提供了 include 指令完成配置文件的引入。</p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">include</span> &#123;file&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>注意: 新引入的文件要求运行 Nginx 进程的用户需要有读写权限，并且符合 Nginx 配置文件的要求。<br>此指令允许放在任何地方。</p>
-<h3 id="设置网络连接的序列化"><a href="#设置网络连接的序列化" class="headerlink" title="设置网络连接的序列化"></a>设置网络连接的序列化</h3><p>惊群是指某一时刻只有一个网络连接到来，多个休眠的进程同时被唤醒，但只有一个进程可获得连接。如果每次唤醒的进程数目过多，会影响系统性能。<br>在 Nginx 服务器多进程模型下，会出现这样的问题。</p>
-<p>为了解决这一问题，Nginx 服务器包含 accept_mutex 指令，当设置为开启时，会对多个 Nginx 进程接收连接进行序列化，防止进程对于连接的争抢。</p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">accept_mutex</span> <span class="hljs-literal">on</span> | <span class="hljs-literal">off</span>;<br></code></pre></td></tr></table></figure>
-
-<p>此指令默认为开启状态，只能在 events 块中配置。</p>
-<h3 id="设置是否允许同时接收多个网络连接"><a href="#设置是否允许同时接收多个网络连接" class="headerlink" title="设置是否允许同时接收多个网络连接"></a>设置是否允许同时接收多个网络连接</h3><p>每个 Nginx 服务器的 worker process 都有能力接收多个新到达的网络连接，需要使用 multi_accept: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">multi_accept</span> <span class="hljs-literal">on</span> | <span class="hljs-literal">off</span>;<br></code></pre></td></tr></table></figure>
-
-<p>此指令默认为关闭状态，只能在 events 块中配置。</p>
-<h3 id="事件驱动模型的选择"><a href="#事件驱动模型的选择" class="headerlink" title="事件驱动模型的选择"></a>事件驱动模型的选择</h3><p>Nginx 提供了多种事件驱动模型来处理网络消息。我们可以使用 use 指令来指定选择哪种事件驱动模型: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">use</span> &#123;method&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>其中，method 可以为: </p>
-<ul>
-<li>select</li>
-<li>poll</li>
-<li>kqueue</li>
-<li>epoll</li>
-<li>rtsig</li>
-<li>/dev/poll</li>
-<li>eventport</li>
-</ul>
-<p>我们可以在编译时使用 –with-select-module 和 –without-select-module 设置是否强制编译 select 模块到 Nginx 内核中。此指令只能在 events 块中配置。</p>
-<h3 id="配置最大连接数"><a href="#配置最大连接数" class="headerlink" title="配置最大连接数"></a>配置最大连接数</h3><p>worker_connections 主要用来设置允许每个 worker process 同时开启的最大连接数: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">worker_connections</span> &#123;number&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>此指令默认设置为 512，只能在 events 块中配置。</p>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/Nginx(%E5%9B%9B)/">
-        Previous post<br>Nginx(四)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/Nginx(%E4%BA%8C)/">
-        Next post<br>Nginx(二)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?19572603"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

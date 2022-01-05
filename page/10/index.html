@@ -1,433 +1,57 @@
+<% include _include/variables.ejs %>
+<%
+config.__isIndex = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?50257660">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item active" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-        
-        <div class="pagination-indicator">
-            <span style="text-align: center">
-                10<br><div style="display: inline-block; transform: rotate(-28deg)">-</div><br>20
-            </span>
-        </div>
-        
-
-        
-        <a class="pagination-action" href="/page/9/">
-            <i class="material-icons pagination-action-icon">
-                chevron_left
-            </i>
-        </a>
-        
-
-        
-        <a class="pagination-action" href="/page/11/">
-            <i class="material-icons pagination-action-icon">
-                chevron_right
-            </i>
-        </a>
-        
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage(item) {
+    var featuredImage = item.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + item.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-no-background">
-        
-        <a href="/Python(八)/" class="a-block">
+        <% page.posts.each(function (item) { %>
+        <a href="<%= config.root + item.path %>" class="a-block">
             <div class="post-item-wrapper">
                 <div class="post-item post-item-no-divider">
                     <div class="post-item-info-wrapper">
                         <div class="post-item-title">
-                            Python(八)
+                            <%= item.title %>
                         </div>
                         <div class="post-item-summary">
-                            本篇，我们说说 Python 中的错误处理机制(Error Handler)。
-错误处理
-与其他语言一样，Pyth...
+                            <%= item.intro && item.intro.length > 0 ? item.intro : truncate(strip_html(item.content), {
+                                length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+                                omission: '...'
+                            }) %>
                         </div>
                         <div class="post-item-meta">
-                            2019-04-15
+                            <%= date(item.date, "YYYY-MM-DD") %>
                         </div>
                     </div>
-                    
+                    <% if(item.featured_image){ %>
+                    <div class="post-item-image-wrapper">
+                        <div class="post-item-image"
+                             style="background-image: url('<%= getFeaturedImage(item) %>')"></div>
+                    </div>
+                    <% } %>
                 </div>
             </div>
         </a>
-        
-        <a href="/Python(七)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Python(七)
-                        </div>
-                        <div class="post-item-summary">
-                            本篇，我们说说 Python 中的函数式编程的基本概念。
-高阶函数(Higher-order function)
-...
-                        </div>
-                        <div class="post-item-meta">
-                            2019-04-13
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/Python(六)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Python(六)
-                        </div>
-                        <div class="post-item-summary">
-                            本篇，我们说说 Python 中的面向对象高级编程的基本概念。
-数据封装、继承和多态只是面向对象程序设计中最基础的...
-                        </div>
-                        <div class="post-item-meta">
-                            2019-04-12
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/Python(五)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Python(五)
-                        </div>
-                        <div class="post-item-summary">
-                            本篇，我们说说 Python 中的面向对象编程的基本概念。
-概念
-面向对象最重要的概念就是类(Class)和实例(...
-                        </div>
-                        <div class="post-item-meta">
-                            2019-04-09
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/Python(四)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Python(四)
-                        </div>
-                        <div class="post-item-summary">
-                            本篇，我们说说 Python 中的函数以及模块的基本概念。
-函数
-函数(Functions)是指可重复使用的程序片...
-                        </div>
-                        <div class="post-item-meta">
-                            2019-04-07
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/Python(三)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Python(三)
-                        </div>
-                        <div class="post-item-summary">
-                            
-The Zen of Python, by Tim Peters
-
-
-Beautiful is better t...
-                        </div>
-                        <div class="post-item-meta">
-                            2019-04-05
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/Python(二)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Python(二)
-                        </div>
-                        <div class="post-item-summary">
-                            上篇我们说了 Python 中的一些基本数据类型，本篇我们来说说 Python 内置数据结构。
-Python 中有...
-                        </div>
-                        <div class="post-item-meta">
-                            2019-04-04
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/Python(一)/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Python(一)
-                        </div>
-                        <div class="post-item-summary">
-                            从本篇开始，我们将要学习关于 Python 的基础知识以及高阶知识，尽量涉及到有关 Python 的方方面面。
-格...
-                        </div>
-                        <div class="post-item-meta">
-                            2019-04-02
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/Life is short, you need Python/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Life is short, you need Python
-                        </div>
-                        <div class="post-item-summary">
-                            
-之前一直在写 Objective-C 以及 C# 这种强类型、静态类型的语言，也写过 Javascript 这种...
-                        </div>
-                        <div class="post-item-meta">
-                            2019-04-01
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/九九归一/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            九九归一
-                        </div>
-                        <div class="post-item-summary">
-                            
-Two things are infinite: the universe and human stupidit...
-                        </div>
-                        <div class="post-item-meta">
-                            2019-03-30
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
+        <% }) %>
     
-        
-<div class="pagination index-page">
-    
-    <a class="pagination-action" href="/page/9/" style="opacity: 1">
-        
-            <i class="material-icons pagination-action-icon">
-                chevron_left
-            </i>
-        </a>
-
-        <div class="pagination-indicator">
-            <span>10/20</span>
-        </div>
-
-        
-        <a class="pagination-action" href="/page/11/"
-           style="opacity: 1">
-            
-                <i class="material-icons pagination-action-icon">
-                    chevron_right
-                </i>
-            </a>
-</div>
-
+        <% include _include/pagination.ejs %>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?34996641"></script>
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% include _include/tail.ejs %>

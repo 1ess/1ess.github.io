@@ -1,352 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>C Sharp(一) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="之前本来想学习一下 NodeJS，考虑到最近一直在使用 C#(主要使用 .Net Core 的 MVC 和 API...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?25772425">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    C Sharp(一)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2018-10-15T00:00:00.000Z" itemprop="datePublished">
-                            2018-10-15 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>之前本来想学习一下 NodeJS，考虑到最近一直在使用 C#(主要使用 .Net Core 的 MVC 和 API)，并且之前也仔细地研究过一段时间的 C#，.Net 平台的发展也有上升趋势，最近微软收购 Github，打算整合自己的平台，还有 Visual Studio 这一个宇宙第一 IDE 加持，所以就打算把后台技术栈先放在 .Net 上。<br>目前的打算是将 C# 的知识都过一遍，再逐渐学习一些常用类库，最后把 ASP.Net Core MVC 和 API 都好好看看。<br>这次我打算边复习边将 C# 中的概念与其他语言做一下对比，以方便有其他语言基础的同学可以更好地理解在 C# 中的相似概念。</p>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><hr>
-<p>要注意在使用 .Net 进行开发时，我们要知道 Solution 和 Project 的区别: </p>
-<ul>
-<li>Solution 是针对需求的一个总的解决方案</li>
-<li>Project 则用来解决具体的某个问题</li>
-</ul>
-<h3 id="各类-C-可编写的程序"><a href="#各类-C-可编写的程序" class="headerlink" title="各类 C# 可编写的程序"></a>各类 C# 可编写的程序</h3><ul>
-<li>Console</li>
-<li>WinForm(old)</li>
-<li>WPF</li>
-<li>WebForm(old)</li>
-<li>WebMVC</li>
-<li>WCF</li>
-<li>WF</li>
-<li>UWP</li>
-</ul>
-<p>我们可以使用 C# 写出上述各种类型的应用，有的已经过时了，现在主流使用技术是: WebMVC、WebAPI 以及 WCF。</p>
-<h3 id="类型和命名空间"><a href="#类型和命名空间" class="headerlink" title="类型和命名空间"></a>类型和命名空间</h3><p>C# 程序的本质是由多个类型声明组成。命名空间则是与某个名称相关联的一组类型声明。(在写 Objective-C 或者 Swift 时，是没有命名空间的概念，所以官方给出的最佳实践是使用前缀的方式来区分不同类型。)</p>
-<h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><p>C# 中标识符规则: </p>
-<ul>
-<li>字母和下划线可以出现在任意位置</li>
-<li>数字可以放在除了首位的任意位置</li>
-<li>@字符只可以出现在首位，但不推荐</li>
-</ul>
-<p>C# 语言的标识符是大小写敏感的，这一点跟 Objective-C，Swift，JavaScript 都一样。</p>
-<h3 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h3><p>C# 中的语句必须以分号作为结束标志。<br>块是由成对的大括号包围的 0 条或多条语句序列，在语法上，相当于一条语句。</p>
-<ul>
-<li>在语法上只需要一条语句，而一条语句无法表达时，就需要使用块</li>
-<li>某些特定的程序结构只能使用块</li>
-<li>虽然简单语句以号结尾，但块后面不跟分号(这样会多解析一条空语句)</li>
-</ul>
-<h3 id="字符串插值"><a href="#字符串插值" class="headerlink" title="字符串插值"></a>字符串插值</h3><p>新版 C# 可以使用字符串插值，类似 JavaScript 中的字符串插值: </p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> a = <span class="hljs-number">10</span>;<br><span class="hljs-keyword">var</span> b = <span class="hljs-number">20</span>;<br><span class="hljs-keyword">var</span> str = <span class="hljs-string">$&quot;a + b= <span class="hljs-subst">&#123;a + b&#125;</span>&quot;</span>;<br></code></pre></td></tr></table></figure>
-
-<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>C# 允许三种注释: </p>
-<ul>
-<li>单行注释 //</li>
-<li>多行注释 /**/</li>
-<li>文档注释 ///</li>
-</ul>
-<h2 id="类型，存储和变量"><a href="#类型，存储和变量" class="headerlink" title="类型，存储和变量"></a>类型，存储和变量</h2><hr>
-<p>如果要描述程序代码特征的话，我们可以说 C 程序就是一组函数和数据类型，C++ 程序就是一组函数和类，而 C# 则是一组类型声明。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">namespace</span> <span class="hljs-title">MyProgram</span><br>&#123;<br>    DeclarationOfTypeA<br>    DeclarationOfTypeB<br>    <span class="hljs-keyword">class</span> <span class="hljs-title">C</span> <br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="类型是一种模板"><a href="#类型是一种模板" class="headerlink" title="类型是一种模板"></a>类型是一种模板</h3><p>我们学习 C#，其实就是学习如何创建和使用类型，所以我们需要了解什么是类型。<br>我们可以把类型想象成创建数据结构的模板，模板本身不是数据结构，但可以描述由改模板构造的对象特征。<br>类型由下面元素定义: </p>
-<ul>
-<li>名称</li>
-<li>保存数据成员的结构</li>
-<li>一些行为和约束</li>
-</ul>
-<p>比如，int 类型: </p>
-<ul>
-<li>名称: int</li>
-<li>结构: 4 字节</li>
-<li>行为: 32 位整数</li>
-</ul>
-<h3 id="实例化类型"><a href="#实例化类型" class="headerlink" title="实例化类型"></a>实例化类型</h3><p>从模板创建实际对象的过程，就称为实例化该类型。</p>
-<ul>
-<li>通过实例化类型创建的对象，可以称为对象，也可以称为实例</li>
-<li>C# 中，每个数据项都是某种类型的实例</li>
-</ul>
-<h3 id="数据成员和函数成员"><a href="#数据成员和函数成员" class="headerlink" title="数据成员和函数成员"></a>数据成员和函数成员</h3><p>像 short，long 等这样的类型称为简单类型，只能存储一个数据项。</p>
-<p>其他的类型可以存储多个数据项，如数组类型就可以存储多个相同类型的数据项。这些数据项称为数组元素，通过索引来获取每个数组元素。C# 数组这一特征与 Objective-C 相同，与 JavaScript 的特征不同。</p>
-<p>然而，另外一些类型可以包含不同类型的数据项，这些类型中的数据项个体称为 <strong>成员</strong>。<br>有两种成员: </p>
-<ul>
-<li>数据成员</li>
-<li>函数成员</li>
-</ul>
-<h3 id="预定义类型"><a href="#预定义类型" class="headerlink" title="预定义类型"></a>预定义类型</h3><p>C# 提供了 16 种预定义类型，包括 13 种简单类型和 3 种非简单类型。<br>所有预定义类型由全小写字母组成，预定义的简单类型包括以下 3 种: </p>
-<ul>
-<li>11 种数值类型: <ol>
-<li>不同长度的有符号和无符号整数类型</li>
-<li>浮点数类型: float 和 double</li>
-<li>高精度小数类型: decimal</li>
-</ol>
-</li>
-<li>1 种 Unicode 字符类型: char</li>
-<li>1 种布尔类型: bool</li>
-</ul>
-<p>与 Objective-C 或 JavaScript 不同，C# 中的数值类型不具有布尔含义。</p>
-<p>3 种非简单类型: </p>
-<ul>
-<li>string: Unicode 字符数组</li>
-<li>object: 所有其他类型的基类</li>
-<li>dynamic</li>
-</ul>
-<p>注意: 在 C# 程序中，应使用小写的 C# 类型名称而不是大写的 .Net 类型名称。</p>
-<h3 id="用户定义类型"><a href="#用户定义类型" class="headerlink" title="用户定义类型"></a>用户定义类型</h3><p>有 6 种类型可以由用户自己创建: </p>
-<ul>
-<li>class 类型</li>
-<li>struct 类型</li>
-<li>array 类型</li>
-<li>enum 类型</li>
-<li>delegate 类型</li>
-<li>interface 类型</li>
-</ul>
-<p>类型通过类型声明创建，类型声明包含以下信息: </p>
-<ul>
-<li>要创建的类型种类</li>
-<li>新类型名称</li>
-<li>对每个成员的声明(array 和 delegate 除外，他们没有命名成员)</li>
-</ul>
-<p>一旦声明了类型，就可以像预定义类型一样使用了。</p>
-<p>预定义类型已经由系统创建好了，我们直接使用即可，而用户定义类型，我们使用前需要先进行声明，再使用。</p>
-<h3 id="值类型和引用类型"><a href="#值类型和引用类型" class="headerlink" title="值类型和引用类型"></a>值类型和引用类型</h3><p>对于非成员数据的存储(如函数中的局部变量): </p>
-<ul>
-<li>值类型存储于栈内存</li>
-<li>引用类型的 <strong>数据部分</strong> 存储于堆内存，<strong>引用部分</strong> 存放在栈内存</li>
-</ul>
-<p>对于成员数据，存储有些不同: </p>
-<ul>
-<li>引用类型的 <strong>数据部分</strong> 始终存放在堆内存</li>
-<li>值类型的对象，或者引用类型的 <strong>引用部分</strong>，可能存储在栈内存，也可能存储在堆内存，取决于执行环境</li>
-</ul>
-<h3 id="C-类型分类"><a href="#C-类型分类" class="headerlink" title="C# 类型分类"></a>C# 类型分类</h3><ul>
-<li>预定义类型: 对于简单类型都是值类型，非简单类型都是引用类型</li>
-<li>用户定义类型: struct 和 enum 类型是值类型，其他 4 种是引用类型</li>
-</ul>
-<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>C# 提供了 4 中变量: </p>
-<ul>
-<li>本地变量</li>
-<li>字段</li>
-<li>参数</li>
-<li>数组元素</li>
-</ul>
-<p>变量在使用前必须声明。变量声明完成了两件事: </p>
-<ul>
-<li>给变量命名，并关联了一种类型</li>
-<li>让编译器为它分配了一块内存</li>
-</ul>
-<p>我们还可以直接在声明时初始化变量。<br>一些类型的变量如果在声明时没有初始化，那么会被自动设置为默认值。<br>注意: 本地变量和参数不会被自动初始化，类字段，结构字段和数组元素会被自动初始化。</p>
-
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/C%20Sharp(%E4%BA%8C)/">
-        Previous post<br>C Sharp(二)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/%E6%9D%82(%E4%B8%80)/">
-        Next post<br>杂(一)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?77157278"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>

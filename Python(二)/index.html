@@ -1,368 +1,73 @@
+<% include _include/variables.ejs %>
+<%
+config.__title = page.title + " - " + config.title
+config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
+    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
+    omission: '...'
+})
+config.__noPager = true
+%>
+<% include _include/head.ejs %>
+<% include _include/container_head.ejs %>
+<% include _include/single_column_head.ejs %>
+<% include _include/side_nav.ejs %>
+<% include _include/extra_nav.ejs %>
 
-
-<!DOCTYPE html>
-<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>Python(二) - A Sort Of A Blog</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="Stephen Chang">
-<meta name="description" content="上篇我们说了 Python 中的一些基本数据类型，本篇我们来说说 Python 内置数据结构。
-Python 中有...">
-<meta name="keywords" content="">
-
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?43396161">
-
-<script src="/js/loadCSS.js"></script>
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
-    (function (d) {
-        var config = {
-                kitId: 'dwg1tuc',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h = d.documentElement, t = setTimeout(function () {
-                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
-            s = d.getElementsByTagName("script")[0], a;
-        h.className += " wf-loading";
-        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-        tk.async = true;
-        tk.onload = tk.onreadystatechange = function () {
-            a = this.readyState;
-            if (f || a && a != "complete" && a != "loaded") return;
-            f = true;
-            clearTimeout(t);
-            try {
-                Typekit.load(config)
-            } catch (e) {
-            }
-        };
-        s.parentNode.insertBefore(tk, s)
-    })(document);
-</script>
-<noscript>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-</noscript>
-<meta name="generator" content="Hexo 5.4.0"></head>
-<body>
-<div id="top"></div>
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
-                Home
-            </a>
-            
-
-            
-            
-
-            
-            <a class="a-block drawer-menu-item" href="/atom.xml">
-                RSS
-            </a>
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            A Sort Of A Blog
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">A Sort Of A Blog</div>
-        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
-    </a>
-</div>
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            Journal.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-
-        
-        
-
-        
-        <a class="a-block no-tint nav-link-item" href="/atom.xml">
-            RSS
-        </a>
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Proudly published with Hexo<br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-    </div>
-</div>
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-
+<%
+function getFeaturedImage() {
+    var featuredImage = page.featured_image;
+    if (!featuredImage) return '';
+    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
+    return config.root + page.path + featuredImage;
+}
+%>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
+                 style="background-image: url('<%= getFeaturedImage() %>')">
                 <div class="post-title">
-                    Python(二)
+                    <%= page.title %>
                     <div class="post-meta">
-                        <time datetime="2019-04-04T00:00:00.000Z" itemprop="datePublished">
-                            2019-04-04 00:00
+                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
+                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
                         </time>&nbsp;
-                        
+                        <% if (page.categories && page.categories.length){ %>
+                        <% count = page.categories.length %>
+                        <i class="material-icons" style="">folder</i>
+                        <% page.categories.forEach(function(category, index) { %>
+                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
     
-                        
+                        <% if (page.tags && page.tags.length){ %>
+                        <% count = page.tags.length %>
+                        <i class="material-icons" style="">label</i>
+                        <% page.tags.forEach(function(tag, index) { %>
+                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
+                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>上篇我们说了 Python 中的一些基本数据类型，本篇我们来说说 Python 内置数据结构。</p>
-<p>Python 中有四种内置的数据结构 —— 列表(List)、元组(Tuple)、字典(Dictionary)和集合(Set)。</p>
-<h2 id="列表-List"><a href="#列表-List" class="headerlink" title="列表(List)"></a>列表(List)</h2><hr>
-<p>列表 是一种用于保存一系列有序项目的集合。使用方括号将数据元素包裹表示，我们可以添加或删除项目，所以说列表是一种可变的(Mutable)数据类型。<br>Python 中的 list 里面的元素的数据类型也可以不同</p>
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">shoplist = [<span class="hljs-string">&#x27;apple&#x27;</span>, <span class="hljs-string">&#x27;mango&#x27;</span>, <span class="hljs-string">&#x27;carrot&#x27;</span>, <span class="hljs-string">&#x27;banana&#x27;</span>]<br><span class="hljs-comment"># [&#x27;apple&#x27;, &#x27;mango&#x27;, &#x27;carrot&#x27;, &#x27;banana&#x27;]</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="len-函数"><a href="#len-函数" class="headerlink" title="len() 函数"></a>len() 函数</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;I have&#x27;</span>, <span class="hljs-built_in">len</span>(shoplist), <span class="hljs-string">&#x27;items to purchase.&#x27;</span>)<br><span class="hljs-comment"># 4</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>用索引来访问 list 中每一个位置的元素，与之前说过的语言一样，索引是从 0 开始的: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;The first item I will buy is&#x27;</span>, shoplist[<span class="hljs-number">0</span>])<br><span class="hljs-comment"># The first item I will buy is apple</span><br></code></pre></td></tr></table></figure>
-
-<p>当索引超出了范围时，Python 会报一个 IndexError 错误。</p>
-<p>如果要取最后一个元素，除了计算索引位置外，还可以用 -1 做索引，直接获取最后一个元素: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;The last item I will buy is&#x27;</span>, shoplist[-<span class="hljs-number">1</span>])<br><span class="hljs-comment"># banana</span><br></code></pre></td></tr></table></figure>
-<p>以此类推，可以获取倒数第 2 个、倒数第 3 个，并且也要注意越界问题。</p>
-<h3 id="extend-函数"><a href="#extend-函数" class="headerlink" title="extend() 函数"></a>extend() 函数</h3><p>我们可以使用扩展函数来扩展数组: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">list1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]<br>list2 = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-string">&#x27;d&#x27;</span>]<br>list1.extend(list2)<br><span class="hljs-built_in">print</span>(list1)<br><span class="hljs-comment"># [1, 2, 3, 4, 5, &#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="append-函数"><a href="#append-函数" class="headerlink" title="append() 函数"></a>append() 函数</h3><p>list 是一个可变的有序表，所以，可以往 list 中追加元素到末尾: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\nI also have to buy rice.&#x27;</span>)<br>shoplist.append(<span class="hljs-string">&#x27;rice&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;My shopping list is now&#x27;</span>, shoplist)<br><span class="hljs-comment"># My shopping list is now [&#x27;apple&#x27;, &#x27;mango&#x27;, &#x27;carrot&#x27;, &#x27;banana&#x27;, &#x27;rice&#x27;]</span><br><br>list1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]<br>list2 = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-string">&#x27;d&#x27;</span>]<br>list1.append(list2)<br><span class="hljs-built_in">print</span>(list1)<br><span class="hljs-comment"># [1, 2, 3, 4, 5, [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]]</span><br></code></pre></td></tr></table></figure>
-<p>注意: append() 函数与 extend() 函数的区别。</p>
-<h3 id="insert-函数"><a href="#insert-函数" class="headerlink" title="insert() 函数"></a>insert() 函数</h3><p>也可以往 list 中追加元素到任意位置: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\nI have to buy coco first.&#x27;</span>)<br>shoplist.insert(<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;coco&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;My shopping list is now&#x27;</span>, shoplist)<br><span class="hljs-comment"># My shopping list is now [&#x27;coco&#x27;, &#x27;apple&#x27;, &#x27;mango&#x27;, &#x27;carrot&#x27;, &#x27;banana&#x27;, &#x27;rice&#x27;]</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="pop-函数"><a href="#pop-函数" class="headerlink" title="pop() 函数"></a>pop() 函数</h3><p>要删除 list 末尾的元素，用 pop() 方法: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">old = shoplist.pop()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;I bought the &#x27;</span>, old)<br><span class="hljs-comment"># rich</span><br></code></pre></td></tr></table></figure>
-
-<p>要删除指定位置的元素，用 pop(i) 方法，其中 i 是索引位置: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">old = shoplist.pop(<span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;I bought the &#x27;</span>, old)<br><span class="hljs-comment"># coco</span><br></code></pre></td></tr></table></figure>
-
-<p>注意: 我们还可以使用 del 来删除数据元素: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">del</span> shoplist[<span class="hljs-number">0</span>]<br><span class="hljs-comment"># coco</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="remove-函数"><a href="#remove-函数" class="headerlink" title="remove() 函数"></a>remove() 函数</h3><p>remove() 函数可以移除某一元素: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">list1 = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-string">&#x27;d&#x27;</span>]<br>list1.remove(<span class="hljs-string">&#x27;c&#x27;</span>)<br><span class="hljs-built_in">print</span>(list1)<br><span class="hljs-comment"># [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;d&#x27;]</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="clear-函数"><a href="#clear-函数" class="headerlink" title="clear() 函数"></a>clear() 函数</h3><p>clear() 函数可以清空列表: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">list1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]<br>list1.clear()<br><span class="hljs-built_in">print</span>(list1)<br><span class="hljs-comment"># []</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h3><p>要把某个元素替换成别的元素，可以直接赋值给对应的索引位置: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">shoplist[<span class="hljs-number">0</span>] = orange<br><span class="hljs-comment"># [&#x27;orange&#x27;, &#x27;apple&#x27;, &#x27;mango&#x27;, &#x27;carrot&#x27;, &#x27;banana&#x27;, &#x27;rice&#x27;]</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="sort-函数"><a href="#sort-函数" class="headerlink" title="sort() 函数"></a>sort() 函数</h3><p>我们对列表使用 sort 方法进行排序，在这里要着重理解到这一方法影响到的是列表本身，而不会返回一个修改过的列表 —— 这与修改字符串的方式并不相同。同时，这也是我们所说的，列表是可变的(Mutable)而字符串是不可变的(Immutable)。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">shoplist.sort()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Sorted shopping list is&#x27;</span>, shoplist)<br><span class="hljs-comment"># Sorted shopping list is [&#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;carrot&#x27;, &#x27;mango&#x27;, &#x27;orange&#x27;, &#x27;rice&#x27;]</span><br></code></pre></td></tr></table></figure>
-
-<p>我们可以传递 reverse=True 使得按字母顺序反序排序: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">shoplist.sort()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Sorted shopping list is&#x27;</span>, shoplist)<br><span class="hljs-comment"># Sorted shopping list is [&#x27;rice&#x27;, &#x27;orange&#x27;, &#x27;mango&#x27;, &#x27;carrot&#x27;, &#x27;banana&#x27;, &#x27;apple&#x27;]</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="reverse-函数"><a href="#reverse-函数" class="headerlink" title="reverse() 函数"></a>reverse() 函数</h3><p>我们使用 reverse() 函数反转列表: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">shoplist.reverse()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Reverse shopping list is&#x27;</span>, shoplist)<br><span class="hljs-comment"># Reverse shopping list is [&#x27;banana&#x27;, &#x27;carrot&#x27;, &#x27;mango&#x27;, &#x27;apple&#x27;]</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="copy-函数"><a href="#copy-函数" class="headerlink" title="copy() 函数"></a>copy() 函数</h3><p>copy() 函数对列表执行深拷贝: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">list1 = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-string">&#x27;d&#x27;</span>]<br>list2 = list2.copy()<br><br>list2[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;e&#x27;</span><br><br><span class="hljs-built_in">print</span>(list1)<br><span class="hljs-comment"># [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]</span><br><br><span class="hljs-built_in">print</span>(list2)<br><span class="hljs-comment"># [&#x27;e&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="列表推导式"><a href="#列表推导式" class="headerlink" title="列表推导式"></a>列表推导式</h3><p>列表推导式将 for 循环与创建新元素代码合并成一行，并自动附加新元素: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">squares = [value ** <span class="hljs-number">2</span> <span class="hljs-keyword">for</span> value <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">11</span>)]<br><span class="hljs-built_in">print</span>(squares)<br><span class="hljs-comment"># [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]</span><br><br>items = [x ** <span class="hljs-number">2</span> <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">11</span>) <span class="hljs-keyword">if</span> x % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>]<br><span class="hljs-comment"># [4, 16, 36, 64, 100]</span><br></code></pre></td></tr></table></figure>
-<p>基本语法是: 指定一个左方括号，并定义一个表达式，用于生成你要存储到列表中的值，如: value ** 2，接下来编写一个 for 循环，用于给表达式提供值，还可以提供一个可选条件，再加上右方括号。</p>
-<h2 id="元组-Tuple"><a href="#元组-Tuple" class="headerlink" title="元组(Tuple)"></a>元组(Tuple)</h2><hr>
-<p>元组(Tuple)用于将多个对象保存到一起。你可以将它们近似地看作列表，但是元组不能提供列表类能够提供给你的广泛的功能。元组的一大特征类似于字符串，它们是不可变的，也就是说，你不能编辑或更改元组。使用小括号将数据元素包裹表示，尽管括号是一个可选选项。<br>不可变的 tuple 有什么意义？因为 tuple 不可变，所以代码更安全。如果可能，能用 tuple 代替 list 就尽量用 tuple。</p>
-<h3 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">zoo = (<span class="hljs-string">&#x27;python&#x27;</span>, <span class="hljs-string">&#x27;elephant&#x27;</span>, <span class="hljs-string">&#x27;penguin&#x27;</span>)<br><span class="hljs-comment"># (&#x27;python&#x27;, &#x27;elephant&#x27;, &#x27;penguin&#x27;)</span><br>new_zoo = <span class="hljs-string">&#x27;monkey&#x27;</span>, <span class="hljs-string">&#x27;camel&#x27;</span>, zoo<br><span class="hljs-comment"># (&#x27;monkey&#x27;, &#x27;camel&#x27;, (&#x27;python&#x27;, &#x27;elephant&#x27;, &#x27;penguin&#x27;))</span><br></code></pre></td></tr></table></figure>
-
-<p>一个只拥有一个项目的元组并不像这样简单。你必须在第一个(也是唯一一个)项目的后面加上一个逗号来指定它，如此一来 Python 才可以识别出在这个表达式想表达的究竟是一个元组还是只是一个被括号所环绕的对象: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">singleton = (<span class="hljs-number">2</span>, )<br></code></pre></td></tr></table></figure>
-
-<h3 id="len-函数-1"><a href="#len-函数-1" class="headerlink" title="len() 函数"></a>len() 函数</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Number of animals in the zoo is&#x27;</span>, <span class="hljs-built_in">len</span>(zoo))<br><span class="hljs-comment"># Number of animals in the zoo is 3</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Number of cages in the new zoo is&#x27;</span>, <span class="hljs-built_in">len</span>(new_zoo))<br><span class="hljs-comment"># Number of cages in the new zoo is 3</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="索引-1"><a href="#索引-1" class="headerlink" title="索引"></a>索引</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Animals brought from old zoo are&#x27;</span>, new_zoo[<span class="hljs-number">2</span>])<br><span class="hljs-comment">#Animals brought from old zoo are (&#x27;python&#x27;, &#x27;elephant&#x27;, &#x27;penguin&#x27;)</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Last animal brought from old zoo is&#x27;</span>, new_zoo[<span class="hljs-number">2</span>][<span class="hljs-number">2</span>])<br><span class="hljs-comment"># Last animal brought from old zoo is penguin</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="字典-Dictionary"><a href="#字典-Dictionary" class="headerlink" title="字典(Dictionary)"></a>字典(Dictionary)</h2><hr>
-<p>字典在其他语言中也称为 map，使用键-值(key-value)存储。<br>要注意的是你只能使用不可变的对象(如字符串)作为字典的键值，但是你可以使用可变或不可变的对象作为字典中的值。基本上这段话也可以翻译为你只能使用简单对象作为键值。</p>
-<p>在字典中，你可以通过使用符号构成 d = {key : value1 , key2 : value2} 这样的形式，来成对地指定键值与值。在这里要注意到成对的键值与值之间使用冒号分隔，而每一对键值与值则使用逗号进行区分，它们全都由一对花括号括起。</p>
-<h3 id="初始化-2"><a href="#初始化-2" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">ab = &#123;<br>    <span class="hljs-string">&#x27;Swaroop&#x27;</span>: <span class="hljs-string">&#x27;swaroop@swaroopch.com&#x27;</span>,<br>    <span class="hljs-string">&#x27;Larry&#x27;</span>: <span class="hljs-string">&#x27;larry@wall.org&#x27;</span>,<br>    <span class="hljs-string">&#x27;Matsumoto&#x27;</span>: <span class="hljs-string">&#x27;matz@ruby-lang.org&#x27;</span>,<br>    <span class="hljs-string">&#x27;Spammer&#x27;</span>: <span class="hljs-string">&#x27;spammer@hotmail.com&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="len-函数-2"><a href="#len-函数-2" class="headerlink" title="len() 函数"></a>len() 函数</h3><p>len() 函数用来获取键值对数目: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\nThere are &#123;&#125; contacts in the address-book\n&#x27;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-built_in">len</span>(ab)))<br><span class="hljs-comment"># There are 3 contacts in the address-book</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="查找与赋值"><a href="#查找与赋值" class="headerlink" title="查找与赋值"></a>查找与赋值</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Swaroop&#x27;s address is&quot;</span>, ab[<span class="hljs-string">&#x27;Swaroop&#x27;</span>])<br><span class="hljs-comment"># Swaroop&#x27;s address is swaroop@swaroopch.com</span><br><br><span class="hljs-comment"># 添加一对键值—值配对</span><br>ab[<span class="hljs-string">&#x27;Guido&#x27;</span>] = <span class="hljs-string">&#x27;guido@python.org&#x27;</span><br></code></pre></td></tr></table></figure>
-
-<p>注意: 如果 key 不存在，Python 会报一个 KeyError 错误。</p>
-<p>要避免 key 不存在的错误，有两种办法，<br>一是通过 in 判断 key 是否存在: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;Guido&#x27;</span> <span class="hljs-keyword">in</span> ab:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Guido&#x27;s address is&quot;</span>, ab[<span class="hljs-string">&#x27;Guido&#x27;</span>])<br>    <span class="hljs-comment"># Guido&#x27;s address is guido@python.org</span><br></code></pre></td></tr></table></figure>
-
-<p>二是通过 dict 提供的 get() 方法，如果 key 不存在，可以返回 None，或者自己指定的 value: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">ab.get(<span class="hljs-string">&#x27;Bob&#x27;</span>)<br><span class="hljs-comment"># None</span><br><br>ab.get(<span class="hljs-string">&#x27;Bob&#x27;</span>, <span class="hljs-string">&#x27;Name is not exist&#x27;</span>)<br><span class="hljs-comment"># &#x27;Name is not exist&#x27;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="pop-函数-1"><a href="#pop-函数-1" class="headerlink" title="pop() 函数"></a>pop() 函数</h3><p>要删除一个 key，用 pop(key) 方法，对应的 value 也会从 dict 中删除: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">ab.pop(<span class="hljs-string">&#x27;Spammer&#x27;</span>)<br><span class="hljs-comment"># spammer@hotmail.com</span><br></code></pre></td></tr></table></figure>
-
-<p>同 list 一样，也可以使用 del 删除一对键值对: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">s = <span class="hljs-keyword">del</span> ab[<span class="hljs-string">&#x27;Spammer&#x27;</span>]<br><span class="hljs-comment"># spammer@hotmail.com</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="字典推导式"><a href="#字典推导式" class="headerlink" title="字典推导式"></a>字典推导式</h3><p>与列表推导式类似，字典也可以使用推导式: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">items = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>]<br>dic = &#123;x: <span class="hljs-number">0</span> <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> items&#125;<br><span class="hljs-comment"># &#123;&#x27;a&#x27;: 0, &#x27;b&#x27;: 0, &#x27;c&#x27;: 0&#125;</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h2><hr>
-<p>列表、元组和字符串可以看作序列(Sequence)的某种表现形式。序列的主要功能是资格测试(也就是 in 与 not in 表达式)和索引操作(Indexing Operations)，它们能够允许我们直接获取序列中的特定项目。</p>
-<p>上面所提到的序列的三种形态 —— 列表、元组与字符串，同样拥有一种切片(Slicing)运算符，它能够允许我们序列中的某段切片 —— 也就是序列之中的一部分。</p>
-<p>使用切片操作来生成一份序列的副本。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">shoplist = [<span class="hljs-string">&#x27;apple&#x27;</span>, <span class="hljs-string">&#x27;mango&#x27;</span>, <span class="hljs-string">&#x27;carrot&#x27;</span>, <span class="hljs-string">&#x27;banana&#x27;</span>]<br><br><span class="hljs-comment"># Slicing on a list #</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Item 1 to 3 is&#x27;</span>, shoplist[<span class="hljs-number">1</span>:<span class="hljs-number">3</span>])<br><span class="hljs-comment"># Item 1 to 3 is [&#x27;mango&#x27;, &#x27;carrot&#x27;]</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Item 2 to end is&#x27;</span>, shoplist[<span class="hljs-number">2</span>:])<br><span class="hljs-comment"># Item 2 to end is [&#x27;carrot&#x27;, &#x27;banana&#x27;]</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Item 1 to -1 is&#x27;</span>, shoplist[<span class="hljs-number">1</span>:-<span class="hljs-number">1</span>])<br><span class="hljs-comment"># Item 1 to -1 is [&#x27;mango&#x27;, &#x27;carrot&#x27;]</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Item start to end is&#x27;</span>, shoplist[:])<br><span class="hljs-comment"># Item start to end is [&#x27;apple&#x27;, &#x27;mango&#x27;, &#x27;carrot&#x27;, &#x27;banana&#x27;]</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">name = <span class="hljs-string">&#x27;swaroop&#x27;</span><br><br><span class="hljs-comment"># 从某一字符串中切片 #</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;characters 1 to 3 is&#x27;</span>, name[<span class="hljs-number">1</span>:<span class="hljs-number">3</span>])<br><span class="hljs-comment"># characters 1 to 3 is wa</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;characters 2 to end is&#x27;</span>, name[<span class="hljs-number">2</span>:])<br><span class="hljs-comment"># characters 2 to end is aroop</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;characters 1 to -1 is&#x27;</span>, name[<span class="hljs-number">1</span>:-<span class="hljs-number">1</span>])<br><span class="hljs-comment"># characters 1 to -1 is waroo</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;characters start to end is&#x27;</span>, name[:])<br><span class="hljs-comment"># characters start to end is swaroop</span><br></code></pre></td></tr></table></figure>
-
-<p>在切片操作中，第一个数字(冒号前面的那位)指的是切片开始的位置，第二个数字(冒号后面的那位)指的是切片结束的位置。如果第一位数字没有指定，Python 将会从序列的起始处开始操作。如果第二个数字留空，Python 将会在序列的末尾结束操作。要注意的是切片操作会在开始处返回 start，并在 end 前面的位置结束工作。也就是说，序列切片将包括起始位置，但不包括结束位置。</p>
-<p>你同样可以在切片操作中提供第三个参数，这一参数将被视为切片的步长(Step)(在默认情况下，步长大小为 1): </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">shoplist = [<span class="hljs-string">&#x27;apple&#x27;</span>, <span class="hljs-string">&#x27;mango&#x27;</span>, <span class="hljs-string">&#x27;carrot&#x27;</span>, <span class="hljs-string">&#x27;banana&#x27;</span>]<br>shoplist[::<span class="hljs-number">1</span>]<br><span class="hljs-comment"># [&#x27;apple&#x27;, &#x27;mango&#x27;, &#x27;carrot&#x27;, &#x27;banana&#x27;]</span><br>shoplist[::<span class="hljs-number">2</span>]<br><span class="hljs-comment"># [&#x27;apple&#x27;, &#x27;carrot&#x27;]</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="集合-Set"><a href="#集合-Set" class="headerlink" title="集合(Set)"></a>集合(Set)</h2><hr>
-<p>集合(Set)是简单对象的无序集合(Collection)。当集合中的项目存在与否比起次序或其出现次数更加重要时，我们就会使用集合。</p>
-<h3 id="初始化-3"><a href="#初始化-3" class="headerlink" title="初始化"></a>初始化</h3><p>要创建一个 set，需要提供一个 list 作为输入集合: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">bri = <span class="hljs-built_in">set</span>([<span class="hljs-string">&#x27;brazil&#x27;</span>, <span class="hljs-string">&#x27;russia&#x27;</span>, <span class="hljs-string">&#x27;india&#x27;</span>])<br><span class="hljs-comment"># &#123;&#x27;russia&#x27;, &#x27;brazil&#x27;, &#x27;india&#x27;&#125;</span><br></code></pre></td></tr></table></figure>
-
-<p>重复元素在set中自动被过滤: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">bri = <span class="hljs-built_in">set</span>([<span class="hljs-string">&#x27;brazil&#x27;</span>, <span class="hljs-string">&#x27;russia&#x27;</span>, <span class="hljs-string">&#x27;india&#x27;</span>, <span class="hljs-string">&#x27;brazil&#x27;</span>])<br><span class="hljs-comment"># &#123;&#x27;russia&#x27;, &#x27;brazil&#x27;, &#x27;india&#x27;&#125;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="add-key-函数"><a href="#add-key-函数" class="headerlink" title="add(key) 函数"></a>add(key) 函数</h3><p>通过 add(key) 方法可以添加元素到 set 中，可以重复添加，但不会有效果: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">bric.add(<span class="hljs-string">&#x27;china&#x27;</span>)<br><span class="hljs-comment"># &#123;&#x27;russia&#x27;, &#x27;brazil&#x27;, &#x27;india&#x27;, &#x27;china&#x27;&#125;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="remove-key-函数"><a href="#remove-key-函数" class="headerlink" title="remove(key) 函数"></a>remove(key) 函数</h3><p>通过 remove(key) 方法可以删除元素: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">bric.remvoe(<span class="hljs-string">&#x27;china&#x27;</span>)<br><span class="hljs-comment"># &#123;&#x27;russia&#x27;, &#x27;brazil&#x27;, &#x27;india&#x27;&#125;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h3><p>set 可以看成数学意义上的无序和无重复元素的集合，因此，两个 set 可以做数学意义上的交集、并集等操作: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">s1 = <span class="hljs-built_in">set</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br>s2 = <span class="hljs-built_in">set</span>([<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>])<br><br>s1 &amp; s2<br><span class="hljs-comment"># &#123;2, 3&#125;</span><br><br>s1 | s2<br><span class="hljs-comment"># &#123;1, 2, 3, 4&#125;</span><br></code></pre></td></tr></table></figure>
-
-<p>注意: set 不可以放入可变对象。因为无法判断两个可变对象是否相等，也就无法保证 set 内部”不会有重复元素”。</p>
-<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><hr>
-<p>早些时候我们已经详细讨论过了字符串，我们在介绍一些常用函数。</p>
-<h3 id="startswith-函数"><a href="#startswith-函数" class="headerlink" title="startswith() 函数"></a>startswith() 函数</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">name = <span class="hljs-string">&#x27;Swaroop&#x27;</span><br><br><span class="hljs-keyword">if</span> name.startswith(<span class="hljs-string">&#x27;Swa&#x27;</span>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Yes, the string starts with &quot;Swa&quot;&#x27;</span>)<br>    <span class="hljs-comment"># Yes, the string starts with &quot;Swa&quot;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="find-函数"><a href="#find-函数" class="headerlink" title="find() 函数"></a>find() 函数</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> name.find(<span class="hljs-string">&#x27;war&#x27;</span>) != -<span class="hljs-number">1</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Yes, it contains the string &quot;war&quot;&#x27;</span>)<br>    <span class="hljs-comment"># Yes, it contains the string &quot;war&quot;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="join-函数"><a href="#join-函数" class="headerlink" title="join() 函数"></a>join() 函数</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">delimiter = <span class="hljs-string">&#x27;_*_&#x27;</span><br>mylist = [<span class="hljs-string">&#x27;Brazil&#x27;</span>, <span class="hljs-string">&#x27;Russia&#x27;</span>, <span class="hljs-string">&#x27;India&#x27;</span>, <span class="hljs-string">&#x27;China&#x27;</span>]<br><span class="hljs-built_in">print</span>(delimiter.join(mylist))<br><span class="hljs-comment"># Brazil_*_Russia_*_India_*_China</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="title-函数"><a href="#title-函数" class="headerlink" title="title() 函数"></a>title() 函数</h3><p>title() 函数以首字母大写方式显示每个单词: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">name = <span class="hljs-string">&#x27;ada lovelace&#x27;</span><br><span class="hljs-built_in">print</span>(name.title())<br><span class="hljs-comment"># Ada Lovelace</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="lower-和-upper-函数"><a href="#lower-和-upper-函数" class="headerlink" title="lower() 和 upper() 函数"></a>lower() 和 upper() 函数</h3><p>lower() 函数使得字符串全部转为小写字母，upper() 函数使得字符串全部转为大写字母: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">name = <span class="hljs-string">&#x27;Ada Lovelace&#x27;</span><br><span class="hljs-built_in">print</span>(name.lower())<br><span class="hljs-comment"># ada lovelace</span><br><br><span class="hljs-built_in">print</span>(name.upper())<br><span class="hljs-comment"># ADA LOVELACE</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="strip-函数"><a href="#strip-函数" class="headerlink" title="strip() 函数"></a>strip() 函数</h3><p>strip() 函数可以删除字符串两侧的空白: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">favorite_language = <span class="hljs-string">&#x27;  python  &#x27;</span><br><span class="hljs-built_in">print</span>(favorite_language.strip())<br><span class="hljs-comment"># &#x27;python&#x27;</span><br><br><span class="hljs-built_in">print</span>(favorite_language.lstrip())<br><span class="hljs-comment"># &#x27;python  &#x27;</span><br><br><span class="hljs-built_in">print</span>(favorite_language.rstrip())<br><span class="hljs-comment"># &#x27;  python&#x27;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="split-函数"><a href="#split-函数" class="headerlink" title="split() 函数"></a>split() 函数</h3><p>split() 函数可以根据指定字符串将源串分割为数组: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">country = <span class="hljs-string">&#x27;Brazil Russia India China&#x27;</span><br><span class="hljs-built_in">print</span>(country.split(<span class="hljs-string">&#x27; &#x27;</span>))<br><span class="hljs-comment"># [&#x27;Brazil&#x27;, &#x27;Russia&#x27;, &#x27;India&#x27;, &#x27;China&#x27;]</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="index-函数"><a href="#index-函数" class="headerlink" title="index() 函数"></a>index() 函数</h3><p>index() 函数可以查找字符串所在索引位置: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">country = <span class="hljs-string">&#x27;Brazil Russia India China&#x27;</span><br><span class="hljs-built_in">print</span>(country.index(<span class="hljs-string">&#x27;a&#x27;</span>))<br><span class="hljs-comment"># 2</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="replace-函数"><a href="#replace-函数" class="headerlink" title="replace() 函数"></a>replace() 函数</h3><p>replace() 函数可以替换字符串: </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">country = <span class="hljs-string">&#x27;Brazil Russia India China&#x27;</span><br>new_country = country.replace(<span class="hljs-string">&#x27;India&#x27;</span>, <span class="hljs-string">&#x27;USA&#x27;</span>)<br><span class="hljs-built_in">print</span>(new_country)<br><span class="hljs-comment"># Brazil Russia USA China</span><br></code></pre></td></tr></table></figure>
+                    <%- page.content %>
                 </div>
             </div>
     
-            <nav class="post-pagination">
+            <% include _include/post_pagination.ejs %>
     
-    <a class="newer-posts" href="/Python(%E4%B8%89)/">
-        Previous post<br>Python(三)
-    </a>
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/Python(%E4%B8%80)/">
-        Next post<br>Python(一)
-    </a>
-    
-</nav>
-
-    
-            
-
-
+            <% include _include/comment_templates.ejs %>
         </div>
     </div>
-    <div class="single-column-footer">
-    Proudly published with Hexo<br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
-</div>
+    <% include _include/single_column_footer.ejs %>
 </div>
 
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
-        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
-        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
-        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?39867921"></script>
-
-
-
-</body>
-</html>
+<% include _include/container_tail.ejs %>
+<% if(!page.no_comments) { %>
+<% include _include/comment_includes.ejs %>
+<% } %>
+<% include _include/tail.ejs %>
