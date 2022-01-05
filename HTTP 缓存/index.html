@@ -1,73 +1,288 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>HTTP 缓存 - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="
+计算机科学只有两大难题: 命名和缓存失效。
+
+Cache 的设计是个基础计算机理论，也是程序员的重要基本功之一。Cache 几乎无处不在，CPU 的 L1 L2 L3 Cache、iOS 系统的 clean page 和 dirty...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?64263093">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    HTTP 缓存
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2018-04-26T00:00:00.000Z" itemprop="datePublished">
+                            2018-04-26 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <blockquote>
+<p>计算机科学只有两大难题: 命名和缓存失效。</p>
+</blockquote>
+<p>Cache 的设计是个基础计算机理论，也是程序员的重要基本功之一。Cache 几乎无处不在，CPU 的 L1 L2 L3 Cache、iOS 系统的 clean page 和 dirty page 机制、HTTP 的 tag 机制等等，这些背后都是 Cache 设计思想的应用。<br>上一篇介绍了关于 HTTP 的基础知识，本篇对 HTTP Cache 做一个完整的介绍。</p>
+<h2 id="HTTP-头信息控制缓存"><a href="#HTTP-头信息控制缓存" class="headerlink" title="HTTP 头信息控制缓存"></a>HTTP 头信息控制缓存</h2><hr>
+<p>分为两种</p>
+<ol>
+<li>强制缓存</li>
+<li>协商缓存  </li>
+</ol>
+<p>强制缓存如果命中缓存则不需要和服务器端发生交互，而协商缓存不管是否命中都要和服务器端发生交互，强制缓存的优先级高于协商缓存。  </p>
+<p>匹配流程如下:<br>客户端发起请求，根据 Expires/Cache-Control 判断是否命中强制缓存</p>
+<ul>
+<li>若命中，则从缓存获取资源</li>
+<li>未命中，则发送请求给服务器<ul>
+<li>根据响应的 Last-Modified/ETag 判断是否命中协商缓存<ul>
+<li>若命中，则从缓存获取资源</li>
+<li>未命中，则使用服务器端返回的资源  </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="强制缓存"><a href="#强制缓存" class="headerlink" title="强制缓存"></a>强制缓存</h2><hr>
+<p>可以理解为无须验证的缓存策略。对强制缓存来说，响应头中有两个字段 Expires/Cache-Control 来表明规则。  </p>
+<h3 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h3><p>Expires 指缓存过期的时间，超过了这个时间点就代表资源过期。有一个问题是由于使用具体时间，如果时间表示出错或者没有转换到正确的时区都可能造成缓存生命周期出错。并且 Expires 是 HTTP/1.0 的标准，现在更倾向于用 HTTP/1.1 中定义的 Cache-Control。两个字段同时存在时也是 Cache-Control 的优先级更高。</p>
+<h3 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h3><p>Cache-Control 可以由多个字段组合而成，主要有以下几个取值：</p>
+<ul>
+<li>max-age: 指定一个时间长度，在这个时间段内缓存是有效的，单位是 s。例如设置 Cache-Control:max-age=31536000，也就是说缓存有效期为 31536000/24/(60 * 60) 天。在没有禁用缓存并且没有超过有效时间的情况下，再次访问这个资源就命中了缓存，不会向服务器请求资源而是直接从浏览器缓存中取</li>
+<li>public: 表明响应可以被任何对象(发送请求的客户端、代理服务器等等)缓存</li>
+<li>private: 表明响应只能被单个用户(可能是操作系统用户、浏览器用户)缓存，是非共享的，不能被代理服务器缓存</li>
+<li>no-cache: 强制所有缓存了该响应的用户，在使用已缓存的数据前，发送带验证器的请求到服务器。不是字面意思上的不缓存(也就是说使用 no-cache 必须经过协商缓存)</li>
+<li>no-store: 禁止缓存，每次请求都要向服务器重新获取数据</li>
+</ul>
+<h2 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h2><hr>
+<p>缓存的资源到期了，并不意味着资源内容发生了改变，如果和服务器上的资源没有差异，实际上没有必要再次请求。客户端和服务器端通过某种验证机制验证当前请求资源是否可以使用缓存。</p>
+<p>浏览器第一次请求数据之后会将数据和响应头部的缓存标识存储起来。再次请求时会带上存储的头部字段，服务器端验证是否可用。如果返回 304 Not Modified，代表资源没有发生改变可以使用缓存的数据，获取新的过期时间。反之返回 200 就相当于重新请求了一遍资源并替换旧资源。</p>
+<h3 id="Last-modified-If-Modified-Since"><a href="#Last-modified-If-Modified-Since" class="headerlink" title="Last-modified/If-Modified-Since"></a>Last-modified/If-Modified-Since</h3><p>Last-modified: 服务器端资源的最后修改时间，响应头部会带上这个标识。第一次请求之后，浏览器记录这个时间，再次请求时，请求头部带上 If-Modified-Since 即为之前记录下的时间。服务器端收到带 If-Modified-Since 的请求后会去和资源的最后修改时间对比。若修改过就返回最新资源，状态码 200，若没有修改过则返回 304。</p>
+<h3 id="Etag-If-None-Match"><a href="#Etag-If-None-Match" class="headerlink" title="Etag/If-None-Match"></a>Etag/If-None-Match</h3><p>由服务器端上生成的一段 hash 字符串，第一次请求时响应头带上 ETag:abcd，之后的请求中带上 If-None-Match:abcd，服务器检查 ETag，返回 304 或 200。<br>流程可以参考 Google 网站上的下图:<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/http-cache/http-cache-control.png"></p>
+<h3 id="Last-Modified-和-ETag-作为标识的不同"><a href="#Last-Modified-和-ETag-作为标识的不同" class="headerlink" title="Last-Modified 和 ETag 作为标识的不同"></a>Last-Modified 和 ETag 作为标识的不同</h3><ol>
+<li>一些资源的最后修改时间改变了，但是内容没改变，使用 Last-modified 看不出内容没有改变</li>
+<li>Etag 的精度比 Last-modified 高，属于强验证，要求资源字节级别的一致，优先级高。如果服务器端有提供 ETag 的话，必须先对 ETag 进行 Conditional Request</li>
+<li>ETag 在分布式系统中生成的值可能不一样，会导致缓存失效</li>
+</ol>
+<h2 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h2><hr>
+<h3 id="考虑缓存的内容"><a href="#考虑缓存的内容" class="headerlink" title="考虑缓存的内容"></a>考虑缓存的内容</h3><ul>
+<li>css 文件</li>
+<li>js 文件</li>
+<li>logo、图标</li>
+<li>html 文件</li>
+</ul>
+<h3 id="不考虑缓存的内容"><a href="#不考虑缓存的内容" class="headerlink" title="不考虑缓存的内容"></a>不考虑缓存的内容</h3><ul>
+<li>业务敏感的 GET 请求</li>
+</ul>
+<h3 id="可缓存的内容又分为几种不同的情况"><a href="#可缓存的内容又分为几种不同的情况" class="headerlink" title="可缓存的内容又分为几种不同的情况"></a>可缓存的内容又分为几种不同的情况</h3><h4 id="不经常改变的文件"><a href="#不经常改变的文件" class="headerlink" title="不经常改变的文件"></a>不经常改变的文件</h4><p><strong>max-age=31536000</strong><br>比如引入的一些第三方文件、打包出来的带有 hash 后缀 css、js 文件。一般来说文件内容改变了，会更新版本号、hash 值，相当于请求另一个文件。</p>
+<p>标准中规定 max-age 的值最大不超过一年，所以设成 max-age=31536000。至于过期内容，缓存区会将一段时间没有使用的文件删除掉。</p>
+<h4 id="可能经常需要变动的文件"><a href="#可能经常需要变动的文件" class="headerlink" title="可能经常需要变动的文件"></a>可能经常需要变动的文件</h4><p><strong>Cache-Control: no-cache / max-age=0</strong><br>比如入口 index.html 文件、文件内容改变但名称不变的资源。选择 ETag 或 Last-Modified 来做验证，在使用缓存资源之前一定会去服务器端做验证，命中缓存时会比第一种情况慢一点点，毕竟还要发请求进行通信。</p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+        Previous post<br>计算机网络
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/HTTP%20%E5%9F%BA%E7%A1%80/">
+        Next post<br>HTTP 基础
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?33421213"></script>
+
+
+
+</body>
+</html>

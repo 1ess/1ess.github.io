@@ -1,73 +1,257 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Vim 插件管理及 vimrc 配置 - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="当没有插件管理器时，Vim 用户必须手动下载 tarball 包形式的插件，并将它们解压到 ~/.vim 目录中。所有插件文件分散在单个目录中，用户无法找到哪个文件属于哪个插件。此外，他们无法找到他们应该删除哪个文件来卸载插件，这时 ...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?727463">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Vim 插件管理及 vimrc 配置
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2020-03-04T00:00:00.000Z" itemprop="datePublished">
+                            2020-03-04 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>当没有插件管理器时，Vim 用户必须手动下载 tarball 包形式的插件，并将它们解压到 ~/.vim 目录中。所有插件文件分散在单个目录中，用户无法找到哪个文件属于哪个插件。此外，他们无法找到他们应该删除哪个文件来卸载插件，这时 Vim 插件管理器就可以派上用场。插件管理器将安装插件的文件保存在单独的目录中，因此管理所有插件变得非常容易。</p>
+<p>本篇，我介绍一个自己正在使用的 Vim 插件管理器 —— Vim-Plug。</p>
+<h2 id="Vim-Plug"><a href="#Vim-Plug" class="headerlink" title="Vim-Plug"></a>Vim-Plug</h2><hr>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">$ curl -fLo ~/.vim/<span class="hljs-built_in">autoload</span>/plug.vim --create-dirs \ <br> https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim<br></code></pre></td></tr></table></figure>
+
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><p>要安装插件，首先要在 Vim 配置文件中声明它们。一般 Vim 的配置文件是 ~/.vimrc。在配置文件中声明插件时，列表应该以 call plug#begin(PLUGIN_DIRECTORY) 开始，并以 call plug#end() 结束。<br>例如: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">call plug<span class="hljs-comment">#begin()</span><br>Plug <span class="hljs-string">&#x27;itchyny/lightline.vim&#x27;</span><br>call plug<span class="hljs-comment">#end()</span><br></code></pre></td></tr></table></figure>
+
+<p>在进行插件的安装、卸载和更新操作时，首先要使用: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">:<span class="hljs-built_in">source</span> .vimrc<br></code></pre></td></tr></table></figure>
+
+<p>我们可以在 .vimrc 中配置如下命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">autocmd! bufwritepost .vimrc <span class="hljs-built_in">source</span> %<br></code></pre></td></tr></table></figure>
+
+<p>使得 .vimrc 文件的自动刷新。</p>
+<h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>保存之后再通过输入以下命令进行插件安装: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">:PlugInstall<br></code></pre></td></tr></table></figure>
+
+<h4 id="更新插件"><a href="#更新插件" class="headerlink" title="更新插件"></a>更新插件</h4><p>我们可以使用如下命令进行插件更新: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">:PlugUpdate<br></code></pre></td></tr></table></figure>
+
+<h4 id="删除插件"><a href="#删除插件" class="headerlink" title="删除插件"></a>删除插件</h4><p>删除一个插件删除或注释掉你以前在你的 vim 配置文件中添加的 plug 命令，然后进行保存再使用如下命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">:PlugClean<br></code></pre></td></tr></table></figure>
+
+<p>该命令将删除 vim 配置文件中所有未声明的插件。</p>
+<h4 id="升级-Vim-Plug"><a href="#升级-Vim-Plug" class="headerlink" title="升级 Vim-Plug"></a>升级 Vim-Plug</h4><p>要升级 vim-plug 本身，可以使用如下命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">:PlugUpgrade<br></code></pre></td></tr></table></figure>
+
+<h2 id="vimrc-配置"><a href="#vimrc-配置" class="headerlink" title=".vimrc 配置"></a>.vimrc 配置</h2><p>最后分享一下自己的 <a target="_blank" rel="noopener" href="https://github.com/1ess/Dotfile/blob/master/.vimrc">.vimrc 文件</a>配置。</p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Vim/">
+        Previous post<br>Vim
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/10%20%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9A%20tmux/">
+        Next post<br>10 分钟学会 tmux
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?83665336"></script>
+
+
+
+</body>
+</html>

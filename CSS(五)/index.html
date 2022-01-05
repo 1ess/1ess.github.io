@@ -1,73 +1,315 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>CSS(五) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="从这一篇开始，将要介绍 CSS 中最重要的两个知识 - 浮动和定位。前面几篇关于 CSS 的知识，只是讲解了一个元素作为一个个体时的样式，从这篇布局内容开始，将要介绍多个元素放在一起，从总体角度确定每个元素的位置。布局分类: 
+
+表格...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?32949801">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    CSS(五)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2018-07-02T00:00:00.000Z" itemprop="datePublished">
+                            2018-07-02 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>从这一篇开始，将要介绍 CSS 中最重要的两个知识 - 浮动和定位。<br>前面几篇关于 CSS 的知识，只是讲解了一个元素作为一个个体时的样式，从这篇布局内容开始，将要介绍多个元素放在一起，从总体角度确定每个元素的位置。<br>布局分类: </p>
+<ul>
+<li>表格布局: 现在已经不用了，现在都是将表格作为一种数据展现元素，而不是布局方式</li>
+<li>定位布局</li>
+<li>Flexbox 布局</li>
+<li>Grid 布局</li>
+</ul>
+<h2 id="浮动"><a href="#浮动" class="headerlink" title="浮动"></a>浮动</h2><hr>
+<p>我们已经学会了如何操纵盒子的大小及其周围的空间，在默认情况下，页面元素的流方式:  </p>
+<ul>
+<li>块级元素从上流到下</li>
+<li>行内元素从左上流到右下</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/float/vertical-vs-horizontal-stacking-064f76.png"><br>浮动允许您将块级元素并排放置而不是彼此叠加。它允许我们构建各种布局，包括侧边栏，多列页面，网格和杂志样式的文章，文本在图像周围流动等。<br>在现代网站中，浮动技术已经被 Flexbox 布局所取代，但并不意味我们不需要清楚这一知识，之前的十多年来，浮动一直是建站的基础，所以很可能会在不经意间遇见它。</p>
+<h3 id="浮动的特点"><a href="#浮动的特点" class="headerlink" title="浮动的特点"></a>浮动的特点</h3><p>浮动会改变默认文档流。也就是说，不会再按照默认文档流来布局元素了。浮动的元素会从正常文档流中取出来(即浮动元素的父容器不再包含该浮动元素)，然后始终与其父容器的左侧或右侧对齐。也会尽可能的在父容器内向上浮动。而浮动元素之后的第一个非浮动元素则会黏在浮动元素之前的最后一个非浮动元素之下。</p>
+<p>块级元素可以使用 float: left; 或 float: right; 来左右对齐，使用 auto-margins 中间对齐。而行内元素使用 text-align 属性来对齐。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/float/floats-and-auto-margin-for-alignment-536a81.png"></p>
+<h3 id="多个浮动元素的情况"><a href="#多个浮动元素的情况" class="headerlink" title="多个浮动元素的情况"></a>多个浮动元素的情况</h3><p>如果都是左浮动，则按照在文档流中的先后顺序，从左向右水平排列。如果都是右浮动，则按照在文档流中的先后顺序，从右向左水平排列。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/float/float-layout-combinations-e52716.png"></p>
+<h2 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h2><hr>
+<p>我们使用 clear 属性来清除浮动，有3个可选值: </p>
+<ul>
+<li>left: 在左侧不能出现浮动元素，处于左侧所有浮动元素的最下方</li>
+<li>right: 在右侧不能出现浮动元素，处于右侧所有浮动元素的最下方</li>
+<li>both: 在两侧都不能出现浮动元素，处于两侧所有浮动元素的最下方</li>
+<li>none: 不清除浮动</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/float/methods-for-clearing-floats-1.png"></p>
+<h2 id="容纳浮动元素"><a href="#容纳浮动元素" class="headerlink" title="容纳浮动元素"></a>容纳浮动元素</h2><hr>
+<p>我们知道，浮动元素已经从正常文档流中移除，父容器已经不包含浮动元素了，可能会造成一些布局问题，这时可能需要父容器仍然容纳浮动元素，我们就需要一些技巧。</p>
+<ol>
+<li>设置父容器的 overflow: hidden 属性，可以使父容器仍然容纳浮动元素，如下图所示。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/float/methods-for-clearing-floats-2.png"><br>2. 让父元素也浮动。(这种做法需要额外设置父容器宽度)<br>3. 使用::after 在所有浮动元素之后添加一个空的元素 content: “”;，并设置 clear: both; 和 display: block; 常规做法是添加一个名为 clearfix 类，使得需要让父容器仍然容纳浮动元素时，给该元素添加类即可。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-selector-class">.clearfix</span><span class="hljs-selector-pseudo">::after</span> &#123;<br>    <span class="hljs-attribute">content</span>: <span class="hljs-string">&quot;&quot;</span>;<br>    <span class="hljs-attribute">clear</span>: both;<br>    <span class="hljs-attribute">display</span>: block;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>实际使用过程中，使父容器仍然容纳浮动元素最常用第三种方式，前两种方式的原理是触发 BFC(Block Formatting Context)布局规则。</p>
+<h2 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h2><hr>
+<h3 id="Block-level"><a href="#Block-level" class="headerlink" title="Block level"></a>Block level</h3><p>让我们看看有哪些盒子: </p>
+<ul>
+<li>block-level box:<br>display 属性为 block, list-item, table 的元素，会生成 block-level box。并且参与 block fomatting context;</li>
+<li>inline-level box:<br>display 属性为 inline, inline-block, inline-table 的元素，会生成 inline-level box。并且参与 inline formatting context;</li>
+</ul>
+<h3 id="BFC-定义"><a href="#BFC-定义" class="headerlink" title="BFC 定义"></a>BFC 定义</h3><p>BFC(Block formatting context) 直译为”块级格式化上下文”。它是一个独立的渲染区域，只有 Block-level box 参与， 它规定了内部的 Block-level Box 如何布局，并且与这个区域外部毫不相干。</p>
+<h3 id="BFC-布局规则"><a href="#BFC-布局规则" class="headerlink" title="BFC 布局规则"></a>BFC 布局规则</h3><ul>
+<li>内部的 Box 会在垂直方向，一个接一个地放置</li>
+<li>Box 垂直方向的距离由 margin 决定。属于同一个 BFC 的两个相邻 Box 的 margin 会发生重叠</li>
+<li>每个元素的 margin box 的左边， 与包含块 border box 的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此</li>
+<li>BFC 的区域不会与 float box 重叠</li>
+<li>BFC 就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此</li>
+<li>计算 BFC 的高度时，浮动元素也参与计算</li>
+</ul>
+<h3 id="会生成-BFC-的元素"><a href="#会生成-BFC-的元素" class="headerlink" title="会生成 BFC 的元素"></a>会生成 BFC 的元素</h3><ul>
+<li>根元素</li>
+<li>float 属性不为 none</li>
+<li>position 为 absolute 或 fixed</li>
+<li>display 为 inline-block, table-cell, table-caption, flex, inline-flex</li>
+<li>overflow 不为 visible</li>
+</ul>
+<h2 id="overflow-hidden"><a href="#overflow-hidden" class="headerlink" title="overflow: hidden"></a>overflow: hidden</h2><hr>
+<p>overflow: hidden 最常使用的地方有三处: </p>
+<ul>
+<li>溢出隐藏: 如父容器设置了 height 属性，而子元素超出父容器高度，使用 overflow: hidden 可以隐藏溢出部分</li>
+<li>清除浮动: 使用 overflow: hidden 使得父容器仍然包含浮动子元素</li>
+<li>解除坍塌: 可以使用 overflow:hidden 解除 margin 坍塌。(坍塌只针对于父容器的第一个子元素)</li>
+</ul>
+<h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><hr>
+<p>虽然之后我们会谈论 Flexbox 和 Grid，但我们仍需要讨论下 position 属性。他是古老布局的基础。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/position/css-positioning-schemes-790d5b.png"><br>position 属性有四个可用值: </p>
+<ul>
+<li>static</li>
+<li>relative</li>
+<li>absolute</li>
+<li>fixed</li>
+</ul>
+<p>我们分别谈论一下他们的用处。</p>
+<h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><p>static 是默认值。任意 position: static; 的元素不会被特殊的定位。一个 static 元素表示它不会被 “positioned”，一个 position 属性被设置为其他值的元素表示它会被 “positioned”。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/position/positioned-elements-terminology-861fca.png" alt="static"></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-selector-class">.static</span> &#123;<br>  <span class="hljs-attribute">position</span>: static;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="relative"><a href="#relative" class="headerlink" title="relative"></a>relative</h3><p>relative 表现的和 static 一样，除非你添加了一些额外的属性。<br>在一个相对定位(position属性的值为relative)的元素上设置 top 、 right 、 bottom 和 left 属性会使其偏离其正常位置。其他的元素的位置则不会受该元素的影响发生位置改变。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/position/relative-positioning-offsets-494268.png"></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-selector-class">.relative1</span> &#123;<br>  <span class="hljs-attribute">position</span>: relative;<br>&#125;<br><span class="hljs-selector-class">.relative2</span> &#123;<br>  <span class="hljs-attribute">position</span>: relative;<br>  <span class="hljs-attribute">top</span>: -<span class="hljs-number">20px</span>;<br>  <span class="hljs-attribute">left</span>: <span class="hljs-number">20px</span>;<br>  <span class="hljs-attribute">background-color</span>: white;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">500px</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="fixed"><a href="#fixed" class="headerlink" title="fixed"></a>fixed</h3><p>一个固定定位(position 属性的值为 fixed)元素会相对于视窗来定位，这意味着即便页面滚动，它还是会停留在相同的位置。和 relative 一样， top 、 right 、 bottom 和 left 属性都可用。<br>一个固定定位元素会脱离正常文档流。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/position/css-fixed-positioning-342eff.png"></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-selector-class">.fixed</span> &#123;<br>  <span class="hljs-attribute">position</span>: fixed;<br>  <span class="hljs-attribute">bottom</span>: <span class="hljs-number">0</span>;<br>  <span class="hljs-attribute">right</span>: <span class="hljs-number">0</span>;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">200px</span>;<br>  <span class="hljs-attribute">background-color</span>: white;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="absolute"><a href="#absolute" class="headerlink" title="absolute"></a>absolute</h3><p>absolute 与 fixed 的表现类似，但是它不是相对于视窗而是相对于最近的 “positioned” 祖先元素。如果绝对定位(position 属性的值为 absolute)的元素没有 “positioned” 祖先元素，那么它是相对于文档的 body 元素，并且它会随着页面滚动而移动。记住一个 “positioned” 元素是指 position 值不是 static 的元素。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/position/css-absolute-positioning-228ce0.png"><br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/position/css-relatively-absolute-positioning-1ba963.png"></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-selector-class">.relative</span> &#123;<br>  <span class="hljs-attribute">position</span>: relative;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">600px</span>;<br>  <span class="hljs-attribute">height</span>: <span class="hljs-number">400px</span>;<br>&#125;<br><span class="hljs-selector-class">.absolute</span> &#123;<br>  <span class="hljs-attribute">position</span>: absolute;<br>  <span class="hljs-attribute">top</span>: <span class="hljs-number">120px</span>;<br>  <span class="hljs-attribute">right</span>: <span class="hljs-number">0</span>;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">300px</span>;<br>  <span class="hljs-attribute">height</span>: <span class="hljs-number">200px</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="z-index"><a href="#z-index" class="headerlink" title="z-index"></a>z-index</h3><p>z-index 属性允许我们控制页面上元素的深度。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/position/css-z-index-c87ef0.png"></p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/CSS(%E5%85%AD)/">
+        Previous post<br>CSS(六)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/CSS(%E5%9B%9B)/">
+        Next post<br>CSS(四)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?47262076"></script>
+
+
+
+</body>
+</html>

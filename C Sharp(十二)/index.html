@@ -1,73 +1,332 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>C Sharp(十二) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="
+理想有两种: 一种，我实现了我的理想；另一种: 理想通过我而实现。
+
+这一篇，讲讲泛型。
+概述
+没有泛型的时候，我们封装的行为都是作用在特定类型上的，但是，很多时候如果我们把行为提取或重构出来，使其可以应用到很多类型上去的话，那么就...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?15689785">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    C Sharp(十二)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2018-11-14T00:00:00.000Z" itemprop="datePublished">
+                            2018-11-14 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <blockquote>
+<p>理想有两种: 一种，我实现了我的理想；另一种: 理想通过我而实现。</p>
+</blockquote>
+<p>这一篇，讲讲泛型。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><hr>
+<p>没有泛型的时候，我们封装的行为都是作用在特定类型上的，但是，很多时候如果我们把行为提取或重构出来，使其可以应用到很多类型上去的话，那么就会更有意义。这也是泛型出现的原因。</p>
+<p>我们可以额外增加一层抽象，这样类型就不用再硬编码了，这样就可以使得多段代码在不同类型执行相同的指令成为可能。</p>
+<p>之前写 Objective-C 的时候，感觉他的泛型太弱了，现在写 C#，感觉他的泛型系统太好用了！</p>
+<h3 id="无泛型栈示例"><a href="#无泛型栈示例" class="headerlink" title="无泛型栈示例"></a>无泛型栈示例</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyIntStack</span><br>&#123;<br>    <span class="hljs-built_in">int</span> StackPoint = <span class="hljs-number">0</span>;<br>    <span class="hljs-built_in">int</span>[] StackArray;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> x</span>)</span><br>    &#123;<br>        <span class="hljs-comment">//...</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> <span class="hljs-title">pop</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-comment">//...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果希望将相同的功能应用于 float 类型，我们就必须复制粘贴上面的代码再改成 float。<br>这样做可行，但是缺点明显: </p>
+<ul>
+<li>我们要仔细检查类型的修改</li>
+<li>每当新增类型，就要复制粘贴修改</li>
+<li>调试维护这些类似的代码易出错</li>
+</ul>
+<h3 id="C-中的泛型"><a href="#C-中的泛型" class="headerlink" title="C# 中的泛型"></a>C# 中的泛型</h3><p>泛型(generic)提供了更优雅的解决方案，让多个类型共享一组代码。我们可以使用类型占位符书写代码，在创建实例时指明实际类型即可。</p>
+<p>C# 提供了 5 种泛型可用在的地方: 类、结构、接口、委托、方法。前四种是类型，最后一种是成员。</p>
+<h3 id="泛型栈示例"><a href="#泛型栈示例" class="headerlink" title="泛型栈示例"></a>泛型栈示例</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span>&lt;<span class="hljs-title">T</span>&gt;<br>&#123;<br>    <span class="hljs-built_in">int</span> StackPointer = <span class="hljs-number">0</span>;<br>    T[] StackArray;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span>(<span class="hljs-params">T x</span>)</span><br>    &#123;<br>        <span class="hljs-comment">//...</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">pop</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-comment">//...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="声明泛型类"><a href="#声明泛型类" class="headerlink" title="声明泛型类"></a>声明泛型类</h3><p>上面我们已经展示了一个示例来演示泛型类，这里我们具体介绍一下，看看如何创建并使用泛型类。<br>创建使用非泛型类有两步: 声明类和创建类的实例。<br>但是泛型类不是实际类，而是类的模板，所以我们必须先从模板构建出实际类型，然后创建这个构建后的类型的实例。</p>
+<p>声明步骤: </p>
+<ul>
+<li>在类名后放置一对尖括号&lt;&gt;</li>
+<li>在尖括号中用逗号分隔占位字符串来表示希望提供的类型，这叫做类型参数(type parameters)</li>
+<li>在泛型类的主体使用类型参数代替实际类型</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">SomeClass</span> &lt;<span class="hljs-title">T1</span>, <span class="hljs-title">T2</span>&gt;<br>&#123;<br>    <span class="hljs-keyword">public</span> T1 SomeVal = <span class="hljs-keyword">new</span> T1();<br>    <span class="hljs-keyword">public</span> T2 OtherVal = <span class="hljs-keyword">new</span> T2();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="创建构造类型"><a href="#创建构造类型" class="headerlink" title="创建构造类型"></a>创建构造类型</h3><p>列出类名并在尖括号中提供真实类型代替类型参数，我们将替代类型参数的真实类型称为类型实参(type argument)。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">SomeClass&lt;<span class="hljs-built_in">short</span>, <span class="hljs-built_in">int</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="创建实例"><a href="#创建实例" class="headerlink" title="创建实例"></a>创建实例</h3><p>非泛型类创建实例: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">MyNonGenClass myNGC = <span class="hljs-keyword">new</span> MyNonGenClass();<br></code></pre></td></tr></table></figure>
+
+<p>泛型类创建实例: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">SomeClass&lt;<span class="hljs-built_in">short</span>, <span class="hljs-built_in">int</span>&gt; mySc1 = <span class="hljs-keyword">new</span> SomeClass&lt;<span class="hljs-built_in">short</span>, <span class="hljs-built_in">int</span>&gt;();<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="类型参数约束"><a href="#类型参数约束" class="headerlink" title="类型参数约束"></a>类型参数约束</h3><p>为了让泛型变得更有用，我们需要提供额外信息让编译器知道 type parameter 可以接受哪些类型。<br>这些额外信息称为约束(constraint)。</p>
+<h4 id="Where-子句"><a href="#Where-子句" class="headerlink" title="Where 子句"></a>Where 子句</h4><ul>
+<li>每个 type parameter 都有自己的 where 子句</li>
+<li>如果有多个约束，在约束列表用逗号分隔</li>
+</ul>
+<p>where 子句使用要点: </p>
+<ul>
+<li>在关闭尖括号后列出</li>
+<li>where 子句之间不用逗号分隔</li>
+<li>子句之间可以以任何顺序列出</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span>&lt;<span class="hljs-title">T1</span>, <span class="hljs-title">T2</span>, <span class="hljs-title">T3</span>&gt;<br>                      <span class="hljs-keyword">where</span> <span class="hljs-title">T2</span>: <span class="hljs-title">Customer</span><br>                      <span class="hljs-keyword">where</span> <span class="hljs-title">T3</span>: <span class="hljs-title">IComparable</span><br>&#123;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="约束类型和次序"><a href="#约束类型和次序" class="headerlink" title="约束类型和次序"></a>约束类型和次序</h4><p>共有 5 种类型的约束: </p>
+<ul>
+<li>类名: 某种类或类的子类才能做 type argument</li>
+<li>class: 任何引用类型才能做 type argument</li>
+<li>struct: 任何值类型才能做 type argument</li>
+<li>接口名: 只有这个接口或实现这个接口的类型才能做 type argument</li>
+<li>new(): 任何带有无参构造的类型才能做 type argument</li>
+</ul>
+<p>顺序: </p>
+<ul>
+<li>主约束必须放在第一位且只有一个: 主约束只能是类名、class 或者 struct</li>
+<li>接口名约束可以有任意多个</li>
+<li>如果存在构造约束，必须放在最后</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">SortedList</span>&lt;<span class="hljs-title">S</span>&gt;<br>                         <span class="hljs-keyword">where</span> <span class="hljs-title">S</span>: <span class="hljs-title">IComparable</span>&lt;<span class="hljs-title">S</span>&gt; &#123; ... &#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">LinkedList</span>&lt;<span class="hljs-title">M</span>, <span class="hljs-title">N</span>&gt;<br>                         <span class="hljs-keyword">where</span> <span class="hljs-title">M</span>: <span class="hljs-title">IComparable</span>&lt;<span class="hljs-title">M</span>&gt;<br>                         <span class="hljs-keyword">where</span> <span class="hljs-title">N</span>: <span class="hljs-title">ICloneable</span> &#123; ... &#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">MyDictionary</span>&lt;<span class="hljs-title">KeyType</span>, <span class="hljs-title">ValueType</span>&gt;<br>                              <span class="hljs-keyword">where</span> <span class="hljs-title">KeyType</span>: <span class="hljs-title">IEnumerable</span>, <span class="hljs-title">new</span>() &#123; ... &#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h3><p>与其他的泛型不同，泛型方法是成员而不是类型，它可以用于泛型、非泛型类、结构或接口。</p>
+<h4 id="声明泛型方法"><a href="#声明泛型方法" class="headerlink" title="声明泛型方法"></a>声明泛型方法</h4><p>泛型方法具有类型参数和可选的约束。<br>泛型方法有两个参数列表: </p>
+<ul>
+<li>封闭在圆括号内的方法参数列表</li>
+<li>封闭在尖括号内的类型参数列表</li>
+</ul>
+<p>要声明泛型方法: </p>
+<ul>
+<li>在方法名之后，方法参数之前放置类型参数列表</li>
+<li>在方法参数之后放置可选的约束子句</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">PrintData</span>&lt;<span class="hljs-title">S</span>, <span class="hljs-title">T</span>&gt; (<span class="hljs-params">S s, T t</span>) <span class="hljs-keyword">where</span> S: Person</span><br>&#123;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="调用泛型方法"><a href="#调用泛型方法" class="headerlink" title="调用泛型方法"></a>调用泛型方法</h4><p>要调用泛型方法，需要在调用时提供类型实参: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">MyMethod&lt;<span class="hljs-built_in">short</span>, <span class="hljs-built_in">int</span>&gt;();<br></code></pre></td></tr></table></figure>
+
+<p>如果我们在调用泛型方法时，可以从方法参数推断出类型实参，则可以省略类型实参: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">MyMethod</span>&lt;<span class="hljs-title">T</span>&gt; (<span class="hljs-params">T t</span>)</span><br>&#123;<br>    <span class="hljs-comment">//...</span><br>&#125;<br><br><span class="hljs-built_in">int</span> IntVal = <span class="hljs-number">10</span>;<br>MyMethod(IntVal);<br></code></pre></td></tr></table></figure>
+
+<h3 id="泛型结构"><a href="#泛型结构" class="headerlink" title="泛型结构"></a>泛型结构</h3><p>与泛型类一样，泛型结构也有类型参数和约束子句。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">struct</span> PieceOfData &lt;T&gt;<br>&#123;<br>    <span class="hljs-keyword">private</span> T _Data;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PieceOfData</span>(<span class="hljs-params">T data</span>)</span><br>    &#123;<br>        _data = data;<br>    &#125;<br>    <span class="hljs-keyword">public</span> T Data <br>    &#123;<br>        <span class="hljs-keyword">set</span> &#123; _data = <span class="hljs-keyword">value</span>; &#125;<br>        <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> _data; &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> intData = <span class="hljs-keyword">new</span> PieceOfData&lt;<span class="hljs-built_in">int</span>&gt;(<span class="hljs-number">10</span>);<br>        Console.WriteLine(<span class="hljs-string">$&quot;<span class="hljs-subst">&#123;intData.Data&#125;</span>&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="泛型委托"><a href="#泛型委托" class="headerlink" title="泛型委托"></a>泛型委托</h3><p>泛型委托与非泛型委托类似，要声明泛型委托，需要在委托名称之后，委托参数列表之前放置类型参数列表: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-built_in">delegate</span> R <span class="hljs-title">MyDelegate</span> &lt;T, R&gt;(<span class="hljs-params">T t</span>)</span>;<br></code></pre></td></tr></table></figure>
+<p>C# 中有两个常用的预定义的泛型委托: Func 和 Action: </p>
+<ul>
+<li>Action 是无返回值的泛型委托，有 16 个重载(即最多 16 个参数)</li>
+<li>Func 是有返回值的泛型委托，有 17 个重载(即最多 16 个参数和 1 个返回值)</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">delegate</span> TR <span class="hljs-title">Func</span> &lt;T1, T2, TR&gt;(<span class="hljs-params">T1 p1, T2 p2</span>)</span>;<br><span class="hljs-keyword">class</span> <span class="hljs-title">Simple</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> <span class="hljs-title">PrintString</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> a, <span class="hljs-built_in">int</span> b</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> total = a + b;<br>        <span class="hljs-keyword">return</span> total.toString();<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> myDel = <span class="hljs-keyword">new</span> Func &lt;<span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>, <span class="hljs-built_in">string</span>&gt;(Simple.PrintString);<br>        Console.WriteLine(<span class="hljs-string">$&quot;<span class="hljs-subst">&#123;myDel(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>)&#125;</span>&quot;</span>);  <span class="hljs-comment">// 5</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h3><p>泛型接口允许我们编写参数和返回值是泛型类型参数的接口。我们需要在接口名之后用尖括号放置类型参数列表。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">interface</span> <span class="hljs-title">IMyIfc</span>&lt;<span class="hljs-title">T</span>&gt;<br>&#123;<br>    <span class="hljs-function">T <span class="hljs-title">ReturnIt</span>(<span class="hljs-params">T val</span>)</span>;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Simple</span>&lt;<span class="hljs-title">S</span>&gt;: <span class="hljs-title">IMyIfc</span>&lt;<span class="hljs-title">S</span>&gt;<br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> S <span class="hljs-title">ReturnIt</span>(<span class="hljs-params">S s</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> s;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> simple = <span class="hljs-keyword">new</span> Simple&lt;<span class="hljs-built_in">int</span>&gt;();<br>        Console.WriteLine(<span class="hljs-string">$&quot;<span class="hljs-subst">&#123;simple.ReturnIt(<span class="hljs-number">3</span>)&#125;</span>&quot;</span>);  <span class="hljs-comment">// 3</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/C%20Sharp(%E5%8D%81%E4%B8%89)/">
+        Previous post<br>C Sharp(十三)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/C%20Sharp(%E5%8D%81%E4%B8%80)/">
+        Next post<br>C Sharp(十一)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?40292266"></script>
+
+
+
+</body>
+</html>

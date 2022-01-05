@@ -1,73 +1,280 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Python(十) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="Python 既支持多进程，又支持多线程，本篇，我们看看如何编写这两种多任务程序。
+多进程
+fork()Unix/Linux 操作系统提供了一个 fork() 系统调用，它非常特殊。普通的函数调用，调用一次，返回一次，但是 fork(...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?7012121">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Python(十)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2019-04-20T00:00:00.000Z" itemprop="datePublished">
+                            2019-04-20 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>Python 既支持多进程，又支持多线程，本篇，我们看看如何编写这两种多任务程序。</p>
+<h2 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h2><hr>
+<h3 id="fork"><a href="#fork" class="headerlink" title="fork()"></a>fork()</h3><p>Unix/Linux 操作系统提供了一个 fork() 系统调用，它非常特殊。普通的函数调用，调用一次，返回一次，但是 fork() 调用一次，返回两次，因为操作系统自动把当前进程(称为父进程)复制了一份(称为子进程)，然后，分别在父进程和子进程内返回。子进程永远返回 0，而父进程返回子进程的 ID。</p>
+<p>Python 的 os 模块封装了常见的系统调用，其中就包括 fork，可以在 Python 程序中轻松创建子进程: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Process (&#123;&#125;) start...&#x27;</span>.<span class="hljs-built_in">format</span>(os.getpid()))<br><span class="hljs-comment"># Only works on Unix/Linux/Mac:</span><br>pid = os.fork()<br><span class="hljs-keyword">if</span> pid == <span class="hljs-number">0</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;I am child process (&#123;&#125;) and my parent is &#123;&#125;.&#x27;</span>.<span class="hljs-built_in">format</span>(os.getpid(), os.getppid()))<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;I (%s) just created a child process (%s).&#x27;</span> % (os.getpid(), pid))<br></code></pre></td></tr></table></figure>
+
+<h3 id="multiprocessing"><a href="#multiprocessing" class="headerlink" title="multiprocessing"></a>multiprocessing</h3><p>Windows 没有 fork 调用，multiprocessing 模块就是跨平台版本的多进程模块。multiprocessing 模块提供了一个 Process 类来代表一个进程对象: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> multiprocessing <span class="hljs-keyword">import</span> Process<br><span class="hljs-keyword">import</span> os<br><br><span class="hljs-comment"># 子进程要执行的代码</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run_proc</span>(<span class="hljs-params">name</span>):</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Run child process &#123;&#125; (&#123;&#125;)...&#x27;</span>.<span class="hljs-built_in">format</span>(name, os.getpid()))<br><br><span class="hljs-keyword">if</span> __name__==<span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Parent process &#123;&#125;.&#x27;</span>.<span class="hljs-built_in">format</span>(os.getpid()))<br>    p = Process(target=run_proc, args=(<span class="hljs-string">&#x27;test&#x27;</span>,))<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Child process will start.&#x27;</span>)<br>    p.start()<br>    p.join()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Child process end.&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>创建子进程时，只需要传入一个执行函数和函数的参数，创建一个 Process 实例，用 start() 方法启动，join() 方法可以等待子进程结束后再继续往下运行，通常用于进程间的同步。</p>
+<h3 id="Pool"><a href="#Pool" class="headerlink" title="Pool"></a>Pool</h3><p>如果要启动大量的子进程，可以用进程池的方式批量创建子进程: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> multiprocessing <span class="hljs-keyword">import</span> Pool<br><span class="hljs-keyword">import</span> os, time, random<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">long_time_task</span>(<span class="hljs-params">name</span>):</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Run task %s (%s)...&#x27;</span> % (name, os.getpid()))<br>    start = time.time()<br>    time.sleep(random.random() * <span class="hljs-number">3</span>)<br>    end = time.time()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Task %s runs %0.2f seconds.&#x27;</span> % (name, (end - start)))<br><br><span class="hljs-keyword">if</span> __name__==<span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Parent process %s.&#x27;</span> % os.getpid())<br>    p = Pool(<span class="hljs-number">4</span>)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>        p.apply_async(long_time_task, args=(i,))<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Waiting for all subprocesses done...&#x27;</span>)<br>    p.close()<br>    p.join()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;All subprocesses done.&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>对 Pool 对象调用 join() 方法会等待所有子进程执行完毕，调用 join() 之前必须先调用 close()，调用 close() 之后就不能继续添加新的 Process 了。注意: Pool 的默认大小是 CPU 的核数。</p>
+<h3 id="subprocess"><a href="#subprocess" class="headerlink" title="subprocess"></a>subprocess</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> subprocess<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;$ nslookup www.python.org&#x27;</span>)<br>r = subprocess.call([<span class="hljs-string">&#x27;nslookup&#x27;</span>, <span class="hljs-string">&#x27;www.python.org&#x27;</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Exit code:&#x27;</span>, r)<br></code></pre></td></tr></table></figure>
+
+<h3 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h3><p>Process 之间肯定是需要通信的，操作系统提供了很多机制来实现进程间的通信。Python 的 multiprocessing 模块包装了底层的机制，提供了 Queue、Pipes 等多种方式来交换数据。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> multiprocessing <span class="hljs-keyword">import</span> Process, Queue<br><span class="hljs-keyword">import</span> os, time, random<br><br><span class="hljs-comment"># 写数据进程执行的代码:</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">write</span>(<span class="hljs-params">q</span>):</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Process to write: %s&#x27;</span> % os.getpid())<br>    <span class="hljs-keyword">for</span> value <span class="hljs-keyword">in</span> [<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;C&#x27;</span>]:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Put %s to queue...&#x27;</span> % value)<br>        q.put(value)<br>        time.sleep(random.random())<br><br><span class="hljs-comment"># 读数据进程执行的代码:</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">read</span>(<span class="hljs-params">q</span>):</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Process to read: %s&#x27;</span> % os.getpid())<br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        value = q.get(<span class="hljs-literal">True</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Get %s from queue.&#x27;</span> % value)<br><br><span class="hljs-keyword">if</span> __name__==<span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-comment"># 父进程创建Queue，并传给各个子进程: </span><br>    q = Queue()<br>    pw = Process(target=write, args=(q,))<br>    pr = Process(target=read, args=(q,))<br>    <span class="hljs-comment"># 启动子进程pw，写入:</span><br>    pw.start()<br>    <span class="hljs-comment"># 启动子进程pr，读取:</span><br>    pr.start()<br>    <span class="hljs-comment"># 等待pw结束:</span><br>    pw.join()<br>    <span class="hljs-comment"># pr进程里是死循环，无法等待其结束，只能强行终止:</span><br>    pr.terminate()<br></code></pre></td></tr></table></figure>
+
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><hr>
+<p>高级语言通常都内置多线程的支持，Python 也不例外，并且，Python 的线程是真正的 Posix Thread，而不是模拟出来的线程。<br>Python 的标准库提供了两个模块: _thread 和 threading，_thread 是低级模块，threading 是高级模块，对 _thread 进行了封装。绝大多数情况下，我们只需要使用 threading 这个高级模块。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time, threading<br><br><span class="hljs-comment"># 新线程执行的代码:</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">loop</span>():</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;thread %s is running...&#x27;</span> % threading.current_thread().name)<br>    n = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> n &lt; <span class="hljs-number">5</span>:<br>        n = n + <span class="hljs-number">1</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;thread %s &gt;&gt;&gt; %s&#x27;</span> % (threading.current_thread().name, n))<br>        time.sleep(<span class="hljs-number">1</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;thread %s ended.&#x27;</span> % threading.current_thread().name)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;thread %s is running...&#x27;</span> % threading.current_thread().name)<br>t = threading.Thread(target=loop, name=<span class="hljs-string">&#x27;LoopThread&#x27;</span>)<br>t.start()<br>t.join()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;thread %s ended.&#x27;</span> % threading.current_thread().name)<br></code></pre></td></tr></table></figure>
+
+<p>由于任何进程默认就会启动一个线程，我们把该线程称为主线程，主线程又可以启动新的线程，Python 的 threading 模块有个 current_thread() 函数，它永远返回当前线程的实例。主线程实例的名字叫 MainThread，子线程的名字在创建时指定，如果不起名字 Python 就自动给线程命名为 Thread-1，Thread-2 等。</p>
+<h3 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h3><p>多线程和多进程最大的不同在于，多进程中，同一个变量，各自有一份拷贝存在于每个进程中，互不影响，而多线程中，所有变量都由所有线程共享，所以，任何一个变量都可以被任何一个线程修改。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time, threading<br><br><span class="hljs-comment"># 假定这是你的银行存款:</span><br>balance = <span class="hljs-number">0</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">change_it</span>(<span class="hljs-params">n</span>):</span><br>    <span class="hljs-comment"># 先存后取，结果应该为0:</span><br>    <span class="hljs-keyword">global</span> balance<br>    balance = balance + n<br>    balance = balance - n<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run_thread</span>(<span class="hljs-params">n</span>):</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100000</span>):<br>        change_it(n)<br><br>t1 = threading.Thread(target=run_thread, args=(<span class="hljs-number">5</span>,))<br>t2 = threading.Thread(target=run_thread, args=(<span class="hljs-number">8</span>,))<br>t1.start()<br>t2.start()<br>t1.join()<br>t2.join()<br><span class="hljs-built_in">print</span>(balance)<br></code></pre></td></tr></table></figure>
+
+<p>两个线程同时一存一取，就可能导致余额不对，如果我们要确保 balance 计算正确，就要给 change_it() 上一把锁，当某个线程开始执行 change_it() 时，我们说，该线程因为获得了锁，因此其他线程不能同时执行 change_it()，只能等待，直到锁被释放后，获得该锁以后才能改。创建一个锁就是通过 threading.Lock() 来实现: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">balance = <span class="hljs-number">0</span><br>lock = threading.Lock()<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run_thread</span>(<span class="hljs-params">n</span>):</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100000</span>):<br>        <span class="hljs-comment"># 先要获取锁:</span><br>        lock.acquire()<br>        <span class="hljs-keyword">try</span>:<br>            <span class="hljs-comment"># 放心地改吧:</span><br>            change_it(n)<br>        <span class="hljs-keyword">finally</span>:<br>            <span class="hljs-comment"># 改完了一定要释放锁:</span><br>            lock.release()<br></code></pre></td></tr></table></figure>
+
+<p>当多个线程同时执行 lock.acquire() 时，只有一个线程能成功地获取锁，然后继续执行代码，其他线程就继续等待直到获得锁为止。<br>获得锁的线程用完后一定要释放锁，否则那些苦苦等待锁的线程将永远等待下去，成为死线程。所以我们用 try…finally 来确保锁一定会被释放。</p>
+<p>Python 的线程虽然是真正的线程，但解释器执行代码时，有一个 GIL 锁: Global Interpreter Lock，任何 Python 线程执行前，必须先获得 GIL 锁，然后，每执行 100 条字节码，解释器就自动释放 GIL 锁，让别的线程有机会执行。这个 GIL 全局锁实际上把所有线程的执行代码都给上了锁，所以，多线程在 Python 中只能交替执行，即使 100 个线程跑在 100 核 CPU 上，也只能用到 1 个核。</p>
+<p>GIL 是 Python 解释器设计的历史遗留问题，通常我们用的解释器是官方实现的 CPython，要真正利用多核，除非重写一个不带 GIL 的解释器。</p>
+<p>Python 虽然不能利用多线程实现多核任务，但可以通过多进程实现多核任务。多个 Python 进程有各自独立的 GIL 锁，互不影响。</p>
+<h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><hr>
+<p>在多线程环境下，每个线程都有自己的数据。一个线程使用自己的局部变量比使用全局变量好，因为局部变量只有线程自己能看见，不会影响其他线程，而全局变量的修改必须加锁。<br>但是局部变量也有问题，就是在函数调用的时候，传递起来很麻烦: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_student</span>(<span class="hljs-params">name</span>):</span><br>    std = Student(name)<br>    <span class="hljs-comment"># std是局部变量，但是每个函数都要用它，因此必须传进去: </span><br>    do_task_1(std)<br>    do_task_2(std)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">do_task_1</span>(<span class="hljs-params">std</span>):</span><br>    do_subtask_1(std)<br>    do_subtask_2(std)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">do_task_2</span>(<span class="hljs-params">std</span>):</span><br>    do_subtask_2(std)<br>    do_subtask_2(std)<br></code></pre></td></tr></table></figure>
+
+<p>为了解决这个问题，ThreadLocal 应运而生: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> threading<br><br><span class="hljs-comment"># 创建全局ThreadLocal对象:</span><br>local_school = threading.local()<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_student</span>():</span><br>    <span class="hljs-comment"># 获取当前线程关联的student:</span><br>    std = local_school.student<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Hello, %s (in %s)&#x27;</span> % (std, threading.current_thread().name))<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_thread</span>(<span class="hljs-params">name</span>):</span><br>    <span class="hljs-comment"># 绑定ThreadLocal的student:</span><br>    local_school.student = name<br>    process_student()<br><br>t1 = threading.Thread(target= process_thread, args=(<span class="hljs-string">&#x27;Alice&#x27;</span>,), name=<span class="hljs-string">&#x27;Thread-A&#x27;</span>)<br>t2 = threading.Thread(target= process_thread, args=(<span class="hljs-string">&#x27;Bob&#x27;</span>,), name=<span class="hljs-string">&#x27;Thread-B&#x27;</span>)<br>t1.start()<br>t2.start()<br>t1.join()<br>t2.join()<br></code></pre></td></tr></table></figure>
+
+<p>全局变量 local_school 就是一个 ThreadLocal 对象，每个 Thread 对它都可以读写 student 属性，但互不影响。</p>
+<h2 id="进程-vs-线程"><a href="#进程-vs-线程" class="headerlink" title="进程 vs. 线程"></a>进程 vs. 线程</h2><hr>
+<p>多进程模式最大的优点就是稳定性高，因为一个子进程崩溃了，不会影响主进程和其他子进程。(当然主进程挂了所有进程就全挂了，但是 Master 进程只负责分配任务，挂掉的概率低)著名的 Apache 最早就是采用多进程模式。<br>多进程模式的缺点是创建进程的代价大，在 Unix/Linux 系统下，用 fork 调用还行，在 Windows 下创建进程开销巨大。另外，操作系统能同时运行的进程数也是有限的，在内存和 CPU 的限制下，如果有几千个进程同时运行，操作系统连调度都会成问题。而且，多线程模式致命的缺点就是任何一个线程挂掉都可能直接造成整个进程崩溃，因为所有线程共享进程的内存。<br>在 Windows 下，多线程的效率比多进程要高，所以微软的 IIS 服务器默认采用多线程模式。由于多线程存在稳定性的问题，IIS 的稳定性就不如 Apache。为了缓解这个问题，IIS 和 Apache 现在又有多进程+多线程的混合模式。</p>
+<h2 id="计算密集型-vs-IO-密集型"><a href="#计算密集型-vs-IO-密集型" class="headerlink" title="计算密集型 vs. IO 密集型"></a>计算密集型 vs. IO 密集型</h2><hr>
+<p>我们可以把任务分为计算密集型和 IO 密集型。<br>计算密集型任务的特点是要进行大量的计算，消耗 CPU 资源，比如计算圆周率、对视频进行高清解码等等，全靠 CPU 的运算能力。计算密集型任务由于主要消耗 CPU 资源，因此，代码运行效率至关重要。Python 这样的脚本语言运行效率很低，完全不适合计算密集型任务。</p>
+<p>第二种任务的类型是 IO 密集型，涉及到网络、磁盘 IO 的任务都是 IO 密集型任务，这类任务的特点是 CPU 消耗很少，任务的大部分时间都在等待 IO 操作完成(因为 IO 的速度远远低于 CPU 和内存的速度)。对于 IO 密集型任务，任务越多，CPU 效率越高，但也有一个限度。常见的大部分任务都是 IO 密集型任务，比如 Web 应用。</p>
+<h2 id="异步-IO"><a href="#异步-IO" class="headerlink" title="异步 IO"></a>异步 IO</h2><hr>
+<p>现代操作系统对 IO 操作已经做了巨大的改进，最大的特点就是支持异步 IO。如果充分利用操作系统提供的异步 IO 支持，就可以用单进程单线程模型来执行多任务，这种全新的模型称为事件驱动模型。</p>
+<p>对应到 Python 语言，单线程的异步编程模型称为协程，有了协程的支持，就可以基于事件驱动编写高效的多任务程序。</p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Python(%E5%8D%81%E4%B8%80)/">
+        Previous post<br>Python(十一)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Python(%E4%B9%9D)/">
+        Next post<br>Python(九)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?31321708"></script>
+
+
+
+</body>
+</html>

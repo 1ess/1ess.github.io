@@ -1,73 +1,263 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>重学 SQL(五) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="前几篇，我们介绍了 SQL 的基本操作，这一篇，我们来介绍 SQL 中的如何进行复杂查询，帮助提升编写复杂查询的能力。
+Subqueries
+WHERE 子句中的子查询子查询最常见的情况是位于 WHERE 子句中，可以位于关系运算符之...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?58341024">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    重学 SQL(五)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2020-08-16T00:00:00.000Z" itemprop="datePublished">
+                            2020-08-16 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>前几篇，我们介绍了 SQL 的基本操作，这一篇，我们来介绍 SQL 中的如何进行复杂查询，帮助提升编写复杂查询的能力。</p>
+<h2 id="Subqueries"><a href="#Subqueries" class="headerlink" title="Subqueries"></a>Subqueries</h2><hr>
+<h3 id="WHERE-子句中的子查询"><a href="#WHERE-子句中的子查询" class="headerlink" title="WHERE 子句中的子查询"></a>WHERE 子句中的子查询</h3><p>子查询最常见的情况是位于 WHERE 子句中，可以位于关系运算符之后，也可以位于 IN/NOT IN/EXISTS 运算符之后。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <br><span class="hljs-keyword">FROM</span> products<br><span class="hljs-keyword">WHERE</span> product_id <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span> (<br>	<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> product_id<br>	<span class="hljs-keyword">FROM</span> order_items<br>);<br><br><span class="hljs-comment">-- 或者</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <br><span class="hljs-keyword">FROM</span> employees<br><span class="hljs-keyword">WHERE</span> salary <span class="hljs-operator">&gt;</span> (<br>	<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(salary)<br>	<span class="hljs-keyword">FROM</span> employees<br>);<br></code></pre></td></tr></table></figure>
+
+<p>注意: 作为子查询的 SELECT 语句只能查询单个列，企图检索多个列将返回错误。</p>
+<h3 id="Subqueries-VS-Joins"><a href="#Subqueries-VS-Joins" class="headerlink" title="Subqueries VS Joins"></a>Subqueries VS Joins</h3><p>子查询和连接通常可以互相转化，例如: </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <br><span class="hljs-keyword">FROM</span> clients<br><span class="hljs-keyword">WHERE</span> client_id <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span> (<br>	<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> client_id<br>	<span class="hljs-keyword">FROM</span> invoices<br>);<br><br><span class="hljs-comment">-- 可以改写为</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <br><span class="hljs-keyword">FROM</span> clients c<br><span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> invoices i<br>    <span class="hljs-keyword">USING</span> (client_id)<br><span class="hljs-keyword">WHERE</span> i .client_id <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NULL</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="ALL-Keyword"><a href="#ALL-Keyword" class="headerlink" title="ALL Keyword"></a>ALL Keyword</h3><p>我们可以使用 ALL 关键字使得比较运算符可以比较一组结果，例如: </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> invoices<br><span class="hljs-keyword">WHERE</span> invoice_total <span class="hljs-operator">&gt;</span> (<br>    <span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MAX</span>(invoice_total)<br>    <span class="hljs-keyword">FROM</span> invoices<br>    <span class="hljs-keyword">WHERE</span> client_id <span class="hljs-operator">=</span> <span class="hljs-number">3</span><br>);<br><br><span class="hljs-comment">-- 可以改写成</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> invoices<br><span class="hljs-keyword">WHERE</span> invoice_total <span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ALL</span> (<br>    <span class="hljs-keyword">SELECT</span> invoice_total<br>    <span class="hljs-keyword">FROM</span> invoices<br>    <span class="hljs-keyword">WHERE</span> client_id <span class="hljs-operator">=</span> <span class="hljs-number">3</span><br>);<br></code></pre></td></tr></table></figure>
+
+<p>注意: 每当我们使用 ALL 关键字，我们都可以使用聚合函数 MAX() 改写。</p>
+<h3 id="ANY-Keyword"><a href="#ANY-Keyword" class="headerlink" title="ANY Keyword"></a>ANY Keyword</h3><p>上面的 ALL 关键字表示所有结果均需满足条件，而 ANY 关键字表示任意结果满足条件即可。<br>注意: = ANY 和 IN 作用一致。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> clients<br><span class="hljs-keyword">WHERE</span> client_id <span class="hljs-keyword">IN</span> (<br>    <span class="hljs-keyword">SELECT</span> client_id<br>    <span class="hljs-keyword">FROM</span> invoices<br>    <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> client_id<br>    <span class="hljs-keyword">HAVING</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-operator">&gt;=</span> <span class="hljs-number">2</span><br>)<br><br><span class="hljs-comment">-- 可以改写成</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> clients<br><span class="hljs-keyword">WHERE</span> client_id <span class="hljs-operator">=</span> <span class="hljs-keyword">ANY</span> (<br>    <span class="hljs-keyword">SELECT</span> client_id<br>    <span class="hljs-keyword">FROM</span> invoices<br>    <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> client_id<br>    <span class="hljs-keyword">HAVING</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-operator">&gt;=</span> <span class="hljs-number">2</span><br>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="相关子查询"><a href="#相关子查询" class="headerlink" title="相关子查询"></a>相关子查询</h3><p>有时，主查询和子查询存在相关性，我们将其称为相关子查询，例如: </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> employees e<br><span class="hljs-keyword">WHERE</span> salary <span class="hljs-operator">&gt;</span> (<br>	<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(salary)<br>	<span class="hljs-keyword">FROM</span> employees<br>	<span class="hljs-keyword">WHERE</span> office_id <span class="hljs-operator">=</span> e.office_id<br>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="EXISTS-运算符"><a href="#EXISTS-运算符" class="headerlink" title="EXISTS 运算符"></a>EXISTS 运算符</h3><p>之前我们使用过两种方法查询存在发票的客户，一个是子查询，一个是左连接，现在我们看看第三种方法。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> clients c<br><span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">EXISTS</span> (<br>    <span class="hljs-keyword">SELECT</span> client_id<br>    <span class="hljs-keyword">FROM</span> invoices<br>    <span class="hljs-keyword">WHERE</span> client_id <span class="hljs-operator">=</span> c.client_id<br>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="SELECT-子句中的子查询"><a href="#SELECT-子句中的子查询" class="headerlink" title="SELECT 子句中的子查询"></a>SELECT 子句中的子查询</h2><hr>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <br>	invoice_id,<br>	invoice_total,<br>	(<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(invoice_total) <span class="hljs-keyword">FROM</span> invoices) <span class="hljs-keyword">AS</span> invoice_average,<br>	invoice_total <span class="hljs-operator">-</span> (<span class="hljs-keyword">SELECT</span> invoice_average) <span class="hljs-keyword">AS</span> difference<br><span class="hljs-keyword">FROM</span> invoices<br></code></pre></td></tr></table></figure>
+
+<p>如果在同一 SELECT 语句中使用新产生的列，必须再次使用 SELECT。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <br>	client_id,<br>	name,<br>	(<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">SUM</span>(invoice_total) <span class="hljs-keyword">FROM</span> invoices <span class="hljs-keyword">WHERE</span> client_id <span class="hljs-operator">=</span> c.client_id) <span class="hljs-keyword">AS</span> total_sales,<br>	(<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(invoice_total) <span class="hljs-keyword">FROM</span> invoices) <span class="hljs-keyword">AS</span> average,<br>	(<span class="hljs-keyword">SELECT</span> total_sales <span class="hljs-operator">-</span> average) <span class="hljs-keyword">AS</span> difference<br><span class="hljs-keyword">FROM</span> clients c<br></code></pre></td></tr></table></figure>
+
+<h2 id="FROM-子句中的子查询"><a href="#FROM-子句中的子查询" class="headerlink" title="FROM 子句中的子查询"></a>FROM 子句中的子查询</h2><hr>
+<p>我们也可以把查询出来的表当作真是存在的表一样来处理: </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <br><span class="hljs-keyword">FROM</span> (<br>    <span class="hljs-keyword">SELECT</span> <br>        client_id,<br>        name,<br>        (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">SUM</span>(invoice_total) <span class="hljs-keyword">FROM</span> invoices <span class="hljs-keyword">WHERE</span> client_id <span class="hljs-operator">=</span> c.client_id) <span class="hljs-keyword">AS</span> total_sales,<br>        (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(invoice_total) <span class="hljs-keyword">FROM</span> invoices) <span class="hljs-keyword">AS</span> average,<br>        (<span class="hljs-keyword">SELECT</span> total_sales <span class="hljs-operator">-</span> average) <span class="hljs-keyword">AS</span> difference<br>    <span class="hljs-keyword">FROM</span> clients c<br>) <span class="hljs-keyword">AS</span> sales_summary;<br></code></pre></td></tr></table></figure>
+
+<p>注意: FROM 子句使用子查询，必须给子查询结果起一个别名，不论是否使用该名称，否则会报错 Every derived table must have its own alias。<br>通常我们不会在 FROM 子句使用子查询，这会使我们的主查询变得复杂，通常会使用这段子查询作为视图存储在数据库中，有关视图的知识我们会在之后讲到。</p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/%E9%87%8D%E5%AD%A6%20SQL(%E5%85%AD)/">
+        Previous post<br>重学 SQL(六)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/%E9%87%8D%E5%AD%A6%20SQL(%E5%9B%9B)/">
+        Next post<br>重学 SQL(四)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?17735471"></script>
+
+
+
+</body>
+</html>

@@ -1,73 +1,299 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Python(十二) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="本篇开始，将会学习有关 Python 爬虫的相关知识，通过几篇的介绍，完整学习 Python 爬虫的方方面面。
+在学习 Python 爬虫之前，我们首先需要下载安装 MongoDB，Redis 以及 MySQL。在学习爬虫的过程中都会...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?90900525">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Python(十二)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2019-04-23T00:00:00.000Z" itemprop="datePublished">
+                            2019-04-23 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>本篇开始，将会学习有关 Python 爬虫的相关知识，通过几篇的介绍，完整学习 Python 爬虫的方方面面。</p>
+<p>在学习 Python 爬虫之前，我们首先需要下载安装 MongoDB，Redis 以及 MySQL。在学习爬虫的过程中都会使用到，之后的学习中默认已经完成相关软件的安装。</p>
+<h2 id="MongoDB-Redis-MySQL-相关问题"><a href="#MongoDB-Redis-MySQL-相关问题" class="headerlink" title="MongoDB Redis MySQL 相关问题"></a>MongoDB Redis MySQL 相关问题</h2><hr>
+<p>本人使用 Mac 开发，所以说一下 Mac 下相关软件的注意事项。</p>
+<h3 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">brew install mongodb<br></code></pre></td></tr></table></figure>
+
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>使用 mongo 命令进入交互模式: </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">mongo<br></code></pre></td></tr></table></figure>
+
+<h4 id="exception-in-initAndListen-NonExistentPath-Data-directory-data-db-not-found-terminating"><a href="#exception-in-initAndListen-NonExistentPath-Data-directory-data-db-not-found-terminating" class="headerlink" title="exception in initAndListen: NonExistentPath: Data directory /data/db not found., terminating"></a>exception in initAndListen: NonExistentPath: Data directory /data/db not found., terminating</h4><p>因为未创建 /data/db 文件夹。我们可以使用: </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">mongod --dbpath ~/db<br></code></pre></td></tr></table></figure>
+<p>转换链接的路径。</p>
+<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">brew install redis<br></code></pre></td></tr></table></figure>
+<p>我们通常会修改 /usr/local/etc/redis.conf 文件，注释 bind 127.0.0.1，解注释 requirepass，设置一个安全密码。<br>再使用: </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">brew service restart redis <br></code></pre></td></tr></table></figure>
+<p>重启 redis 服务。</p>
+<h4 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h4><p>我们可以使用: </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">redis-cli <br></code></pre></td></tr></table></figure>
+<p>启动命令行程序。</p>
+<p>在 redis 交互模式下再使用: </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">auth &#123;password&#125;<br></code></pre></td></tr></table></figure>
+<p>授权即可使用。</p>
+<h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><h4 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h4><figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">brew install mysql<br></code></pre></td></tr></table></figure>
+
+<h4 id="使用-2"><a href="#使用-2" class="headerlink" title="使用"></a>使用</h4><p>启动: </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">brew services start mysql<br></code></pre></td></tr></table></figure>
+
+<p>进入交互模式: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">mysql -uroot<br></code></pre></td></tr></table></figure>
+
+<h2 id="Python-多版本共存问题"><a href="#Python-多版本共存问题" class="headerlink" title="Python 多版本共存问题"></a>Python 多版本共存问题</h2><hr>
+<p>如果都配置到环境变量中，可以将其可执行文件取不同名来区别不同的 Python 和 pip。</p>
+<h2 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h2><hr>
+<p>爬虫就是<strong>请求</strong>网站并<strong>提取</strong>数据的<strong>自动化</strong>程序。</p>
+<h2 id="urllib"><a href="#urllib" class="headerlink" title="urllib"></a>urllib</h2><hr>
+<p>urllib 是 Python 内置的 HTTP 请求库: </p>
+<ul>
+<li>urllib.request    请求模块</li>
+<li>urllib.error      异常处理模块</li>
+<li>urllib.parse      url 解析模块</li>
+<li>urllib.robotparse robot.txt 解析模块</li>
+</ul>
+<h3 id="urllib-request-模块"><a href="#urllib-request-模块" class="headerlink" title="urllib.request 模块"></a>urllib.request 模块</h3><h4 id="urlopen-方法"><a href="#urlopen-方法" class="headerlink" title="urlopen 方法"></a>urlopen 方法</h4><p>urllib.request 最重要的方法就是 urlopen 方法: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">urllib.request.urlopen(url, data=<span class="hljs-literal">None</span>, [timeout, ]*, <br>                        cafile=<span class="hljs-literal">None</span>, capath=<span class="hljs-literal">None</span>, <br>                        cadefault=<span class="hljs-literal">None</span>, context=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> urllib.request<br><span class="hljs-comment"># get 请求</span><br>response = urllib.request.urlopen(<span class="hljs-string">&#x27;http://www.baidu.com&#x27;</span>)<br><span class="hljs-built_in">print</span>(response.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> urllib.request<br><span class="hljs-keyword">import</span> urllib.parse<br><span class="hljs-comment"># post 请求 参数格式为 application/x-www-form-urlencoded</span><br>data = <span class="hljs-built_in">bytes</span>(urllib.parse.urlencode(&#123;<span class="hljs-string">&#x27;foo&#x27;</span>: <span class="hljs-string">&#x27;bar&#x27;</span>&#125;), encoding=<span class="hljs-string">&#x27;utf8&#x27;</span>)<br>response = urllib.request.urlopen(<span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span>, data=data)<br><span class="hljs-built_in">print</span>(response.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br><span class="hljs-comment"># &#123;</span><br><span class="hljs-comment">#   &quot;args&quot;: &#123;&#125;, </span><br><span class="hljs-comment">#   &quot;data&quot;: &quot;&quot;, </span><br><span class="hljs-comment">#   &quot;files&quot;: &#123;&#125;, </span><br><span class="hljs-comment">#   &quot;form&quot;: &#123;</span><br><span class="hljs-comment">#     &quot;foo&quot;: &quot;bar&quot;</span><br><span class="hljs-comment">#   &#125;, </span><br><span class="hljs-comment">#   &quot;headers&quot;: &#123;</span><br><span class="hljs-comment">#     &quot;Accept-Encoding&quot;: &quot;identity&quot;, </span><br><span class="hljs-comment">#     &quot;Content-Length&quot;: &quot;7&quot;, </span><br><span class="hljs-comment">#     &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;, </span><br><span class="hljs-comment">#     &quot;Host&quot;: &quot;httpbin.org&quot;, </span><br><span class="hljs-comment">#     &quot;User-Agent&quot;: &quot;Python-urllib/3.7&quot;</span><br><span class="hljs-comment">#   &#125;, </span><br><span class="hljs-comment">#   &quot;json&quot;: null, </span><br><span class="hljs-comment">#   &quot;origin&quot;: &quot;42.100.1.169, 42.100.1.169&quot;, </span><br><span class="hljs-comment">#   &quot;url&quot;: &quot;https://httpbin.org/post&quot;</span><br><span class="hljs-comment"># &#125;</span><br><br><br><span class="hljs-keyword">import</span> json<br><span class="hljs-comment"># post 请求 参数格式为 application/json</span><br>data = <span class="hljs-built_in">bytes</span>(json.dumps(&#123;<span class="hljs-string">&#x27;foo&#x27;</span>: <span class="hljs-string">&#x27;bar&#x27;</span>&#125;), encoding=<span class="hljs-string">&#x27;utf8&#x27;</span>)<br>headers = &#123;<br>    <span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.108 Safari/537.36&#x27;</span>,<br>    <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span><br>    &#125;<br>req = request.Request(url=<span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span>, data=data, headers=headers)<br>response = urllib.request.urlopen(req)<br><span class="hljs-built_in">print</span>(response.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br><span class="hljs-comment"># &#123;</span><br><span class="hljs-comment">#   &quot;args&quot;: &#123;&#125;, </span><br><span class="hljs-comment">#   &quot;data&quot;: &quot;&#123;\&quot;foo\&quot;: \&quot;bar\&quot;&#125;&quot;, </span><br><span class="hljs-comment">#   &quot;files&quot;: &#123;&#125;, </span><br><span class="hljs-comment">#   &quot;form&quot;: &#123;&#125;, </span><br><span class="hljs-comment">#   &quot;headers&quot;: &#123;</span><br><span class="hljs-comment">#     &quot;Accept-Encoding&quot;: &quot;identity&quot;, </span><br><span class="hljs-comment">#     &quot;Content-Length&quot;: &quot;14&quot;, </span><br><span class="hljs-comment">#     &quot;Content-Type&quot;: &quot;application/json&quot;, </span><br><span class="hljs-comment">#     &quot;Host&quot;: &quot;httpbin.org&quot;, </span><br><span class="hljs-comment">#     &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36&quot;</span><br><span class="hljs-comment">#   &#125;, </span><br><span class="hljs-comment">#   &quot;json&quot;: &#123;</span><br><span class="hljs-comment">#     &quot;foo&quot;: &quot;bar&quot;</span><br><span class="hljs-comment">#   &#125;, </span><br><span class="hljs-comment">#   &quot;origin&quot;: &quot;42.100.1.169, 42.100.1.169&quot;, </span><br><span class="hljs-comment">#   &quot;url&quot;: &quot;https://httpbin.org/post&quot;</span><br><span class="hljs-comment"># &#125;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> socket<br><span class="hljs-keyword">import</span> urllib.request<br><span class="hljs-keyword">import</span> urllib.error<br><span class="hljs-comment"># 设置超时时间</span><br>response = urllib.request.urlopen(<span class="hljs-string">&#x27;http://httpbin.org/get&#x27;</span>, timeout=<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(response.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br><br><span class="hljs-comment"># 超时处理</span><br><span class="hljs-keyword">try</span>:<br>    response = urllib.request.urlopen(<span class="hljs-string">&#x27;http://httpbin.org/get&#x27;</span>, timeout=<span class="hljs-number">0.1</span>)<br><span class="hljs-keyword">except</span> urllib.error.URLError <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(e.reason, socket.timeout):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;TIME OUT&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h4 id="Request-方法"><a href="#Request-方法" class="headerlink" title="Request 方法"></a>Request 方法</h4><p>Request 方法用来处理 requestheader 等信息，构建的 request 对象可以直接传入 urlopen 方法: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> urllib <span class="hljs-keyword">import</span> request<br><span class="hljs-keyword">from</span> urllib <span class="hljs-keyword">import</span> parse<br><span class="hljs-comment"># 修改 header 信息</span><br>headers = &#123;<span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.108 Safari/537.36&#x27;</span>&#125;<br>data = <span class="hljs-built_in">bytes</span>(parse.urlencode(&#123;<span class="hljs-string">&#x27;foo&#x27;</span>: <span class="hljs-string">&#x27;bar&#x27;</span>&#125;), encoding=<span class="hljs-string">&#x27;utf8&#x27;</span>)<br>url = <span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span><br><br>req = request.Request(url=url, data=data, headers=headers)<br><br>response = request.urlopen(req)<br><span class="hljs-built_in">print</span>(response.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+<h4 id="response-对象"><a href="#response-对象" class="headerlink" title="response 对象"></a>response 对象</h4><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> urllib.request<br>response = urllib.request.urlopen(<span class="hljs-string">&#x27;http://www.baidu.com&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(response))<br><span class="hljs-comment"># &lt;class &#x27;http.client.HTTPResponse&#x27;&gt;</span><br><br><span class="hljs-built_in">print</span>(response.status)<br><span class="hljs-comment"># 200</span><br><span class="hljs-built_in">print</span>(response.getheaders())<br><span class="hljs-comment"># [(&#x27;Bdpagetype&#x27;, &#x27;1&#x27;), (&#x27;Bdqid&#x27;, &#x27;0xf4c906b1000200f2&#x27;), (&#x27;Cache-Control&#x27;, &#x27;private&#x27;), (&#x27;Content-Type&#x27;, &#x27;text/html&#x27;), (&#x27;Cxy_all&#x27;, &#x27;baidu+6591fe8b9beee94e197eff1c03bdb4d3&#x27;), (&#x27;Date&#x27;, &#x27;Wed, 08 May 2019 02:29:01 GMT&#x27;), (&#x27;Expires&#x27;, &#x27;Wed, 08 May 2019 02:28:50 GMT&#x27;), (&#x27;P3p&#x27;, &#x27;CP=&quot; OTI DSP COR IVA OUR IND COM &quot;&#x27;), (&#x27;Server&#x27;, &#x27;BWS/1.1&#x27;), (&#x27;Set-Cookie&#x27;, &#x27;BAIDUID=2E7B4EB53DFE40735CF45D5D2287D0D5:FG=1; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com&#x27;), (&#x27;Set-Cookie&#x27;, &#x27;BIDUPSID=2E7B4EB53DFE40735CF45D5D2287D0D5; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com&#x27;), (&#x27;Set-Cookie&#x27;, &#x27;PSTM=1557282541; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com&#x27;), (&#x27;Set-Cookie&#x27;, &#x27;delPer=0; path=/; domain=.baidu.com&#x27;), (&#x27;Set-Cookie&#x27;, &#x27;BDSVRTM=0; path=/&#x27;), (&#x27;Set-Cookie&#x27;, &#x27;BD_HOME=0; path=/&#x27;), (&#x27;Set-Cookie&#x27;, &#x27;H_PS_PSSID=28883_1469_28940_28987_28803_21088_28774_28723_28963_28835_28584_28603_22160; path=/; domain=.baidu.com&#x27;), (&#x27;Vary&#x27;, &#x27;Accept-Encoding&#x27;), (&#x27;X-Ua-Compatible&#x27;, &#x27;IE=Edge,chrome=1&#x27;), (&#x27;Connection&#x27;, &#x27;close&#x27;), (&#x27;Transfer-Encoding&#x27;, &#x27;chunked&#x27;)]</span><br><span class="hljs-built_in">print</span>(response.getheader(<span class="hljs-string">&#x27;Server&#x27;</span>))<br><span class="hljs-comment"># BWS/1.1</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="ProxyHandler-方法"><a href="#ProxyHandler-方法" class="headerlink" title="ProxyHandler 方法"></a>ProxyHandler 方法</h4><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> urllib.request<br><span class="hljs-comment"># 通过 ProxyHandler 来设置使用代理服务器</span><br><span class="hljs-comment"># https://www.xicidaili.com/ 上找的免费代理</span><br><span class="hljs-comment"># 单 IP 代理</span><br>proxy_handler = urllib.request.ProxyHandler(<span class="hljs-built_in">dict</span>(http=<span class="hljs-string">&#x27;http://112.85.129.159:9999&#x27;</span>, https=<span class="hljs-string">&#x27;https://162.105.89.142:1080&#x27;</span>))<br><br>opener = urllib.request.build_opener(proxy_handler)<br>response = opener.<span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;http://httpbin.org/get&#x27;</span>)<br><span class="hljs-built_in">print</span>(response.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br><span class="hljs-comment"># &#123;</span><br><span class="hljs-comment">#   &quot;args&quot;: &#123;&#125;, </span><br><span class="hljs-comment">#   &quot;headers&quot;: &#123;</span><br><span class="hljs-comment">#     &quot;Accept-Encoding&quot;: &quot;identity&quot;, </span><br><span class="hljs-comment">#     &quot;Cache-Control&quot;: &quot;max-age=259200&quot;, </span><br><span class="hljs-comment">#     &quot;Host&quot;: &quot;httpbin.org&quot;, </span><br><span class="hljs-comment">#     &quot;User-Agent&quot;: &quot;Python-urllib/3.7&quot;</span><br><span class="hljs-comment">#   &#125;, </span><br><span class="hljs-comment">#   &quot;origin&quot;: &quot;112.85.129.159, 112.85.129.159&quot;, </span><br><span class="hljs-comment">#   &quot;url&quot;: &quot;https://httpbin.org/get&quot;</span><br><span class="hljs-comment"># &#125;</span><br><br><span class="hljs-comment"># 多 IP 代理</span><br>proxy_list = [<br>    &#123;<span class="hljs-string">&quot;http&quot;</span> : <span class="hljs-string">&quot;61.135.217.7:80&quot;</span>&#125;,<br>    &#123;<span class="hljs-string">&quot;http&quot;</span> : <span class="hljs-string">&quot;111.155.116.245:8123&quot;</span>&#125;,<br>    &#123;<span class="hljs-string">&quot;http&quot;</span> : <span class="hljs-string">&quot;122.114.31.177:808&quot;</span>&#125;,<br>]<br>proxy = random.choice(proxy_list)<br>proxy_handler = urllib.request.ProxyHandler(proxy)<br><br>opener = urllib.request.build_opener(proxy_handler)<br>response = opener.<span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;http://httpbin.org/get&#x27;</span>)<br><span class="hljs-built_in">print</span>(response.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+<h4 id="HTTPCookieProcessor-方法"><a href="#HTTPCookieProcessor-方法" class="headerlink" title="HTTPCookieProcessor 方法"></a>HTTPCookieProcessor 方法</h4><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">cookieJar = http.cookiejar.CookieJar()<br>cookie_handler = urllib.request.HTTPCookieProcessor(cookieJar)<br>opener = urllib.request.build_opener(cookie_handler)<br>response = opener.<span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;http://www.baidu.com&#x27;</span>)<br><br><span class="hljs-keyword">for</span> cookie <span class="hljs-keyword">in</span> cookieJar:<br>    <span class="hljs-built_in">print</span>(cookie.name + <span class="hljs-string">&#x27;=&#x27;</span> + cookie.value)<br><br><span class="hljs-comment"># BAIDUID=B57C5748112C13EE801F3E0DBBC7DBB1:FG=1</span><br><span class="hljs-comment"># BIDUPSID=B57C5748112C13EE801F3E0DBBC7DBB1</span><br><span class="hljs-comment"># H_PS_PSSID=1443_28776_21100_28772_28723_28964_28830_28584_28603</span><br><span class="hljs-comment"># PSTM=1557293120</span><br><span class="hljs-comment"># delPer=0</span><br><span class="hljs-comment"># BDSVRTM=0</span><br><span class="hljs-comment"># BD_HOME=0</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="urllib-error-模块"><a href="#urllib-error-模块" class="headerlink" title="urllib.error 模块"></a>urllib.error 模块</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> urllib <span class="hljs-keyword">import</span> request, error<br><span class="hljs-comment"># HTTPError 是 URLError 的子类</span><br><span class="hljs-comment"># URLError 只有一个 reason 属性</span><br><span class="hljs-comment"># HTTPError 还有 code 和  headers 熟悉</span><br><br><span class="hljs-keyword">try</span>:<br>    response = request.urlopen(<span class="hljs-string">&#x27;https://github.com/1ess/404&#x27;</span>)<br><span class="hljs-keyword">except</span> error.HTTPError <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-built_in">print</span>(e.reason, e.code, e.headers, sep=<span class="hljs-string">&#x27;\n&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(e.reason))<br><span class="hljs-keyword">except</span> error.URLError <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-built_in">print</span>(e.reason)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;SUCCESS&#x27;</span>)<br><span class="hljs-comment"># Not Found</span><br><span class="hljs-comment"># 404</span><br><span class="hljs-comment"># Content-Type: text/html</span><br><span class="hljs-comment"># Server: Microsoft-IIS/8.5</span><br><span class="hljs-comment"># X-Powered-By: ASP.NET</span><br><span class="hljs-comment"># Date: Wed, 08 May 2019 06:10:44 GMT</span><br><span class="hljs-comment"># Connection: close</span><br><span class="hljs-comment"># Content-Length: 1163</span><br><br><span class="hljs-comment"># &lt;class &#x27;str&#x27;&gt;</span><br><br><span class="hljs-keyword">try</span>:<br>    response = request.urlopen(<span class="hljs-string">&#x27;https://github.com/1ess/404&#x27;</span>, timeout=<span class="hljs-number">0.01</span>)<br><span class="hljs-keyword">except</span> error.HTTPError <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-built_in">print</span>(e.reason, e.code, e.headers, sep=<span class="hljs-string">&#x27;\n&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(e.reason))<br><span class="hljs-keyword">except</span> error.URLError <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-built_in">print</span>(e.reason)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(e.reason))<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;SUCCESS&#x27;</span>)<br><br><span class="hljs-comment"># timed out</span><br><span class="hljs-comment"># &lt;class &#x27;socket.timeout&#x27;&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="urllib-parse-模块"><a href="#urllib-parse-模块" class="headerlink" title="urllib.parse 模块"></a>urllib.parse 模块</h3><h4 id="urlparse-方法"><a href="#urlparse-方法" class="headerlink" title="urlparse 方法"></a>urlparse 方法</h4><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">urllib.parse.urlparse(urlstring, scheme=<span class="hljs-string">&#x27;&#x27;</span>, allow_fragments=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> urllib <span class="hljs-keyword">import</span> parse<br><br>result = parse.urlparse(<span class="hljs-string">&#x27;https://www.baidu.com/index.html?user=1ess#comment&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(result))<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># &lt;class &#x27;urllib.parse.ParseResult&#x27;&gt;</span><br><span class="hljs-comment"># ParseResult(scheme=&#x27;http&#x27;, netloc=&#x27;www.baidu.com&#x27;, path=&#x27;/index.html&#x27;, params=&#x27;&#x27;, query=&#x27;user=1ess&#x27;, fragment=&#x27;comment&#x27;)</span><br><br>result = parse.urlparse(<span class="hljs-string">&#x27;www.baidu.com/index.html?user=1ess#comment&#x27;</span>, scheme=<span class="hljs-string">&#x27;https&#x27;</span>)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># ParseResult(scheme=&#x27;https&#x27;, netloc=&#x27;&#x27;, path=&#x27;www.baidu.com/index.html&#x27;, params=&#x27;&#x27;, query=&#x27;user=1ess&#x27;, fragment=&#x27;comment&#x27;)</span><br><br>result = parse.urlparse(<span class="hljs-string">&#x27;http://www.baidu.com/index.html?user=1ess#comment&#x27;</span>, scheme=<span class="hljs-string">&#x27;https&#x27;</span>)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># ParseResult(scheme=&#x27;http&#x27;, netloc=&#x27;&#x27;, path=&#x27;www.baidu.com/index.html&#x27;, params=&#x27;&#x27;, query=&#x27;user=1ess&#x27;, fragment=&#x27;comment&#x27;)</span><br><br>result = parse.urlparse(<span class="hljs-string">&#x27;http://www.baidu.com/index.html?user=1ess#comment&#x27;</span>, allow_fragments=<span class="hljs-literal">False</span>)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># ParseResult(scheme=&#x27;http&#x27;, netloc=&#x27;www.baidu.com&#x27;, path=&#x27;/index.html&#x27;, params=&#x27;&#x27;, query=&#x27;user=1ess#comment&#x27;, fragment=&#x27;&#x27;)</span><br><br>result = parse.urlparse(<span class="hljs-string">&#x27;http://www.baidu.com/index.html#comment&#x27;</span>, allow_fragments=<span class="hljs-literal">False</span>)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># ParseResult(scheme=&#x27;http&#x27;, netloc=&#x27;www.baidu.com&#x27;, path=&#x27;/index.html#comment&#x27;, params=&#x27;&#x27;, query=&#x27;&#x27;, fragment=&#x27;&#x27;)</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="urlunparse-方法"><a href="#urlunparse-方法" class="headerlink" title="urlunparse 方法"></a>urlunparse 方法</h4><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> urllib <span class="hljs-keyword">import</span> parse<br><br>data = [<span class="hljs-string">&#x27;http&#x27;</span>, <span class="hljs-string">&#x27;www.baidu.com&#x27;</span>, <span class="hljs-string">&#x27;index.html&#x27;</span>, <span class="hljs-string">&#x27;user&#x27;</span>, <span class="hljs-string">&#x27;id=1&#x27;</span>, <span class="hljs-string">&#x27;comment&#x27;</span>]<br><span class="hljs-built_in">print</span>(parse.urlunparse(data))<br><span class="hljs-comment"># http://www.baidu.com/index.html;user?id=1#comment</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="urljoin-方法"><a href="#urljoin-方法" class="headerlink" title="urljoin 方法"></a>urljoin 方法</h4><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> urllib <span class="hljs-keyword">import</span> parse<br><br><span class="hljs-built_in">print</span>(parse.urljoin(<span class="hljs-string">&#x27;https://github.com&#x27;</span>, <span class="hljs-string">&#x27;/1ess&#x27;</span>))<br><span class="hljs-comment"># https://github.com/1ess</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="urlencode-方法"><a href="#urlencode-方法" class="headerlink" title="urlencode 方法"></a>urlencode 方法</h4><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> urllib <span class="hljs-keyword">import</span> parse<br><br>params = &#123;<span class="hljs-string">&#x27;foo&#x27;</span>: <span class="hljs-string">&#x27;bar&#x27;</span>&#125;<br>base_url = <span class="hljs-string">&#x27;http://www.baidu.com?&#x27;</span><br>url = base_url + parse.urlencode(params)<br><span class="hljs-built_in">print</span>(url)<br><span class="hljs-comment"># http://www.baidu.com?foo=bar</span><br></code></pre></td></tr></table></figure>
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Python(%E5%8D%81%E4%B8%89)/">
+        Previous post<br>Python(十三)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Python(%E5%8D%81%E4%B8%80)/">
+        Next post<br>Python(十一)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?17461967"></script>
+
+
+
+</body>
+</html>

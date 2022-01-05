@@ -1,73 +1,321 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>React(三) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="这一篇，我们看看组件对于数据的处理以及组件的生命周期。
+props
+props 作用: 
+
+传入变量
+传入函数
+传入组件
+props.children
+
+props 其实就是属性 Properties 的缩写。在形式上，props 之...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?19900303">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    React(三)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2018-10-09T00:00:00.000Z" itemprop="datePublished">
+                            2018-10-09 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>这一篇，我们看看组件对于数据的处理以及组件的生命周期。</p>
+<h2 id="props"><a href="#props" class="headerlink" title="props"></a>props</h2><hr>
+<p>props 作用: </p>
+<ul>
+<li>传入变量</li>
+<li>传入函数</li>
+<li>传入组件</li>
+<li>props.children</li>
+</ul>
+<p>props 其实就是属性 Properties 的缩写。<br>在形式上，props 之于 JSX 就相当于 attributes 之于 HTML。从写法上来看呢，我们为组件传入 props 就可以像为 HTML 标签添加属性一样: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> SimpleButton = <span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> <br>( <br>  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#123;props.className&#125;</span>&gt;</span></span><br><span class="xml">    &#123;props.buttonTitle&#125;</span><br><span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br>);<br>ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">SimpleButton</span>  <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;sb&quot;</span> <span class="hljs-attr">buttonTitle</span>=<span class="hljs-string">&quot;SimpleButton&quot;</span> /&gt;</span></span>, <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;container&#x27;</span>));<br></code></pre></td></tr></table></figure>
+
+<h3 id="props-是只读的"><a href="#props-是只读的" class="headerlink" title="props 是只读的"></a>props 是只读的</h3><p>在 React 中，props 都是自上向下传递，从父组件传入子组件。并且 props 是只读的，我们不能在组件中直接修改 props 的内容。</p>
+<h3 id="props-类型检查"><a href="#props-类型检查" class="headerlink" title="props 类型检查"></a>props 类型检查</h3><p>正是因为 props 的强大，什么类型的内容都可以传递，所以在开发过程中，为了避免错误类型的内容传入，我们可以为 props 添加类型检查。</p>
+<h3 id="props-默认值"><a href="#props-默认值" class="headerlink" title="props 默认值"></a>props 默认值</h3><p>由于 props 是只读的，我们不能直接为 props 赋值。React 专门准备了一个方法定义 props 的默认值。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> SimpleButton = <span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> (<br>  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#123;props.className&#125;</span>&gt;</span></span><br><span class="xml">    &#123;props.buttonTitle&#125;</span><br><span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br>);<br><br>SimpleButton.defaultProps = &#123;<br>    <span class="hljs-attr">className</span>: <span class="hljs-string">&quot;defaultClassName&quot;</span>,<br>    <span class="hljs-attr">buttonTitle</span>: <span class="hljs-string">&quot;defaultButtonTitle&quot;</span><br>&#125;;<br><br>SimpleButton.propTypes = &#123;<br>    <span class="hljs-attr">className</span>: PropTypes.string.isRequired,<br>    <span class="hljs-attr">buttonTitle</span>: PropTypes.string.isRequired<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h2 id="state"><a href="#state" class="headerlink" title="state"></a>state</h2><hr>
+<ul>
+<li>初始化</li>
+<li>setState 方法</li>
+<li>向下传递数据</li>
+</ul>
+<p>在 React 中 state 也是我们进行数据交互的地方，又或者叫做 state management 状态管理。<br>一个应用需要进行数据交互，比如同服务器之间的交互，同用户输入进行交互。或者反过来，从 API 获取数据，处理用户输入也就是我们需要用到 state 的时候。</p>
+<p>在新版本的 React 当中，我们通过类定义组件来声明一个有状态组件，之后在它的构造方法中初始化组件的 state，我们可以先赋予它默认值。</p>
+<p>之后就可以在组件中通过 this.state 来访问它，和之前的 props 一样，初始化 state 之后，如果我们想改变它，是不可以直接对其赋值的，直接修改 state 的值没有任何意义，因为这样的操作脱离了 React 运行的逻辑，不会触发组件的重新渲染。所以需要 this.setState 这个方法，在改变 state 的同时，触发 React 内部的一系列函数，最后在页面上重新渲染出组件。</p>
+<p>随着我们开发应用的逐步扩展，state 也会变得越来越庞大复杂，假如分散到各个组件当中，对于日后应用的维护者来说将是一个噩梦。怎么处理怎么储存应用的 state 非常值得我们深入去思考，由此也就引发了一个问题——状态管理。这也正是 Redux 要解决的问题。</p>
+<h2 id="React-是如何渲染组件的"><a href="#React-是如何渲染组件的" class="headerlink" title="React 是如何渲染组件的"></a>React 是如何渲染组件的</h2><hr>
+<p>我们按照平时书写 React 代码的顺序来理清 React 把组件代码渲染到最终的真实 DOM 中的流程。<br>一般来讲，我们都会先定义一个组件。我们如果想要在页面中看到这个组件的渲染结果，就需要以 JSX 的形式将组件传入 ReactDOM.render 方法的第一个参数，我们一直说，这里的 JSX 经过 React 内部的转译，将 JSX 转换为 React.createElement 方法来创建的 React 元素。render 方法获取到 React 元素之后会将它实例化，之后它会根据实例化的 React 元素创建出真实的 DOM 元素，再根据第二个参数的指向，将创建好的元素插入到目标 DOM 容器当中。</p>
+<p>在新版本的 React 当中，将 React 应用界面更新的过程分为了两个主要的部分: </p>
+<ul>
+<li>调度过程</li>
+<li>执行过程</li>
+</ul>
+<p>在调度过程中，有 4 个生命周期函数会被触发: </p>
+<ul>
+<li>componentWillMount</li>
+<li>componentWillReceiveProps</li>
+<li>shouldComponentUpdate</li>
+<li>componentWillUpdate</li>
+</ul>
+<p>在执行过程中，有 3 个生命周期函数会被触发: </p>
+<ul>
+<li>componentDidMount</li>
+<li>componentDidUpdate</li>
+<li>componentWillUnmount</li>
+</ul>
+<p>官方推荐在 componentDidMount 函数中进行一些例如 ajax 请求的操作，所以它也是我们最经常使用的生命周期函数。</p>
+<h2 id="表单及事件处理"><a href="#表单及事件处理" class="headerlink" title="表单及事件处理"></a>表单及事件处理</h2><hr>
+<p>之前说过受控组件与非受控组件的概念。受控与非受控组件就是专门适用于 React 当中的表单元素的。<br>在 HTML 中，表单元素与其他元素最大的不同是它自带值或数据，而且在我们的应用中，只要是有表单出现的地方，就会有用户输入，就会有表单事件触发，就会涉及的数据处理。</p>
+<p>为了更好地管理应用中的数据，响应用户的输入，编写组件的时候，我们就会运用到受控组件与非受控组件这两个概念。</p>
+<p>React 推荐我们在绝大多数情况下都使用受控组件。这样可以保证表单的数据在组件的 state 管理之下，而不是各自独立保有各自的数据。</p>
+<h3 id="表单元素"><a href="#表单元素" class="headerlink" title="表单元素"></a>表单元素</h3><p>我们在组件中声明表单元素时，一般都要为表单元素传入应用状态中的值，可以通过 state 也可以通过 props 传递，之后需要为其绑定相关事件，例如表单提交、输入改变等。在相关事件触发的处理函数中，我们需要根据表单元素中用户的输入，对应用数据进行相应的操作和改变: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ControlledInput</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">props</span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>(props);<br>        <span class="hljs-built_in">this</span>.state = &#123;<br>            <span class="hljs-attr">value</span>: <span class="hljs-string">&quot;&quot;</span><br>        &#125;;<br>    &#125;<br><br>    handlerChange = <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> &#123;<br>        <span class="hljs-built_in">this</span>.setState(&#123;<br>            <span class="hljs-attr">value</span>: e.target.value<br>        &#125;);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-keyword">return</span> (<br>            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="xml">                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#123;this.state.value&#125;</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">&#123;this.handlerChange&#125;</span> /&gt;</span></span><br><span class="xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>        );<br>    &#125;<br><br>    <span class="hljs-comment">//或者使用如下写法(属性初始化器语法)，我们通常建议在构造函数中绑定或使用属性初始化器语法来避免性能问题。</span><br>    handlerChange = <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> &#123;<br>        <span class="hljs-built_in">this</span>.setState(&#123;<br>            <span class="hljs-attr">value</span>: e.target.value<br>        &#125;);<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-keyword">return</span> (<br>            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="xml">                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#123;this.state.value&#125;</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">&#123;this.handlerChange&#125;</span> /&gt;</span></span><br><span class="xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>        );<br>    &#125;<br>&#125;<br><br>ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ControlledInput</span> /&gt;</span></span>, <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;container&#x27;</span>));<br></code></pre></td></tr></table></figure>
+
+<p>使用受控组件和非受控组件都是有相应的适用场景的，就拿 input 来讲，比方说它是一个搜索框，我们需要在应用中实现根据搜索框内容输入异步返回相关搜索建议的功能，那么此处的 input 就应该是受控组件。而假如它是 Todo 应用中用来添加新事项的输入框，我们就没有特别的理由需要实时获取其中的数据，只需要在添加事项的事件触发时获取输入框中的值即可，这个地方就可以使用非受控组件。</p>
+<h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><p>React 元素的事件属性几乎与 HTML 中的事件相关属性相同，不过在 React 当中，事件相关的属性是以小驼峰的方式命名的。<br>新版本的 React 中，我们可以通过类和函数声明 React 组件，在这两种形式的声明当中，我们都可以为其定义事件处理函数，函数定义的组件只需要在其方法内部再定义事件触发的函数即可，而如果是类声明组件，就像我们在之前的课程中已经强调过的，类定义组件中的自定义方法默认是没有绑定 this 的，因此假如我们需要在事件处理函数中调用 this.setState 一类的方法，就必须要在构造函数中手动将 this 绑定在相应的事件处理函数上。(箭头函数不用)。</p>
+<h3 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h3><p>我们可以使用与运算符 &amp;&amp; 进行条件渲染: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Mailbox</span>(<span class="hljs-params">props</span>) </span>&#123;<br>  <span class="hljs-keyword">const</span> unreadMessages = props.unreadMessages;<br>  <span class="hljs-keyword">return</span> (<br>    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="xml">      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="xml">      &#123;</span><br><span class="xml">        unreadMessages.length &gt; 0 &amp;&amp;</span><br><span class="xml">        <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span></span><br><span class="xml">          You have &#123;unreadMessages.length&#125; unread messages.</span><br><span class="xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span><br><span class="xml">      &#125;</span><br><span class="xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>  );<br>&#125;<br><br><span class="hljs-keyword">const</span> messages = [<span class="hljs-string">&#x27;React&#x27;</span>, <span class="hljs-string">&#x27;Re: React&#x27;</span>, <span class="hljs-string">&#x27;Re:Re: React&#x27;</span>];<br>ReactDOM.render(<br>  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Mailbox</span> <span class="hljs-attr">unreadMessages</span>=<span class="hljs-string">&#123;messages&#125;</span> /&gt;</span></span>,<br>  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;root&#x27;</span>)<br>);<br></code></pre></td></tr></table></figure>
+
+<p>之所以能这样做，是因为在 JavaScript 中，true &amp;&amp; expression 总是返回 expression，而 false &amp;&amp; expression 总是返回 false。<br>因此，如果条件是 true，&amp;&amp; 右侧的元素就会被渲染，如果是 false，React 会忽略并跳过它。</p>
+<h3 id="阻止组件渲染"><a href="#阻止组件渲染" class="headerlink" title="阻止组件渲染"></a>阻止组件渲染</h3><p>在极少数情况下，你可能希望隐藏组件，如下方法可以实现: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> &#123;<br>  <span class="hljs-keyword">return</span> [];<br>&#125;<br><br><span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> &#123;<br>  <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">React.Fragment</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">React.Fragment</span>&gt;</span></span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> &#123;<br>  <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;&gt;</span><span class="hljs-tag">&lt;/&gt;</span></span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="列表组件"><a href="#列表组件" class="headerlink" title="列表组件"></a>列表组件</h2><hr>
+<p>通常，我们使用 Javascript 中的 map() 方法遍历数组。对数组中的每个元素返回 li 标签，最后我们得到一个数组 listItems: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];<br><span class="hljs-keyword">const</span> listItems = numbers.map(<span class="hljs-function"><span class="hljs-params">number</span> =&gt;</span><br>  (<br>    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>&#123;number&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br>  )<br>);<br></code></pre></td></tr></table></figure>
+
+<p>我们把整个 listItems 插入到 ul 元素中，然后渲染进 DOM:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">ReactDOM.render(<br>  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>&#123;listItems&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span>,<br>  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;root&#x27;</span>)<br>);<br></code></pre></td></tr></table></figure>
+
+<p>我们可以把前面的例子重构成一个组件。这个组件接收 numbers 数组作为参数，输出一个无序列表: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">NumberList</span>(<span class="hljs-params">props</span>) </span>&#123;<br>  <span class="hljs-keyword">const</span> numbers = props.numbers;<br>  <span class="hljs-keyword">const</span> listItems = numbers.map(<span class="hljs-function"><span class="hljs-params">number</span> =&gt;</span><br>    (<br>      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>&#123;number&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br>    )<br>  );<br>  <span class="hljs-keyword">return</span> (<br>    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>&#123;listItems&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span><br>  );<br>&#125;<br><br><span class="hljs-keyword">const</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];<br>ReactDOM.render(<br>  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">NumberList</span> <span class="hljs-attr">numbers</span>=<span class="hljs-string">&#123;numbers&#125;</span> /&gt;</span></span>,<br>  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;root&#x27;</span>)<br>);<br></code></pre></td></tr></table></figure>
+
+<p>当我们运行这段代码，将会看到一个警告 a key should be provided for list items，意思是当你创建一个元素时，必须包括一个特殊的 key 属性。我们来给每个列表元素分配一个 key 来解决上面的那个警告: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">NumberList</span>(<span class="hljs-params">props</span>) </span>&#123;<br>  <span class="hljs-keyword">const</span> numbers = props.numbers;<br>  <span class="hljs-keyword">const</span> listItems = numbers.map(<span class="hljs-function"><span class="hljs-params">number</span> =&gt;</span><br>    (  <br>      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&#123;number.toString()&#125;</span>&gt;</span>&#123;number&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br>    )<br>  );<br>  <span class="hljs-keyword">return</span> (<br>    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>&#123;listItems&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span><br>  );<br>&#125;<br><br><span class="hljs-keyword">const</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];<br>ReactDOM.render(<br>  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">NumberList</span> <span class="hljs-attr">numbers</span>=<span class="hljs-string">&#123;numbers&#125;</span> /&gt;</span></span>,<br>  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;root&#x27;</span>)<br>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="Keys"><a href="#Keys" class="headerlink" title="Keys"></a>Keys</h3><p>Keys 可以在 DOM中 的某些元素被增加或删除的时候帮助 React 识别哪些元素发生了变化。因此你应当给数组中的每一个元素赋予一个确定的标识。<br>一个元素的 key 最好是这个元素在列表中拥有的一个独一无二的字符串。通常，我们使用来自数据的 id 作为元素的 key:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> todoItems = todos.map(<span class="hljs-function">(<span class="hljs-params">todo</span>) =&gt;</span><br>  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&#123;todo.id&#125;</span>&gt;</span></span><br><span class="xml">    &#123;todo.text&#125;</span><br><span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br>);<br></code></pre></td></tr></table></figure>
+
+<p>当元素没有确定的 id 时，你可以使用他的序列号索引 index 作为 key。如果列表可以重新排序，我们不建议使用索引来进行排序，因为这会导致渲染变得很慢。<br>注意: 如果你提取出一个 ListItem 组件，你应该把 key 保存在数组中的这个<ListItem />元素上，而不是放在 ListItem 组件中的 li 元素上: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ListItem</span>(<span class="hljs-params">props</span>) </span>&#123;<br>  <span class="hljs-comment">// 对啦！这里不需要指定key:</span><br>  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>&#123;props.value&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">NumberList</span>(<span class="hljs-params">props</span>) </span>&#123;<br>  <span class="hljs-keyword">const</span> numbers = props.numbers;<br>  <span class="hljs-keyword">const</span> listItems = numbers.map(<span class="hljs-function">(<span class="hljs-params">number</span>) =&gt;</span><br>    <span class="hljs-comment">// 又对啦！key应该在数组的上下文中被指定</span><br>    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ListItem</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&#123;number.toString()&#125;</span></span></span><br><span class="hljs-tag"><span class="xml">              <span class="hljs-attr">value</span>=<span class="hljs-string">&#123;number&#125;</span> /&gt;</span></span><br><br>  );<br>  <span class="hljs-keyword">return</span> (<br>    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span></span><br><span class="xml">      &#123;listItems&#125;</span><br><span class="xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span><br>  );<br>&#125;<br><br><span class="hljs-keyword">const</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];<br>ReactDOM.render(<br>  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">NumberList</span> <span class="hljs-attr">numbers</span>=<span class="hljs-string">&#123;numbers&#125;</span> /&gt;</span></span>,<br>  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;root&#x27;</span>)<br>);<br></code></pre></td></tr></table></figure>
+
+<p>注意: 当你在 map() 方法的内部调用元素时，你最好随时记得为每一个元素加上一个独一无二的 key。<br>数组元素中使用的 key 在其兄弟之间应该是独一无二的。然而，它们不需要是全局唯一的。</p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/%E6%9D%82(%E4%B8%80)/">
+        Previous post<br>杂(一)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/React(%E4%BA%8C)/">
+        Next post<br>React(二)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?64195476"></script>
+
+
+
+</body>
+</html>

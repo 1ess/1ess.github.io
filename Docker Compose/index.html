@@ -1,73 +1,257 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Docker Compose - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="之前几篇，我们讲过关于 Docker 的一些基础知识，包括如何运行一个容器、如何使用 Dockerfile 构建容器以及 Docker 网络相关内容。但是之前的内容都是如何操作一个容器，本篇要讲的 Docker Compose 则是如...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?13039994">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Docker Compose
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2020-05-27T00:00:00.000Z" itemprop="datePublished">
+                            2020-05-27 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>之前几篇，我们讲过关于 Docker 的一些基础知识，包括如何运行一个容器、如何使用 Dockerfile 构建容器以及 Docker 网络相关内容。但是之前的内容都是如何操作一个容器，本篇要讲的 Docker Compose 则是如何管理一组容器使之配合使用。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><hr>
+<img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/docker/compose.png" width="300px" alt="">
+
+<p>之前，我们必须使用大量 docker cli 命令才能在本地运行我们的应用程序。如果要运行一个包含十几个服务的微服务应用程序工作量已经是不可想象。为了使我们对本地容器基础结构的管理更轻松、可靠，我们需要一个可以让我们描述所需的环境，然后根据我们的描述进行创建容器的工具。</p>
+<p>Docker Compose 正是我们需要的工具，下面我们详细介绍一下如何使用他来管理我们的容器。</p>
+<h2 id="安装-Docker-Compose"><a href="#安装-Docker-Compose" class="headerlink" title="安装 Docker Compose"></a>安装 Docker Compose</h2><hr>
+<p>我们按照<a target="_blank" rel="noopener" href="https://docs.docker.com/compose/install/">官方文档</a>进行安装。确认我们安装的 Docker Compose 的版本 =&gt; 1.18.0: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">docker-compose -v<br></code></pre></td></tr></table></figure>
+
+<p>目前 Compose 文件格式有 3 个版本，分别为 1、2.x 和 3.x。目前官方推荐版本为 3.x，其支持 docker 1.13.0 及其以上的版本。</p>
+<h2 id="描述文件内容"><a href="#描述文件内容" class="headerlink" title="描述文件内容"></a>描述文件内容</h2><hr>
+<p>docker compose 描述文件为 yml 文件，通常命名为 docker-compose.yml，文件包含以下内容: </p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.3&#x27;</span><br><br><span class="hljs-comment"># define services (containers) that should be running</span><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">mongo-database:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mongo:3.2</span><br>    <span class="hljs-comment"># what volumes to attach to this container</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mongo-data:/data/db</span><br>    <span class="hljs-comment"># what networks to attach this container</span><br>    <span class="hljs-attr">networks:</span><br>     <span class="hljs-bullet">-</span> <span class="hljs-string">1ess-network</span><br><br>  <span class="hljs-attr">1ess-app:</span><br>    <span class="hljs-comment"># path to Dockerfile to build an image and start a container</span><br>    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">DATABASE_HOST=mongo-database</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-number">9292</span><span class="hljs-string">:9292</span><br>    <span class="hljs-attr">networks:</span><br>     <span class="hljs-bullet">-</span> <span class="hljs-string">1ess-network</span><br>    <span class="hljs-comment"># start 1ess-app only after mongo-database service was started</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mongo-database</span><br><br><span class="hljs-comment"># define volumes to be created</span><br><span class="hljs-attr">volumes:</span><br>  <span class="hljs-attr">mongo-data:</span><br><span class="hljs-comment"># define networks to be created</span><br><span class="hljs-attr">networks:</span><br>  <span class="hljs-attr">1ess-network:</span><br></code></pre></td></tr></table></figure>
+
+<p>在上述文件中，我们定义 3 个部分来配置容器基础结构的不同组件。</p>
+<p>docker compose 文件最重要的是 service 部分，在这一部分我们定义要运行的容器，我们要为每个服务赋予一个名字，并使用一个选项来启动该服务，通常使用 image 选项。并可以指定附加的 volumes 和 networks。</p>
+<p>1ess-app 的服务则有一些不同，我们使用 build 选项通过 Dockerfile 自己构建容器而不是通过现有的 image。并且该服务还指定 depends_on 选项来通知 docker compose 该服务在 mongo-database 服务启动之后再启动。</p>
+<p>该文件中的其他两个顶级部分是 volumes 和 networks。它们用于定义应创建的卷和网络，他与我们直接使用 docker cli 来创建 volume 和 network 相对应。</p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><hr>
+<p>我们使用命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">docker-compose up -d<br></code></pre></td></tr></table></figure>
+
+<p>来使我们声明的容器再后台启动运行。</p>
+<p>我们还使用: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">docker-compose down<br></code></pre></td></tr></table></figure>
+
+<p>来销毁所声明的全部容器。</p>
+<p>如果不是以 docker-compose.yml 命名的声明文件，则我们需要使用 -f 参数指定我们所使用的声明文件。</p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/C%20Primer%20Plus(%E4%B8%80)/">
+        Previous post<br>C Primer Plus(一)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Docker%20Network/">
+        Next post<br>Docker Network
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?45179209"></script>
+
+
+
+</body>
+</html>

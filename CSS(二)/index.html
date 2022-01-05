@@ -1,73 +1,617 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>CSS(二) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="这一篇讲解在 CSS 中与字体和文本相关的属性。
+font 和 text 相关属性
+
+font
+
+
+font-family
+font-size
+font-weight
+font-style
+font-variant
+font简写
+
+
+...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?36981344">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    CSS(二)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2018-06-24T00:00:00.000Z" itemprop="datePublished">
+                            2018-06-24 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>这一篇讲解在 CSS 中与字体和文本相关的属性。</p>
+<h2 id="font-和-text-相关属性"><a href="#font-和-text-相关属性" class="headerlink" title="font 和 text 相关属性"></a>font 和 text 相关属性</h2><hr>
+<ol>
+<li>font</li>
+</ol>
+<ul>
+<li>font-family</li>
+<li>font-size</li>
+<li>font-weight</li>
+<li>font-style</li>
+<li>font-variant</li>
+<li>font简写</li>
+</ul>
+<ol start="2">
+<li>text</li>
+</ol>
+<ul>
+<li>color</li>
+<li>text-indent</li>
+<li>letter-spacing</li>
+<li>word-spacing</li>
+<li>text-decoration</li>
+<li>text-align</li>
+<li>vertical-align</li>
+<li>line-height</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/other-font-image/web-typography-terminology-e06b82.png"></p>
+<h2 id="font-family"><a href="#font-family" class="headerlink" title="font-family"></a>font-family</h2><hr>
+<p>font-family 定义了页面所使用的字体。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-family</span>: <span class="hljs-string">&quot;Source Sans Pro&quot;</span>, <span class="hljs-string">&quot;Arial&quot;</span>, sans-serif;<br></code></pre></td></tr></table></figure>
+<p>当使用多个值时，font-family 属性值字体列表定义浏览器应选择字体系列的优先级。<br>浏览器将在用户的计算机或者任何 @font-face 资源中查找每个字体。<br>所使用的字体优先级按<strong>从左到右</strong>的排序: 如果可用，它将使用第一个值，否则跳到下一个值，直到最后。默认字体系列由浏览器首选项定义。<br>在上面的示例中，浏览器将首先尝试使用 Source Sans Pro。如果不可用，它会尝试使用 Arial。如果也不可用，它将使用浏览器的 sans-serif 字体族中的可用字体。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/other-font-image/bulletproof-font-face-d18a22.png"></p>
+<h3 id="5-种字体族"><a href="#5-种字体族" class="headerlink" title="5 种字体族"></a>5 种字体族</h3><ul>
+<li>serif: 有衬线字体族</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-family</span>: serif;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/font-family/serif-font.png"></p>
+<ul>
+<li>sans-serif: 无衬线字体族</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-family</span>: sans-serif;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/font-family/sans-serif-font.png"></p>
+<ul>
+<li>monospace: 等宽字体族</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-family</span>: monospace;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/font-family/monospace-font.png"></p>
+<ul>
+<li>cursive: 草书或手写体字体族</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-family</span>: cursive;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/font-family/cursive-font.png"></p>
+<ul>
+<li>fantasy: 奇幻字体族</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-family</span>: fantasy;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/font-family/fantasy-font.png"></p>
+<h2 id="font-size"><a href="#font-size" class="headerlink" title="font-size"></a>font-size</h2><hr>
+<p>font-size 定义了页面字体尺寸，浏览器默认使用字体尺寸为 medium 关键字。</p>
+<h3 id="6-种-font-size-可用取值"><a href="#6-种-font-size-可用取值" class="headerlink" title="6 种 font-size 可用取值"></a>6 种 font-size 可用取值</h3><ul>
+<li>像素(pixel)</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-size</span>: <span class="hljs-number">20px</span>;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/font-size/pixel-value.png"></p>
+<ul>
+<li>em: 相对于父元素的 font-size</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-size</span>: <span class="hljs-number">1.2em</span>;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/font-size/em-value.png"></p>
+<ul>
+<li>rem: 相对于根元素的 font-size(即 html 元素)</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-size</span>: <span class="hljs-number">1.2rem</span>;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/font-size/rem-value.png"></p>
+<ul>
+<li>百分数(percentage): 相对于父元素的 font-size</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-size</span>: <span class="hljs-number">90%</span>;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/font-size/percentage-value.png"></p>
+<ul>
+<li>相对关键字(relative-keywords): 相对于父元素的 font-size<br>可用关键字: </li>
+</ul>
+<ol>
+<li>larger</li>
+<li>smaller</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-size</span>: smaller;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/font-size/rel-keywords-value.png"></p>
+<ul>
+<li>绝对关键字(absolute-keywords): 相对于根元素的 font-size(即 html 元素)<br>可用关键字: </li>
+</ul>
+<ol>
+<li>xx-larger</li>
+<li>x-large</li>
+<li>large</li>
+<li>medium</li>
+<li>small</li>
+<li>x-small</li>
+<li>xx-small</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-size</span>: x-large;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/font-size/abs-keywords-value.png"></p>
+<h2 id="font-style"><a href="#font-style" class="headerlink" title="font-style"></a>font-style</h2><hr>
+<p>font-style 定义字体样式。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-style</span>: normal;<br></code></pre></td></tr></table></figure>
+
+<p>还有两个之可选: </p>
+<ul>
+<li>italic</li>
+<li>oblique</li>
+</ul>
+<p>均为斜体。</p>
+<h2 id="font-weight"><a href="#font-weight" class="headerlink" title="font-weight"></a>font-weight</h2><hr>
+<p>font-weight 定义字重。</p>
+<h3 id="3-种-font-weight-可用取值"><a href="#3-种-font-weight-可用取值" class="headerlink" title="3 种 font-weight 可用取值"></a>3 种 font-weight 可用取值</h3><ul>
+<li>关键字</li>
+</ul>
+<ol>
+<li>Thin</li>
+<li>Extra Light</li>
+<li>Light</li>
+<li>Normal</li>
+<li>Medium</li>
+<li>Semi Bold</li>
+<li>Bold</li>
+<li>Extra Bold</li>
+<li>Ultra Bold</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-weight</span>: bold;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>数字</li>
+</ul>
+<ol>
+<li>100 对应 Thin</li>
+<li>200 对应 Extra Light</li>
+<li>300 对应 Light</li>
+<li>400 对应 Normal</li>
+<li>500 对应 Medium</li>
+<li>600 对应 Semi Bold</li>
+<li>700 对应 Bold</li>
+<li>800 对应 Extra Bold</li>
+<li>900 对应 Ultra Bold</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-weight</span>: <span class="hljs-number">600</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>相对关键字</li>
+</ul>
+<ol>
+<li>lighter</li>
+<li>bolder</li>
+</ol>
+<p>浏览器会选择下一个可用字重。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-weight</span>: bolder;<br></code></pre></td></tr></table></figure>
+
+<h2 id="font-variant"><a href="#font-variant" class="headerlink" title="font-variant"></a>font-variant</h2><hr>
+<p>font-variant 定义了所使用的字形，normal 为浏览器默认取值。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font-variant</span>: normal;<br></code></pre></td></tr></table></figure>
+<p>还有一个值可选: </p>
+<ul>
+<li>small-caps</li>
+</ul>
+<h2 id="font-简写"><a href="#font-简写" class="headerlink" title="font 简写"></a>font 简写</h2><hr>
+<p>注意 font 所有属性都是可继承的属性。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font</span>: bold italic <span class="hljs-number">18px</span> Simsun,sans-serif;<br></code></pre></td></tr></table></figure>
+<p>font简写属性要求: </p>
+<ul>
+<li>必须同时包含 font-size 和 font-family 属性，且 font-size 在 font-family 之前。</li>
+<li>如果有其他 font 相关属性，必须放在 font-size 之前。</li>
+</ul>
+<h2 id="color"><a href="#color" class="headerlink" title="color"></a>color</h2><hr>
+<p>color 属性定义元素<strong>前景色</strong>。(边框，文本等)</p>
+<h3 id="7-种可选取值"><a href="#7-种可选取值" class="headerlink" title="7 种可选取值"></a>7 种可选取值</h3><ul>
+<li>transparent</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">color</span>: transparent;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>color keyword</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">color</span>: red;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>hexadecimal color codes</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">color</span>: <span class="hljs-number">#05ffb0</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>rgb()</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">color</span>: <span class="hljs-built_in">rgb</span>(<span class="hljs-number">50</span>, <span class="hljs-number">115</span>, <span class="hljs-number">220</span>);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>rgba()</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">color</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>hsl()</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">color</span>: <span class="hljs-built_in">hsl</span>(<span class="hljs-number">14</span>, <span class="hljs-number">100%</span>, <span class="hljs-number">53%</span>);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>hsla()</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">color</span>: <span class="hljs-built_in">hsla</span>(<span class="hljs-number">14</span>, <span class="hljs-number">100%</span>, <span class="hljs-number">53%</span>, <span class="hljs-number">0.6</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="text-indent"><a href="#text-indent" class="headerlink" title="text-indent"></a>text-indent</h2><hr>
+<p>text-indent 属性定义文本缩进。<br>可以使用 pixel，em，rem，percentage 等。<br>可以使用负值。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-indent</span>: <span class="hljs-number">2em</span>;<br></code></pre></td></tr></table></figure>
+
+<h2 id="letter-spacing"><a href="#letter-spacing" class="headerlink" title="letter-spacing"></a>letter-spacing</h2><hr>
+<p>letter-spacing 属性定义字符间距，normal 为浏览器默认取值。</p>
+<h3 id="3-种可选取值"><a href="#3-种可选取值" class="headerlink" title="3 种可选取值"></a>3 种可选取值</h3><ul>
+<li>normal</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">letter-spacing</span>: normal;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/letter-spacing/normal-spacing.png"></p>
+<ul>
+<li>像素(pixel)</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">letter-spacing</span>: <span class="hljs-number">2px</span>;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/letter-spacing/pixel-spacing.png"></p>
+<ul>
+<li>em</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">letter-spacing</span>: <span class="hljs-number">0.1em</span>;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/letter-spacing/em-spacing.png"></p>
+<h2 id="word-spacing"><a href="#word-spacing" class="headerlink" title="word-spacing"></a>word-spacing</h2><hr>
+<p>word-spacing 属性定义单词间距，0px 为浏览器默认取值。</p>
+<h3 id="3-种可选取值-1"><a href="#3-种可选取值-1" class="headerlink" title="3 种可选取值"></a>3 种可选取值</h3><ul>
+<li>normal</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">word-spacing</span>: normal;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/word-spacing/normal-spacing.png"></p>
+<ul>
+<li>像素(pixel)</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">word-spacing</span>: <span class="hljs-number">5px</span>;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/word-spacing/pixel-spacing.png"></p>
+<ul>
+<li>em</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">word-spacing</span>: <span class="hljs-number">2em</span>;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/word-spacing/em-spacing.png"></p>
+<h2 id="line-height"><a href="#line-height" class="headerlink" title="line-height"></a>line-height</h2><hr>
+<p>line-height 属性定义单行文本高度。</p>
+<h3 id="4-种可选取值"><a href="#4-种可选取值" class="headerlink" title="4 种可选取值"></a>4 种可选取值</h3><ul>
+<li>normal</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">line-height</span>: normal;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>unitless: 行高相对于 font-size</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">line-height</span>: <span class="hljs-number">1.6</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>pixel</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">line-height</span>: <span class="hljs-number">30px</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>em: 行高相对于 font-size</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">line-height</span>: <span class="hljs-number">0.8em</span>;<br></code></pre></td></tr></table></figure>
+<p><strong>单行文本垂直居中只需要设置 height 和 line-height 相同即可。</strong><br>注意: line-height 属性也可以放到 font 简写属性里，写法为在 font-size 后加一个 / ，再跟 line-height 的值。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">font</span>: bold italic <span class="hljs-number">18px</span>/<span class="hljs-number">1.5</span> Simsun,sans-serif;<br></code></pre></td></tr></table></figure>
+
+<h2 id="text-decoration"><a href="#text-decoration" class="headerlink" title="text-decoration"></a>text-decoration</h2><hr>
+<p>text-decoration 属性定义文本装饰线样式。</p>
+<h3 id="4-种可选取值-1"><a href="#4-种可选取值-1" class="headerlink" title="4 种可选取值"></a>4 种可选取值</h3><ul>
+<li>none: 移除所有装饰线样式。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-decoration</span>: none;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>underline: 下划线样式</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-decoration</span>: underline;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>line-through: 中划线样式</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-decoration</span>: line-through;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>overline: 上划线样式</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-decoration</span>: overline;<br></code></pre></td></tr></table></figure>
+
+<h2 id="text-overflow"><a href="#text-overflow" class="headerlink" title="text-overflow"></a>text-overflow</h2><hr>
+<p>text-overflow 属性定义文本溢出时的行为。</p>
+<h3 id="2-种可选取值"><a href="#2-种可选取值" class="headerlink" title="2 种可选取值"></a>2 种可选取值</h3><ul>
+<li>clip: 剪切</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-overflow</span>: clip;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>ellipsis: 折叠</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-overflow</span>: ellipsis;<br></code></pre></td></tr></table></figure>
+
+<h2 id="text-transform"><a href="#text-transform" class="headerlink" title="text-transform"></a>text-transform</h2><hr>
+<p>text-transform 属性定义文本内容变换。</p>
+<h3 id="4-种可选取值-2"><a href="#4-种可选取值-2" class="headerlink" title="4 种可选取值"></a>4 种可选取值</h3><ul>
+<li>none: 取消所有变换</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-transform</span>: none;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>capitalize: 首字符大写</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-transform</span>: capitalize;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>uppercase: 全字符大写</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-transform</span>: uppercase;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>lowercase: 全字符小写</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-transform</span>: lowercase;<br></code></pre></td></tr></table></figure>
+
+<h2 id="text-align"><a href="#text-align" class="headerlink" title="text-align"></a>text-align</h2><hr>
+<p>text-align 属性作用于块级元素，控制其内部行内内容(如文本或行内元素等)对齐方式。是可继承属性。</p>
+<h3 id="4-种可选取值-3"><a href="#4-种可选取值-3" class="headerlink" title="4 种可选取值"></a>4 种可选取值</h3><ul>
+<li>left: 左对齐</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-align</span>: left;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/other-font-image/left-text-alignment-26dbc5.png"></p>
+<ul>
+<li>right: 右对齐</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-align</span>: right;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>center: 居中对齐</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-align</span>: center;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/other-font-image/center-text-alignment-29e1d3.png"></p>
+<ul>
+<li>justify: 两端对齐</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">text-align</span>: justify;<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/other-font-image/good-vs-bad-hyphenation-engine-ba40e3.png"><br><strong>justify 只对多行文本有效，且多行文本的最后一行无效。要想对最后一行有效需要使用 text-align-last: justify; 或使用伪元素::after 把最后一行变为非最后一行</strong></p>
+<h2 id="vertical-align"><a href="#vertical-align" class="headerlink" title="vertical-align"></a>vertical-align</h2><hr>
+<p>vertical-align 属性定义了一个行内元素如何垂直对齐。</p>
+<h3 id="8-种可选取值"><a href="#8-种可选取值" class="headerlink" title="8 种可选取值"></a>8 种可选取值</h3><ul>
+<li>baseline</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">vertical-align</span>: baseline;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>sub</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">vertical-align</span>: sub;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>super</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">vertical-align</span>: super;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>text-top</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">vertical-align</span>: text-top;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>text-bottom</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">vertical-align</span>: text-bottom;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>middle</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">vertical-align</span>: middle;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>top</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">vertical-align</span>: top;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>bottom</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs CSS"><span class="hljs-attribute">vertical-align</span>: bottom;<br></code></pre></td></tr></table></figure>
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/CSS(%E4%B8%89)/">
+        Previous post<br>CSS(三)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/CSS(%E4%B8%80)/">
+        Next post<br>CSS(一)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?5014415"></script>
+
+
+
+</body>
+</html>

@@ -1,73 +1,318 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>『计算机的组成与设计』-存储器层次结构 - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="
+不要低估一辆载满磁带飞奔的货车的带宽。
+
+局部性原理
+局部性原理表明了在任何时间内，程序访问的只是地址空间相对较小的一部分内容。  
+
+时间局部性: 如果某个数据被访问，那么在不久的将来他可能再次被访问
+空间局部性: 如果某个数据被...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?75478761">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    『计算机的组成与设计』-存储器层次结构
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2018-05-20T00:00:00.000Z" itemprop="datePublished">
+                            2018-05-20 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <blockquote>
+<p>不要低估一辆载满磁带飞奔的货车的带宽。</p>
+</blockquote>
+<h2 id="局部性原理"><a href="#局部性原理" class="headerlink" title="局部性原理"></a>局部性原理</h2><hr>
+<p>局部性原理表明了在任何时间内，程序访问的只是地址空间相对较小的一部分内容。  </p>
+<ul>
+<li>时间局部性: 如果某个数据被访问，那么在不久的将来他可能再次被访问</li>
+<li>空间局部性: 如果某个数据被访问，与他地址相邻的数据可能很快被访问</li>
+</ul>
+<p>我们利用局部性原理将计算机存储器组织成为<strong>存储器层次结构</strong>(memory hierarchy)。存储器层次结构由不同速度和容量的多级存储器构成。<br>如果存储器需要的数据存放在高层存储器中的某个块中，则称为一次<strong>命中</strong>。命中率是在高层次存储器中找到数据的存储访问比例，是存储器层次结构性能的重要衡量指标。</p>
+<h2 id="存储器技术"><a href="#存储器技术" class="headerlink" title="存储器技术"></a>存储器技术</h2><hr>
+<p>目前，构建存储器层次结构主要有四种技术。</p>
+<ul>
+<li>主存由 DRAM 实现</li>
+<li>cache 由 SRAM 实现</li>
+<li>闪存非易失性存储器用作个人移动设备中的二级存储器</li>
+<li>磁盘通常是服务器中容量最大速度最慢的一层</li>
+</ul>
+<h2 id="存储器的层次结构"><a href="#存储器的层次结构" class="headerlink" title="存储器的层次结构"></a>存储器的层次结构</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/memory/memory-hierarchy.png"></p>
+<h2 id="SRAM"><a href="#SRAM" class="headerlink" title="SRAM"></a>SRAM</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/memory/SRAM.png"></p>
+<p>上图是 6 晶体管 SRAM 的一个单元。核心是 4 个晶体管 M1-M4，它们组成两个交叉耦合的反相器。它们有两个稳定的状态，分别代表 0 和 1。</p>
+<h2 id="DRAM"><a href="#DRAM" class="headerlink" title="DRAM"></a>DRAM</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/memory/DRAM.png"></p>
+<p>动态 RAM 比静态 RAM 要简单得多。上图展示了一种普通 DRAM 的结构。它只含有一个晶体管和一个电容器。</p>
+<h2 id="主存"><a href="#主存" class="headerlink" title="主存"></a>主存</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/memory/RAM.jpg"></p>
+<p>上图就是一个内存模组(memory module)，模组上面的一个个黑色芯片就是 DRAM 芯片。就构成了我们说的内存条。通常用于 PC 上，在移动设备上，内存通常集成于 SoC。</p>
+<h3 id="DDR"><a href="#DDR" class="headerlink" title="DDR"></a>DDR</h3><p><strong>双倍数据传输率</strong>(Double Date Rate)严格的说 DDR 应该叫 DDR SDRAM，人们习惯称为 DDR。<br>DDR 内存是在 SDRAM 内存基础上发展而来的，仍然沿用 SDRAM 生产体系，因此对于内存厂商 而言，只需对制造普通 SDRAM 的设备稍加改进，即可实现 DDR 内存的生产，可有效的降低成本。<br>DDR 系统时脉为 100 或 133MHz，但是数据传输速率为系统时脉的两倍，即 200 或 266 MHz，系统使用 3.3 或 3.5V 的电压。因为 DDR SDRAM 的速度增加，因此它的传输效能比同步动态随机存取内存(SDRAM)好。SDRAM 在一个时钟周期内只传输一次数据，它是在时钟的上升期进行数据传输；而 DDR 内存则是一个时钟周期内传输两次次数据，它能够在时钟的上升期和下降期各传输一次数据，因此称为双倍速率同步动态随机存储器。DDR 内存可以在与 SDRAM 相同的总线频率下达到更高的数据传输率。</p>
+<h3 id="双通道"><a href="#双通道" class="headerlink" title="双通道"></a>双通道</h3><p><strong>双通道</strong>(Dual-channel)是一种能够让电脑性能增加的技术，这种技术将多个内存由串联方式改良为并联方式，以得到更大的频宽。</p>
+<h2 id="高速缓存"><a href="#高速缓存" class="headerlink" title="高速缓存"></a>高速缓存</h2><hr>
+<h3 id="Cache-对空间局部性的利用"><a href="#Cache-对空间局部性的利用" class="headerlink" title="Cache 对空间局部性的利用"></a>Cache 对空间局部性的利用</h3><ul>
+<li>从主存中取回带访问数据时，会同时取回与位置相邻的主存单元的数据</li>
+<li>以<strong>块</strong>(Block)为单位和主存进行数据交换</li>
+</ul>
+<h3 id="Cache-对时间局部性的利用"><a href="#Cache-对时间局部性的利用" class="headerlink" title="Cache 对时间局部性的利用"></a>Cache 对时间局部性的利用</h3><ul>
+<li>保存近期被频繁访问的主存单元的数据。</li>
+</ul>
+<h3 id="Cache-的访问过程"><a href="#Cache-的访问过程" class="headerlink" title="Cache 的访问过程"></a>Cache 的访问过程</h3><ol>
+<li>CPU 向 Cache 发出读请求</li>
+<li>首先判断数据是否位于 Cache，若位于 Cache 中，则称为 <strong>Cache Hit</strong>，返回数据；若 Cache 中不存在，则称为 <strong>Cache Miss</strong>，并向主存发出读请求。(这一过程 CPU 不参与)</li>
+<li>从主存中读取数据，更新 Cache 并返回数据</li>
+</ol>
+<h3 id="Cache-的写策略"><a href="#Cache-的写策略" class="headerlink" title="Cache 的写策略"></a>Cache 的写策略</h3><ul>
+<li>Cache 命中时的写策略</li>
+</ul>
+<ol>
+<li>写穿透(Write Through): 数据同时写入 Cache 和主存</li>
+<li>写返回(Write Back): 数据只写入 Cache，仅当该数据块被替换时才将数据写回主存</li>
+</ol>
+<ul>
+<li>Cache 失效时的写策略</li>
+</ul>
+<ol>
+<li>写不分配(Write Non-Allocate): 直接将数据写入主存</li>
+<li>写分配(Write Allocate): 将该数据所在的块读入 Cache 后，再将数据写入 Cache</li>
+</ol>
+<p>少量对性能要求不高的系统采用<strong>写穿透-写不分配</strong>的策略，大多数都采用<strong>写返回-写分配</strong>的策略。</p>
+<h3 id="Cache-失效的原因"><a href="#Cache-失效的原因" class="headerlink" title="Cache 失效的原因"></a>Cache 失效的原因</h3><p><strong>注意: 提高一点命中率，访存性能提升很高。</strong>    </p>
+<ul>
+<li>义务失效<br>第一次访问某一块数据，也成为冷启动(Cold Start Miss)。(无法避免)</li>
+<li>容量失效<br>Cache 无法保存程序访问所需的所有的数据块。(可通过过增加 Cache 容量解决)</li>
+<li>冲突失效<br>多个存储器位置映射到同一 Cache 位置。</li>
+</ul>
+<h3 id="Cache-映射策略"><a href="#Cache-映射策略" class="headerlink" title="Cache 映射策略"></a>Cache 映射策略</h3><ul>
+<li>直接映射 Cache</li>
+<li>组相联 Cache</li>
+</ul>
+<h3 id="Cache-替换算法"><a href="#Cache-替换算法" class="headerlink" title="Cache 替换算法"></a>Cache 替换算法</h3><ul>
+<li>随机</li>
+<li>轮转</li>
+<li>LRU</li>
+</ul>
+<p><strong>对于现在的多级高速缓存，如 Core I7，L1 Cache 会采用指令和数据分离的 Cache，L2 和 L3 则不分离。</strong></p>
+<h2 id="存储容量的计算"><a href="#存储容量的计算" class="headerlink" title="存储容量的计算"></a>存储容量的计算</h2><hr>
+<h3 id="单位前缀"><a href="#单位前缀" class="headerlink" title="单位前缀"></a>单位前缀</h3><ul>
+<li>高速缓存: 32KB = 32 x 1024Byte(K: 2<sup>10</sup>，M: 2<sup>20</sup>，G: 2<sup>30</sup>)</li>
+<li>内存: 4GB = 4 x 1024<sup>3</sup>Byte</li>
+<li>U盘: 4GB =  4 x 1000<sup>3</sup>Byte</li>
+<li>硬盘: 1TB =  1 x 1000<sup>4</sup>Byte</li>
+</ul>
+<p><strong>注意: 内部存储器使用 1024，而外部存储器使用 1000。</strong></p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/%E8%87%AA%E7%94%B1/">
+        Previous post<br>自由
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/%5B%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90%E4%B8%8E%E8%AE%BE%E8%AE%A1%5D-%E5%A4%84%E7%90%86%E5%99%A8/">
+        Next post<br>『计算机的组成与设计』-处理器
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?29925261"></script>
+
+
+
+</body>
+</html>

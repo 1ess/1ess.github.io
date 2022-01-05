@@ -1,57 +1,444 @@
-<% include _include/variables.ejs %>
-<%
-config.__isIndex = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage(item) {
-    var featuredImage = item.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + item.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?82970591">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item active" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+        
+        <div class="pagination-indicator">
+            <span style="text-align: center">
+                5<br><div style="display: inline-block; transform: rotate(-28deg)">-</div><br>20
+            </span>
+        </div>
+        
+
+        
+        <a class="pagination-action" href="/page/4/">
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
+        
+
+        
+        <a class="pagination-action" href="/page/6/">
+            <i class="material-icons pagination-action-icon">
+                chevron_right
+            </i>
+        </a>
+        
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-no-background">
-        <% page.posts.each(function (item) { %>
-        <a href="<%= config.root + item.path %>" class="a-block">
+        
+        <a href="/重学 SQL(三)/" class="a-block">
             <div class="post-item-wrapper">
                 <div class="post-item post-item-no-divider">
                     <div class="post-item-info-wrapper">
                         <div class="post-item-title">
-                            <%= item.title %>
+                            重学 SQL(三)
                         </div>
                         <div class="post-item-summary">
-                            <%= item.intro && item.intro.length > 0 ? item.intro : truncate(strip_html(item.content), {
-                                length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-                                omission: '...'
-                            }) %>
+                            前两篇，我们都是在进行查询操作，本篇，我们来详细介绍 SQL 中的插入、更新和删除操作。
+Insert
+插入单行INSERT 语句基本语法为: 
+INSERT INTO [table_name] VALUES     (column_...
                         </div>
                         <div class="post-item-meta">
-                            <%= date(item.date, "YYYY-MM-DD") %>
+                            2020-08-12
                         </div>
                     </div>
-                    <% if(item.featured_image){ %>
-                    <div class="post-item-image-wrapper">
-                        <div class="post-item-image"
-                             style="background-image: url('<%= getFeaturedImage(item) %>')"></div>
-                    </div>
-                    <% } %>
+                    
                 </div>
             </div>
         </a>
-        <% }) %>
+        
+        <a href="/重学 SQL(二)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            重学 SQL(二)
+                        </div>
+                        <div class="post-item-summary">
+                            上一篇，我们只介绍了一个表中数据的查询操作，本篇，我们将详细介绍如何进行多表查询以及多表查询的类型。
+Inner Join目前为止，我们只是从单一 Table 中选取列，但在实际生产环境中，通常需要从多张 Table 中选取。
+SEL...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-08-08
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/重学 SQL(一)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            重学 SQL(一)
+                        </div>
+                        <div class="post-item-summary">
+                            从这篇开始，我们通过几章的内容，重新学习 SQL 从基础到进阶的方方面面，塑造良好的 SQL 编写思维和逻辑能力。
+概念
+数据库是一个可以轻易获取的格式存储数据的集合。这里我们只介绍关系型数据库。为了管理数据库，我们使用数据库管理系统...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-08-04
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/C Primer Plus(七)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            C Primer Plus(七)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们主要讨论字符串的性质、如何声明并初始化字符串、如何在程序中输入和输出字符串，以及如何操控字符串。
+字符串是 C 语言中最有用、最重要的数据类型之一。前面介绍过，字符串是以空字符(\0)结尾的 char 类型数组。我们可以把之...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-07-17
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/C Primer Plus(六)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            C Primer Plus(六)
+                        </div>
+                        <div class="post-item-summary">
+                            上一篇，我们介绍了指针以及指针和数组的关系的基本知识，本篇我们继续讲讲有关指针的其他知识。
+函数、指针和数组
+在传递数组作为函数参数时要特别注意传递的只是指针，如下: 
+#include &amp;lt;stdio.h&amp;gt;void tes...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-07-12
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/C Primer Plus(五)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            C Primer Plus(五)
+                        </div>
+                        <div class="post-item-summary">
+                            作为程序员，不可避免地要处理大量相关数据。通常，数组能高效便捷地处理这种数据。本篇，我们就来说说 C 语言中数组的知识。
+数组
+C 语言的数组由数据类型相同的一系列元素组成。需要使用数组时，通过声明数组告诉编译器数组中内含多少元素和这...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-07-01
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/C Primer Plus(四)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            C Primer Plus(四)
+                        </div>
+                        <div class="post-item-summary">
+                            C 的设计思想是，把函数用作构件块来组织程序。前面我们用过了 C 标准库的函数，如 printf()、scanf()、getchar()、putchar() 和 strlen()。本篇我们进一步学习函数。
+函数签名
+前面说过函数原型指...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-06-17
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/C Primer Plus(三)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            C Primer Plus(三)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇主要介绍一下输入、输出以及缓冲输入和无缓冲输入相关知识。
+在计算机编程过程中，输入和输出是绕不开的知识点，如输入输出设备、数据的输入输出、以及输入输出函数(I/O 函数)等等。I/O 函数(如 printf()、scanf()、g...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-06-13
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/C Primer Plus(二)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            C Primer Plus(二)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们看一下 C 语言中的两个输入输出函数: printf() 和 scanf()。
+字符串
+字符串是一个或多个字符序列，使用双引号括起来，双引号不是字符串的一部分，只是告诉编译器括起来的是字符串。C 语言没有专门存储字符串的变量...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-06-08
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/C Primer Plus(一)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            C Primer Plus(一)
+                        </div>
+                        <div class="post-item-summary">
+                            从本篇开始，我们就要重新学习 C 语言了，参考书籍为《C Primer Plus》，是个硬骨头，加油吧💪。
+初识
+起源1972 年，贝尔实验室的 Dennis Ritch 和 Ken Thompson 在开发 Unix 系统时，设计...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-06-04
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
     
-        <% include _include/pagination.ejs %>
-    </div>
-    <% include _include/single_column_footer.ejs %>
+        
+<div class="pagination index-page">
+    
+    <a class="pagination-action" href="/page/4/" style="opacity: 1">
+        
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
+
+        <div class="pagination-indicator">
+            <span>5/20</span>
+        </div>
+
+        
+        <a class="pagination-action" href="/page/6/"
+           style="opacity: 1">
+            
+                <i class="material-icons pagination-action-icon">
+                    chevron_right
+                </i>
+            </a>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% include _include/tail.ejs %>
+    </div>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?64847361"></script>
+</body>
+</html>

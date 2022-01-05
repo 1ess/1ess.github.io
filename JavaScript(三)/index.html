@@ -1,73 +1,477 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>JavaScript(三) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="这一篇，我们来学习一下 JavaScript 基本概念中的操作符、语句以及函数。
+操作符
+ECMA 描述了一组用于操作数据值的操作符。包括: 算数操作符、位操作符、关系操作符以及相等操作符等。
+ECMAScript 操作符与众不同之处...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?34275988">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    JavaScript(三)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2018-08-04T00:00:00.000Z" itemprop="datePublished">
+                            2018-08-04 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>这一篇，我们来学习一下 JavaScript 基本概念中的操作符、语句以及函数。</p>
+<h2 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h2><hr>
+<p>ECMA 描述了一组用于操作数据值的<strong>操作符</strong>。包括: 算数操作符、位操作符、关系操作符以及相等操作符等。</p>
+<p>ECMAScript 操作符与众不同之处在于，他们能操作很多值，如字符串、数字值、布尔值甚至对象。在应用于对象时，相应操作符都会调用对象的 valueOf() 或 toString() 方法，以便取得可操作的值。</p>
+<h3 id="一元操作符"><a href="#一元操作符" class="headerlink" title="一元操作符"></a>一元操作符</h3><p>只有一个操作数的操作符称为一元操作符。</p>
+<h4 id="自增和自减操作符"><a href="#自增和自减操作符" class="headerlink" title="自增和自减操作符"></a>自增和自减操作符</h4><p>借鉴于 C 语言。有两个版本: 前置以及后置。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> a = <span class="hljs-number">10</span>;<br>++a;<br><br><span class="hljs-keyword">var</span> b = <span class="hljs-number">20</span>;<br>b++;<br></code></pre></td></tr></table></figure>
+<p>注意: 自增自减操作符不仅可以用于整数，还可以用于字符串、布尔值、浮点数以及对象。在应用于不同值时，遵循下面规则: </p>
+<ul>
+<li>在应用于一个包含有效数字字符的字符串时，先将其转换为数字，在执行自增自减操作</li>
+<li>在应用于一个不包含有效数字字符的字符串时，将变量的值设为 NaN</li>
+<li>在应用于一个布尔值 false 时，先将其转换为 0，在执行自增自减操作</li>
+<li>在应用于一个布尔值 true 时，先将其转换为 1，在执行自增自减操作</li>
+<li>在应用于一个浮点数时，执行自增自减操作</li>
+<li>在应用于一个对象，先调用对象的 valueOf() 方法，在按上述规则执行，若返回 NaN，则再调用 toString() 方法后，再按照上述规则执行</li>
+</ul>
+<h4 id="一元加减操作符"><a href="#一元加减操作符" class="headerlink" title="一元加减操作符"></a>一元加减操作符</h4><p>我们只需注意，在对非数值应用一元加减操作符时，与调用 Number() 转型函数的规则一样。</p>
+<h3 id="位操作符"><a href="#位操作符" class="headerlink" title="位操作符"></a>位操作符</h3><p>按照内存中表示数值的位来操作数值。</p>
+<h4 id="按位非-NOT"><a href="#按位非-NOT" class="headerlink" title="按位非(NOT)"></a>按位非(NOT)</h4><p>按位非操作符由一个 ~ 表示。按位非的结果就是返回数值的反码。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> num1 = <span class="hljs-number">25</span>;  <span class="hljs-comment">// 二进制 00000000000000000000000000011001</span><br><span class="hljs-keyword">var</span> num2 = ~num1;  <span class="hljs-comment">// 二进制 11111111111111111111111111100110</span><br>alert(num2);  <span class="hljs-comment">// -26</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="按位与-AND"><a href="#按位与-AND" class="headerlink" title="按位与(AND)"></a>按位与(AND)</h4><p>按位与操作符由一个 &amp; 表示。有两个操作数，将两个操作数每一位对齐，进行位操作。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> num1 = <span class="hljs-number">25</span>;  <span class="hljs-comment">//00000000000000000000000000011001</span><br><span class="hljs-keyword">var</span> num2 = <span class="hljs-number">3</span>;  <span class="hljs-comment">//00000000000000000000000000000011 </span><br><span class="hljs-keyword">var</span> num3 = num1 &amp; num2;  <span class="hljs-comment">//00000000000000000000000000000001</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="按位或-OR"><a href="#按位或-OR" class="headerlink" title="按位或(OR)"></a>按位或(OR)</h4><p>按位或操作符由一个 | 表示。也有两个操作数，将两个操作数每一位对齐，进行位操作。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> num1 = <span class="hljs-number">25</span>;  <span class="hljs-comment">//00000000000000000000000000011001</span><br><span class="hljs-keyword">var</span> num2 = <span class="hljs-number">3</span>;  <span class="hljs-comment">//00000000000000000000000000000011 </span><br><span class="hljs-keyword">var</span> num3 = num1 | num2;  <span class="hljs-comment">//00000000000000000000000000011011</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="按位异或-XOR"><a href="#按位异或-XOR" class="headerlink" title="按位异或(XOR)"></a>按位异或(XOR)</h4><p>按位异或操作符由一个 ^ 表示。也有两个操作数，将两个操作数每一位对齐，进行位操作。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> num1 = <span class="hljs-number">25</span>;  <span class="hljs-comment">//00000000000000000000000000011001</span><br><span class="hljs-keyword">var</span> num2 = <span class="hljs-number">3</span>;  <span class="hljs-comment">//00000000000000000000000000000011 </span><br><span class="hljs-keyword">var</span> num3 = num1 ^ num2;  <span class="hljs-comment">//00000000000000000000000000011010</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="左移"><a href="#左移" class="headerlink" title="左移"></a>左移</h4><p>左移操作符由 &lt;&lt; 表示。这个操作符会将数值的位向左移动指定位数。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> oldValue = <span class="hljs-number">2</span>;  <span class="hljs-comment">// 二进制 10</span><br><span class="hljs-keyword">var</span> newValue = oldValue &lt;&lt; <span class="hljs-number">5</span>;  <span class="hljs-comment">// 二进制 1000000，十进制 64</span><br></code></pre></td></tr></table></figure>
+<p>注意: 左移不会影响符号位。即将 -2 左移 5 位，结果为 -64。</p>
+<h4 id="有符号右移"><a href="#有符号右移" class="headerlink" title="有符号右移"></a>有符号右移</h4><p>有符号右移操作符由 &gt;&gt; 表示，操作符会将数值向右移动并保留符号位。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> oldValue = <span class="hljs-number">64</span>;  <span class="hljs-comment">// 二进制 1000000 </span><br><span class="hljs-keyword">var</span> newValue = oldValue &gt;&gt; <span class="hljs-number">5</span>;  <span class="hljs-comment">// 二进制 10，十进制 2</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="无符号右移"><a href="#无符号右移" class="headerlink" title="无符号右移"></a>无符号右移</h4><p>无符号右移操作符由 &gt;&gt;&gt; 表示，无符号右移以 0 填充空位。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> oldValue = -<span class="hljs-number">64</span>;  <span class="hljs-comment">// 二进制 11111111111111111111111111000000 </span><br><span class="hljs-keyword">var</span> newValue = oldValue &gt;&gt;&gt; <span class="hljs-number">5</span>;  <span class="hljs-comment">// 十进制 134217726</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="逻辑操作符"><a href="#逻辑操作符" class="headerlink" title="逻辑操作符"></a>逻辑操作符</h3><p>逻辑操作符一共有三个: </p>
+<ul>
+<li>逻辑非(NOT)</li>
+<li>逻辑与(AND)</li>
+<li>逻辑或(OR)</li>
+</ul>
+<h4 id="逻辑非"><a href="#逻辑非" class="headerlink" title="逻辑非"></a>逻辑非</h4><p>逻辑非操作符由！表示，他可以应用于 ECMAScript 中的任何值。无论这个值的类型是什么，这个操作符都会返回一个布尔值，逻辑非操作符首先会将他的操作数转换为一个布尔值，然后对其取反。规则如下: </p>
+<ul>
+<li>如果操作数是一个对象，返回 false</li>
+<li>如果操作数是一个空字符串，返回 true</li>
+<li>如果操作数是一个非空字符串，返回 false</li>
+<li>如果操作数是数值 0，返回 true</li>
+<li>如果操作数是非空数值，返回 false</li>
+<li>如果操作数是 null，返回 true</li>
+<li>如果操作数是 NaN，返回 true</li>
+<li>如果操作数是 undefined，返回 true</li>
+</ul>
+<p>逻辑非操作符也可用于将一个值转换为与其对应的布尔值，即同时使用两个逻辑非操作符，会模拟转型函数 Boolean() 的行为，结果也与该函数结果相同。</p>
+<h4 id="逻辑与"><a href="#逻辑与" class="headerlink" title="逻辑与"></a>逻辑与</h4><p>逻辑与操作符由 &amp;&amp; 表示，有两个操作数，可以是任意类型。在有一个操作数不是布尔值的情况下，操作结果不一定返回布尔值，遵循如下规则: </p>
+<ul>
+<li>如果第一个操作数是对象，则返回第二个操作数</li>
+<li>如果第二个操作数是对象，则只有在第一个操作数的求值结果为 true 时，才返回该对象。</li>
+<li>如果两个操作数都是对象，则返回第二个操作数</li>
+<li>如果有一个操作数是 null，则返回 null</li>
+<li>如果有一个操作数是 NaN，则返回 NaN</li>
+<li>如果有一个操作数是 undefined，则返回 undefined</li>
+</ul>
+<p>并且要注意，逻辑与是短路操作，如果第一个操作数能决定结果，那么就不会对第二个操作数求值。</p>
+<h4 id="逻辑或"><a href="#逻辑或" class="headerlink" title="逻辑或"></a>逻辑或</h4><p>逻辑或操作符由 || 表示，有两个操作数，可以是任意类型。在有一个操作数不是布尔值的情况下，操作结果也不一定返回布尔值，遵循如下规则: </p>
+<ul>
+<li>如果第一个操作数是对象，则返回第一个操作数</li>
+<li>如果第一个操作数的求值结果为 false，则返回第二个操作数</li>
+<li>如果两个操作数都是对象，则返回第一个操作数</li>
+<li>如果两个操作数都是 null，则返回 null</li>
+<li>如果两个操作数都是 NaN，则返回 NaN</li>
+<li>如果两个操作数都是 undefined，则返回 undefined</li>
+</ul>
+<p>逻辑或也是短路操作，如果第一个操作数能决定结果，那么就不会对第二个操作数求值。</p>
+<h3 id="乘性操作符"><a href="#乘性操作符" class="headerlink" title="乘性操作符"></a>乘性操作符</h3><p>ECMAScript 定义了3个乘性操作符: 乘法、除法和求模。这些操作符与其他语言的相应操作符用途类似，只不过在操作数为非数值的情况下会执行自动的类型转换。如果参与乘法计算的某个操作数不是数值，后台会先使用 Number() 转换为数值。</p>
+<h4 id="乘法"><a href="#乘法" class="headerlink" title="乘法"></a>乘法</h4><p>乘法操作符由一个星号 * 表示，用于计算两个数值的乘积。<br>在处理特殊值的情况下，乘法操作符遵循下列特殊的规则: </p>
+<ul>
+<li>如果操作数都是数值，执行常规的乘法计算，即两个正数或两个负数相乘的结果还是正数，而如果只有一个操作数有符号，那么结果就是负数。如果乘积超过了 ECMAScript 数值的表示范围，则返回 Infinity 或 -Infinity</li>
+<li>如果有一个操作数是 NaN，则结果是 NaN</li>
+<li>如果是 Infinity 与 0 相乘，则结果是 NaN</li>
+<li>如果是 Infinity 与非 0 数值相乘，则结果是 Infinity 或 -Infinity，取决于有符号操作数的符号</li>
+<li>如果是 Infinity 与 Infinity 相乘，则结果是 Infinity</li>
+<li>如果有一个操作数不是数值，则在后台调用 Number() 将其转换为数值，然后再应用上面的规则</li>
+</ul>
+<h4 id="除法"><a href="#除法" class="headerlink" title="除法"></a>除法</h4><p>除法操作符由一个斜线符号 / 表示，执行第二个操作数除第一个操作数的计算。<br>与乘法操作符类似，除法操作符对特殊的值也有特殊的处理规则。这些规则如下: </p>
+<ul>
+<li>如果操作数都是数值，执行常规的除法计算，即两个正数或两个负数相除的结果还是正数，而如果只有一个操作数有符号，那么结果就是负数。如果商超过了 ECMAScript 数值的表示范围，则返回 Infinity 或 -Infinity</li>
+<li>如果有一个操作数是 NaN，则结果是 NaN</li>
+<li>如果是 Infinity 被 Infinity 除，则结果是 NaN</li>
+<li>如果是零被零除，则结果是 NaN</li>
+<li>如果是非零的有限数被零除，则结果是 Infinity 或 -Infinity，取决于有符号操作数的符号</li>
+<li>如果是 Infinity 被任何非零数值除，则结果是 Infinity 或 -Infinity，取决于有符号操作数的符号</li>
+<li>如果有一个操作数不是数值，则在后台调用 Number() 将其转换为数值，然后再应用上面的规则</li>
+</ul>
+<h4 id="求模"><a href="#求模" class="headerlink" title="求模"></a>求模</h4><p>求模(余数)操作符由一个百分号 % 表示。<br>与另外两个乘性操作符类似，求模操作符会遵循下列特殊规则来处理特殊的值: </p>
+<ul>
+<li>如果操作数都是数值，执行常规的除法计算，返回除得的余数</li>
+<li>如果被除数是无穷大值而除数是有限大的数值，则结果是 NaN</li>
+<li>如果被除数是有限大的数值而除数是零，则结果是 NaN</li>
+<li>如果是 Infinity 被 Infinity 除，则结果是 NaN</li>
+<li>如果被除数是有限大的数值而除数是无穷大的数值，则结果是被除数</li>
+<li>如果被除数是零，则结果是零</li>
+<li>如果有一个操作数不是数值，则在后台调用 Number() 将其转换为数值，然后再应用上面的规则</li>
+</ul>
+<h3 id="加性操作符"><a href="#加性操作符" class="headerlink" title="加性操作符"></a>加性操作符</h3><p>加法和减法这两个加性操作符应该说是编程语言中最简单的算术操作符了。但是在ECMAScript中，这两个操作符却都有一系列的特殊行为。</p>
+<h4 id="加法"><a href="#加法" class="headerlink" title="加法"></a>加法</h4><p>如果两个操作符都是数值，执行常规的加法计算，然后根据下列规则返回结果: </p>
+<ul>
+<li>如果有一个操作数是 NaN，则结果是 NaN</li>
+<li>如果是 Infinity 加 Infinity，则结果是 Infinity</li>
+<li>如果是 -Infinity 加 -Infinity，则结果是 -Infinity</li>
+<li>如果是 Infinity 加 -Infinity，则结果是 NaN</li>
+<li>如果是 +0 加 +0，则结果是 +0</li>
+<li>如果是 -0 加 -0，则结果是 -0</li>
+<li>如果是 +0 加 -0，则结果是 +0</li>
+</ul>
+<p>不过，如果有一个操作数是字符串，那么就要应用如下规则: </p>
+<ul>
+<li>如果两个操作数都是字符串，则将第二个操作数与第一个操作数拼接起来</li>
+<li>如果只有一个操作数是字符串，则将另一个操作数转换为字符串，然后再将两个字符串拼接起来</li>
+</ul>
+<h4 id="减法"><a href="#减法" class="headerlink" title="减法"></a>减法</h4><p>与加法操作符类似，ECMAScript 中的减法操作符在处理各种数据类型转换时，同样需要遵循一些特殊规则，如下所示: </p>
+<ul>
+<li>如果两个操作符都是数值，则执行常规的算术减法操作并返回结果</li>
+<li>如果有一个操作数是 NaN，则结果是 NaN</li>
+<li>如果是 Infinity 减 Infinity，则结果是 NaN</li>
+<li>如果是 -Infinity 减 -Infinity，则结果是 NaN</li>
+<li>如果是 Infinity 减 -Infinity，则结果是 Infinity</li>
+<li>如果是 -Infinity 减 Infinity，则结果是 -Infinity</li>
+<li>如果是 +0 减 +0，则结果是 +0</li>
+<li>如果是 +0 减 -0，则结果是 -0</li>
+<li>如果是 -0 减 -0，则结果是 +0</li>
+<li>如果有一个操作数是字符串、布尔值、null 或 undefined，则先在后台调用 Number() 函数将其转换为数值，然后再根据前面的规则执行减法计算。如果转换的结果是 NaN，则减法的结果就是 NaN</li>
+<li>如果有一个操作数是对象，则调用对象的 valueOf() 方法以取得表示该对象的数值。如果得到的值是 NaN，则减法的结果就是 NaN。如果对象没有 valueOf() 方法，则调用其 toString() 方法并将得到的字符串转换为数值</li>
+</ul>
+<h3 id="关系操作符"><a href="#关系操作符" class="headerlink" title="关系操作符"></a>关系操作符</h3><p>小于(&lt;)、大于(&gt;)、小于等于(&lt;=)和大于等于(&gt;=)这几个关系操作符用于对两个值进行比较。<br>与 ECMAScript 中的其他操作符一样，当关系操作符的操作数使用了非数值时，也要进行数据转换或完成某些奇怪的操作。以下就是相应的规则: </p>
+<ul>
+<li>如果两个操作数都是数值，则执行数值比较</li>
+<li>如果两个操作数都是字符串，则比较两个字符串对应的字符编码值</li>
+<li>如果一个操作数是数值，则将另一个操作数转换为一个数值，然后执行数值比较</li>
+<li>如果一个操作数是对象，则调用这个对象的 valueOf() 方法，用得到的结果按照前面的规则执行比较。如果对象没有 valueOf() 方法，则调用 toString() 方法，并用得到的结果根据前面的规则执行比较</li>
+<li>如果一个操作数是布尔值，则先将其转换为数值，然后再执行比较</li>
+</ul>
+<p>在使用关系操作符比较两个字符串时，会执行一种奇怪的操作。很多人都会认为，在比较字符串值时，小于的意思是”在字母表中的位置靠前”，而大于则意味着”在字母表中的位置靠后”，但实际上完全不是那么回事。在比较字符串时，实际比较的是两个字符串中对应位置的每个字符的字符编码值。经过这么一番比较之后，再返回一个布尔值。由于大写字母的字符编码全部小于小写字母的字符编码，因此我们就会看到如下所示的奇怪现象: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> result = <span class="hljs-string">&quot;Brick&quot;</span> &lt; <span class="hljs-string">&quot;alphabet&quot;</span>;    <span class="hljs-comment">//true</span><br></code></pre></td></tr></table></figure>
+
+<p>另一种奇怪的现象发生在比较两个数字字符串的情况下，比如下面这个例子: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> result = <span class="hljs-string">&quot;23&quot;</span> &lt; <span class="hljs-string">&quot;3&quot;</span>;    <span class="hljs-comment">//true</span><br></code></pre></td></tr></table></figure>
+
+<p>当比较字符串”23”是否小于”3”时，结果为 true。这是因为两个操作数都是字符串，而字符串比较的是字符编码(“2”的字符编码是 50，而”3”的字符编码是 51)</p>
+<h3 id="相等操作符"><a href="#相等操作符" class="headerlink" title="相等操作符"></a>相等操作符</h3><p>确定两个变量是否相等是编程中的一个非常重要的操作。在比较字符串、数值和布尔值的相等性时，问题还比较简单。但在涉及到对象的比较时，问题就变得复杂了。最早的 ECMAScript 中的相等和不等操作符会在执行比较之前，先将对象转换成相似的类型。后来，有人提出了这种转换到底是否合理的质疑。最后，ECMAScript 的解决方案就是提供两组操作符: 相等和不相等——先转换再比较，全等和不全等——仅比较而不转换。</p>
+<h4 id="相等"><a href="#相等" class="headerlink" title="相等"></a>相等</h4><p>ECMAScript 中的相等操作符由两个等于号 == 表示，不相等操作符由叹号后跟等于号 != 表示。<br>这两个操作符都会先转换操作数(通常称为强制转型)，然后再比较它们的相等性。<br>在转换不同的数据类型时，相等和不相等操作符遵循下列基本规则: </p>
+<ul>
+<li>如果有一个操作数是布尔值，则在比较相等性之前先将其转换为数值 —— false 转换为0，而 true 转换为1</li>
+<li>如果一个操作数是字符串，另一个操作数是数值，在比较相等性之前先将字符串转换为数值</li>
+<li>如果一个操作数是对象，另一个操作数不是，则调用对象的 valueOf() 方法，用得到的基本类型值按照前面的规则进行比较</li>
+</ul>
+<p>这两个操作符在进行比较时则要遵循下列规则: </p>
+<ul>
+<li>null和undefined是相等的</li>
+<li>要比较相等性之前，不能将 null 和 undefined 转换成其他任何值</li>
+<li>如果有一个操作数是 NaN，则相等操作符返回 false，而不相等操作符返回 true。重要提示: 即使两个操作数都是 NaN，相等操作符也返回 false; 因为按照规则，NaN 不等于 NaN</li>
+<li>如果两个操作数都是对象，则比较它们是不是同一个对象。如果两个操作数都指向同一个对象，则相等操作符返回 true; 否则，返回 false</li>
+</ul>
+<p>下表列出了一些特殊情况及比较结果: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-literal">null</span> == <span class="hljs-literal">undefined</span> <span class="hljs-comment">// true </span><br><span class="hljs-literal">undefined</span> == <span class="hljs-number">0</span> <span class="hljs-comment">// false</span><br><span class="hljs-literal">null</span> == <span class="hljs-number">0</span> <span class="hljs-comment">// false</span><br><span class="hljs-literal">true</span> == <span class="hljs-number">1</span>  <span class="hljs-comment">//  true</span><br><span class="hljs-literal">true</span> == <span class="hljs-number">2</span> <span class="hljs-comment">// false</span><br><span class="hljs-literal">false</span> == <span class="hljs-number">0</span> <span class="hljs-comment">// true </span><br><span class="hljs-string">&quot;NaN&quot;</span> == <span class="hljs-literal">NaN</span> <span class="hljs-comment">// false </span><br><span class="hljs-literal">NaN</span> == <span class="hljs-literal">NaN</span> <span class="hljs-comment">// false </span><br><span class="hljs-literal">NaN</span> != <span class="hljs-literal">NaN</span> <span class="hljs-comment">// true </span><br><span class="hljs-number">5</span> == <span class="hljs-literal">NaN</span> <span class="hljs-comment">// false </span><br><span class="hljs-string">&quot;5&quot;</span>==<span class="hljs-number">5</span> <span class="hljs-comment">// true</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="全等"><a href="#全等" class="headerlink" title="全等"></a>全等</h4><p>全等操作符由3个等于号 === 表示，它只在两个操作数未经转换就相等的情况下返回 true。<br>如下: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> result1 = (<span class="hljs-string">&quot;55&quot;</span> == <span class="hljs-number">55</span>);     <span class="hljs-comment">//true，因为转换后相等</span><br><span class="hljs-keyword">var</span> result2 = (<span class="hljs-string">&quot;55&quot;</span> === <span class="hljs-number">55</span>);    <span class="hljs-comment">//false，因为不同的数据类型不相等</span><br></code></pre></td></tr></table></figure>
+
+<p>记住: null == undefined 会返回 true，因为它们是类似的值，但 null === undefined 会返回 false，因为它们是不同类型的值。</p>
+<h3 id="三目操作符"><a href="#三目操作符" class="headerlink" title="三目操作符"></a>三目操作符</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">variable = boolean_expression ? true_value : false_value;<br></code></pre></td></tr></table></figure>
+
+<p>本质上，这行代码的含义就是基于对 boolean_expression 求值的结果，决定给变量 variable 赋什么值。如果求值结果为 true，则给变量 variable 赋 true_value 值; 如果求值结果为 false，则给变量 variable 赋 false_value 值。</p>
+<h3 id="赋值操作符"><a href="#赋值操作符" class="headerlink" title="赋值操作符"></a>赋值操作符</h3><p>简单的赋值操作符由等于号(=)表示，其作用就是把右侧的值赋给左侧的变量。</p>
+<h3 id="逗号操作符"><a href="#逗号操作符" class="headerlink" title="逗号操作符"></a>逗号操作符</h3><p>使用逗号操作符可以在一条语句中执行多个操作，如下面的例子所示: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> num1 = <span class="hljs-number">1</span>, num2 = <span class="hljs-number">2</span>, num3 = <span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure>
+
+<p>逗号操作符多用于声明多个变量，但除此之外，逗号操作符还可以用于赋值。在用于赋值时，逗号操作符总会返回表达式中的最后一项。</p>
+<h2 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h2><hr>
+<p>ECMA-262 规定了一组语句(也称为流控制语句)。从本质上看，语句定义了 ECMAScript 中的主要语法。</p>
+<h3 id="if-语句"><a href="#if-语句" class="headerlink" title="if 语句"></a>if 语句</h3><p>以下是if语句的语法: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">if</span> (condition) &#123;<br>    statement1; <br>&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> &#123;<br>    statement2;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    statement3;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其中的 condition(条件)可以是任意表达式，而且对这个表达式求值的结果不一定是布尔值。ECMAScript 会自动调用 Boolean() 转换函数将这个表达式的结果转换为一个布尔值。</p>
+<h3 id="do-while-语句"><a href="#do-while-语句" class="headerlink" title="do-while 语句"></a>do-while 语句</h3><p>do-while 语句是一种后测试循环语句，即只有在循环体中的代码执行之后，才会测试出口条件。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">do</span> &#123;<br>    statement;<br>&#125; <span class="hljs-keyword">while</span> (expression);<br></code></pre></td></tr></table></figure>
+
+<h3 id="while-语句"><a href="#while-语句" class="headerlink" title="while 语句"></a>while 语句</h3><p>while 语句属于前测试循环语句，也就是说，在循环体内的代码被执行之前，就会对出口条件求值。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">while</span>(expression) &#123;<br>    statement<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="for-语句"><a href="#for-语句" class="headerlink" title="for 语句"></a>for 语句</h3><p>for 语句也是一种前测试循环语句，但它具有在执行循环之前初始化变量和定义循环后要执行的代码的能力。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">for</span> (initialization; expression; post-loop-expression) &#123;<br>    statement<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>有必要指出的是，在 for 循环的变量初始化表达式中，也可以不使用 var 关键字，该变量的初始化可以在外部执行。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> count = <span class="hljs-number">10</span>;<br><span class="hljs-keyword">var</span> i;<br><span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; count; i++)&#123;<br>    alert(i);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>以上代码与在循环初始化表达式中声明变量的效果是一样的。由于 ECMAScript 中不存在块级作用域，因此在循环内部定义的变量也可以在外部访问到。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> count = <span class="hljs-number">10</span>;<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)&#123;<br>    alert(i);<br>&#125;<br>alert(i); <span class="hljs-comment">//10</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="for-in-语句"><a href="#for-in-语句" class="headerlink" title="for-in 语句"></a>for-in 语句</h3><p>for-in 语句是一种精准的迭代语句，可以用来枚举对象的属性。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">for</span> (property <span class="hljs-keyword">in</span> expression) &#123;<br>    statement<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>ECMAScript 对象的属性没有顺序。因此，通过 for-in 循环输出的属性名的顺序是不可预测的。具体来讲，所有属性都会被返回一次，但返回的先后次序可能会因浏览器而异。<br>但是，如果表示要迭代的对象的变量值为 null 或 undefined，for-in 语句会抛出错误。ECMAScript 5 更正了这一行为; 对这种情况不再抛出错误，而只是不执行循环体。</p>
+<h3 id="label-语句"><a href="#label-语句" class="headerlink" title="label 语句"></a>label 语句</h3><p>使用 label 语句可以在代码中添加标签，以便将来使用。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">label: statement<br></code></pre></td></tr></table></figure>
+
+<p>加标签的语句一般都要与 for 语句等循环语句配合使用。</p>
+<h3 id="break-和-continue-语句"><a href="#break-和-continue-语句" class="headerlink" title="break 和 continue 语句"></a>break 和 continue 语句</h3><p>break 和 continue 语句用于在循环中精确地控制代码的执行。其中: </p>
+<ul>
+<li>break 语句会立即退出循环，强制继续执行循环后面的语句</li>
+<li>continue 语句虽然也是立即退出循环，但退出循环后会从循环的顶部继续执行</li>
+</ul>
+<h3 id="with-语句"><a href="#with-语句" class="headerlink" title="with 语句"></a>with 语句</h3><p>with 语句的作用是将代码的作用域设置到一个特定的对象中。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">with</span> (expression) &#123;<br>    statement;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-title">with</span>(<span class="hljs-params">location</span>)</span>&#123;<br>    <span class="hljs-keyword">var</span> qs = search.substring(<span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">var</span> hostName = hostname;<br>    <span class="hljs-keyword">var</span> url = href;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述例子中，使用 with 语句关联了 location 对象。这意味着在 with 语句的代码块内部，每个变量首先被认为是一个局部变量，而如果在局部环境中找不到该变量的定义，就会查询 location 对象中是否有同名的属性。如果发现了同名属性，则以 location 对象属性的值作为变量的值。<br>严格模式下不允许使用 with 语句，否则将视为语法错误。<br><strong>由于大量使用 with 语句会导致性能下降，同时也会给调试代码造成困难，因此在开发大型应用程序时，不建议使用with语句。</strong></p>
+<h3 id="switch-语句"><a href="#switch-语句" class="headerlink" title="switch 语句"></a>switch 语句</h3><p>switch 语句与 if 语句的关系最为密切，而且也是在其他语言中普遍使用的一种流控制语句。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">switch</span> (expression) &#123;<br>  <span class="hljs-keyword">case</span> value: statement<br>    <span class="hljs-keyword">break</span>;<br>  <span class="hljs-keyword">case</span> value: statement<br>    <span class="hljs-keyword">break</span>;<br>  <span class="hljs-keyword">case</span> value: statement<br>    <span class="hljs-keyword">break</span>;<br>  <span class="hljs-keyword">case</span> value: statement<br>    <span class="hljs-keyword">break</span>;<br>  <span class="hljs-keyword">default</span>: statement<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>break 关键字会导致代码执行流跳出 switch 语句。如果省略 break 关键字，就会导致执行完当前 case 后，继续执行下一个 case。<br>注意: 可以在 switch 语句中使用任何数据类型(在很多其他语言中只能使用数值)，无论是字符串，还是对象都没有问题。其次，每个 case 的值不一定是常量，可以是变量，甚至是表达式。<br>switch 语句在比较值时使用的是全等操作符，因此不会发生类型转换。</p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><hr>
+<p>函数对任何语言来说都是一个核心的概念。通过函数可以封装任意多条语句，而且可以在任何地方、任何时候调用执行。ECMAScript 中的函数使用 function 关键字来声明，后跟一组参数以及函数体。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">functionName</span>(<span class="hljs-params">arg0, arg1,...,argN</span>) </span>&#123;<br>    statements<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>ECMAScript 中的函数在定义时不必指定是否返回值。实际上，任何函数在任何时候都可以通过 return 语句后跟要返回的值来实现返回值。<br>函数会在执行完 return 语句之后停止并立即退出。因此，位于 return 语句之后的任何代码都永远不会执行。另外，return 语句也可以不带有任何返回值。在这种情况下，函数在停止执行后将返回 undefined 值。</p>
+<p>严格模式对函数有一些限制: </p>
+<ul>
+<li>不能把函数命名为 eval 或 arguments</li>
+<li>不能把参数命名为 eval 或 arguments</li>
+<li>不能出现两个命名参数同名的情况</li>
+</ul>
+<h3 id="理解参数"><a href="#理解参数" class="headerlink" title="理解参数"></a>理解参数</h3><p>ECMAScript 函数的参数与大多数其他语言中函数的参数有所不同。ECMAScript 函数不介意传递进来多少个参数，也不在乎传进来参数是什么数据类型。也就是说，即便你定义的函数只接收两个参数，在调用这个函数时也未必一定要传递两个参数。可以传递一个、三个甚至不传递参数，而解析器永远不会有什么怨言。之所以会这样，原因是 ECMAScript 中的参数在内部是用一个数组来表示的。函数接收到的始终都是这个数组，而不关心数组中包含哪些参数(如果有参数的话)。如果这个数组中不包含任何元素，无所谓; 如果包含多个元素，也没有问题。实际上，在函数体内可以通过 arguments 对象来访问这个参数数组，从而获取传递给函数的每一个参数。<br>其实，arguments 对象只是与数组类似(它并不是 Array 的实例)，因为可以使用方括号语法访问它的每一个元素(即第一个元素是 arguments[0]，第二个元素是argumetns[1]等等，使用 length 属性来确定传递进来多少个参数。这个事实说明了 ECMAScript 函数的一个重要特点: 命名的参数只提供便利，但不是必需的。</p>
+<p>关于 arguments 的行为，还有一点比较有意思。那就是它的值永远与对应命名参数的值保持同步。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doAdd</span>(<span class="hljs-params">num1, num2</span>) </span>&#123;<br>    <span class="hljs-built_in">arguments</span>[<span class="hljs-number">1</span>] = <span class="hljs-number">10</span>;    <br>    alert(<span class="hljs-built_in">arguments</span>[<span class="hljs-number">0</span>] + num2);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>每次执行这个 doAdd() 函数都会重写第二个参数，将第二个参数的值修改为 10。因为 arguments 对象中的值会自动反映到对应的命名参数，所以修改 arguments[1]，也就修改了 num2，结果它们的值都会变成 10。不过，这并不是说读取这两个值会访问相同的内存空间; 它们的内存空间是独立的，但它们的值会同步。但这种影响是单向的: 修改命名参数不会改变 arguments 中对应的值。另外还要记住，如果只传入了一个参数，那么为 arguments[1] 设置的值不会反应到命名参数中。这是因为 arguments 对象的长度是由传入的参数个数决定的，不是由定义函数时的命名参数的个数决定的。</p>
+<p>关于参数还要记住最后一点: 没有传递值的命名参数将自动被赋予 undefined 值。这就跟定义了变量但又没有初始化一样。<br>严格模式对如何使用 argumetns 对象做出了一些限制。</p>
+<ul>
+<li>像前面例子中那样的赋值会变得无效。也就是说，即使把 arguments[1] 设置为 10，num2 的值仍然还是 undefined。</li>
+<li>重写 arguments 的值会导致语法错误(代码将不会执行)。</li>
+</ul>
+<h3 id="没有重载"><a href="#没有重载" class="headerlink" title="没有重载"></a>没有重载</h3><p>ECMAScript 函数不能像传统意义上那样实现重载。<br>ECMAScirpt 函数没有签名，因为其参数是由包含零或多个值的数组来表示的。而没有函数签名，真正的重载是不可能做到的。</p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/JavaScript(%E5%9B%9B)/">
+        Previous post<br>JavaScript(四)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/JavaScript(%E4%BA%8C)/">
+        Next post<br>JavaScript(二)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?31198360"></script>
+
+
+
+</body>
+</html>

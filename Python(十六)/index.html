@@ -1,73 +1,274 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Python(十六) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="接下来的几篇，我们将介绍一下最流行的爬虫框架 Scrapy。本篇，我们会介绍一下 Scrapy 的基本使用。
+基本命令
+# scrapy startproject [文件夹名]scrapy startproject quotetuto...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?55606611">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Python(十六)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2019-05-17T00:00:00.000Z" itemprop="datePublished">
+                            2019-05-17 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>接下来的几篇，我们将介绍一下最流行的爬虫框架 Scrapy。本篇，我们会介绍一下 Scrapy 的基本使用。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/scrapy/scrapy_architecture_02.png"></p>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><hr>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># scrapy startproject [文件夹名]</span><br>scrapy startproject quotetutorial<br><br><span class="hljs-comment"># 进入项目文件夹</span><br><span class="hljs-built_in">cd</span> quotetutorial<br><br><span class="hljs-comment"># scrapy genspider [项目名] [目标爬取网址]</span><br>scrapy genspider quotes quotes.toscrape.com<br><br><span class="hljs-comment"># scrapy crawl [项目名]</span><br>scrapy crawl quotes <br><br><span class="hljs-comment"># scrapy crawl [项目名] -o [保存的文件名]</span><br>scrapy crawl quotes -o quotes.json<br></code></pre></td></tr></table></figure>
+
+<h2 id="Scrapy-中的-Selector"><a href="#Scrapy-中的-Selector" class="headerlink" title="Scrapy 中的 Selector"></a>Scrapy 中的 Selector</h2><hr>
+<p>scrapy 的 Selector 支持两种方式提取内容: </p>
+<ol>
+<li>xpath()</li>
+<li>css()</li>
+</ol>
+<p>xpath() 和 css() 的返回结果也是 Selector 对象列表，列表元素可以继续链式调用 xpath() 和 css()，获取 Selector 对象之后可以使用 get() 或 getall() 获取想要提取的内容或内容列表。<br>我个人更习惯 css() 方法: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">response.css(<span class="hljs-string">&#x27;#images img::attr(src)&#x27;</span>).getall()<br><span class="hljs-comment"># [&#x27;image1_thumb.jpg&#x27;, &#x27;image2_thumb.jpg&#x27;, &#x27;image3_thumb.jpg&#x27;, &#x27;image4_thumb.jpg&#x27;, &#x27;image5_thumb.jpg&#x27;]</span><br><br>response.css(<span class="hljs-string">&#x27;a[href*=image]::attr(href)&#x27;</span>).getall()<br><span class="hljs-comment"># [&#x27;image1.html&#x27;, &#x27;image2.html&#x27;, &#x27;image3.html&#x27;, &#x27;image4.html&#x27;, &#x27;image5.html&#x27;]</span><br><br>response.css(<span class="hljs-string">&#x27;a[href*=image] img::attr()&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>我们还可以使用 re() 或 re_first() 方法进行一些匹配字符串处理: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">response.css(<span class="hljs-string">&#x27;a[href*=image]::text&#x27;</span>).getall()<br><span class="hljs-comment"># [&#x27;Name: My image 1 &#x27;, &#x27;Name: My image 2 &#x27;, &#x27;Name: My image 3 &#x27;, &#x27;Name: My image 4 &#x27;, &#x27;Name: My image 5 &#x27;]</span><br><br>response.css(<span class="hljs-string">&#x27;a[href*=image]::text&#x27;</span>).re(<span class="hljs-string">&#x27;Name\:(.*)&#x27;</span>)<br><span class="hljs-comment"># [&#x27; My image 1 &#x27;, &#x27; My image 2 &#x27;, &#x27; My image 3 &#x27;, &#x27; My image 4 &#x27;, &#x27; My image 5 &#x27;]</span><br></code></pre></td></tr></table></figure>
+
+<p>注意: </p>
+<ul>
+<li>我们可以使用 response.selector 获取 Selector 对象调用 xpath() 和 css()，也可以更方便的使用 response 对象直接调用 xpath() 和 css()</li>
+<li>我们可能还见过 extract() 和 extract_first()，这两个方法虽然没有被废弃，但是还是不建议使用，因为 get()和 getall()方法的输出更具可预测性</li>
+</ul>
+<h2 id="Scrapy-中的-Spider"><a href="#Scrapy-中的-Spider" class="headerlink" title="Scrapy 中的 Spider"></a>Scrapy 中的 Spider</h2><hr>
+<p>Spider 主要用来完成爬取逻辑和网页数据的解析: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> scrapy<br><span class="hljs-keyword">from</span> quotetutorial.items <span class="hljs-keyword">import</span> QuoteItem<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">QuotesSpider</span>(<span class="hljs-params">scrapy.Spider</span>):</span><br>    name = <span class="hljs-string">&#x27;quotes&#x27;</span><br>    allowed_domains = [<span class="hljs-string">&#x27;quotes.toscrape.com&#x27;</span>]<br>    start_urls = [<span class="hljs-string">&#x27;http://quotes.toscrape.com/&#x27;</span>]<br>    <span class="hljs-comment"># 覆盖 settings.py 文件</span><br>    custom_settings = &#123;<br>        <span class="hljs-string">&#x27;USER_AGENT&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36&#x27;</span><br>    &#125;<br><br>    <span class="hljs-comment"># parse 方法为默认的回调方法，通常使用 Selector 进行数据解析并返回 Item</span><br>    <span class="hljs-comment"># 内部还可以使用 yield scrapy.Request() 方法返回多个 Request </span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parse</span>(<span class="hljs-params">self, response</span>):</span><br>        quotes = response.css(<span class="hljs-string">&#x27;.quote&#x27;</span>)<br>        <span class="hljs-keyword">for</span> quote <span class="hljs-keyword">in</span> quotes:<br>            item = QuoteItem()<br>            text = quote.css(<span class="hljs-string">&#x27;.text::text&#x27;</span>).get()<br>            author = quote.css(<span class="hljs-string">&#x27;.author::text&#x27;</span>).get()<br>            tags = quote.css(<span class="hljs-string">&#x27;.tags .tag::text&#x27;</span>).getall()<br>            item[<span class="hljs-string">&#x27;name&#x27;</span>] = text<br>            item[<span class="hljs-string">&#x27;author&#x27;</span>] = author<br>            item[<span class="hljs-string">&#x27;tags&#x27;</span>] = tags<br>            <span class="hljs-keyword">yield</span> item<br><br>        <span class="hljs-built_in">next</span> = response.css(<span class="hljs-string">&#x27;.pager .next a::attr(href)&#x27;</span>).get()<br>        url = response.urljoin(<span class="hljs-built_in">next</span>)<br>        <span class="hljs-keyword">yield</span> scrapy.Request(url=url, callback=self.parse)<br></code></pre></td></tr></table></figure>
+
+<p>Spider 还可以接收修改其行为的参数，在命令行可以使用 -a 参数: </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">scrapy crawl quotes -a category=electronics<br></code></pre></td></tr></table></figure>
+
+<p>在 Spider 的构造函数中可以接收该参数: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> scrapy<br><span class="hljs-keyword">from</span> quotetutorial.items <span class="hljs-keyword">import</span> QuoteItem<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">QuotesSpider</span>(<span class="hljs-params">scrapy.Spider</span>):</span><br>    name = <span class="hljs-string">&#x27;quotes&#x27;</span><br>    allowed_domains = [<span class="hljs-string">&#x27;quotes.toscrape.com&#x27;</span>]<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, category=<span class="hljs-literal">None</span>, *args, **kwargs</span>):</span><br>        <span class="hljs-built_in">super</span>(QuotesSpider, self).__init__(*args, **kwargs)<br>        self.start_urls = [<span class="hljs-string">f&#x27;http://quotes.toscrape.com/category=<span class="hljs-subst">&#123;category&#125;</span>&#x27;</span>]<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parse</span>(<span class="hljs-params">self, response</span>):</span><br>        <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Scrapy-中的-Item"><a href="#Scrapy-中的-Item" class="headerlink" title="Scrapy 中的 Item"></a>Scrapy 中的 Item</h2><hr>
+<p>为了定义通用输出数据格式，Scrapy 提供了 Item 类。它们提供类似字典的 API，并具有用于声明其可用字段的方便语法: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> scrapy<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">QuoteItem</span>(<span class="hljs-params">scrapy.Item</span>):</span><br>    <span class="hljs-comment"># define the fields for your item here like:</span><br>    name = scrapy.Field()<br>    author = scrapy.Field()<br>    tags = scrapy.Field()<br></code></pre></td></tr></table></figure>
+
+<h2 id="Scrapy-中的-Pipelinie"><a href="#Scrapy-中的-Pipelinie" class="headerlink" title="Scrapy 中的 Pipelinie"></a>Scrapy 中的 Pipelinie</h2><hr>
+<p>Pipeline 可以对抓取下来的 Item 进行进一步处理: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pymongo<br><span class="hljs-keyword">from</span> scrapy.exceptions <span class="hljs-keyword">import</span> DropItem<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TextPipeline</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self</span>):</span><br>        self.limit = <span class="hljs-number">50</span><br><br>    <span class="hljs-comment"># process_item 返回 item 或 DropItem 对象</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_item</span>(<span class="hljs-params">self, item, spider</span>):</span><br>        <span class="hljs-keyword">if</span> item[<span class="hljs-string">&#x27;name&#x27;</span>]:<br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(item[<span class="hljs-string">&#x27;name&#x27;</span>]) &gt; self.limit:<br>                item[<span class="hljs-string">&#x27;name&#x27;</span>] = item[<span class="hljs-string">&#x27;name&#x27;</span>][<span class="hljs-number">0</span>:self.limit] + <span class="hljs-string">&#x27;...&#x27;</span><br>            <span class="hljs-keyword">return</span> item<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> DropItem(<span class="hljs-string">&#x27;Missing Text&#x27;</span>)<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MongoPipeline</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, mongo_uri, mongo_db</span>):</span><br>        self.mongo_uri = mongo_uri<br>        self.mongo_db = mongo_db<br><br><span class="hljs-meta">    @classmethod</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">from_crawler</span>(<span class="hljs-params">cls, crawler</span>):</span><br>        <span class="hljs-keyword">return</span> cls(<br>            mongo_db = crawler.settings.get(<span class="hljs-string">&#x27;MONGO_DB&#x27;</span>),<br>            mongo_uri = crawler.settings.get(<span class="hljs-string">&#x27;MONGO_URI&#x27;</span>)<br>        )<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">open_spider</span>(<span class="hljs-params">self, spider</span>):</span><br>        self.client = pymongo.MongoClient(self.mongo_uri)<br>        self.db = self.client[self.mongo_db]<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">close_spider</span>(<span class="hljs-params">self, spider</span>):</span><br>        self.client.close()<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_item</span>(<span class="hljs-params">self, item, spider</span>):</span><br>        name = item.__class__.__name__<br>        self.db[name].insert(<span class="hljs-built_in">dict</span>(item))<br>        <span class="hljs-keyword">return</span> item<br></code></pre></td></tr></table></figure>
+
+<h2 id="Scrapy-中的-Settings"><a href="#Scrapy-中的-Settings" class="headerlink" title="Scrapy 中的 Settings"></a>Scrapy 中的 Settings</h2><hr>
+<p>settings.py 为 Scrapy 中的配置文件，进行项目的配置工作: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Obey robots.txt rules</span><br>ROBOTSTXT_OBEY = <span class="hljs-literal">True</span><br><br><span class="hljs-comment"># 配置变量</span><br>MONGO_DB = <span class="hljs-string">&#x27;quotetutorial&#x27;</span><br>MONGO_URI = <span class="hljs-string">&#x27;localhost&#x27;</span><br><br><span class="hljs-comment"># user-agent</span><br>USER_AGENT: <span class="hljs-string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36&#x27;</span><br><br><span class="hljs-comment"># Override the default request headers</span><br>DEFAULT_REQUEST_HEADERS = &#123;<br>  <span class="hljs-string">&#x27;Accept&#x27;</span>: <span class="hljs-string">&#x27;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#x27;</span>,<br>  <span class="hljs-string">&#x27;Accept-Language&#x27;</span>: <span class="hljs-string">&#x27;en&#x27;</span><br>&#125;<br><br><span class="hljs-comment"># Configure item pipelines</span><br><span class="hljs-comment"># 管道优先级范围 0 - 1000，数字越小，优先级越高</span><br>ITEM_PIPELINES = &#123;<br>   <span class="hljs-string">&#x27;quotetutorial.pipelines.TextPipeline&#x27;</span>: <span class="hljs-number">300</span>,<br>   <span class="hljs-string">&#x27;quotetutorial.pipelines.MongoPipeline&#x27;</span>: <span class="hljs-number">400</span><br>&#125;<br><br><span class="hljs-comment"># Enable or disable downloader middlewares</span><br><span class="hljs-comment"># 可以在这个配置中关闭不需要的默认中间件</span><br>DOWNLOADER_MIDDLEWARES = &#123;<br>    <span class="hljs-string">&#x27;httpbintest.middlewares.ProxyMiddleware&#x27;</span>: <span class="hljs-number">100</span>,<br>    <span class="hljs-string">&#x27;scrapy.downloadermiddlewares.useragent.UserAgentMiddleware&#x27;</span>: <span class="hljs-literal">None</span>,<br>    <span class="hljs-string">&#x27;scrapy.downloadermiddlewares.retry.RetryMiddleware&#x27;</span>: <span class="hljs-literal">None</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Scrapy-中的-Downloader-Middleware"><a href="#Scrapy-中的-Downloader-Middleware" class="headerlink" title="Scrapy 中的 Downloader Middleware"></a>Scrapy 中的 Downloader Middleware</h2><hr>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProxyMiddleware</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span><br><br>    <span class="hljs-comment"># Called for each request that goes through the downloader</span><br>    <span class="hljs-comment"># middleware.</span><br><br>    <span class="hljs-comment"># Must either:</span><br>    <span class="hljs-comment"># - return None: continue processing this request</span><br>    <span class="hljs-comment"># - or return a Response object</span><br>    <span class="hljs-comment"># - or return a Request object</span><br>    <span class="hljs-comment"># - or raise IgnoreRequest: process_exception() methods of</span><br>    <span class="hljs-comment">#   installed downloader middleware will be called</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_request</span>(<span class="hljs-params">self, request, spider</span>):</span><br>        spider.logger.info(<span class="hljs-string">&#x27;Using Proxy&#x27;</span>)<br>        request.meta[<span class="hljs-string">&#x27;proxy&#x27;</span>] = <span class="hljs-string">&#x27;https://46.10.240.182:55878&#x27;</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span><br><br><br>    <span class="hljs-comment"># Called with the response returned from the downloader.</span><br><br>    <span class="hljs-comment"># Must either;</span><br>    <span class="hljs-comment"># - return a Response object</span><br>    <span class="hljs-comment"># - return a Request object</span><br>    <span class="hljs-comment"># - or raise IgnoreRequest</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_response</span>(<span class="hljs-params">self, request, response, spider</span>):</span><br>        response.status = <span class="hljs-number">201</span><br>        <span class="hljs-keyword">return</span> response<br><br>    <span class="hljs-comment"># Called when a download handler or a process_request()</span><br>    <span class="hljs-comment"># (from other downloader middleware) raises an exception.</span><br><br>    <span class="hljs-comment"># Must either:</span><br>    <span class="hljs-comment"># - return None: continue processing this exception</span><br>    <span class="hljs-comment"># - return a Response object: stops process_exception() chain</span><br>    <span class="hljs-comment"># - return a Request object: stops process_exception() chain</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_exception</span>(<span class="hljs-params">self, request, exception, spider</span>):</span><br>        spider.logger.debug(<span class="hljs-string">&#x27;Get Exception&#x27;</span>)<br>        <span class="hljs-keyword">return</span> request<br></code></pre></td></tr></table></figure>
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Linux(%E4%B8%80)/">
+        Previous post<br>Linux(一)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Python(%E5%8D%81%E4%BA%94)/">
+        Next post<br>Python(十五)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?6514509"></script>
+
+
+
+</body>
+</html>

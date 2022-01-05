@@ -1,73 +1,329 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>C Sharp(三) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="这一篇，我们深入理解一下 C# 中的类。
+类的成员
+上篇我们说过了 2 个类成员: 字段和方法。这一篇我们介绍除了事件和运算符之外的成员。
+成员修饰符的顺序成员声明语句有下列部分组成: 核心声明，可选的修饰符和可选的特性(attrib...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?98482441">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    C Sharp(三)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2018-10-19T00:00:00.000Z" itemprop="datePublished">
+                            2018-10-19 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>这一篇，我们深入理解一下 C# 中的类。</p>
+<h2 id="类的成员"><a href="#类的成员" class="headerlink" title="类的成员"></a>类的成员</h2><hr>
+<p>上篇我们说过了 2 个类成员: 字段和方法。这一篇我们介绍除了事件和运算符之外的成员。</p>
+<h3 id="成员修饰符的顺序"><a href="#成员修饰符的顺序" class="headerlink" title="成员修饰符的顺序"></a>成员修饰符的顺序</h3><p>成员声明语句有下列部分组成: 核心声明，可选的修饰符和可选的特性(attribute)。<br>[特性] [修饰符] 核心声明;<br>我们之前说过的 public 和 private 都是修饰符，还有 static 和 const 也都是修饰符。</p>
+<h3 id="实例成员"><a href="#实例成员" class="headerlink" title="实例成员"></a>实例成员</h3><p>成员可以关联到一个类的实例，也可以关联到类的整体，默认情况下，成员被关联到一个实例，这些成员称为实例成员。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> a;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>         <span class="hljs-keyword">var</span> cls1 = <span class="hljs-keyword">new</span> MyClass();<br>         <span class="hljs-keyword">var</span> cls2 = <span class="hljs-keyword">new</span> MyClass();<br>         cls1.a = <span class="hljs-number">10</span>;<br>         cls2.a = <span class="hljs-number">20</span>;<br>         Console.WriteLine(<span class="hljs-string">&quot;&#123;0&#125;  --  &#123;1&#125;&quot;</span>, cls1.a, cls2.a);  <span class="hljs-comment">// 10 -- 20</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="静态成员"><a href="#静态成员" class="headerlink" title="静态成员"></a>静态成员</h3><p>除了实例成员，类还可以拥有静态成员。静态成员被所有实例共享，访问内存同一位置，使用 static 修饰符将成员声明为静态。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span><br>&#123;<br>    <span class="hljs-built_in">int</span> Mem1;<br>    <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> Mem2;<br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>         <span class="hljs-keyword">var</span> cls1 = <span class="hljs-keyword">new</span> MyClass();<br>         <span class="hljs-keyword">var</span> cls2 = <span class="hljs-keyword">new</span> MyClass();<br>         cls1.Mem1 = <span class="hljs-number">10</span>;<br>         MyClass.Mem2 = <span class="hljs-number">1</span>;<br>         cls2.Mem1 = <span class="hljs-number">20</span>;<br>         MyClass.Mem2 = <span class="hljs-number">2</span>;<br>         Console.WriteLine(<span class="hljs-string">&quot;&#123;0&#125;  --  &#123;1&#125;&quot;</span>, cls1.Mem1 , cls2.Mem1 );  <span class="hljs-comment">// 10 -- 20</span><br>         Console.WriteLine(MyClass.Mem2);  <span class="hljs-comment">// 2</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="类外访问静态成员"><a href="#类外访问静态成员" class="headerlink" title="类外访问静态成员"></a>类外访问静态成员</h3><p>与实例成员一样在类外使用点运算符来访问静态成员，只不过是使用类名来访问。<br>静态函数成员不能访问实例成员，他们可以访问其他静态成员。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">X</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> A;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">PrintA</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        Console.WriteLine(A);  <span class="hljs-comment">//可以在静态方法访问静态字段</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>除了<strong>常量</strong>和<strong>索引器</strong>，其他成员都可以是静态成员。</p>
+<h3 id="成员常量"><a href="#成员常量" class="headerlink" title="成员常量"></a>成员常量</h3><p>如同本地常量一样，只是成员常量被声明在类中: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span><br>&#123;<br>    <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> IntVal = <span class="hljs-number">5</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>成员常量表现得很像静态值，他们对每个实例都是可见的，但是他们没有自己的存储位置，只是在编译期被替换。类似于 C 语言的 #define。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">double</span> PI = <span class="hljs-number">3.14156</span>;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        Console.WriteLine(MyClass.PI);  <span class="hljs-comment">// 3.14156</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>注意: 虽然成员常量表现得像静态量，但是不能使用 static 修饰符修饰。</p>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>C# 中的属性非常像 Swift 中的计算属性。他们在使用时非常像字段，但是和字段不同的是，他们是函数成员，可以执行代码。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">int</span> MyVal <br>&#123;<br>    <span class="hljs-keyword">get</span><br>    &#123;<br>        <span class="hljs-comment">//get</span><br>    &#125;<br><br>    <span class="hljs-keyword">set</span><br>    &#123;<br>        <span class="hljs-comment">//set</span><br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>set 访问器拥有一个隐式的名为 value 的值参数，与属性类型相同，返回值为 void。<br>get 访问器没有参数，有一个与属性相同类型的返回值。<br>我们要注意: 属性本身没有任何存储，通常要有一个关联字段作为存储。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">private</span> <span class="hljs-built_in">int</span> _intVal;<br><span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> IntVal<br>&#123;<br>    <span class="hljs-keyword">set</span><br>    &#123;<br>        _intVal = <span class="hljs-keyword">value</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">get</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> _intVal;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们还可以设置只读属性(只有 get 方法)或者只写属性(只有 set 方法)，但是两个访问器至少要定义一个，否则编译器会报错。<br>C# 还提供了自动属性实现，不需要提供关联字段，也不需要提供访问器的方法体，get 和 set 后直接跟分号。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> IntVal &#123;<span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>;&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>属性也可以被声明为静态，与静态字段一样，使用类名访问静态属性。</p>
+<h3 id="实例构造函数"><a href="#实例构造函数" class="headerlink" title="实例构造函数"></a>实例构造函数</h3><p>构造函数是一个特殊的方法，他在创建类实例时执行，用于初始化实例状态。通常声明为 public。<br>它的特点是: </p>
+<ul>
+<li>构造函数没有返回值</li>
+<li>构造函数名称与类名相同</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyClass</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-comment">//...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>构造函数也可以被重载，带有不同的参数: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">Class1</span><br>&#123;<br>    <span class="hljs-built_in">int</span> Id;<br>    <span class="hljs-built_in">string</span> Name;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Class1</span>(<span class="hljs-params"></span>)</span> &#123; Id = <span class="hljs-number">1</span>; Name=<span class="hljs-string">&quot;1ess&quot;</span>; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Class1</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> Id</span>)</span> &#123; <span class="hljs-keyword">this</span>.Id = Id; Name=<span class="hljs-string">&quot;1ess&quot;</span>; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Class1</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Name</span>)</span> &#123; Id = <span class="hljs-number">1</span>; <span class="hljs-keyword">this</span>.Name=Name; &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果我们没有为类提供构造函数，那么编译器会隐式提供一个无参构造函数，方法体为空。<br>如果我们显示提供了一个构造函数，那么就不会为我们创建一个隐式的无参构造函数。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">Class2</span><br>&#123;    <br>    <span class="hljs-built_in">int</span> Id;<br>    <span class="hljs-built_in">string</span> Name;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Class2</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> Id</span>)</span> &#123; <span class="hljs-keyword">this</span>.Id = Id; Name=<span class="hljs-string">&quot;1ess&quot;</span>; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Class2</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Name</span>)</span> &#123; Id = <span class="hljs-number">1</span>; <span class="hljs-keyword">this</span>.Name=Name; &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        Class2 cls2 = <span class="hljs-keyword">new</span> Class2();  <span class="hljs-comment">// 错误，编译器不会再隐式提供无参构造函数</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="静态构造函数"><a href="#静态构造函数" class="headerlink" title="静态构造函数"></a>静态构造函数</h3><p>这一点与很多语言不同，构造函数也可以是静态的，用来初始化静态成员。调用时机是: </p>
+<ul>
+<li>在引用任何静态成员之前</li>
+<li>在创建类的任何实例之前</li>
+</ul>
+<p>静态构造函数的特点是: </p>
+<ul>
+<li>名称必须与类名相同</li>
+<li>不能有返回值</li>
+<li>只能有一个静态构造函数</li>
+<li>不能有参数</li>
+<li>不能有访问修饰符</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">Class1</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-title">Class1</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-comment">//执行静态成员初始化</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在静态构造函数不能访问实例成员，我们也不能显示的调用静态构造函数。</p>
+<h3 id="对象初始化语句"><a href="#对象初始化语句" class="headerlink" title="对象初始化语句"></a>对象初始化语句</h3><p>对象初始化语句扩展创建语法，在表达式的尾部放置一组成员初始化语句，允许我们在创建实例时，设置字段和属性值。<br>该语法有两种形式: </p>
+<ul>
+<li>包括构造函数的参数列表</li>
+<li>不包括构造函数的参数列表</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">new</span> TypeName(ArgList) &#123; FieldOrProp = InitVal, FieldOrProp = InitVal, ...&#125;;<br><span class="hljs-keyword">new</span> TypeName &#123; FieldOrProp = InitVal, FieldOrProp = InitVal, ...&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>要注意: 初始化列表中的字段和属性都是可访问的(public)，并且<strong>初始化语句执行于构造方法之后</strong>。</p>
+<h3 id="this-关键字"><a href="#this-关键字" class="headerlink" title="this 关键字"></a>this 关键字</h3><p>this 是对当前实例的引用，只能被用于: </p>
+<ul>
+<li>实例构造方法</li>
+<li>实例方法</li>
+<li>属性和索引器的实例访问器</li>
+</ul>
+<p>this 的目的用于区分成员和本地变量: </p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">Class1</span><br>&#123;<br>    <span class="hljs-built_in">int</span> a;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Say</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> a</span>)</span> <br>    &#123;<br>        <span class="hljs-keyword">this</span>.a = a;<br>        <span class="hljs-comment">//....</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>不推荐参数和字段同名。</p>
+<h3 id="分部类和分部类型"><a href="#分部类和分部类型" class="headerlink" title="分部类和分部类型"></a>分部类和分部类型</h3><p>类的声明可以分割成几个分部类声明: </p>
+<ul>
+<li>每个分部类都含有一些类成员声明</li>
+<li>每个局部声明必须标记为 partial class</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span><br>&#123;<br>   <span class="hljs-built_in">int</span> a;<br>&#125;<br><br><span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span><br>&#123;<br>    <span class="hljs-built_in">int</span> b;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>除了分部类，还有分部结构和分部接口，我们之后说。</p>
+<h3 id="分部方法"><a href="#分部方法" class="headerlink" title="分部方法"></a>分部方法</h3><p>分部方法是声明在分部类的不同部分的方法。<br>分部方法两部分如下: </p>
+<ul>
+<li>分部方法的声明</li>
+<li>分部方法的实现</li>
+</ul>
+<p>分部方法的特征: </p>
+<ul>
+<li>声明部分和实现部分的返回值和方法签名必须一致，并且，返回值必须是 void</li>
+<li>不能有访问修饰符修饰，也就是分部方法隐式私有</li>
+<li>不能有输出参数</li>
+<li>方法声明和方法实现之前要有 partial 修饰</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyClass1</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">partial</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Add</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> a, <span class="hljs-built_in">int</span> b</span>)</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">PrintSum</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> a, <span class="hljs-built_in">int</span> b</span>)</span><br>    &#123;<br>        Add(a, b);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyClass1</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">partial</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Add</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> a, <span class="hljs-built_in">int</span> b</span>)</span><br>    &#123;<br>        Console.WriteLine(<span class="hljs-string">$&quot;a + b = <span class="hljs-subst">&#123;a + b&#125;</span>&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> cls = <span class="hljs-keyword">new</span> MyClass1();<br>        cls.PrintSum(<span class="hljs-number">5</span>, <span class="hljs-number">6</span>);  <span class="hljs-comment">// 11</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/C%20Sharp(%E5%9B%9B)/">
+        Previous post<br>C Sharp(四)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/C%20Sharp(%E4%BA%8C)/">
+        Next post<br>C Sharp(二)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?1872082"></script>
+
+
+
+</body>
+</html>

@@ -1,57 +1,454 @@
-<% include _include/variables.ejs %>
-<%
-config.__isIndex = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage(item) {
-    var featuredImage = item.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + item.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?60640258">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item active" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+        
+        <div class="pagination-indicator">
+            <span style="text-align: center">
+                11<br><div style="display: inline-block; transform: rotate(-28deg)">-</div><br>20
+            </span>
+        </div>
+        
+
+        
+        <a class="pagination-action" href="/page/10/">
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
+        
+
+        
+        <a class="pagination-action" href="/page/12/">
+            <i class="material-icons pagination-action-icon">
+                chevron_right
+            </i>
+        </a>
+        
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-no-background">
-        <% page.posts.each(function (item) { %>
-        <a href="<%= config.root + item.path %>" class="a-block">
+        
+        <a href="/MySQL(七)/" class="a-block">
             <div class="post-item-wrapper">
                 <div class="post-item post-item-no-divider">
                     <div class="post-item-info-wrapper">
                         <div class="post-item-title">
-                            <%= item.title %>
+                            MySQL(七)
                         </div>
                         <div class="post-item-summary">
-                            <%= item.intro && item.intro.length > 0 ? item.intro : truncate(strip_html(item.content), {
-                                length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-                                omission: '...'
-                            }) %>
+                            本篇是 MySQL 的最后一篇，我们最后讲讲变量、函数、存储过程和触发器。
+变量
+MySQL 需要很多变量来保存数据。
+系统变量系统内部定义的变量，系统变量针对所有用户有效。
+查看系统变量基本语法: show variables [{...
                         </div>
                         <div class="post-item-meta">
-                            <%= date(item.date, "YYYY-MM-DD") %>
+                            2019-03-29
                         </div>
                     </div>
-                    <% if(item.featured_image){ %>
-                    <div class="post-item-image-wrapper">
-                        <div class="post-item-image"
-                             style="background-image: url('<%= getFeaturedImage(item) %>')"></div>
-                    </div>
-                    <% } %>
+                    
                 </div>
             </div>
         </a>
-        <% }) %>
+        
+        <a href="/MySQL(六)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            MySQL(六)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们说说 MySQL 中的外键、视图以及事务安全等问题。
+外键
+如果公共关键字在一个关系中是主关键字，那么这个公共关键字被称为另一个关系的外键。以另一个关系的外键作为主关键字的表称为主表，具有此外键的表称为主表的从表，外键又称为...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-03-28
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/MySQL(五)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            MySQL(五)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们说说 MySQL 中的联合查询、连接查询以及子查询。
+联合查询
+基本概念: 可合并多个相似的选择查询结果的结果集，等同于将一个表追加到另一个表，从而实现将两个表的查询结果组合到一起，使用 Union 或 Union all。...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-03-27
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/MySQL(四)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            MySQL(四)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们说说 MySQL 对于数据的增删改查操作以及运算符。
+新增数据
+多数据插入基本语法: insert into {表名}({字段列表}) values({值列表1}), ({值列表2}), …
+insert into my_a...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-03-21
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/MySQL(三)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            MySQL(三)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们再来说说 MySQL 中的列类型和列属性以及表间关系。
+列类型
+整数类型
+Tinyint: 迷你整型，采用 1 字节保存整型数据
+Smallint: 小整型，采用 2 字节保存整型数据
+Mediumint: 中整型，采用 3...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-03-18
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/MySQL(二)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            MySQL(二)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们来说说 SQL 的基本操作 —— 库操作、表操作以及数据操作。
+库操作
+创建数据库基本语法: create database {数据库名} [库选项];
+-- 创建数据库create database mydatabase;...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-03-17
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/MySQL(一)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            MySQL(一)
+                        </div>
+                        <div class="post-item-summary">
+                            从本篇开始，我们来说说最流行的数据库 —— 关于 MySQL 的那些事儿。
+数据库概念
+数据库(Database)是按照数据结构来组织、存储和管理数据的建立在计算机存储设备上的仓库。
+
+人们通常用数据库这个术语来代表他们使用的数据库软...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-03-14
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/算法(二)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            算法(二)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇开始，我们来看看在工作中比较常用的两大算法之一的排序算法。
+基本概念及分类
+假设含有 n 个记录的序列为 {r1, r2, …, rn}，其相应的关键字分别为 {k1, k2, …, kn}，需确定 1, 2, …, n 的一种排...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-03-10
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/算法(一)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            算法(一)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇开始，我们来看看在工作中比较常用的两大算法之一的查找算法。
+概论
+查找表(Search Table): 是由同一类型的数据元素构成的集合。关键字(Key): 是数据元素中某个数据项的值，又称为键值。若此关键字可以唯一地标识某一记录...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-03-08
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/数据结构(五)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            数据结构(五)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们来讨论一种多对多的数据结构 —— 图。
+图的定义
+图(Graph)是由顶点有穷非空集合和顶点之间边的集合组成，通常表示为: G(V, E)，其中，G 表示一个图，V 是图 G 中顶点的集合，E 是图 G 中边的集合。
+对于图...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-03-04
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
     
-        <% include _include/pagination.ejs %>
-    </div>
-    <% include _include/single_column_footer.ejs %>
+        
+<div class="pagination index-page">
+    
+    <a class="pagination-action" href="/page/10/" style="opacity: 1">
+        
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
+
+        <div class="pagination-indicator">
+            <span>11/20</span>
+        </div>
+
+        
+        <a class="pagination-action" href="/page/12/"
+           style="opacity: 1">
+            
+                <i class="material-icons pagination-action-icon">
+                    chevron_right
+                </i>
+            </a>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% include _include/tail.ejs %>
+    </div>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?26339349"></script>
+</body>
+</html>

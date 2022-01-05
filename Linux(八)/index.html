@@ -1,73 +1,398 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Linux(八) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="本篇，我们在来说一下在 Linux 下，有关正则和文本处理的相关知识。
+正则表达式
+之前我们讲过正则，我们来回顾下。
+基本语法一个正则表达式通常被称为一个模式(pattern)，为用来描述或者匹配一系列符合某个句法规则的字符串。
+选择...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?71511040">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Linux(八)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2019-08-14T00:00:00.000Z" itemprop="datePublished">
+                            2019-08-14 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>本篇，我们在来说一下在 Linux 下，有关正则和文本处理的相关知识。</p>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><hr>
+<p>之前我们讲过正则，我们来回顾下。</p>
+<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><p>一个正则表达式通常被称为一个模式(pattern)，为用来描述或者匹配一系列符合某个句法规则的字符串。</p>
+<h4 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h4><p>| 竖直分隔符表示选择，例如 boy|girl 可以匹配 boy 或者 girl。</p>
+<h4 id="数量限定"><a href="#数量限定" class="headerlink" title="数量限定"></a>数量限定</h4><p>数量限定符号有 </p>
+<ul>
+<li>*: 出现 0 次或多次</li>
+<li>+: 出现 1 次或多次</li>
+<li>?: 出现 0 次或 1 次</li>
+</ul>
+<p>如果在一个模式中不加数量限定符则表示出现一次且仅出现一次。</p>
+<p>如果要表示其他次数可以使用: </p>
+<ul>
+<li>{m}: 出现 m 次</li>
+<li>{m,}: 至少出现 m 次</li>
+<li>{m,n}: 出现 m 到 n 次</li>
+<li>{,n}: 出现 0 到 n 次</li>
+</ul>
+<h4 id="范围和优先级"><a href="#范围和优先级" class="headerlink" title="范围和优先级"></a>范围和优先级</h4><p>() 圆括号可以用来定义模式字符串的范围和优先级，这可以简单的理解为是否将括号内的模式串作为一个整体。</p>
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.</td>
+<td>匹配除换行符之外的任意字符</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配字母，数字，下划线或汉字</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配任意空白字符</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配数字</td>
+</tr>
+<tr>
+<td>\</td>
+<td>将下一个字符标记为一个特殊字符、或一个原义字符</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配输入字符串的开始位置</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配输入字符串的结束位置</td>
+</tr>
+<tr>
+<td>?</td>
+<td>当该字符紧跟在任何一个其他限制符(*,+,?,{n},{n,},{n,m})后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串</td>
+</tr>
+<tr>
+<td>[xyz]</td>
+<td>字符集合(character class)，匹配所包含的任意一个字符</td>
+</tr>
+<tr>
+<td>[^xyz]</td>
+<td>排除型(negate)字符集合，匹配未列出的任意字符</td>
+</tr>
+</tbody></table>
+<h4 id="基本正则-BRE-和-扩展正则-ERE"><a href="#基本正则-BRE-和-扩展正则-ERE" class="headerlink" title="基本正则(BRE) 和 扩展正则(ERE)"></a>基本正则(BRE) 和 扩展正则(ERE)</h4><p>基本正则只支持 * 数量限定，如果不使用扩展正则，想使用其他数量限定，则必须使用 \ 来转义。基本正则不支持 \w，\d 等，需要使用 [a-zA-Z0-9_-] 和 [0-9] 代替。</p>
+<h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><hr>
+<p>sed(stream editor)，流编辑器，用程序的方式来编辑文本。一次处理一行，行是 sed 处理的基本单位。</p>
+<h3 id="模式空间和缓冲空间"><a href="#模式空间和缓冲空间" class="headerlink" title="模式空间和缓冲空间"></a>模式空间和缓冲空间</h3><ul>
+<li>模式空间: 处理文件中一行内容的临时缓冲区，处理完这一行会将这一行输出标准输出并清空缓冲区</li>
+<li>缓存空间: 另一个缓冲区，不会自动清空也不会主动打印，是 sed 的辅助空间</li>
+</ul>
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>格式为: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">sed [options] &#123;sed-commands&#125; &#123;input-file&#125;<br></code></pre></td></tr></table></figure>
+
+<p>例如: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># source.txt</span><br>101,Ian Bicking,Mozilla<br>102,Hakim El Hattab,Whim<br>103,Paul Irish,Google<br>104,Addy Osmani,Google<br>105,Chris Wanstrath,Github<br>106,Mattt Thompson,Heroku<br>107,Ask Solem Hoel,VMware<br><br><span class="hljs-comment"># -n 表示取消默认输出，p 表示打印行</span><br><span class="hljs-variable">$sed</span> -n <span class="hljs-string">&#x27;p&#x27;</span> source.txt<br><br><span class="hljs-comment"># 只打印第三行</span><br><span class="hljs-variable">$sed</span> -n <span class="hljs-string">&#x27;3p&#x27;</span> source.txt<br><span class="hljs-comment"># 103,Paul Irish,Google</span><br><br><span class="hljs-comment"># 打印 1 到 3 行</span><br><span class="hljs-variable">$sed</span> -n <span class="hljs-string">&#x27;1,3p&#x27;</span> source.txt<br><span class="hljs-comment"># 101,Ian Bicking,Mozilla</span><br><span class="hljs-comment"># 102,Hakim El Hattab,Whim</span><br><span class="hljs-comment"># 103,Paul Irish,Google</span><br><br><span class="hljs-comment"># 寻找包含 Paul 的行</span><br><span class="hljs-variable">$sed</span> -n <span class="hljs-string">&#x27;/Paul/p&#x27;</span> source.txt<br><span class="hljs-comment"># 103,Paul Irish,Google</span><br><br><span class="hljs-comment"># 从第一行开始到第五行, 从找到开始打印到第五行</span><br><span class="hljs-variable">$sed</span> -n <span class="hljs-string">&#x27;/Paul/,5p&#x27;</span> source.txt<br><span class="hljs-comment"># 103,Paul Irish,Google</span><br><span class="hljs-comment"># 104,Addy Osmani,Google</span><br><span class="hljs-comment"># 105,Chris Wanstrath,Github</span><br><br><span class="hljs-comment"># 从匹配 Paul 行打印达匹配 Addy 的行</span><br><span class="hljs-variable">$sed</span> -n <span class="hljs-string">&#x27;/Paul/,/Addy/p&#x27;</span> source.txt<br><span class="hljs-comment"># 103,Paul Irish,Google</span><br><span class="hljs-comment"># 104,Addy Osmani,Google</span><br></code></pre></td></tr></table></figure>
+
+<p>注意: </p>
+<ul>
+<li>-n 选项会抑制默认的打印</li>
+<li>其中的地址范围可以是行号或者正则</li>
+<li>默认的模式匹配不支持扩展正则，只支持基本正则。如果想支持扩展正则，需要使用 -r 选项</li>
+<li>$ 代表最后一行行号</li>
+</ul>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>格式与查找相同: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">sed [options] &#123;sed-commands&#125; &#123;input-file&#125;<br></code></pre></td></tr></table></figure>
+
+<p>例如:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 删除所有行</span><br><span class="hljs-variable">$sed</span> <span class="hljs-string">&#x27;d&#x27;</span> source.txt <br><br><span class="hljs-comment"># 只删除第二行</span><br><span class="hljs-variable">$sed</span> <span class="hljs-string">&#x27;2d&#x27;</span> source.txt<br><br><span class="hljs-comment"># 删除第一到第四行</span><br><span class="hljs-variable">$sed</span> <span class="hljs-string">&#x27;1,4d&#x27;</span> source.txt<br><br><span class="hljs-comment"># 删除空行</span><br><span class="hljs-variable">$sed</span> <span class="hljs-string">&#x27;/^$/d&#x27;</span> source.txt<br><br><span class="hljs-comment"># 删除评论行</span><br><span class="hljs-variable">$sed</span> <span class="hljs-string">&#x27;/^#/d&#x27;</span> source.txt<br></code></pre></td></tr></table></figure>
+
+<p>注意: </p>
+<ul>
+<li>删除并不会影响源文件，如果也想修改源文件，可以使用 -i 参数或重定向</li>
+<li>Mac 下需要使用 -i “” 来影响源文件</li>
+</ul>
+<h3 id="替换-substitute"><a href="#替换-substitute" class="headerlink" title="替换(substitute)"></a>替换(substitute)</h3><p>替换格式为: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">sed <span class="hljs-string">&#x27;[address-range|pattern-range]s/original-string/replacement-string/[substitute-flags]&#x27;</span> inputfile<br></code></pre></td></tr></table></figure>
+
+<p>例如: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 替换 Google 为 Github</span><br><span class="hljs-variable">$sed</span> <span class="hljs-string">&#x27;s/Google/Github/&#x27;</span> source.txt<br><span class="hljs-comment"># 101,Ian Bicking,Mozilla</span><br><span class="hljs-comment"># 102,Hakim El Hattab,Whim</span><br><span class="hljs-comment"># 103,Paul Irish,Github</span><br><span class="hljs-comment"># 104,Addy Osmani,Github</span><br><span class="hljs-comment"># 105,Chris Wanstrath,Github</span><br><span class="hljs-comment"># 106,Mattt Thompson,Heroku</span><br><span class="hljs-comment"># 107,Ask Solem Hoel,VMware</span><br><br><span class="hljs-comment"># 替换匹配 Addy 的行里面的 Google 为 Github</span><br><span class="hljs-variable">$sed</span> <span class="hljs-string">&#x27;/Addy/s/Google/Github/&#x27;</span> source.txt<br><span class="hljs-comment"># 101,Ian Bicking,Mozilla</span><br><span class="hljs-comment"># 102,Hakim El Hattab,Whim</span><br><span class="hljs-comment"># 103,Paul Irish,Google</span><br><span class="hljs-comment"># 104,Addy Osmani,Github</span><br><span class="hljs-comment"># 105,Chris Wanstrath,Github</span><br><span class="hljs-comment"># 106,Mattt Thompson,Heroku</span><br><span class="hljs-comment"># 107,Ask Solem Hoel,VMware</span><br><br><span class="hljs-comment"># 替换第一行中的首个匹配项</span><br><span class="hljs-variable">$sed</span> <span class="hljs-string">&#x27;1s/a/A/&#x27;</span> source.txt|head -1<br><span class="hljs-comment"># 101,IAn Bicking,Mozilla</span><br><br><span class="hljs-comment"># g 可以替换每行的全部符合</span><br><span class="hljs-variable">$sed</span> <span class="hljs-string">&#x27;s/a/A/g&#x27;</span> source.txt|head -1<br><span class="hljs-comment"># 101,IAn Bicking,MozillA</span><br><br><span class="hljs-comment"># 可以直接指定想要替换的第 N 个匹配项,这里是第一行第二个</span><br><span class="hljs-variable">$sed</span> <span class="hljs-string">&#x27;1s/a/A/2&#x27;</span> source.txt|head -1<br></code></pre></td></tr></table></figure>
+
+<h3 id="提取"><a href="#提取" class="headerlink" title="提取"></a>提取</h3><p>括号括起来的正则表达式所匹配的字符串会可以当成变量来使用，sed 中使用的是 \1，\2。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">sed -rn <span class="hljs-string">&#x27;/bash$/s/(\w+):.*/\1/p&#x27;</span> passwd<br></code></pre></td></tr></table></figure>
+
+<p>注意: -r 选项可以使用扩展正则表达式，如果不使用扩展，则应写成如下形式: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">sed -rn <span class="hljs-string">&#x27;/bash$/s/\([a-zA-Z0-9_-]\+\):.*/\1/p&#x27;</span> passwd<br></code></pre></td></tr></table></figure>
+
+<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>在第 5 行之上插入，使用 i: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">sed -i <span class="hljs-string">&#x27;5 i hello world&#x27;</span> source.txt<br></code></pre></td></tr></table></figure>
+
+<h3 id="追加"><a href="#追加" class="headerlink" title="追加"></a>追加</h3><p>在第 10 行之下追加，使用 a: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">sed -i <span class="hljs-string">&#x27;10 a hello world&#x27;</span> source.txt<br></code></pre></td></tr></table></figure>
+
+<h3 id="更改"><a href="#更改" class="headerlink" title="更改"></a>更改</h3><p>更改第 5 行的内容，使用 c: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">sed -i <span class="hljs-string">&#x27;5 c hello world&#x27;</span> source.txt<br></code></pre></td></tr></table></figure>
+
+<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><hr>
+<p>awk 是贝尔实验室 1977 年开发的用于处理文本文件的一个应用程序，它依次处理文件的每一行，并读取里面的每一个字段。对于日志等每行格式相同的文本文件，awk 可能是最方便的工具。<br>之所以叫 awk 是因为其取了三位创始人 Alfred Aho，Peter Weinberger 和 Brian Kernighan 名字的首字母。<br>awk 其实不仅仅是工具软件，还是一种编程语言，接下来我们分几个方面介绍一下基本使用。</p>
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>awk 的基本格式: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">awk -Fs <span class="hljs-string">&#x27;/pattern/ &#123;action&#125;&#x27;</span> input-file<br><span class="hljs-comment">#or</span><br>awk -Fs <span class="hljs-string">&#x27;&#123;action&#125;&#x27;</span> intput-file<br><span class="hljs-comment"># -F 表示设置分隔符,不指定就是默认为空字符</span><br><br><span class="hljs-comment"># 示例</span><br>awk <span class="hljs-string">&#x27;&#123;print $0&#125;&#x27;</span> god.txt<br></code></pre></td></tr></table></figure>
+
+<p>awk 默认会根据 -F 表示设置分隔符(空格和制表符)，将每一行分成若干字段，依次用 $1、$2、$3 代表第一个字段、第二个字段、第三个字段等，而 $0 表示的是当前行。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;This is a demo for awk.&#x27;</span> | awk <span class="hljs-string">&#x27;&#123;print $3&#125;&#x27;</span><br><span class="hljs-comment"># a</span><br></code></pre></td></tr></table></figure>
+
+<p>我们还可以使用 -F 参数来指定分割符: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">awk -F <span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;&#123;print $1&#125;&#x27;</span> /etc/passwd<br></code></pre></td></tr></table></figure>
+
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>除了 $ + 数字 表示某个字段，awk 还提供其他一些变量。</p>
+<h4 id="NF"><a href="#NF" class="headerlink" title="NF"></a>NF</h4><p>变量 NF 表示当前行有多少个字段，因此 $NF 就代表最后一个字段，$(NF-1) 代表倒数第二个字段。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">awk -F <span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;&#123;print $1, $NF&#125;&#x27;</span> /etc/passwd<br></code></pre></td></tr></table></figure>
+<p>命令里面可以使用逗号，表示输出的时候，两个部分之间使用空格分隔。</p>
+<h4 id="NR"><a href="#NR" class="headerlink" title="NR"></a>NR</h4><p>变量 NR 表示当前处理的是第几行: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">awk -F <span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;&#123;print NR &quot;.&quot; $1 $NF&#125;&#x27;</span> /etc/passwd<br></code></pre></td></tr></table></figure>
+
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p>awk 还提供了一些内置函数，方便对原始数据的处理，常见函数有: </p>
+<ul>
+<li>toupper()</li>
+<li>tolower()</li>
+<li>length()</li>
+<li>substr()</li>
+<li>sqrt()</li>
+<li>rand()</li>
+<li>match()</li>
+<li>index()</li>
+</ul>
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><p>awk 允许指定输出条件，只输出符合条件的行，格式为: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">awk <span class="hljs-string">&#x27;条件 动作&#x27;</span> [文件名]<br><br><span class="hljs-comment"># 示例</span><br>awk -F <span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;$1 == &quot;root&quot; &#123;print $0&#125;&#x27;</span> /etc/passwd<br><br>awk -F <span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;NR % 2 == 1 &#123;print $1&#125;&#x27;</span> /etc/passwd<br></code></pre></td></tr></table></figure>
+
+<p>注意: 条件可以是正则表达式，格式为 /正则/。awk 允许运算符 ~，用来测试正则表达式是否可以与某一字符串匹配。</p>
+<h3 id="if-语句"><a href="#if-语句" class="headerlink" title="if 语句"></a>if 语句</h3><p>awk 提供了 if 结构，用于编写复杂的条件: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">awk -F <span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;&#123;if ($1 &gt; &quot;m&quot;) print $1&#125;&#x27;</span> /etc/passwd<br></code></pre></td></tr></table></figure>
+
+<p>if 结构还可以指定 else 部分: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">awk -F <span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;&#123;if ($1 &gt; &quot;m&quot;) print $1; else print &quot;---&quot;&#125;&#x27;</span> /etc/passwd<br></code></pre></td></tr></table></figure>
+
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><hr>
+<p>grep(globally search a regular expression and print) 会对匹配一个或多个正则表达式的文本进行搜索，并只输出匹配(或者不匹配)的行。</p>
+<h3 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h3><ul>
+<li>i: 忽略大小写</li>
+<li>n: 输出行号</li>
+<li>v: 反向选择</li>
+</ul>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Nginx(%E4%B8%80)/">
+        Previous post<br>Nginx(一)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Linux(%E4%B8%83)/">
+        Next post<br>Linux(七)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?33623589"></script>
+
+
+
+</body>
+</html>

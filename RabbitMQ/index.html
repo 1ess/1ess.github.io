@@ -1,73 +1,275 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>RabbitMQ - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="本篇，我们介绍一下消息队列(MessageQueue)以及生产中比较常使用的框架 RabbitMQ。
+什么是消息队列
+消息队列允许应用程序通过相互发送消息进行通信。消息队列在目标程序繁忙或未连接时提供临时消息存储。
+基本架构
+消息队列...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?3772662">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    RabbitMQ
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2020-05-14T00:00:00.000Z" itemprop="datePublished">
+                            2020-05-14 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>本篇，我们介绍一下消息队列(MessageQueue)以及生产中比较常使用的框架 RabbitMQ。</p>
+<h2 id="什么是消息队列"><a href="#什么是消息队列" class="headerlink" title="什么是消息队列"></a>什么是消息队列</h2><hr>
+<p>消息队列允许应用程序通过相互发送消息进行通信。消息队列在目标程序繁忙或未连接时提供临时消息存储。</p>
+<h2 id="基本架构"><a href="#基本架构" class="headerlink" title="基本架构"></a>基本架构</h2><hr>
+<p>消息队列的基本架构很简单: 客户机应用程序被称为生产者(producers)，用于创建消息并将消息传递到消息队列。另一个应用程序称为消费者(consumer)，它连接到队列并获取要处理的消息。放置到队列中的消息将被存储，直到使用者检索它们。</p>
+<p>消息队列提供异步通信协议，该协议是一个将消息放入消息队列的系统，并且不需要对处理立即响应。这种处理消息的方式将生产者与消费者分离开来，因此它们不需要同时与消息队列进行交互。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><hr>
+<p>使用消息队列的优点主要有三个：解耦、异步、削峰。</p>
+<h3 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h3><p>解耦描述了系统的一个部分对另一个部分的依赖程度，当两个或多个系统能够在不连接的情况下通信，就可以实现解耦。<br>如果系统中的一个进程无法从队列中处理消息，其他消息仍可以被添加到队列中，并在系统恢复时进行处理。还可以使用消息队列来延迟处理消息。这种处理消息的方式便于创建了易维护和易扩展的系统。</p>
+<h3 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h3><p>非必要的业务逻辑可以将消息写入消息队列以异步的方式运行，以加快响应速度。</p>
+<h3 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h3><p>在突发异常流量时，将消息写入消息队列，待流量恢复后，依次处理队列内消息，可以削峰平谷，防止服务器宕机。</p>
+<h2 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h2><hr>
+<p>RabbitMQ 是开源的面向消息的中间件，它实现了高级消息排队协议(AMQP)。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/mq/workflow-rabbitmq.png"></p>
+<h3 id="交换器-exchange"><a href="#交换器-exchange" class="headerlink" title="交换器(exchange)"></a>交换器(exchange)</h3><p>消息不会直接发布到队列，通常生产者向交换器发送消息。交换器负责在 bindings 和 routing keys 的帮助下将消息路由到不同的队列。bindings 是队列和交换器之间的链接。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/mq/exchanges-bindings-routing-keys.png"></p>
+<h3 id="消息流"><a href="#消息流" class="headerlink" title="消息流"></a>消息流</h3><p>RabbitMQ 中的消息流: </p>
+<ol>
+<li>首先指定交换器类型来创建交换器，然后生产者向创建的交换器发布消息</li>
+<li>交换器接收消息并负责路由消息。交换器根据交换器类型考虑不同的消息属性，例如 routing keys</li>
+<li>从交换器到队列方向创建 bindings</li>
+<li>消息将一直留在队列中，直到被消费者处理</li>
+<li>消费者处理消息</li>
+</ol>
+<h3 id="交换器类型"><a href="#交换器类型" class="headerlink" title="交换器类型"></a>交换器类型</h3><ol>
+<li>Direct: 消息被路由到其绑定键与消息的路由键完全匹配的队列</li>
+<li>Fanout: 交换器将消息路由到绑定到它的所有队列</li>
+<li>Topic: Topic 交换在路由键和绑定中指定的路由模式之间进行通配符匹配</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/mq/exchanges-topic-fanout-direct.png"></p>
+<h3 id="RabbitMQ-中的重要概念"><a href="#RabbitMQ-中的重要概念" class="headerlink" title="RabbitMQ 中的重要概念"></a>RabbitMQ 中的重要概念</h3><ol>
+<li>生产者(Producer): 发送消息的应用程序</li>
+<li>消费者(Consumer): 接收消息的应用程序</li>
+<li>队列(Queue): 存储消息的缓冲区</li>
+<li>消息(Message): 通过 RabbitMQ 从生产者发送到消费者的信息</li>
+<li>连接(Connection): 应用程序和 RabbitMQ 代理之间的 TCP 连接</li>
+<li>通道(Channel): 连接内部的虚拟连接。当发布或使用队列中的消息时，这一切都是通过通道完成的</li>
+<li>交换器(Exchange): 接收来自生产者的消息，并根据交换器类型定义的规则将消息推送到队列。要接收消息，需要将队列绑定到至少一个交换器。</li>
+<li>绑定(Binding): 绑定是队列和交换器之间的链接</li>
+<li>路由键(Routing Key): 交换器用来决定如何将消息路由到队列的键。将路由键看作消息的地址</li>
+<li>用户(User): 可以使用给定的用户名和密码连接到 RabbitMQ，可以为每个用户分配权限，例如在实例中读取、写入和配置特权的权限。还可以为用户分配特定虚拟主机的权限</li>
+<li>虚拟主机(Vhost): 提供一种使用相同 RabbitMQ 实例隔离应用程序的方法。不同的用户可以对不同的 vhost 拥有不同的权限</li>
+</ol>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Redis/">
+        Previous post<br>Redis
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Vim/">
+        Next post<br>Vim
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?45873547"></script>
+
+
+
+</body>
+</html>

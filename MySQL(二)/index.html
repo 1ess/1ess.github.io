@@ -1,73 +1,329 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>MySQL(二) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="本篇，我们来说说 SQL 的基本操作 —— 库操作、表操作以及数据操作。
+库操作
+创建数据库基本语法: create database {数据库名} [库选项];
+-- 创建数据库create database mydatabase;...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?55519199">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    MySQL(二)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2019-03-17T00:00:00.000Z" itemprop="datePublished">
+                            2019-03-17 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>本篇，我们来说说 SQL 的基本操作 —— 库操作、表操作以及数据操作。</p>
+<h2 id="库操作"><a href="#库操作" class="headerlink" title="库操作"></a>库操作</h2><hr>
+<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><p>基本语法: create database {数据库名} [库选项];</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 创建数据库</span><br><span class="hljs-keyword">create</span> database mydatabase;<br></code></pre></td></tr></table></figure>
+
+<p>库选项: </p>
+<ul>
+<li>字符集: charset {指定字符集}，不指定则采用安装时默认字符集</li>
+<li>校对集: collate {指定校对集}</li>
+</ul>
+<h3 id="显示数据库"><a href="#显示数据库" class="headerlink" title="显示数据库"></a>显示数据库</h3><h4 id="显示全部"><a href="#显示全部" class="headerlink" title="显示全部"></a>显示全部</h4><p>基本语法: show databases;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 显示全部数据库</span><br><span class="hljs-keyword">show</span> databases;<br></code></pre></td></tr></table></figure>
+
+<h4 id="显示部分"><a href="#显示部分" class="headerlink" title="显示部分"></a>显示部分</h4><p>基本语法: show databases like ‘{模式匹配}’;</p>
+<ul>
+<li>_: 匹配当前位置单个字符</li>
+<li>%: 匹配指定位置多个字符</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 显示部分数据库</span><br><span class="hljs-keyword">show</span> databases <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;my%&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<h4 id="显示数据库创建语句"><a href="#显示数据库创建语句" class="headerlink" title="显示数据库创建语句"></a>显示数据库创建语句</h4><p>基本语法: show create database {数据库名};</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 显示数据库创建语句</span><br><span class="hljs-keyword">show</span> <span class="hljs-keyword">create</span> database mydatabase;<br></code></pre></td></tr></table></figure>
+
+<h3 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h3><p>基本语法: use {数据库名};<br>在命令行会出现: Database changed</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 选择数据库</span><br>use mydatabase;<br></code></pre></td></tr></table></figure>
+
+<h3 id="修改数据库"><a href="#修改数据库" class="headerlink" title="修改数据库"></a>修改数据库</h3><p>5.5 版本之后，只能修改库选项，不能再修改库名了。<br>基本语法: alter databse {数据库名} {库选项};</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 修改库选项</span><br><span class="hljs-keyword">alter</span> database mydatabase charset gbk;<br></code></pre></td></tr></table></figure>
+
+<h3 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h3><p>基本语法: drop database {数据库名};</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 删除数据库</span><br><span class="hljs-keyword">drop</span> database mydatabase;<br></code></pre></td></tr></table></figure>
+
+<h2 id="表操作"><a href="#表操作" class="headerlink" title="表操作"></a>表操作</h2><hr>
+<h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><h4 id="普通创建表"><a href="#普通创建表" class="headerlink" title="普通创建表"></a>普通创建表</h4><p>基本语法: create table {表名}(字段 字段类型 [字段属性], …) [表选项];</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 普通创建表</span><br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> mydatabase.class(name <span class="hljs-type">varchar</span>(<span class="hljs-number">10</span>));<br><span class="hljs-comment">-- 或者</span><br>use mydatabase;<br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> class(name <span class="hljs-type">varchar</span>(<span class="hljs-number">10</span>));<br></code></pre></td></tr></table></figure>
+<p>注意: 表必须放在对应的数据库之下，有两种方式: </p>
+<ol>
+<li>在表名前加上数据库名，用”.”连接</li>
+<li>在创建表之前，先选择数据库(即 use {数据库名};)</li>
+</ol>
+<p>表选项与库选项类似，包括: </p>
+<ol>
+<li>存储引擎: engine {引擎名}</li>
+<li>字符集: charset {字符集}</li>
+<li>校对集: collate {校对集}</li>
+</ol>
+<h4 id="复制已存在表结构"><a href="#复制已存在表结构" class="headerlink" title="复制已存在表结构"></a>复制已存在表结构</h4><p>基本语法: create table {表名} like {表名};</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 复制表结构</span><br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> mydatabase.test <span class="hljs-keyword">like</span> mydatabase2.class;<br></code></pre></td></tr></table></figure>
+
+<h3 id="显示数据表"><a href="#显示数据表" class="headerlink" title="显示数据表"></a>显示数据表</h3><h4 id="显示全部-1"><a href="#显示全部-1" class="headerlink" title="显示全部"></a>显示全部</h4><p>基本语法: show tables;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 显示全部数据表</span><br><span class="hljs-keyword">show</span> tables;<br></code></pre></td></tr></table></figure>
+
+<h4 id="显示部分-1"><a href="#显示部分-1" class="headerlink" title="显示部分"></a>显示部分</h4><p>基本语法: show tables like ‘{模式匹配}’;</p>
+<ul>
+<li>_: 匹配当前位置单个字符</li>
+<li>%: 匹配指定位置多个字符</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 显示部分数据表</span><br><span class="hljs-keyword">show</span> tables <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;c%&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<h4 id="显示表结构-字段名，字段类型，字段属性等"><a href="#显示表结构-字段名，字段类型，字段属性等" class="headerlink" title="显示表结构(字段名，字段类型，字段属性等)"></a>显示表结构(字段名，字段类型，字段属性等)</h4><p>基本语法: desc {表名};</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 显示表结构</span><br><span class="hljs-keyword">desc</span> test;<br></code></pre></td></tr></table></figure>
+
+<h3 id="修改数据表"><a href="#修改数据表" class="headerlink" title="修改数据表"></a>修改数据表</h3><h4 id="修改表属性"><a href="#修改表属性" class="headerlink" title="修改表属性"></a>修改表属性</h4><p>基本语法: alter table {表名} {表选项};</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 修改表选项</span><br><span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> test engine innodb;<br></code></pre></td></tr></table></figure>
+
+<h4 id="修改表结构"><a href="#修改表结构" class="headerlink" title="修改表结构"></a>修改表结构</h4><h5 id="修改表名"><a href="#修改表名" class="headerlink" title="修改表名"></a>修改表名</h5><p>基本语法: rename table {旧表名} to {新表名};</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 修改表名</span><br>rename <span class="hljs-keyword">table</span> test <span class="hljs-keyword">to</span> test1;<br></code></pre></td></tr></table></figure>
+
+<h5 id="新增字段"><a href="#新增字段" class="headerlink" title="新增字段"></a>新增字段</h5><p>基本语法: alter table {表名} add {字段名} {字段类型} [字段属性];</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 新增字段</span><br><span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> test1 <span class="hljs-keyword">add</span> age <span class="hljs-type">int</span>;<br></code></pre></td></tr></table></figure>
+
+<h5 id="修改字段名"><a href="#修改字段名" class="headerlink" title="修改字段名"></a>修改字段名</h5><p>基本语法: alter table {表名} change {旧字段名} {新字段名} {字段类型} [字段属性];</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 修改字段名</span><br><span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> test1 change age new_age <span class="hljs-type">int</span>;<br></code></pre></td></tr></table></figure>
+
+<h5 id="修改字段类型或属性"><a href="#修改字段类型或属性" class="headerlink" title="修改字段类型或属性"></a>修改字段类型或属性</h5><p>基本语法: alter table {表名} modify {字段名} {新字段类型} [新字段属性];</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 修改字段类型或属性</span><br><span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> test1 modify name <span class="hljs-type">varchar</span>(<span class="hljs-number">20</span>);<br></code></pre></td></tr></table></figure>
+
+<h5 id="删除字段"><a href="#删除字段" class="headerlink" title="删除字段"></a>删除字段</h5><p>基本语法: alter table {表名} drop {字段名};</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 删除字段</span><br><span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> test1 <span class="hljs-keyword">drop</span> new_age;<br></code></pre></td></tr></table></figure>
+
+<h4 id="删除数据表"><a href="#删除数据表" class="headerlink" title="删除数据表"></a>删除数据表</h4><p>基本语法: drop table {表名};</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 删除数据表</span><br><span class="hljs-keyword">drop</span> <span class="hljs-keyword">table</span> test1;<br></code></pre></td></tr></table></figure>
+
+<h2 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h2><hr>
+<h3 id="插入数据操作"><a href="#插入数据操作" class="headerlink" title="插入数据操作"></a>插入数据操作</h3><p>基本语法: insert into {表名} [({字段1}, {字段2}, …)] values({字段值1}, {字段值2}, …); </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 插入数据</span><br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test (name, age) <span class="hljs-keyword">values</span>(<span class="hljs-string">&#x27;Tom&#x27;</span>, <span class="hljs-number">20</span>);<br><span class="hljs-comment">-- 或者</span><br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test <span class="hljs-keyword">values</span>(<span class="hljs-string">&#x27;Lisi&#x27;</span>, <span class="hljs-number">18</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="查询数据操作"><a href="#查询数据操作" class="headerlink" title="查询数据操作"></a>查询数据操作</h3><p>基本语法: select * from {表名} [where 字段名 =/like 字段值];</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 查询数据</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> test;<br><span class="hljs-comment">-- 或者</span><br><span class="hljs-keyword">select</span> name, age <span class="hljs-keyword">from</span> test <span class="hljs-keyword">where</span> name<span class="hljs-operator">=</span><span class="hljs-string">&#x27;Lisi&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<h3 id="删除数据操作"><a href="#删除数据操作" class="headerlink" title="删除数据操作"></a>删除数据操作</h3><p>基本语法: delete from {表名} [where 字段名 =/like 字段值];</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 删除数据</span><br><span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> test <span class="hljs-keyword">where</span> age<span class="hljs-operator">&gt;=</span><span class="hljs-number">20</span>;<br></code></pre></td></tr></table></figure>
+
+<h3 id="更新数据操作"><a href="#更新数据操作" class="headerlink" title="更新数据操作"></a>更新数据操作</h3><p>基本语法: update {表名} set {字段名}={新值} [where 字段名 =/like 字段值];</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 更新操作</span><br>update test <span class="hljs-keyword">set</span> age<span class="hljs-operator">=</span><span class="hljs-number">30</span> <span class="hljs-keyword">where</span> name<span class="hljs-operator">=</span><span class="hljs-string">&#x27;Lisi&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<h2 id="其他常见命令"><a href="#其他常见命令" class="headerlink" title="其他常见命令"></a>其他常见命令</h2><h3 id="查看-MySQL-服务端版本"><a href="#查看-MySQL-服务端版本" class="headerlink" title="查看 MySQL 服务端版本"></a>查看 MySQL 服务端版本</h3><figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> version();<br><span class="hljs-comment">--  +-----------+</span><br><span class="hljs-comment">--  | version() |</span><br><span class="hljs-comment">--  +-----------+</span><br><span class="hljs-comment">--  | 8.0.16    |</span><br><span class="hljs-comment">--  +-----------+</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="查看当前选择的数据库"><a href="#查看当前选择的数据库" class="headerlink" title="查看当前选择的数据库"></a>查看当前选择的数据库</h3><figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> database();<br><span class="hljs-comment">--  +------------+</span><br><span class="hljs-comment">--  | database() |</span><br><span class="hljs-comment">--  +------------+</span><br><span class="hljs-comment">--  | test       |</span><br><span class="hljs-comment">--  +------------+</span><br></code></pre></td></tr></table></figure>
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/MySQL(%E4%B8%89)/">
+        Previous post<br>MySQL(三)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/MySQL(%E4%B8%80)/">
+        Next post<br>MySQL(一)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?46024857"></script>
+
+
+
+</body>
+</html>

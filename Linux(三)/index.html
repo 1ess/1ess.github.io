@@ -1,73 +1,303 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Linux(三) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="
+旧游无处不堪寻，无寻处，唯有少年心。
+
+本篇，我们在来说一下在 Linux 下，用户和组的相关知识。
+Linux 下的用户管理
+用户分类超级用户超级用户也叫管理员(root)。该用户具有所有权限，UID = 0。
+系统用户系统用户由...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?18675332">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Linux(三)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2019-06-09T00:00:00.000Z" itemprop="datePublished">
+                            2019-06-09 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <blockquote>
+<p>旧游无处不堪寻，无寻处，唯有少年心。</p>
+</blockquote>
+<p>本篇，我们在来说一下在 Linux 下，用户和组的相关知识。</p>
+<h2 id="Linux-下的用户管理"><a href="#Linux-下的用户管理" class="headerlink" title="Linux 下的用户管理"></a>Linux 下的用户管理</h2><hr>
+<h3 id="用户分类"><a href="#用户分类" class="headerlink" title="用户分类"></a>用户分类</h3><h4 id="超级用户"><a href="#超级用户" class="headerlink" title="超级用户"></a>超级用户</h4><p>超级用户也叫管理员(root)。该用户具有所有权限，UID = 0。</p>
+<h4 id="系统用户"><a href="#系统用户" class="headerlink" title="系统用户"></a>系统用户</h4><p>系统用户由程序创建，用于程序运行时的身份。<br>默认不允许登录系统，UID 在 1 到 499 之间(RHEL8 中，UID 范围是 1 到 999)。如 web 服务器的管理用户 apache。</p>
+<h4 id="普通用户"><a href="#普通用户" class="headerlink" title="普通用户"></a>普通用户</h4><p>普通用户一般由管理员创建，用于对系统进行有限的管理维护操作。<br>默认允许登录系统。UID 在 500 到 60000 之间(RHEL8 中，UID 范围是 1000 到 60000)。</p>
+<h3 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h3><h4 id="创建用户-useradd"><a href="#创建用户-useradd" class="headerlink" title="创建用户(useradd)"></a>创建用户(useradd)</h4><p>格式: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">useradd [选项] [用户名]<br></code></pre></td></tr></table></figure>
+
+<p>常见选项: </p>
+<ul>
+<li>d: 指定用户家目录</li>
+<li>s: 指定用户默认 shell</li>
+<li>g: 指定用户的默认组</li>
+<li>G: 指定用户的附加组</li>
+</ul>
+<p>注意: 我们使用 id [用户名] 查看用户信息，使用 su - [用户名] 切换用户。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">useradd admin<br><br>id admin<br><span class="hljs-comment"># uid=1001(admin) gid=1001(admin) 组=1001(admin)</span><br><br>su - admin<br><span class="hljs-comment"># [admin@192 ~] #</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="密码设置-passwd"><a href="#密码设置-passwd" class="headerlink" title="密码设置(passwd)"></a>密码设置(passwd)</h4><p>格式: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 给指定用户修改密码</span><br>passwd [用户名]<br><br><span class="hljs-comment"># 给当前用户修改密码</span><br>passwd &#123;直接回车&#125;<br></code></pre></td></tr></table></figure>
+
+<p>注意: 管理员可以给任意用户修改密码，普通用户只可以给自己修改密码。</p>
+<p>用户基本信息保存在 /etc/passwd 文件中，保存格式为: account:password:UID:GID:GECOS:directory:shell<br>例如:<br>root:x:0:0:root:/root:/bin/bash</p>
+<p>用户密码信息保存在 /etc/shadow 文件(影子化了的密码文件)中。</p>
+<h4 id="修改信息-usermod"><a href="#修改信息-usermod" class="headerlink" title="修改信息(usermod)"></a>修改信息(usermod)</h4><p>格式: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">usermod [选项] [用户名]<br></code></pre></td></tr></table></figure>
+
+<p>常见选项: </p>
+<ul>
+<li>u: 指定用户 uid</li>
+<li>g: 指定用户的默认组</li>
+<li>G: 指定用户的附加组</li>
+<li>d: 指定用户家目录</li>
+<li>s: 指定用户默认 shell</li>
+</ul>
+<h4 id="删除用户-userdel"><a href="#删除用户-userdel" class="headerlink" title="删除用户(userdel)"></a>删除用户(userdel)</h4><p>格式: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">userdel [选项] [用户名]<br></code></pre></td></tr></table></figure>
+
+<p>常见选项: </p>
+<ul>
+<li>r: 同时删除该用户的家目录和邮件</li>
+<li>f: 强制删除正在登录的用户</li>
+</ul>
+<h2 id="Linux-下的组管理"><a href="#Linux-下的组管理" class="headerlink" title="Linux 下的组管理"></a>Linux 下的组管理</h2><hr>
+<h3 id="用户和组的关系"><a href="#用户和组的关系" class="headerlink" title="用户和组的关系"></a>用户和组的关系</h3><p>组可以用来方便管理用户，例如分配权限等操作，组信息保存在 /etc/group 下。</p>
+<h3 id="组管理"><a href="#组管理" class="headerlink" title="组管理"></a>组管理</h3><h4 id="创建组-groupadd"><a href="#创建组-groupadd" class="headerlink" title="创建组(groupadd)"></a>创建组(groupadd)</h4><p>格式: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">groupadd [选项] [组名]<br></code></pre></td></tr></table></figure>
+
+<p>常见选项: </p>
+<ul>
+<li>g: 指定组的 gid</li>
+</ul>
+<h4 id="删除组-groupdel"><a href="#删除组-groupdel" class="headerlink" title="删除组(groupdel)"></a>删除组(groupdel)</h4><p>格式: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">groupdel [选项] [组名]<br></code></pre></td></tr></table></figure>
+
+<p>注意: 如果某个组是用户的主组，则不能删除该组。</p>
+<h4 id="组成员管理-gpasswd"><a href="#组成员管理-gpasswd" class="headerlink" title="组成员管理(gpasswd)"></a>组成员管理(gpasswd)</h4><p>格式: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">gpasswd [选项] [组名]<br></code></pre></td></tr></table></figure>
+
+<p>常见选项: </p>
+<ul>
+<li>a: 添加用户到组</li>
+<li>d: 从组中删除用户</li>
+<li>A: 指定管理员</li>
+<li>M: 批量设置用户到组，注意会覆盖原来的设置</li>
+</ul>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Linux(%E5%9B%9B)/">
+        Previous post<br>Linux(四)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Linux(%E4%BA%8C)/">
+        Next post<br>Linux(二)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?3610688"></script>
+
+
+
+</body>
+</html>

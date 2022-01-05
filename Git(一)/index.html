@@ -1,73 +1,290 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Git(一) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="版本控制是软件开发中必不可少的工具，本篇，我们来介绍目前最流行的版本控制系统 —— Git。
+Configuring Git
+第一次使用时，我们需要进行一些配置。例如: 
+
+Name
+Email
+Default Editor
+Line...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?43112964">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Git(一)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2021-01-25T00:00:00.000Z" itemprop="datePublished">
+                            2021-01-25 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>版本控制是软件开发中必不可少的工具，本篇，我们来介绍目前最流行的版本控制系统 —— Git。</p>
+<h2 id="Configuring-Git"><a href="#Configuring-Git" class="headerlink" title="Configuring Git"></a>Configuring Git</h2><hr>
+<p>第一次使用时，我们需要进行一些配置。例如: </p>
+<ul>
+<li>Name</li>
+<li>Email</li>
+<li>Default Editor</li>
+<li>Line Ending</li>
+</ul>
+<p>我们可以在三个不同层级进行配置: </p>
+<ul>
+<li>SYSTEM: All users</li>
+<li>GLOBAL: All repositories of the current user</li>
+<li>LOCAL: The current repository</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git config --global user.name <span class="hljs-string">&quot;1ess&quot;</span><br>git config --global user.email <span class="hljs-string">&quot;pipelining@qq.com&quot;</span><br>git config --global core.editor <span class="hljs-string">&quot;code --wait&quot;</span><br>git config --global diff.tool vscode<br>git config --global difftool.vscode.cmd <span class="hljs-string">&quot;code --wait --diff <span class="hljs-variable">$LOCAL</span> <span class="hljs-variable">$REMOTE</span>&quot;</span><br><br><span class="hljs-comment"># Windows</span><br>git config --global core.autocrlf <span class="hljs-literal">true</span><br><br><span class="hljs-comment"># Unix/Linux</span><br>git config --global core.autocrlf input<br></code></pre></td></tr></table></figure>
+
+<p>我们也可以使用如下命令</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git config --global -e <br></code></pre></td></tr></table></figure>
+
+<p>在编辑器中编辑配置。</p>
+<h2 id="Cheat-Sheet"><a href="#Cheat-Sheet" class="headerlink" title="Cheat Sheet"></a>Cheat Sheet</h2><h3 id="Initializing-a-Repository"><a href="#Initializing-a-Repository" class="headerlink" title="Initializing a Repository"></a>Initializing a Repository</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git init<br><span class="hljs-comment"># Initialized empty Git repository in ~/Project/.git/</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Staging-Files"><a href="#Staging-Files" class="headerlink" title="Staging Files"></a>Staging Files</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git add file1.txt file2.txt<br>git add *.txt<br>git add .<br></code></pre></td></tr></table></figure>
+
+<h3 id="Committing-Changes"><a href="#Committing-Changes" class="headerlink" title="Committing Changes"></a>Committing Changes</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git commit -m <span class="hljs-string">&quot;Initial Commit.&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Committing-Best-Practices"><a href="#Committing-Best-Practices" class="headerlink" title="Committing Best Practices"></a>Committing Best Practices</h3><p><strong>As you reach a state you want to record, THEN make a commit.</strong><br>例如，当你正在进行 Bug fix，突然发现一个 Typo，不应一次提交所有更改，应该是有两次单独提交。并且每次的提交消息要明确，因为他会显示在提交历史中。</p>
+<h3 id="Remove-Files"><a href="#Remove-Files" class="headerlink" title="Remove Files"></a>Remove Files</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git rm file1.txt<br>git rm *.txt<br>git rm .<br></code></pre></td></tr></table></figure>
+
+<p>git rm 与 rm 命令不同之处在于: </p>
+<ul>
+<li>git rm: 直接在工作区和暂存区移除文件</li>
+<li>rm: 只在工作区移除，如果希望暂存区也移除，需要使用 git add 命令</li>
+</ul>
+<p>简单来说，git rm 相当于 rm + git add。</p>
+<h3 id="Renaming-or-Moving-Files"><a href="#Renaming-or-Moving-Files" class="headerlink" title="Renaming or Moving Files"></a>Renaming or Moving Files</h3><p>与移除类似，Git 也提供一个命令执行重命名文件: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git mv file1.txt main.js<br></code></pre></td></tr></table></figure>
+
+<h3 id="Ignoring-Files"><a href="#Ignoring-Files" class="headerlink" title="Ignoring Files"></a>Ignoring Files</h3><p>我们使用 .gitignore 文件来忽略我们不希望 Git 来管理的文件或文件夹。<br>需要注意，如果 Git 已经管理某些文件或文件夹，我们再添加到 .gitignore 中就不起作用了，我们只需要先在暂存区移除不希望管理的文件或文件夹即可。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git rm --cached -r logs/<br></code></pre></td></tr></table></figure>
+
+<h3 id="Viewing-the-Staged-amp-Unstaged-Changes"><a href="#Viewing-the-Staged-amp-Unstaged-Changes" class="headerlink" title="Viewing the Staged &amp; Unstaged Changes"></a>Viewing the Staged &amp; Unstaged Changes</h3><p>我们可以使用如下命令来比较最新一次提交和当前暂存区的变化: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git diff --staged<br></code></pre></td></tr></table></figure>
+
+<p>如果不带参数则比较工作区与暂存区的变化: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git diff<br></code></pre></td></tr></table></figure>
+
+<h3 id="View-the-History"><a href="#View-the-History" class="headerlink" title="View the History"></a>View the History</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git <span class="hljs-built_in">log</span><br>git <span class="hljs-built_in">log</span> --oneline<br></code></pre></td></tr></table></figure>
+
+<h3 id="View-a-Commit"><a href="#View-a-Commit" class="headerlink" title="View a Commit"></a>View a Commit</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git show &#123;commitId&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Unstaging-Files"><a href="#Unstaging-Files" class="headerlink" title="Unstaging Files"></a>Unstaging Files</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 恢复暂存区的文件</span><br>git restore --staged file1.txt<br><br><span class="hljs-comment"># 恢复工作区文件，即取消本次未添加到暂存区的工作区的修改</span><br>git restore file2.txt<br></code></pre></td></tr></table></figure>
+
+<p>restore 命令依据的是下一个环境进行恢复，暂存区的下一个环境为上一次提交，工作区的下一个环境为暂存区。</p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Git(%E4%BA%8C)/">
+        Previous post<br>Git(二)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Oracle%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8B%BE%E9%81%97(%E5%9B%9B)/">
+        Next post<br>Oracle 数据库拾遗(四)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?36606768"></script>
+
+
+
+</body>
+</html>

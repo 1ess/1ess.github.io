@@ -1,73 +1,332 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Docker Network - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="docker 的网络驱动有很多种方式，docker 官网给出的网络解决方案有 6 种，分别是：bridge、host、overlay、macvlan、none、Network plugins。每个网络都有自己的特点，应用场景各不相同，...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?32766401">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Docker Network
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2020-05-25T00:00:00.000Z" itemprop="datePublished">
+                            2020-05-25 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>docker 的网络驱动有很多种方式，docker 官网给出的网络解决方案有 6 种，分别是：bridge、host、overlay、macvlan、none、Network plugins。每个网络都有自己的特点，应用场景各不相同，例如当有多台主机上的 docker 容器需要容器间进行跨宿主机通讯时，overlay 和 macvlan 可提供解决方案，而默认 docker 采用的是 bridge 模式，此模式下不能与其他主机上的 docker 容器通讯。本篇主要关注 docker 单机通讯方式的几种通讯模式：bridge、host、none 和 container。</p>
+<h3 id="默认网络"><a href="#默认网络" class="headerlink" title="默认网络"></a>默认网络</h3><p>默认情况下，Docker 包含 3 个网络，我们使用命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">docker network ls<br></code></pre></td></tr></table></figure>
+
+<p>来查看。</p>
+<table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>DRIVER</th>
+<th>SCOPE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bridge</td>
+<td>bridge</td>
+<td>local</td>
+</tr>
+<tr>
+<td>host</td>
+<td>host</td>
+<td>local</td>
+</tr>
+<tr>
+<td>none</td>
+<td>null</td>
+<td>local</td>
+</tr>
+</tbody></table>
+<p>运行一个容器时，可以使用 –network(可简写为 –net) 参数指定在哪种网络模式下运行该容器。默认如果不加选项使用的是 bridge。</p>
+<h2 id="bridge-网络"><a href="#bridge-网络" class="headerlink" title="bridge 网络"></a>bridge 网络</h2><hr>
+<h3 id="默认-bridge"><a href="#默认-bridge" class="headerlink" title="默认 bridge"></a>默认 bridge</h3><p>宿主机 IP 假设为 10.168.0.2，我们使用命令启动两个容器: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">docker run --name box1 busybox<br>docker run --name box2 busybox<br></code></pre></td></tr></table></figure>
+
+<p>box1 容器其 IP 地址为 172.17.0.2，box2 容器其 IP 地址为 172.17.0.3。</p>
+<h4 id="容器间通讯"><a href="#容器间通讯" class="headerlink" title="容器间通讯"></a>容器间通讯</h4><p>在 box2 中执行 ping 命令测试与 box1 的连通性: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">使用 IP<br>/ <span class="hljs-comment"># ping 172.17.0.2</span><br>PING 172.17.0.2 (172.17.0.2): 56 data bytes<br>64 bytes from 172.17.0.2: seq=0 ttl=64 time=0.107 ms<br>64 bytes from 172.17.0.2: seq=1 ttl=64 time=0.116 ms<br>64 bytes from 172.17.0.2: seq=2 ttl=64 time=0.114 ms<br>64 bytes from 172.17.0.2: seq=3 ttl=64 time=0.126 ms<br><br>使用容器名称<br>/ <span class="hljs-comment"># ping box1</span><br>无响应<br></code></pre></td></tr></table></figure>
+
+<p>使用默认网桥 docker0 的桥接模式下，使用 ip 可以互相通信，但是无法使用容器名作为通信的 host。</p>
+<p>当我们从 box2 中 ping 172.17.0.2(容器 box1)的时候，在 box2 容器里，根据路由规则，数据包从 eth0 转发到 veth 上，该 veth 桥接在了 docker0 上，此时数据包到达了 docker0，docker0 扮演交换机角色并广播 ARP 请求寻找 172.17.0.2 的 mac 地址，而此时的 box1 的另一个 veth 设备桥接在了 docker0 上并收到该 ARP 请求，发现自己是 172.17.0.2，将其 mac 地址回复给 box2，此时的容器 box2 就可以和 box1 进行通讯了，并且在 box2 上可以查看到缓存的 172.17.0.2 的 mac 地址: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">/ <span class="hljs-comment"># arp -a</span><br>? (172.17.0.2) at 02:42:ac:11:00:02 [ether]  on eth0<br>? (172.17.0.1) at 02:42:df:95:ed:82 [ether]  on eth0<br></code></pre></td></tr></table></figure>
+
+<img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/docker/container2container.png" width="400px" alt="">
+
+<h4 id="容器与外部网络通讯"><a href="#容器与外部网络通讯" class="headerlink" title="容器与外部网络通讯"></a>容器与外部网络通讯</h4><p>了解了容器间的通讯，容器与主机间的通讯就容易理解了，如果在容器 box2 ping 与宿主机同一局域网的另一台主机 10.168.0.3，它发出去的数据包经过 docker0 网桥流向宿主机 eth0，eth0 在将数据包转发给与之相通的 10.168.0.3，于是 box2 就能和该主机节点进行通讯了。如果这个地址是公网地址，只要宿主机 eth0 能到达，容器 box2 都能与之通讯。</p>
+<img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/docker/container2Internet.png" width="400px" alt="">
+
+<h4 id="宿主机与容器通讯"><a href="#宿主机与容器通讯" class="headerlink" title="宿主机与容器通讯"></a>宿主机与容器通讯</h4><p>当宿主机访问容器时，数据包从 docker0 流入到与容器对应的 veth 设备，通过容器的 eth0 到达到容器内。</p>
+<img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/docker/host2container.png" width="400px" alt="">
+
+<h4 id="外部访问容器"><a href="#外部访问容器" class="headerlink" title="外部访问容器"></a>外部访问容器</h4><p>默认情况，其他外部网络(宿主机以外)无法访问到容器内的端口，通常的做法是使用 -p 选项来暴露容器端口到宿主机上，外部网络通过访问宿主机的端口从而访问到容器端口。本质上来说，该方式是使用 iptables 的 DNAT 功能，通过 iptables 规则转发实现的。</p>
+<img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/docker/internet2container.png" width="400px" alt="">
+
+<h3 id="自定义-bridge"><a href="#自定义-bridge" class="headerlink" title="自定义 bridge"></a>自定义 bridge</h3><p>除了使用默认 docker0 作网桥以为还可以使用 docker network 相关命令自定义网桥: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">docker network create 1ess-net<br></code></pre></td></tr></table></figure>
+
+<p>再查看 network 显示如下: </p>
+<table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>DRIVER</th>
+<th>SCOPE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bridge</td>
+<td>bridge</td>
+<td>local</td>
+</tr>
+<tr>
+<td>host</td>
+<td>host</td>
+<td>local</td>
+</tr>
+<tr>
+<td>none</td>
+<td>null</td>
+<td>local</td>
+</tr>
+<tr>
+<td>1ess-net</td>
+<td>bridge</td>
+<td>local</td>
+</tr>
+</tbody></table>
+<p>使用 —network 指定使用的网络模式，再创建两个容器: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">docker run --name box3 --network 1ess-net busybox<br>docker run --name box4 --network 1ess-net busybox<br></code></pre></td></tr></table></figure>
+
+<p>box3 容器其 IP 地址为 172.17.0.2，box4 容器其 IP 地址为 172.17.0.3。</p>
+<p>在 box4 中执行 ping 命令测试与 box3 的连通性：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">使用 IP<br>/ <span class="hljs-comment"># ping 172.21.0.2</span><br>PING 172.21.0.2 (172.21.0.2): 56 data bytes<br>64 bytes from 172.21.0.2: seq=0 ttl=64 time=0.203 ms<br>64 bytes from 172.21.0.2: seq=1 ttl=64 time=0.167 ms<br>64 bytes from 172.21.0.2: seq=2 ttl=64 time=0.169 ms<br>64 bytes from 172.21.0.2: seq=3 ttl=64 time=0.167 ms<br><br>使用容器名称<br>/ <span class="hljs-comment"># ping box3</span><br>PING box3 (172.21.0.2): 56 data bytes<br>64 bytes from 172.21.0.2: seq=0 ttl=64 time=0.229 ms<br>64 bytes from 172.21.0.2: seq=1 ttl=64 time=0.170 ms<br>64 bytes from 172.21.0.2: seq=2 ttl=64 time=0.165 ms<br>64 bytes from 172.21.0.2: seq=3 ttl=64 time=0.168 ms<br></code></pre></td></tr></table></figure>
+
+<h3 id="对比自定义-bridge-与默认-bridge"><a href="#对比自定义-bridge-与默认-bridge" class="headerlink" title="对比自定义 bridge 与默认 bridge"></a>对比自定义 bridge 与默认 bridge</h3><ol>
+<li>自定义 bridge 提供更好的隔离性和容器间的互操作性</li>
+<li>自定义 bridge 提供容器间的自动 DNS 解析</li>
+</ol>
+<p>综上，使用 bridge 网络驱动模式时，最好添加使用 —network 来指定自定义的网络。</p>
+<h2 id="host-网络"><a href="#host-网络" class="headerlink" title="host 网络"></a>host 网络</h2><hr>
+<p>host 模式使用是在容器启动时候指明 –network host，此时容器共享宿主机的 Network Namespace，容器内启动的端口直接是宿主机的端口，并且容器不会创建网卡和 IP，直接使用宿主机的网卡和 IP，但是容器内的其他资源是隔离的，如文件系统、用户和用户组。这种模式的好处就是效率高，因为不需要额外的网络开销，直接使用宿主机网络。</p>
+<h2 id="container-网络"><a href="#container-网络" class="headerlink" title="container 网络"></a>container 网络</h2><hr>
+<p>host 模式是容器共享宿主机的 Network Namespace，而 container 模式即共享已存在的容器的 Network Namespace，此时这两容器共同使用同一网卡、主机名、IP地址，容器间通讯可直接通过 lo 回环接口通讯，但是其他名称空间是隔离的。</p>
+<h2 id="none-网络"><a href="#none-网络" class="headerlink" title="none 网络"></a>none 网络</h2><hr>
+<p>使用 –network none 选项指定其网络模式，在该模式下虽然容器有着自己的 Network Namespace，但是容器内没有网卡、IP、路由信息，只有一个 lo 回环接口。</p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Docker%20Compose/">
+        Previous post<br>Docker Compose
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Redis/">
+        Next post<br>Redis
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?39945653"></script>
+
+
+
+</body>
+</html>

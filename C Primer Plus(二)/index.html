@@ -1,73 +1,320 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>C Primer Plus(二) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="本篇，我们看一下 C 语言中的两个输入输出函数: printf() 和 scanf()。
+字符串
+字符串是一个或多个字符序列，使用双引号括起来，双引号不是字符串的一部分，只是告诉编译器括起来的是字符串。C 语言没有专门存储字符串的变量...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?96817052">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    C Primer Plus(二)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2020-06-08T00:00:00.000Z" itemprop="datePublished">
+                            2020-06-08 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>本篇，我们看一下 C 语言中的两个输入输出函数: printf() 和 scanf()。</p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><hr>
+<p>字符串是一个或多个字符序列，使用双引号括起来，双引号不是字符串的一部分，只是告诉编译器括起来的是字符串。<br>C 语言没有专门存储字符串的变量类型，字符串都被存储在 char 字符数组中，在表示字符串的字符数组末尾一定是 \0 这一控制字符表示到达字符串的末尾。称为空字符(null character)，这意味着字符数组的长度至少比字符串的字符数多一个。</p>
+<h3 id="字符串和字符"><a href="#字符串和字符" class="headerlink" title="字符串和字符"></a>字符串和字符</h3><p>字符串 “x” 和字符 ‘x’ 不同，区别在于: </p>
+<ul>
+<li>“x” 是 char 数组类型，而 ‘x’ 是 char 类型</li>
+<li>“x” 实际由两个字符组成: ‘x’ 和 \0</li>
+</ul>
+<h3 id="sizeof-运算符-和-strlen-函数"><a href="#sizeof-运算符-和-strlen-函数" class="headerlink" title="sizeof 运算符 和 strlen() 函数"></a>sizeof 运算符 和 strlen() 函数</h3><p>sizeof 运算符给出以字节为单位的对象大小，strlen() 函数给出字符串中字符长度。<br>strlen() 函数定义在 string.h 头文件中，该文件包含许多与字符串相关操作的函数，如字符串拷贝和查找等函数。<br>而且对于 sizeof，如果运算对象是类型，则必须有圆括号，如果运算对象是特定量，则圆括号可有可无。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">char</span>)<br><br><span class="hljs-keyword">sizeof</span> name<br></code></pre></td></tr></table></figure>
+
+<h2 id="常量与预处理器"><a href="#常量与预处理器" class="headerlink" title="常量与预处理器"></a>常量与预处理器</h2><hr>
+<h3 id="明示常量"><a href="#明示常量" class="headerlink" title="明示常量"></a>明示常量</h3><p>有时我们需要在程序中使用符号常量，C 语言提供预处理器来定义常量，这样定义的常量称为明示常量(manifest const)。<br>格式为: </p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> NAME &#123;value&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>注意: 明示常量末尾不加分号，因为这是一种替换机制。用大写表示符号常量也是 C 语言的传统。这样，在程序中看到全大写的名称就立刻明白这是一个符号常量，而非变量。</p>
+<p>C 头文件 limits.h 和 float.h 分别提供了与整数和浮点类型大小限制的详细信息，每个头文件都定义了一系列明示常量，如 limits.h 中定义了如下代码: </p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INT_MAX +32767</span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INT_MIN -32768</span><br></code></pre></td></tr></table></figure>
+
+<p>同样的，float.h 中也定义了一些明示常量，如 FLT_DIG 和 DBL_DIG 分别表示 float 类型和 double 类型的有效数字。</p>
+<h3 id="const"><a href="#const" class="headerlink" title="const"></a>const</h3><p>C90 新增了 const 限定符，用于限定一个变量只读。声明如下: </p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MONTHS = <span class="hljs-number">12</span>;<br></code></pre></td></tr></table></figure>
+
+<h3 id="字符串断行"><a href="#字符串断行" class="headerlink" title="字符串断行"></a>字符串断行</h3><p>给字符串断行的方法: </p>
+<ol>
+<li>在字符串末尾使用反斜杠 \</li>
+<li>ANSI C 引入了字符串连接，在两个双引号字符串之间用空白隔开，C 编译器会将多个字符串看作一个字符串。</li>
+</ol>
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><hr>
+<h3 id="基本运算符"><a href="#基本运算符" class="headerlink" title="基本运算符"></a>基本运算符</h3><ol>
+<li>赋值运算符 =</li>
+<li>加法运算符 +</li>
+<li>减法运算符 -</li>
+<li>符号运算符 - 或 +</li>
+<li>乘法运算符 *</li>
+<li>除法运算符 /: 整数除法和浮点数除法不同，整数除法的结果为整数，浮点数除法的结果为浮点数，整数除法结果的小数部分被丢弃的过程称为截断。C99 之后还规定了负数的除法，使用趋零截断，即如果结果为 -3.8，则转换为 -3。</li>
+</ol>
+<h3 id="优先级和求值顺序"><a href="#优先级和求值顺序" class="headerlink" title="优先级和求值顺序"></a>优先级和求值顺序</h3><p>例如: y = 6 * 12 + 5 * 20; 这条语句，优先级决定求值顺序，所以肯定会先执行乘法，再执行加法，但是优先级并未规定先执行哪个乘法。C 语言把主动权留给语言的实现者，根据不同的硬件来决定先计算前者还是后者。只有共享同一运算对象的运算符，如 12 / 4 * 3; 这条语句，4 共享 / 和 * 两个运算符，乘除运算符优先级相同并且共享同一对象，所以先执行 12 / 4，再执行结果 * 3。</p>
+<h3 id="其他运算符"><a href="#其他运算符" class="headerlink" title="其他运算符"></a>其他运算符</h3><p>我们再看其他比较常用的运算符: </p>
+<ol>
+<li>sizeof: 获得对象占用字节数，C99 新增了 %zd 转换说明用于 printf() 显示 size_t 类型的值。如果系统不支持 %zd，可使用 %u 或 %lu 代替 %zd</li>
+<li>求模运算符 %: 标准规定，无论正负，整数 a 和 b 的模为，a % b = a - (a / b) * b</li>
+<li>递增运算符 ++: 分为前缀模式和后缀模式</li>
+<li>递减运算符 –: 分为前缀模式和后缀模式</li>
+<li>关系运算符 &gt; &lt; == !=</li>
+</ol>
+<p>注意: 如果递增递减运算符使用前缀形式和后缀形式会对代码产生不同的影响，那么最为明智的是不要那样使用它们，如: </p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 如果使用i++，会得到不同的结果</span><br>b = ++i; <br><br><span class="hljs-comment">// 应该使用如下语句</span><br>++i;<br>b = i;<br></code></pre></td></tr></table></figure>
+
+<h2 id="表达式和语句"><a href="#表达式和语句" class="headerlink" title="表达式和语句"></a>表达式和语句</h2><hr>
+<p>C 的基本程序步骤由语句组成，而大多数语句都由表达式构成。因此，我们先学习表达式。</p>
+<h3 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h3><p>表达式(expression)由运算符和运算对象组成。下面是一些表达式: </p>
+<ul>
+<li>4</li>
+<li>-6</li>
+<li>4 + 21</li>
+<li>a * (b + c / d)</li>
+<li>q = 5 * 2</li>
+<li>x = ++q % 3</li>
+</ul>
+<p>注意: C 表达式的一个最重要的特性是，每个表达式都有一个值。特别的，赋值运算符(=)的表达式的值与赋值运算符左侧变量的值相同。</p>
+<h3 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h3><p>语句(statement)是 C 程序的基本构建块。一条语句相当于一条完整的计算机指令。在 C 中，大部分语句都以分号结尾。<br>最简单的语句是空语句: </p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">; <span class="hljs-comment">//空语句</span><br></code></pre></td></tr></table></figure>
+
+<p>C 把末尾加上一个分号的表达式都看作是一条语句(即表达式语句)，因此，如下写法也没有问题: </p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-number">8</span>;<br><span class="hljs-number">3</span> + <span class="hljs-number">4</span>;<br></code></pre></td></tr></table></figure>
+
+<p>但是，这些语句在程序中什么也不做，没有真正的用处。</p>
+<h3 id="复合语句"><a href="#复合语句" class="headerlink" title="复合语句"></a>复合语句</h3><p>复合语句(compound statement)是用花括号括起来的一条或多条语句，复合语句也称为块(block)。</p>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><hr>
+<p>通常，在语句和表达式中应使用类型相同的变量和常量。但是，如果使用混合类型，C 采用一套规则进行自动类型转换。</p>
+<ol>
+<li>当类型转换出现在表达式时，无论是 unsigned 还是 signed 的 char 和 short 都会被自动转换成 int</li>
+<li>类型的级别从高至低依次是 long double、double、float、unsigned long long、long long、unsigned long、long、unsigned int、int。例外的情况是，当 long 和 int 的大小相同时，unsigned int 比 long 的级别高</li>
+<li>在赋值表达式语句中，计算的最终结果会被转换成被赋值变量的类型</li>
+<li>当作为函数参数传递时，char 和 short 被转换成 int，float 被转换成 double</li>
+</ol>
+<p>类型升级通常都不会有什么问题，但是类型降级会导致真正的麻烦。原因很简单：较低类型可能放不下整个数字。</p>
+<p>待赋值的值与目标类型不匹配时，规则如下: </p>
+<ol>
+<li>目标类型是无符号整型，且待赋的值是整数时，额外的位将被忽略</li>
+<li>如果目标类型是一个有符号整型，且待赋的值是整数，结果因实现而异</li>
+<li>如果目标类型是一个整型，且待赋的值是浮点数，该行为是未定义的</li>
+</ol>
+<h3 id="强制类型转换运算符"><a href="#强制类型转换运算符" class="headerlink" title="强制类型转换运算符"></a>强制类型转换运算符</h3><p>通常，应该避免自动类型转换，尤其是类型降级。我们前面讨论的类型转换都是自动完成的。然而，有时需要进行精确的类型转换，或者在程序中表明类型转换的意图。这种情况下要用到强制类型转换(cast)，即在某个量的前面放置用圆括号括起来的类型名，该类型名即是希望转换成的目标类型。</p>
+<p>圆括号和它括起来的类型名构成了强制类型转换运算符(cast operator)，其通用形式是 (type)。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">int</span> mice;<br><span class="hljs-comment">//3</span><br>mice = <span class="hljs-number">1.6</span> + <span class="hljs-number">1.7</span>; <br><br><span class="hljs-comment">//2</span><br>mice = (<span class="hljs-keyword">int</span>)<span class="hljs-number">1.6</span> + (<span class="hljs-keyword">int</span>)<span class="hljs-number">1.7</span>; <br></code></pre></td></tr></table></figure>
+
+<h2 id="带参函数"><a href="#带参函数" class="headerlink" title="带参函数"></a>带参函数</h2><hr>
+<p>声明参数就创建了被称为形式参数的变量。函数调用传递的值为实际参数。C99 标准规定了: 对于实参使用术语 argument，对于形参使用术语 parameter。</p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/C%20Primer%20Plus(%E4%B8%89)/">
+        Previous post<br>C Primer Plus(三)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/C%20Primer%20Plus(%E4%B8%80)/">
+        Next post<br>C Primer Plus(一)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?2164581"></script>
+
+
+
+</body>
+</html>

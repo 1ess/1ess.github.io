@@ -1,57 +1,447 @@
-<% include _include/variables.ejs %>
-<%
-config.__isIndex = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage(item) {
-    var featuredImage = item.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + item.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?90181798">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item active" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+        
+        <div class="pagination-indicator">
+            <span style="text-align: center">
+                6<br><div style="display: inline-block; transform: rotate(-28deg)">-</div><br>20
+            </span>
+        </div>
+        
+
+        
+        <a class="pagination-action" href="/page/5/">
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
+        
+
+        
+        <a class="pagination-action" href="/page/7/">
+            <i class="material-icons pagination-action-icon">
+                chevron_right
+            </i>
+        </a>
+        
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-no-background">
-        <% page.posts.each(function (item) { %>
-        <a href="<%= config.root + item.path %>" class="a-block">
+        
+        <a href="/Docker Compose/" class="a-block">
             <div class="post-item-wrapper">
                 <div class="post-item post-item-no-divider">
                     <div class="post-item-info-wrapper">
                         <div class="post-item-title">
-                            <%= item.title %>
+                            Docker Compose
                         </div>
                         <div class="post-item-summary">
-                            <%= item.intro && item.intro.length > 0 ? item.intro : truncate(strip_html(item.content), {
-                                length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-                                omission: '...'
-                            }) %>
+                            之前几篇，我们讲过关于 Docker 的一些基础知识，包括如何运行一个容器、如何使用 Dockerfile 构建容器以及 Docker 网络相关内容。但是之前的内容都是如何操作一个容器，本篇要讲的 Docker Compose 则是如...
                         </div>
                         <div class="post-item-meta">
-                            <%= date(item.date, "YYYY-MM-DD") %>
+                            2020-05-27
                         </div>
                     </div>
-                    <% if(item.featured_image){ %>
-                    <div class="post-item-image-wrapper">
-                        <div class="post-item-image"
-                             style="background-image: url('<%= getFeaturedImage(item) %>')"></div>
-                    </div>
-                    <% } %>
+                    
                 </div>
             </div>
         </a>
-        <% }) %>
+        
+        <a href="/Docker Network/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Docker Network
+                        </div>
+                        <div class="post-item-summary">
+                            docker 的网络驱动有很多种方式，docker 官网给出的网络解决方案有 6 种，分别是：bridge、host、overlay、macvlan、none、Network plugins。每个网络都有自己的特点，应用场景各不相同，...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-05-25
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Redis/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Redis
+                        </div>
+                        <div class="post-item-summary">
+                            公司内部准备搭建缓存系统，经过调研，决定使用 Redis 来构建这一系统，本篇，我们就说说 Redis 的那些事。
+Redis 是什么
+
+Redis is an open source (BSD licensed), in-memor...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-05-23
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/RabbitMQ/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            RabbitMQ
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们介绍一下消息队列(MessageQueue)以及生产中比较常使用的框架 RabbitMQ。
+什么是消息队列
+消息队列允许应用程序通过相互发送消息进行通信。消息队列在目标程序繁忙或未连接时提供临时消息存储。
+基本架构
+消息队列...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-05-14
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Vim/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Vim
+                        </div>
+                        <div class="post-item-summary">
+                            本来不打算介绍 Vim，但是今天看到一张 Vim 速查表，上面的内容将 Vim 的基础操作基本包含了，所以就贴上来以供参考。
+
+
+                        </div>
+                        <div class="post-item-meta">
+                            2020-03-16
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Vim 插件管理及 vimrc 配置/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Vim 插件管理及 vimrc 配置
+                        </div>
+                        <div class="post-item-summary">
+                            当没有插件管理器时，Vim 用户必须手动下载 tarball 包形式的插件，并将它们解压到 ~/.vim 目录中。所有插件文件分散在单个目录中，用户无法找到哪个文件属于哪个插件。此外，他们无法找到他们应该删除哪个文件来卸载插件，这时 ...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-03-04
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/10 分钟学会 tmux/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            10 分钟学会 tmux
+                        </div>
+                        <div class="post-item-summary">
+                            Tmux 是一个终端复用器(terminal multiplexer)，用户可以通过 tmux 在一个终端内管理多个分离的 session、window 及 pane，对于同时使用多个命令行，或多个任务时非常方便。
+安装# Ubunt...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-02-22
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Shell(五)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Shell(五)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们来看一下 Shell 中的函数并且复习一下之前说过的正则表达式。
+函数
+函数定义的基本语法为: 
+函数名() &amp;#123;    &amp;#123;commands&amp;#125;&amp;#125;# 或者function 函数名 &amp;#12...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-02-16
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Shell(四)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Shell(四)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们来讲讲 Shell 中的几个比较重要的流程控制语句 —— if 语句、for 语句、while 语句和 case 语句。
+if 语句
+单 if 语句if 语句格式: 
+if [ condition ]; then  # co...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-02-09
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/Shell(三)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            Shell(三)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们来讲讲 Shell 中的五大运算，为接下来要讲解的流程语句和函数做准备。
+数学比较运算数学比较运算有如下参数:
+
+eq: equal
+ne: not equal
+gt: greater than
+lt: less than
+...
+                        </div>
+                        <div class="post-item-meta">
+                            2020-02-05
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
     
-        <% include _include/pagination.ejs %>
-    </div>
-    <% include _include/single_column_footer.ejs %>
+        
+<div class="pagination index-page">
+    
+    <a class="pagination-action" href="/page/5/" style="opacity: 1">
+        
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
+
+        <div class="pagination-indicator">
+            <span>6/20</span>
+        </div>
+
+        
+        <a class="pagination-action" href="/page/7/"
+           style="opacity: 1">
+            
+                <i class="material-icons pagination-action-icon">
+                    chevron_right
+                </i>
+            </a>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% include _include/tail.ejs %>
+    </div>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?42821206"></script>
+</body>
+</html>

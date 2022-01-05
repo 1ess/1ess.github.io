@@ -1,73 +1,300 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Nginx(一) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="Nginx 现在已经是在 Web 开发中必不可少的技能了，我们通过几篇文章，来总结一下有关 Nginx 的知识。
+简介
+Nginx 是异步框架的 Web 服务器，内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。也可以用作反...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?58011990">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Nginx(一)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2019-09-10T00:00:00.000Z" itemprop="datePublished">
+                            2019-09-10 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>Nginx 现在已经是在 Web 开发中必不可少的技能了，我们通过几篇文章，来总结一下有关 Nginx 的知识。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><hr>
+<p>Nginx 是异步框架的 Web 服务器，内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。也可以用作反向代理、负载平衡器和 HTTP 缓存。<br>Nginx 使用异步事件驱动的方法来处理请求。Nginx 的模块化事件驱动架构可以在高负载下提供更可预测的性能。<br>在 Nginx 官方测试的结果中，能够支持五万个并行连接，在实际的运行中，可以支持二万至四万个并行连接。<br>整体采用模块化设计是 Nginx 的一个重大特点，甚至 http 服务器核心功能也是一个模块。旧版本的 Nginx 的模块是静态的，添加和删除模块都要对 Nginx 进行重新编译，1.9.11 以及更新的版本已经支持动态模块加载。</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ol>
+<li>静态资源服务</li>
+<li>反向代理服务</li>
+<li>API 服务</li>
+</ol>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>Nginx 安装与其他软件相同: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 我们可以使用 --help 查看帮助</span><br>./configure --<span class="hljs-built_in">help</span> | less<br><br><span class="hljs-comment"># 配置</span><br>./configure --prefix=/usr/<span class="hljs-built_in">local</span>/nginx<br><br><span class="hljs-comment"># 编译</span><br>make<br><br><span class="hljs-comment"># 安装</span><br>make install<br></code></pre></td></tr></table></figure>
+
+<h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><ol>
+<li>二进制可执行文件: 由各模块源码编译出的一个文件</li>
+<li>nginx.conf: nginx 的配置文件</li>
+<li>access.log: 记录每一条 http 请求信息</li>
+<li>error.log: 错误日志</li>
+</ol>
+<h2 id="Nginx-命令"><a href="#Nginx-命令" class="headerlink" title="Nginx 命令"></a>Nginx 命令</h2><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>执行命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># -c 制定配置文件</span><br>/usr/<span class="hljs-built_in">local</span>/nginx/sbin/nginx -c /usr/<span class="hljs-built_in">local</span>/nginx/conf/nginx.conf <br></code></pre></td></tr></table></figure>
+
+<p>启动之后可以使用 ps 命令查看进程，我们会发现有两个进程: master 和 worker 进程。</p>
+<h3 id="热更新"><a href="#热更新" class="headerlink" title="热更新"></a>热更新</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">/usr/<span class="hljs-built_in">local</span>/nginx/sbin/nginx -s reload<br><span class="hljs-comment"># 或者</span><br><span class="hljs-built_in">kill</span> HUP [master 进程 id]<br></code></pre></td></tr></table></figure>
+
+<p>使用该命令可以在不停止服务的情况重新加载 nginx.conf 配置。</p>
+<h3 id="热部署"><a href="#热部署" class="headerlink" title="热部署"></a>热部署</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 将更新版本 nginx 编译好的二进制文件复制到 /usr/local/nginx/sbin/ 下，覆盖原版本，我们可以先重名了之前版本的 nginx</span><br>mv nginx nginx.old<br><br>cp /nginx-1.xx.xx/objs/nginx /usr/<span class="hljs-built_in">local</span>/nginx/sbin/nginx<br><br><span class="hljs-comment"># 重新启动 nginx 的 master 进程，旧 master 进程不再监听原端口，新的连接只会进入新的 worker 进程</span><br><span class="hljs-built_in">kill</span> USR2 [旧 master 进程 id]<br><br><span class="hljs-comment"># 优雅关闭所有旧的 worker 进程</span><br><span class="hljs-built_in">kill</span> WINCH [旧 master 进程 id]<br><br><span class="hljs-comment"># 旧的 master 进程现在仍没有关闭，使得我们可以回退</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="日志切割"><a href="#日志切割" class="headerlink" title="日志切割"></a>日志切割</h3><p>我们可以将日志备份，然后重新生成日志: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 备份日志</span><br>cp access1.log bak.log<br><br><span class="hljs-comment"># 重新生成日志</span><br>/usr/<span class="hljs-built_in">local</span>/nginx/sbin/nginx -s reopen<br><br><span class="hljs-comment"># 或者使用 kill USR1 重新生成日志</span><br><span class="hljs-built_in">kill</span> USR1 [master 进程 id]<br></code></pre></td></tr></table></figure>
+
+<p>一般的，我们可以写一个定时任务，定时备份我们的日志文件。</p>
+<h3 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">kill</span> QUIT [master 进程 id]<br><span class="hljs-comment"># 或者</span><br><span class="hljs-built_in">kill</span> INT [master 进程 id]<br><span class="hljs-comment"># 或者</span><br><span class="hljs-built_in">kill</span> -9 [master 进程 id]<br></code></pre></td></tr></table></figure>
+
+<p>我们一般使用 QUIT 和 INT 信号来平缓停止和快速停止 Nginx 服务，而不是用 -9 来停止服务。</p>
+<p>进程 id 可以使用 ps 查看，也可以查看 /usr/local/nginx/log/nginx.pid 文件，文件内容就是 master 进程的 pid。</p>
+<h3 id="配置检查"><a href="#配置检查" class="headerlink" title="配置检查"></a>配置检查</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># -t 进行配置检查</span><br>/usr/<span class="hljs-built_in">local</span>/nginx/sbin/nginx -c /usr/<span class="hljs-built_in">local</span>/nginx/conf/nginx.conf -t<br><br><span class="hljs-comment"># nginx: the configuration file /usr/local/nginx/conf/nginx.conf syntax is ok</span><br><span class="hljs-comment"># nginx: configuration file /usr/local/nginx/conf/nginx.conf test is successful</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="显示-Nginx-版本"><a href="#显示-Nginx-版本" class="headerlink" title="显示 Nginx 版本"></a>显示 Nginx 版本</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># -v: 显示 nginx 版本</span><br><span class="hljs-comment"># -V: 显示 nginx 版本，编译器版本和配置文件以及插件信息</span><br>usr/<span class="hljs-built_in">local</span>/nginx/sbin/nginx -c /usr/<span class="hljs-built_in">local</span>/nginx/conf/nginx.conf -v <br></code></pre></td></tr></table></figure>
+
+<h3 id="Nginx-服务可接收信号"><a href="#Nginx-服务可接收信号" class="headerlink" title="Nginx 服务可接收信号"></a>Nginx 服务可接收信号</h3><table>
+<thead>
+<tr>
+<th>信号</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>INT</td>
+<td>快速停止 Nginx 服务</td>
+</tr>
+<tr>
+<td>QUIT</td>
+<td>平缓停止 Nginx 服务</td>
+</tr>
+<tr>
+<td>USR1</td>
+<td>重新打开日志文件</td>
+</tr>
+<tr>
+<td>USR2</td>
+<td>使用新版本的 Nginx 文件启动服务，之后停止原有 Nginx 进程，平滑升级</td>
+</tr>
+<tr>
+<td>WINCH</td>
+<td>平缓停止原有工作进程，与 USR2 配合使用</td>
+</tr>
+<tr>
+<td>HUP</td>
+<td>使用新的配置文件启动服务，之后平缓停止原有进程，平滑重启</td>
+</tr>
+</tbody></table>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Nginx(%E4%BA%8C)/">
+        Previous post<br>Nginx(二)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Linux(%E5%85%AB)/">
+        Next post<br>Linux(八)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?75264736"></script>
+
+
+
+</body>
+</html>

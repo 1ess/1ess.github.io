@@ -1,73 +1,293 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Python(四) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="本篇，我们说说 Python 中的函数以及模块的基本概念。
+函数
+函数(Functions)是指可重复使用的程序片段。它们允许你为某个代码块赋予名字，允许你通过这一特殊的名字在你的程序任何地方来运行代码块，并可重复任何次数。这就是所谓...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?52893076">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Python(四)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2019-04-07T00:00:00.000Z" itemprop="datePublished">
+                            2019-04-07 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>本篇，我们说说 Python 中的函数以及模块的基本概念。</p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><hr>
+<p>函数(Functions)是指可重复使用的程序片段。它们允许你为某个代码块赋予名字，允许你通过这一特殊的名字在你的程序任何地方来运行代码块，并可重复任何次数。这就是所谓的调用(Calling)函数。我们已经使用过了许多内置的函数，例如 len 和 range。</p>
+<h3 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h3><p>函数可以通过关键字 def 来定义。这一关键字后跟一个函数的标识符名称，再跟一对圆括号，其中可以包括一些变量的名称，再以冒号结尾，结束这一行。随后而来的语句块是函数的一部分。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">say_hello</span>():</span><br>    <span class="hljs-comment"># 该块属于这一函数</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;hello world&#x27;</span>)<br><span class="hljs-comment"># 函数结束</span><br><br>say_hello()  <span class="hljs-comment"># 调用函数</span><br><span class="hljs-comment"># hello world</span><br>say_hello()  <span class="hljs-comment"># 再次调用函数</span><br><span class="hljs-comment"># hello world</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h3><p>函数可以获取参数，这个参数的值由你所提供，借此，函数便可以利用这些值来做一些事情。<br>函数中的参数通过将其放置在用以定义函数的一对圆括号中指定，并通过逗号予以分隔。当我们调用函数时，我们以同样的形式提供需要的值。要注意在此使用的术语 —— 在定义函数时给定的名称称作”形参”(Parameters)，在调用函数时你所提供给函数的值称作”实参”(Arguments)。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print_max</span>(<span class="hljs-params">a, b</span>):</span><br>    <span class="hljs-keyword">if</span> a &gt; b:<br>        <span class="hljs-built_in">print</span>(a, <span class="hljs-string">&#x27;is maximum&#x27;</span>)<br>    <span class="hljs-keyword">elif</span> a == b:<br>        <span class="hljs-built_in">print</span>(a, <span class="hljs-string">&#x27;is equal to&#x27;</span>, b)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-built_in">print</span>(b, <span class="hljs-string">&#x27;is maximum&#x27;</span>)<br><br><span class="hljs-comment"># 直接传递字面值</span><br>print_max(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>)<br><br>x = <span class="hljs-number">5</span><br>y = <span class="hljs-number">7</span><br><br><span class="hljs-comment"># 以参数的形式传递变量</span><br>print_max(x, y)<br></code></pre></td></tr></table></figure>
+
+<h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">x = <span class="hljs-number">50</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">func</span>(<span class="hljs-params">x</span>):</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;x is&#x27;</span>, x)<br>    x = <span class="hljs-number">2</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Changed local x to&#x27;</span>, x)<br><br>func(x)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;x is still&#x27;</span>, x)<br></code></pre></td></tr></table></figure>
+
+<h3 id="global-语句"><a href="#global-语句" class="headerlink" title="global 语句"></a>global 语句</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">x = <span class="hljs-number">50</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">func</span>():</span><br>    <span class="hljs-keyword">global</span> x<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;x is&#x27;</span>, x)<br>    x = <span class="hljs-number">2</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Changed global x to&#x27;</span>, x)<br><br>func()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Value of x is&#x27;</span>, x)<br></code></pre></td></tr></table></figure>
+
+<h3 id="默认参数值"><a href="#默认参数值" class="headerlink" title="默认参数值"></a>默认参数值</h3><p>对于一些函数来说，你可能为希望使一些参数可选并使用默认的值，以避免用户不想为他们提供值的情况。默认参数值可以有效帮助解决这一情况。你可以通过在函数定义时附加一个赋值运算符(=)来为参数指定默认参数值。<br>要注意到，默认参数值应该是常数。更确切地说，默认参数值应该是不可变的。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">say</span>(<span class="hljs-params">message, times=<span class="hljs-number">1</span></span>):</span><br>    <span class="hljs-built_in">print</span>(message * times)<br><br>say(<span class="hljs-string">&#x27;Hello&#x27;</span>)<br>say(<span class="hljs-string">&#x27;World&#x27;</span>, <span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure>
+
+<p>注意: 只有那些位于参数列表末尾的参数才能被赋予默认参数值，意即在函数的参数列表中拥有默认参数值的参数不能位于没有默认参数值的参数之前。</p>
+<p>默认参数有个最大的坑，如下: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_end</span>(<span class="hljs-params">L=[]</span>):</span><br>    L.append(<span class="hljs-string">&#x27;END&#x27;</span>)<br>    <span class="hljs-keyword">return</span> L<br><br>add_end()<br><span class="hljs-comment"># [&#x27;END&#x27;]</span><br><br>add_end()<br><span class="hljs-comment"># [&#x27;END&#x27;, &#x27;END&#x27;]</span><br></code></pre></td></tr></table></figure>
+
+<p>原因解释如下:<br>Python 中的函数在定义的时候，默认参数 L 的值就被计算出来了，即 []，因为默认参数 L 也是一个变量，它指向对象 []，每次调用该函数，如果改变了 L 的内容，则下次调用时，默认参数的内容就变了，不再是函数定义时的 [] 了。<br>所以，定义默认参数要牢记一点: 默认参数必须指向不变对象！<br>我们可以用None这个不变对象来实现: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_end</span>(<span class="hljs-params">L=<span class="hljs-literal">None</span></span>):</span><br>    <span class="hljs-keyword">if</span> L <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        L = []<br>    L.append(<span class="hljs-string">&#x27;END&#x27;</span>)<br>    <span class="hljs-keyword">return</span> L<br></code></pre></td></tr></table></figure>
+
+<p>为什么要设计 str、None 这样的不变对象呢？因为不变对象一旦创建，对象内部的数据就不能修改，这样就减少了由于修改数据导致的错误。此外，由于对象不变，多任务环境下同时读取对象不需要加锁，同时读一点问题都没有。我们在编写程序时，如果可以设计一个不变对象，那就尽量设计成不变对象。</p>
+<h3 id="命名参数"><a href="#命名参数" class="headerlink" title="命名参数"></a>命名参数</h3><p>如果你有一些具有许多参数的函数，而你又希望只对其中的一些进行指定，那么你可以通过命名它们来给这些参数赋值，我们使用命名(关键字)而非位置(一直以来我们所使用的方式)来指定函数中的参数。</p>
+<p>这样做有两大优点 —— 其一，我们不再需要考虑参数的顺序，函数的使用将更加容易。其二，我们可以只对那些我们希望赋予的参数以赋值，只要其它的参数都具有默认参数值。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">func</span>(<span class="hljs-params">a, b=<span class="hljs-number">5</span>, c=<span class="hljs-number">10</span></span>):</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;a is&#x27;</span>, a, <span class="hljs-string">&#x27;and b is&#x27;</span>, b, <span class="hljs-string">&#x27;and c is&#x27;</span>, c)<br><br>func(<span class="hljs-number">3</span>, <span class="hljs-number">7</span>)<br>func(<span class="hljs-number">25</span>, c=<span class="hljs-number">24</span>)<br>func(c=<span class="hljs-number">50</span>, a=<span class="hljs-number">100</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h3><p>有时你可能想定义的函数里面能够有任意数量的变量，也就是参数数量是可变的，这可以通过使用星号来实现。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">total</span>(<span class="hljs-params">a=<span class="hljs-number">5</span>, *numbers, **phonebook</span>):</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;a&#x27;</span>, a)<br><br>    <span class="hljs-comment">#遍历元组中的所有项目</span><br>    <span class="hljs-keyword">for</span> single_item <span class="hljs-keyword">in</span> numbers:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;single_item&#x27;</span>, single_item)<br><br>    <span class="hljs-comment">#遍历字典中的所有项目</span><br>    <span class="hljs-keyword">for</span> first_part, second_part <span class="hljs-keyword">in</span> phonebook.items():<br>        <span class="hljs-built_in">print</span>(first_part,second_part)<br><br><span class="hljs-built_in">print</span>(total(<span class="hljs-number">10</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, Jack=<span class="hljs-number">1123</span>, John=<span class="hljs-number">2231</span>, Inge=<span class="hljs-number">1560</span>))<br></code></pre></td></tr></table></figure>
+
+<p>当我们声明一个诸如 *args 的星号参数时，从此处开始直到结束的所有位置参数(Positional Arguments)都将被收集并汇集成一个称为 args 的元组(Tuple)。<br>当我们声明一个诸如 **kwargs 的双星号参数时，从此处开始直至结束的所有命名参数都将被收集并汇集成一个名为 kwargs 的字典(Dictionary)。</p>
+<p>如果已经有一个 list 或者 tuple，要调用一个可变参数，可以使用如下方法: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">nums = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]<br><span class="hljs-comment"># 在传递可变参数时，在 list 或 tuple 前添加 *</span><br>calc(*nums)<br></code></pre></td></tr></table></figure>
+
+<h3 id="参数组合"><a href="#参数组合" class="headerlink" title="参数组合"></a>参数组合</h3><p>在 Python 中定义函数，可以用必选参数、默认参数、可变参数可以组合使用。但是请注意，参数定义的顺序必须是: 必选参数、默认参数、可变参数。<br>不要同时使用太多的组合，否则函数接口的可理解性很差。</p>
+<h3 id="return-语句"><a href="#return-语句" class="headerlink" title="return 语句"></a>return 语句</h3><p>return 语句用于从函数中返回，也就是中断函数。我们也可以选择在中断函数时从函数中返回一个值。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maximum</span>(<span class="hljs-params">x, y</span>):</span><br>    <span class="hljs-keyword">if</span> x &gt; y:<br>        <span class="hljs-keyword">return</span> x<br>    <span class="hljs-keyword">elif</span> x == y:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;The numbers are equal&#x27;</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> y<br><br><span class="hljs-built_in">print</span>(maximum(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br></code></pre></td></tr></table></figure>
+
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><hr>
+<p>如果你想在你所编写的别的程序中重用一些函数的话，应该怎么办？答案是模块(Modules)。</p>
+<p>编写模块有很多种方法，其中最简单的一种便是创建一个包含函数与变量、以 .py 为后缀的文件。<br>另一种方法是使用撰写 Python 解释器本身的本地语言来编写模块。举例来说，你可以使用 C 语言来撰写 Python 模块，并且在编译后，你可以通过标准 Python 解释器在你的 Python 代码中使用它们。</p>
+<p>一个模块可以被其它程序导入并运用其功能。我们在使用 Python 标准库的功能时也同样如此。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sys<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;The command line arguments are:&#x27;</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> sys.argv:<br>    <span class="hljs-built_in">print</span>(i)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\n\nThe PYTHONPATH is&#x27;</span>, sys.path, <span class="hljs-string">&#x27;\n&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>我们通过 import 语句导入 sys 模块。<br>sys 模块包含了与 Python 解释器及其环境相关的功能，也就是所谓的系统功能(system)。<br>当 Python 运行 import sys 这一语句时，它会开始寻找 sys 模块。由于其是一个内置模块，因此 Python 知道应该在哪里找到它。</p>
+<p>如果它不是一个已编译好的模块，即用 Python 编写的模块，那么 Python 解释器将从它的 sys.path 变量所提供的目录中进行搜索。如果找到了对应模块，则该模块中的语句将在开始运行，并能够为你所使用。</p>
+<h3 id="from-import-语句"><a href="#from-import-语句" class="headerlink" title="from..import 语句"></a>from..import 语句</h3><p>如果你希望直接将 argv 变量导入你的程序(为了避免每次都要输入 sys.)，那么你可以通过使用 from sys import argv 语句来实现这一点。<br>注意: 一般来说，你应该尽量避免使用 from…import 语句，而去使用 import 语句。这是为了避免在你的程序中出现名称冲突，同时也为了使程序更加易读。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> sqrt<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Square root of 16 is&quot;</span>, sqrt(<span class="hljs-number">16</span>))<br></code></pre></td></tr></table></figure>
+
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><p>在一个模块中，我们可能会定义很多函数和变量，但有的函数和变量我们希望给别人使用，有的函数和变量我们希望仅仅在模块内部使用。在 Python 中，是通过 _ 前缀来实现的。<br>正常的函数和变量名是公开的(public)，可以被直接引用。<br>类似 __xxx__ 这样的变量是特殊变量，可以被直接引用，但是有特殊用途，比如 __author__，__name__ 就是特殊变量，文档注释也可以用特殊变量 __doc__ 访问，我们自己的变量一般不要用这种变量名。<br>类似 _xxx 和 __xxx 这样的函数或变量就是非公开的(private)，不应该被直接引用。之所以我们说，private 函数和变量”不应该”被直接引用，而不是”不能”被直接引用，是因为 Python 并没有一种方法可以完全限制访问 private 函数或变量，但是，从编程习惯上不应该引用 private 函数或变量。</p>
+<p>注意: 以一个下划线开头的实例变量名，这样的实例变量外部是可以访问的，但是，按照约定俗成的规定，当你看到这样的变量时，意思就是，”虽然我可以被访问，但是，请把我视为私有变量，不要随意访问”。双下划线开头的实例变量则不能直接访问，因为 Python 解释器对外把 __xxx 变量改成了 _[类名]__xxx，所以，仍然可以通过 _[类名]__xxx 来访问 __xxx 变量。<br>但是强烈建议你不要这么干，因为不同版本的 Python 解释器可能会把 __xxx 改成不同的变量名。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_private_1</span>(<span class="hljs-params">name</span>):</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Hello, %s&#x27;</span> % name<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_private_2</span>(<span class="hljs-params">name</span>):</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Hi, %s&#x27;</span> % name<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">greeting</span>(<span class="hljs-params">name</span>):</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(name) &gt; <span class="hljs-number">3</span>:<br>        <span class="hljs-keyword">return</span> _private_1(name)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> _private_2(name)<br></code></pre></td></tr></table></figure>
+
+<h3 id="编写你自己的模块"><a href="#编写你自己的模块" class="headerlink" title="编写你自己的模块"></a>编写你自己的模块</h3><p>每一个 Python 程序同时也是一个模块。你只需要保证它以 .py 为扩展名即可。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">say_hi</span>():</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Hi, this is mymodule speaking.&#x27;</span>)<br><br>__version__ = <span class="hljs-string">&#x27;0.1&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>上方所呈现的就是一个简单的模块。与我们一般所使用的 Python 的程序相比其实并没有什么特殊的区别。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> mymodule<br><br>mymodule.say_hi()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Version&#x27;</span>, mymodule.__version__)<br></code></pre></td></tr></table></figure>
+
+<h3 id="dir-函数"><a href="#dir-函数" class="headerlink" title="dir 函数"></a>dir 函数</h3><p>内置的 dir() 函数能够返回由对象所定义的名称列表。 如果这一对象是一个模块，则该列表会包括函数内所定义的函数、类与变量。<br>该函数接受参数。 如果参数是模块名称，函数将返回这一指定模块的名称列表。 如果没有提供参数，函数将返回当前模块的名称列表。</p>
+<h3 id="包"><a href="#包" class="headerlink" title="包"></a>包</h3><p>变量通常位于函数内部，函数与全局变量通常位于模块内部。如果你希望组织起这些模块的话，应该怎么办？这便是包(Packages)的应用。<br>包是指一个包含模块与一个特殊的 __init__.py 文件的文件夹，后者向 Python 表明这一文件夹是特别的，因为其包含了 Python 模块。</p>
+<p>包是一种能够方便地分层组织模块的方式。</p>
+
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Python(%E4%BA%94)/">
+        Previous post<br>Python(五)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Python(%E4%B8%89)/">
+        Next post<br>Python(三)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?45771984"></script>
+
+
+
+</body>
+</html>

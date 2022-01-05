@@ -1,73 +1,293 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Python(三) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="
+The Zen of Python, by Tim Peters
+
+
+Beautiful is better than ugly.Explicit is better than implicit.Simple is better t...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?22003994">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Python(三)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2019-04-05T00:00:00.000Z" itemprop="datePublished">
+                            2019-04-05 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <blockquote>
+<p>The Zen of Python, by Tim Peters</p>
+</blockquote>
+<blockquote>
+<p>Beautiful is better than ugly.<br>Explicit is better than implicit.<br>Simple is better than complex.<br>Complex is better than complicated.<br>Flat is better than nested.<br>Sparse is better than dense.<br>Readability counts.<br>Special cases aren’t special enough to break the rules.<br>Although practicality beats purity.<br>Errors should never pass silently.<br>Unless explicitly silenced.<br>In the face of ambiguity, refuse the temptation to guess.<br>There should be one– and preferably only one –obvious way to do it.<br>Although that way may not be obvious at first unless you’re Dutch.<br>Now is better than never.<br>Although never is often better than <em>right</em> now.<br>If the implementation is hard to explain, it’s a bad idea.<br>If the implementation is easy to explain, it may be a good idea.<br>Namespaces are one honking great idea – let’s do more of those!</p>
+</blockquote>
+<p>本篇，我们说说 Python 中常见的运算符和控制流。</p>
+<h2 id="运算符-Operators"><a href="#运算符-Operators" class="headerlink" title="运算符(Operators)"></a>运算符(Operators)</h2><hr>
+<h3 id="算数运算符"><a href="#算数运算符" class="headerlink" title="算数运算符"></a>算数运算符</h3><p>Python 中的算符运算符包括: </p>
+<ul>
+<li>+(加)</li>
+<li>-(减)</li>
+<li>*(乘)</li>
+<li>/(除)</li>
+<li>**(乘方)</li>
+<li>//(整除)</li>
+<li>%(取模)</li>
+</ul>
+<h3 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h3><ul>
+<li>&lt;&lt;(左移)</li>
+<li>&gt;&gt;(右移)</li>
+<li>&amp;(按位与)</li>
+<li>|(按位或)</li>
+<li>^(按位异或)</li>
+<li>~(按位取反)</li>
+</ul>
+<h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><ul>
+<li>&lt;(小于)</li>
+<li>&gt;(大于)</li>
+<li>&lt;=(小于等于)</li>
+<li>&gt;=(大于等于)</li>
+<li>==(等于)</li>
+<li>!=(不等于)</li>
+<li>not(逻辑非)</li>
+<li>and(逻辑与)</li>
+<li>or(逻辑或)</li>
+</ul>
+<h3 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h3><ul>
+<li>=(赋值)</li>
+<li>*=，/=，+=，-=，…，(复合赋值运算符)</li>
+</ul>
+<h2 id="控制流"><a href="#控制流" class="headerlink" title="控制流"></a>控制流</h2><hr>
+<p>在 Python 中有三种控制流语句 —— if，for 和 while。</p>
+<h3 id="if-语句"><a href="#if-语句" class="headerlink" title="if 语句"></a>if 语句</h3><p>if 语句用以检查条件: 如果 条件为真(True)，我们将运行一块语句(称作 if-block 或 if 块)，否则 我们将运行另一块语句(称作 else-block 或 else 块)。其中 else 从句是可选的。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">number = <span class="hljs-number">23</span><br>guess = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;Enter an integer : &#x27;</span>))<br><br><span class="hljs-keyword">if</span> guess == number:<br>    <span class="hljs-comment"># 新块从这里开始</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Congratulations, you guessed it.&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;(but you do not win any prizes!)&#x27;</span>)<br>    <span class="hljs-comment"># 新块在这里结束</span><br><span class="hljs-keyword">elif</span> guess &lt; number:<br>    <span class="hljs-comment"># 另一代码块</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;No, it is a little higher than that&#x27;</span>)<br>    <span class="hljs-comment"># 你可以在此做任何你希望在该代码块内进行的事情</span><br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;No, it is a little lower than that&#x27;</span>)<br>    <span class="hljs-comment"># 你必须通过猜测一个大于(&gt;)设置数的数字来到达这里。</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Done&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>需要注意的是 if 语句在结尾处包含一个冒号 —— 我们借此向 Python 指定接下来会有一块语句在后头。<br>elif 和 else 同样都必须有一个冒号在其逻辑行的末尾，后面跟着与它们相应的语句块。</p>
+<p>Python 中不存在 switch 语句。你可以通过使用 if..elif..else 语句来实现同样的事情。</p>
+<p>注意: 只要条件是非零数值、非空字符串、非空 list 等，就判断为 True，否则为 False。</p>
+<h3 id="while-语句"><a href="#while-语句" class="headerlink" title="while 语句"></a>while 语句</h3><p>while 语句能够让你在条件为真的前提下重复执行某块语句。 while 语句是 循环(Looping) 语句的一种。while 语句同样可以拥有 else 子句作为可选选项。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">number = <span class="hljs-number">23</span><br>running = <span class="hljs-literal">True</span><br><br><span class="hljs-keyword">while</span> running:<br>    guess = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;Enter an integer : &#x27;</span>))<br><br>    <span class="hljs-keyword">if</span> guess == number:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Congratulations, you guessed it.&#x27;</span>)<br>        <span class="hljs-comment"># 这将导致 while 循环中止</span><br>        running = <span class="hljs-literal">False</span><br>    <span class="hljs-keyword">elif</span> guess &lt; number:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;No, it is a little higher than that.&#x27;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;No, it is a little lower than that.&#x27;</span>)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;The while loop is over.&#x27;</span>)<br>    <span class="hljs-comment"># 在这里你可以做你想做的任何事</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Done&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h3><p>for…in 语句是另一种循环语句，其特点是会在一系列对象上进行迭代(Iterates)，意即它会遍历序列中的每一个项目。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">5</span>):<br>    <span class="hljs-built_in">print</span>(i)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;The for loop is over&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>注意: range 函数将会返回一个数字序列，从第一个数字开始，至第二个数字结束。如: range(1,5) 将输出序列 [1, 2, 3, 4]。在默认情况下，range 将会以 1 逐步递增。如果我们向 range 提供第三个数字，则这个数字将成为逐步递增的加数。range(1,5,2) 将会输出 [1, 3]。要记住这一序列扩展直到第二个数字，也就是说，它不会包括第二个数字在内。</p>
+<p>另外需要注意的是，range() 每次只会生成一个数字，如果你希望获得完整的数字列表，要在使用 range() 时调用 list()。例如下面这样: list(range(5)) ，它将会返回 [0, 1, 2, 3, 4]。</p>
+<p><strong>需要注意: 只有在正常结束循环时，else 子句才会执行，如果是由于 break 或 return 导致循环退出，则不会执行 else 子句。</strong></p>
+<h3 id="break-语句"><a href="#break-语句" class="headerlink" title="break 语句"></a>break 语句</h3><p>break 语句用以中断(Break)循环语句，也就是中止循环语句的执行，即使循环条件没有变更为 False，或队列中的项目尚未完全迭代依旧如此。<br>有一点需要尤其注意，如果你 中断 了一个 for 或 while 循环，任何相应循环中的 else 块都将不会被执行。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    s = <span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;Enter something : &#x27;</span>)<br>    <span class="hljs-keyword">if</span> s == <span class="hljs-string">&#x27;quit&#x27;</span>:<br>        <span class="hljs-keyword">break</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Length of the string is&#x27;</span>, <span class="hljs-built_in">len</span>(s))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Done&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="continue-语句"><a href="#continue-语句" class="headerlink" title="continue 语句"></a>continue 语句</h3><p>continue 语句用以告诉 Python 跳过当前循环块中的剩余语句，并继续该循环的下一次迭代。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    s = <span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;Enter something : &#x27;</span>)<br>    <span class="hljs-keyword">if</span> s == <span class="hljs-string">&#x27;quit&#x27;</span>:<br>        <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(s) &lt; <span class="hljs-number">3</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Too small&#x27;</span>)<br>        <span class="hljs-keyword">continue</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Input is of sufficient length&#x27;</span>)<br>    <span class="hljs-comment"># 自此处起继续进行其它任何处理</span><br></code></pre></td></tr></table></figure>
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Python(%E5%9B%9B)/">
+        Previous post<br>Python(四)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Python(%E4%BA%8C)/">
+        Next post<br>Python(二)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?89543409"></script>
+
+
+
+</body>
+</html>

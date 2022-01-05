@@ -1,57 +1,439 @@
-<% include _include/variables.ejs %>
-<%
-config.__isIndex = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage(item) {
-    var featuredImage = item.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + item.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="旧游无处不堪寻，无寻处，惟有少年心">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?71619214">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item active" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+        
+        <div class="pagination-indicator">
+            <span style="text-align: center">
+                13<br><div style="display: inline-block; transform: rotate(-28deg)">-</div><br>20
+            </span>
+        </div>
+        
+
+        
+        <a class="pagination-action" href="/page/12/">
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
+        
+
+        
+        <a class="pagination-action" href="/page/14/">
+            <i class="material-icons pagination-action-icon">
+                chevron_right
+            </i>
+        </a>
+        
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-no-background">
-        <% page.posts.each(function (item) { %>
-        <a href="<%= config.root + item.path %>" class="a-block">
+        
+        <a href="/ASP.Net API(二)/" class="a-block">
             <div class="post-item-wrapper">
                 <div class="post-item post-item-no-divider">
                     <div class="post-item-info-wrapper">
                         <div class="post-item-title">
-                            <%= item.title %>
+                            ASP.Net API(二)
                         </div>
                         <div class="post-item-summary">
-                            <%= item.intro && item.intro.length > 0 ? item.intro : truncate(strip_html(item.content), {
-                                length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-                                omission: '...'
-                            }) %>
+                            之前我们说过 Web MVC 中的路由，本篇，我们看看如何配置 Web API 路由。
+Web API 路由类似于 ASP.NET MVC 路由。它将传入的 HTTP 请求路由到 Web API Controller 上的特定 Act...
                         </div>
                         <div class="post-item-meta">
-                            <%= date(item.date, "YYYY-MM-DD") %>
+                            2019-01-22
                         </div>
                     </div>
-                    <% if(item.featured_image){ %>
-                    <div class="post-item-image-wrapper">
-                        <div class="post-item-image"
-                             style="background-image: url('<%= getFeaturedImage(item) %>')"></div>
-                    </div>
-                    <% } %>
+                    
                 </div>
             </div>
         </a>
-        <% }) %>
+        
+        <a href="/ASP.Net API(一)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            ASP.Net API(一)
+                        </div>
+                        <div class="post-item-summary">
+                            ASP.Net Web MVC 的知识我们也复习了大概，基础内容已经覆盖了大部分，从本篇开始，我们来认识一下 ASP.Net Web API。
+Web API 是什么
+简单来说，API 是某种接口，它具有一组允许程序员访问应用程序，操...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-01-15
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/ASP.Net MVC(十)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            ASP.Net MVC(十)
+                        </div>
+                        <div class="post-item-summary">
+                            这一篇，我们详细讲讲 ASP.Net MVC 中的 Area。
+我们知道在大型应用程序可以包含大量控制器、视图和模型类，因此，使用默认的 ASP.NET MVC 项目结构维护大量视图、模型和控制器可能变得难以管理。
+ASP.NET M...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-01-09
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/ASP.Net MVC(九)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            ASP.Net MVC(九)
+                        </div>
+                        <div class="post-item-summary">
+                            这一篇，我们详细讲讲 .Net MVC 中的 Bundling 和 Minification。
+Bundling
+在 MVC 4 中引入了 Bundling 和 Minification 技术以改善请求加载时间。Bundling 允许...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-01-05
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/ASP.Net MVC(八)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            ASP.Net MVC(八)
+                        </div>
+                        <div class="post-item-summary">
+                            这一篇，我们详细讲讲 .Net MVC 中的 Filter。
+默认情况，在 ASP.NET MVC 中，用户请求被路由到适当的控制器和 Action 方法。但是，在某些情况下，您可能希望在执行 Action 方法之前或之后执行某些逻辑...
+                        </div>
+                        <div class="post-item-meta">
+                            2019-01-02
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/ASP.Net MVC(七)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            ASP.Net MVC(七)
+                        </div>
+                        <div class="post-item-summary">
+                            这一篇，我们讲讲数据验证、布局试图以及 Controller 向 View 传递少量数据的方式。
+数据注释(DataAnnotations)
+ASP.Net MVC 使用 DataAnnotations attribute 实现数据验...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-12-31
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/ASP.Net MVC(六)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            ASP.Net MVC(六)
+                        </div>
+                        <div class="post-item-summary">
+                            这一篇，我们详细讲讲 .Net MVC 中的 HTML Helper。
+HtmlHelper 类使用模型类对象生成 html 元素。它将模型对象绑定到 html 元素，以将模型属性的值显示为 html 元素，并在提交 Web 表单时将...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-12-29
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/ASP.Net MVC(五)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            ASP.Net MVC(五)
+                        </div>
+                        <div class="post-item-summary">
+                            本篇，我们再来详细说说 ASP.Net MVC 中的 Razor 语法。
+什么是 RazorRazor 是 ASP.Net MVC 中支持的视图引擎，它允许我们混写服务端代码如 C#、VB 等和 HTML 标签，如果使用 C#，那么文...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-12-28
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/ASP.Net MVC(四)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            ASP.Net MVC(四)
+                        </div>
+                        <div class="post-item-summary">
+                            这一篇，我们来详细说说 ASP.Net MVC 中特别重要的 Model Binding。
+传统的 ASP.Net MVC 中，如果我们想在 Action 方法中获取请求参数，我们使用 Request.QueryString 和 Re...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-12-27
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
+        <a href="/ASP.Net MVC(三)/" class="a-block">
+            <div class="post-item-wrapper">
+                <div class="post-item post-item-no-divider">
+                    <div class="post-item-info-wrapper">
+                        <div class="post-item-title">
+                            ASP.Net MVC(三)
+                        </div>
+                        <div class="post-item-summary">
+                            这一篇，我们具体说说 Controller、Model 和 View。
+Controller
+在 MVC 中，Controller 是用来处理用户请求的。Controller 是一个类，继承自 System.Web.Mvc.Contr...
+                        </div>
+                        <div class="post-item-meta">
+                            2018-12-25
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+        
     
-        <% include _include/pagination.ejs %>
-    </div>
-    <% include _include/single_column_footer.ejs %>
+        
+<div class="pagination index-page">
+    
+    <a class="pagination-action" href="/page/12/" style="opacity: 1">
+        
+            <i class="material-icons pagination-action-icon">
+                chevron_left
+            </i>
+        </a>
+
+        <div class="pagination-indicator">
+            <span>13/20</span>
+        </div>
+
+        
+        <a class="pagination-action" href="/page/14/"
+           style="opacity: 1">
+            
+                <i class="material-icons pagination-action-icon">
+                    chevron_right
+                </i>
+            </a>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% include _include/tail.ejs %>
+    </div>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?5780712"></script>
+</body>
+</html>

@@ -1,73 +1,289 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>JavaScript(十一) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="这一篇，我们讲讲 DOM 扩展。对 DOM 的两个主要的扩展是 Selectors API(选择符 API)和 HTML5。此外，还有一个不那么引人瞩目的 Element Traversal(元素遍历)规范，为 DOM 添加了一些属性...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?98704982">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    JavaScript(十一)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2018-09-15T00:00:00.000Z" itemprop="datePublished">
+                            2018-09-15 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>这一篇，我们讲讲 DOM 扩展。<br>对 DOM 的两个主要的扩展是 Selectors API(选择符 API)和 HTML5。此外，还有一个不那么引人瞩目的 Element Traversal(元素遍历)规范，为 DOM 添加了一些属性。</p>
+<h2 id="选择符-API"><a href="#选择符-API" class="headerlink" title="选择符 API"></a>选择符 API</h2><hr>
+<p>Selectors API 是由 W3C 发起制定的一个标准，致力于让浏览器原生支持 CSS 查询。<br>Selectors API Level 1 的核心是两个方法: querySelector() 和 querySelectorAll()。在兼容的浏览器中，可以通过 Document 及 Element 类型的实例调用它们。</p>
+<h3 id="querySelector-方法"><a href="#querySelector-方法" class="headerlink" title="querySelector() 方法"></a>querySelector() 方法</h3><p>querySelector() 方法接收一个 CSS 选择符，返回与该模式匹配的第一个元素，如果没有找到匹配的元素，返回 null: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">//取得body元素</span><br><span class="hljs-keyword">var</span> body = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&quot;body&quot;</span>);<br><br><span class="hljs-comment">//取得ID为&quot;myDiv&quot;的元素</span><br><span class="hljs-keyword">var</span> myDiv = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&quot;#myDiv&quot;</span>);<br><br><span class="hljs-comment">//取得类为&quot;selected&quot;的第一个元素</span><br><span class="hljs-keyword">var</span> selected = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&quot;.selected&quot;</span>);<br><br><span class="hljs-comment">//取得类为&quot;button&quot;的第一个图像元素</span><br><span class="hljs-keyword">var</span> img = <span class="hljs-built_in">document</span>.body.querySelector(<span class="hljs-string">&quot;img.button&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>通过 Doument 类型调用 querySelector() 方法时，会在文档元素的范围内查找匹配的元素。而通过 Element 类型调用 querySelector() 方法时，只会在该元素后代元素的范围内查找匹配的元素。</p>
+<h3 id="querySelectorAll-方法"><a href="#querySelectorAll-方法" class="headerlink" title="querySelectorAll() 方法"></a>querySelectorAll() 方法</h3><p>querySelectorAll() 方法接收的参数与 querySelector() 方法一样，都是一个 CSS 选择符，但返回的是所有匹配的元素而不仅仅是一个元素。这个方法返回的是一个 NodeList 的实例。</p>
+<p>只要传给 querySelectorAll() 方法的 CSS 选择符有效，该方法都会返回一个 NodeList 对象，而不管找到多少匹配的元素。如果没有找到匹配的元素，NodeList 就是空的。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">//取得某&lt;div&gt;中的所有&lt;em&gt;元素(类似于getElementsByTagName(&quot;em&quot;))</span><br><span class="hljs-keyword">var</span> ems = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;myDiv&quot;</span>).querySelectorAll(<span class="hljs-string">&quot;em&quot;</span>);<br><br><span class="hljs-comment">//取得类为&quot;selected&quot;的所有元素</span><br><span class="hljs-keyword">var</span> selecteds = <span class="hljs-built_in">document</span>.querySelectorAll(<span class="hljs-string">&quot;.selected&quot;</span>);<br><br><span class="hljs-comment">//取得所有&lt;p&gt;元素中的所有&lt;strong&gt;元素</span><br><span class="hljs-keyword">var</span> strongs = <span class="hljs-built_in">document</span>.querySelectorAll(<span class="hljs-string">&quot;p strong&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="matchesSelector-方法"><a href="#matchesSelector-方法" class="headerlink" title="matchesSelector() 方法"></a>matchesSelector() 方法</h3><p>规范为 Element 类型新增了一个方法 matchesSelector()。这个方法接收一个参数，即 CSS 选择符，如果调用元素与该选择符匹配，返回 true，否则，返回 false: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">document</span>.body.matchesSelector(<span class="hljs-string">&quot;body.page1&quot;</span>)) &#123;<br>    <span class="hljs-comment">//true</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h2><hr>
+<p>Element Traversal API 为 DOM 元素添加了以下 5 个属性: </p>
+<ul>
+<li>childElementCount: 返回子元素(不包括文本节点和注释)的个数</li>
+<li>firstElementChild: 指向第一个子元素，firstChild 的元素版</li>
+<li>lastElementChild: 指向最后一个子元素，lastChild 的元素版</li>
+<li>previousElementSibling: 指向前一个同辈元素，previousSibling 的元素版</li>
+<li>nextElementSibling: 指向后一个同辈元素，nextSibling 的元素版</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> child = element.firstElementChild;<br><span class="hljs-keyword">while</span>(child != element.lastElementChild) &#123;<br>    processChild(child);   <span class="hljs-comment">//已知其是元素</span><br>    child = child.nextElementSibling;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="与-class-相关的扩充"><a href="#与-class-相关的扩充" class="headerlink" title="与 class 相关的扩充"></a>与 class 相关的扩充</h2><hr>
+<p>为了让开发人员适应并增加对 class 属性的新认识，HTML5 新增了很多 API，致力于简化 CSS 类的用法。</p>
+<h3 id="getElementsByClassName-方法"><a href="#getElementsByClassName-方法" class="headerlink" title="getElementsByClassName() 方法"></a>getElementsByClassName() 方法</h3><p>getElementsByClassName() 方法接收一个参数，即一个包含一或多个类名的字符串，返回带有指定类的所有元素的 NodeList。传入多个类名时，类名的先后顺序不重要。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">//取得所有类中包含&quot;username&quot;和&quot;current&quot;的元素，类名的先后顺序无所谓</span><br><span class="hljs-keyword">var</span> allCurrentUsernames = <span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">&quot;username current&quot;</span>);<br><span class="hljs-comment">//取得ID为&quot;myDiv&quot;的元素中带有类名&quot;selected&quot;的所有元素</span><br><span class="hljs-keyword">var</span> selected = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;myDiv&quot;</span>).getElementsByClassName(<span class="hljs-string">&quot;selected&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="classList-属性"><a href="#classList-属性" class="headerlink" title="classList 属性"></a>classList 属性</h3><p>在操作类名时，需要通过 className 属性添加、删除和替换类名。因为 className 中是一个字符串，所以即使只修改字符串一部分，也必须每次都设置整个字符串的值。<br>HTML5 新增了一种操作类名的方式，可以让操作更简单也更安全，那就是为所有元素添加 classList 属性。这个 classList 属性是新集合类型 DOMTokenList 的实例。与其他 DOM 集合类似，DOMTokenList 有一个表示自己包含多少元素的 length 属性，而要取得每个元素可以使用 item() 方法，也可以使用方括号语法。此外，这个新类型还定义如下方法: </p>
+<ul>
+<li>add(value): 将给定的字符串值添加到列表中，如果值已经存在，就不添加了</li>
+<li>contains(value): 表示列表中是否存在给定的值，如果存在则返回 true，否则返回 false</li>
+<li>remove(value): 从列表中删除给定的字符串</li>
+<li>toggle(value): 如果列表中已经存在给定的值，删除它，如果列表中没有给定的值，添加它</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">//删除&quot;disabled&quot;类</span><br>div.classList.remove(<span class="hljs-string">&quot;disabled&quot;</span>);<br><br><span class="hljs-comment">//添加&quot;current&quot;类</span><br>div.classList.add(<span class="hljs-string">&quot;current&quot;</span>);<br><br><span class="hljs-comment">//切换&quot;user&quot;类</span><br>div.classList.toggle(<span class="hljs-string">&quot;user&quot;</span>);<br><br><span class="hljs-comment">//确定元素中是否包含既定的类名</span><br><span class="hljs-keyword">if</span> (div.classList.contains(<span class="hljs-string">&quot;bd&quot;</span>) &amp;&amp; !div.classList.contains(<span class="hljs-string">&quot;disabled&quot;</span>)) &#123;<br>    <span class="hljs-comment">//执行操作</span><br>)<br><br><span class="hljs-comment">//迭代类名</span><br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, len = div.classList.length; i &lt; len; i++) &#123;<br>   doSomething(div.classList[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>有了 classList 属性，除非你需要全部删除所有类名，或者完全重写元素的 class 属性，否则也就用不到 className 属性了。</p>
+<h3 id="焦点管理"><a href="#焦点管理" class="headerlink" title="焦点管理"></a>焦点管理</h3><p>HTML5 也添加了辅助管理 DOM 焦点的功能。首先就是 document.activeElement 属性，这个属性始终会引用 DOM 中当前获得了焦点的元素。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> button = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;myButton&quot;</span>);<br>button.focus();<br>alert(<span class="hljs-built_in">document</span>.activeElement === button);   <span class="hljs-comment">//true</span><br></code></pre></td></tr></table></figure>
+<p>另外就是新增了 document.hasFocus() 方法，这个方法用于确定文档是否获得了焦点。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> button = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;myButton&quot;</span>);<br>button.focus();<br>alert(<span class="hljs-built_in">document</span>.hasFocus());  <span class="hljs-comment">//true</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="HTMLDocument-的变化"><a href="#HTMLDocument-的变化" class="headerlink" title="HTMLDocument 的变化"></a>HTMLDocument 的变化</h3><p>作为对 document.body 引用文档的 body 元素的补充，HTML5 新增了 document.head 属性，引用文档的 head 元素。要引用文档的 head 元素，可以结合使用这个属性和另一种后备方法。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> head = <span class="hljs-built_in">document</span>.head || <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">&quot;head&quot;</span>)[<span class="hljs-number">0</span>];<br></code></pre></td></tr></table></figure>
+
+<h3 id="自定义数据属性"><a href="#自定义数据属性" class="headerlink" title="自定义数据属性"></a>自定义数据属性</h3><p>HTML5 规定可以为元素添加非标准的属性，但要添加前缀 data-，目的是为元素提供与渲染无关的信息，或者提供语义信息。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs HTML"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myDiv&quot;</span> <span class="hljs-attr">data-appId</span>=<span class="hljs-string">&quot;12345&quot;</span> <span class="hljs-attr">data-myname</span>=<span class="hljs-string">&quot;Nicholas&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>添加了自定义属性之后，可以通过元素的 dataset 属性来访问自定义属性的值。每个 data-name 形式的属性都会有一个对应的属性，只不过属性名没有 data-前缀: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> div = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;myDiv&quot;</span>);<br><br><span class="hljs-comment">//取得自定义属性的值</span><br><span class="hljs-keyword">var</span> appId = div.dataset.appId;<br><span class="hljs-keyword">var</span> myName = div.dataset.myname;<br><span class="hljs-comment">//设置值</span><br>div.dataset.appId = <span class="hljs-number">23456</span>;<br>div.dataset.myname = <span class="hljs-string">&quot;Michael&quot;</span>;<br><br><span class="hljs-comment">//有没有&quot;myname&quot;值呢？</span><br><span class="hljs-keyword">if</span> (div.dataset.myname) &#123;<br>    alert(<span class="hljs-string">&quot;Hello, &quot;</span> + div.dataset.myname);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="插入标记"><a href="#插入标记" class="headerlink" title="插入标记"></a>插入标记</h3><p>在需要给文档插入大量新 HTML 标记的情况下，通过 DOM 操作仍然非常麻烦，因为不仅要创建一系列 DOM 节点，而且还要小心地按照正确的顺序把它们连接起来。相对而言，使用插入标记的技术，直接插入 HTML 字符串不仅更简单，速度也更快。</p>
+<ul>
+<li>innerHTML 属性返回与调用元素的所有子节点(包括元素、注释和文本节点)对应的 HTML 标记</li>
+<li>outerHTML 属性返回调用它的元素及所有子节点的 HTML 标签</li>
+</ul>
+<h3 id="scrollIntoView-方法"><a href="#scrollIntoView-方法" class="headerlink" title="scrollIntoView() 方法"></a>scrollIntoView() 方法</h3><p>scrollIntoView() 可以在所有 HTML 元素上调用，通过滚动浏览器窗口或某个容器元素，调用元素就可以出现在视口中。</p>
+<p>如果给这个方法传入 true 作为参数，或者不传入任何参数，那么窗口滚动之后会让调用元素的顶部与视口顶部尽可能平齐。如果传入 false 作为参数，调用元素会尽可能全部出现在视口中: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">//让元素可见</span><br><span class="hljs-built_in">document</span>.forms[<span class="hljs-number">0</span>].scrollIntoView();<br></code></pre></td></tr></table></figure>
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/JavaScript(%E5%8D%81%E4%BA%8C)/">
+        Previous post<br>JavaScript(十二)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/JavaScript(%E5%8D%81)/">
+        Next post<br>JavaScript(十)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?48916676"></script>
+
+
+
+</body>
+</html>

@@ -1,73 +1,276 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Git(二) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="本篇，我们来介绍一下 Git 的历史记录的浏览查看以及分支的基本操作。
+Restore a Deleted File# 找到这个文件被删除之前的那个 commitgit log --oneline -- &amp;#123;filename&amp;...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?60388347">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Git(二)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2021-01-29T00:00:00.000Z" itemprop="datePublished">
+                            2021-01-29 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>本篇，我们来介绍一下 Git 的历史记录的浏览查看以及分支的基本操作。</p>
+<h3 id="Restore-a-Deleted-File"><a href="#Restore-a-Deleted-File" class="headerlink" title="Restore a Deleted File"></a>Restore a Deleted File</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 找到这个文件被删除之前的那个 commit</span><br>git <span class="hljs-built_in">log</span> --oneline -- &#123;filename&#125;<br><br><span class="hljs-comment"># 使用该 commitId 恢复文件</span><br>git checkout &#123;commitid&#125; &#123;filename&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Blaming"><a href="#Blaming" class="headerlink" title="Blaming"></a>Blaming</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git blame -L &#123;a,b&#125; &#123;filename&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其中，a 为起始行号，b 为终止行号。</p>
+<h3 id="Tagging"><a href="#Tagging" class="headerlink" title="Tagging"></a>Tagging</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 创建 Tag</span><br>git tag -a &#123;tagname&#125; -m &#123;message&#125; &#123;commitid&#125;<br><br><span class="hljs-comment"># 删除 Tag</span><br>git tag -d &#123;tagname&#125;<br><br><span class="hljs-comment"># 查看已创建的 Tag</span><br>git tag<br></code></pre></td></tr></table></figure>
+
+<h3 id="Branch"><a href="#Branch" class="headerlink" title="Branch"></a>Branch</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 创建分支</span><br>git branch &#123;branchname&#125;<br><br><span class="hljs-comment"># 查看分支</span><br>git branch<br><br><span class="hljs-comment"># 切换分支</span><br>git switch &#123;branchname&#125;<br><br><span class="hljs-comment"># 创建并切换分支</span><br>git switch -C &#123;branchname&#125;<br><br><span class="hljs-comment"># 分支重命名</span><br>git branch -m &#123;oldbranchname&#125; &#123;newbranchname&#125;<br><br><span class="hljs-comment"># 删除分支</span><br>git branch -d &#123;branchname&#125;<br><br><span class="hljs-comment"># 强制删除未合并分支</span><br>git branch -D &#123;branchname&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Compare-the-Branch"><a href="#Compare-the-Branch" class="headerlink" title="Compare the Branch"></a>Compare the Branch</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 比较 branch1 和 branch2 之前的区别</span><br>git diff &#123;branchname1&#125;..&#123;branchname2&#125;<br><br><span class="hljs-comment"># 比较当前分支与某 branch 的区别</span><br>git diff &#123;branchname&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Stashing"><a href="#Stashing" class="headerlink" title="Stashing"></a>Stashing</h3><p>当我们在某一分支有未提交的修改，我们无法切换分支。我们可以使用 stash 命令暂存修改。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 创建 stash</span><br>git stash push -m &#123;message&#125;<br><br><span class="hljs-comment"># 查看 stash 列表</span><br>git stash list<br><br><span class="hljs-comment"># 应用某个 stash</span><br>git stash apply &#123;stashindex&#125;<br><br><span class="hljs-comment"># 删除 stash</span><br>git stash drop &#123;stashindex&#125;<br><br><span class="hljs-comment"># 清空 stash 列表</span><br>git stash clear<br></code></pre></td></tr></table></figure>
+
+<h3 id="Merging"><a href="#Merging" class="headerlink" title="Merging"></a>Merging</h3><p>合并有两种方式: </p>
+<ol>
+<li>Fast-forwarding merges</li>
+<li>3-way merges</li>
+</ol>
+<p>一般情况，我们合并时会使用 –no-ff 参数禁用 Fast-forward 来使分支更加清晰。<br>为避免忘记使用该参数，我们也可以使用命令: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git config --global ff no<br></code></pre></td></tr></table></figure>
+
+<p>来禁用仓库的 Fast-forwarding merges。</p>
+<h3 id="View-the-Merged-Branch"><a href="#View-the-Merged-Branch" class="headerlink" title="View the Merged Branch"></a>View the Merged Branch</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 查看已合并到当前分支的所有分支</span><br>git branch --merged<br><br><span class="hljs-comment"># 查看未合并到当前分支的所有分支</span><br>git branch --no-merged<br></code></pre></td></tr></table></figure>
+
+<h3 id="Undoing-a-Faulty-Merge"><a href="#Undoing-a-Faulty-Merge" class="headerlink" title="Undoing a Faulty Merge"></a>Undoing a Faulty Merge</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git reset --hard &#123;commitid&#125;<br></code></pre></td></tr></table></figure>
+
+<p>reset 命令有三个可选参数: </p>
+<ul>
+<li>soft: 只会改变本地仓库，不会改变工作区和暂存区</li>
+<li>mixed: 改变本地仓库和暂存区，不会改变工作区，这是默认选项</li>
+<li>hard: 同时改变本地仓库、暂存区和工作区</li>
+</ul>
+<h3 id="查看远程仓库信息"><a href="#查看远程仓库信息" class="headerlink" title="查看远程仓库信息"></a>查看远程仓库信息</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git remote -v<br></code></pre></td></tr></table></figure>
+
+<h3 id="Fetching"><a href="#Fetching" class="headerlink" title="Fetching"></a>Fetching</h3><p>我们使用 fetch 命令从远端拉取最新更新: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git fetch<br></code></pre></td></tr></table></figure>
+
+<p>拉取之后还需要 merge 操作，将本地文件与远端文件合并。</p>
+<h3 id="Pulling"><a href="#Pulling" class="headerlink" title="Pulling"></a>Pulling</h3><p>pull = fetch + merge: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git pull<br></code></pre></td></tr></table></figure>
+
+<h3 id="Pushing"><a href="#Pushing" class="headerlink" title="Pushing"></a>Pushing</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">git push<br></code></pre></td></tr></table></figure>
+
+<h3 id="Sharing-Tags"><a href="#Sharing-Tags" class="headerlink" title="Sharing Tags"></a>Sharing Tags</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 推送 tag</span><br>git push origin &#123;tagname&#125;<br><br><span class="hljs-comment"># 删除 tag</span><br>git push origin --delete &#123;tagname&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Sharing-Branches"><a href="#Sharing-Branches" class="headerlink" title="Sharing Branches"></a>Sharing Branches</h3><figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 将本地分支推到远端</span><br>git push -u origin &#123;branchname&#125;<br><br><span class="hljs-comment"># 删除远端分支</span><br>git push -d origin &#123;branchname&#125;<br></code></pre></td></tr></table></figure>
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%20From%20Zero%20To%20Hero(%E4%B8%80)/">
+        Previous post<br>数据结构 From Zero To Hero(一)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Git(%E4%B8%80)/">
+        Next post<br>Git(一)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?49890238"></script>
+
+
+
+</body>
+</html>

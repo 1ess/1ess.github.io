@@ -1,73 +1,273 @@
-<% include _include/variables.ejs %>
-<%
-config.__title = page.title + " - " + config.title
-config.__desc = page.intro || page.desc || truncate(strip_html(page.content), {
-    length: config.truncate_len ? config.truncate_len : theme.truncate_len ? theme.truncate_len : 140,
-    omission: '...'
-})
-config.__noPager = true
-%>
-<% include _include/head.ejs %>
-<% include _include/container_head.ejs %>
-<% include _include/single_column_head.ejs %>
-<% include _include/side_nav.ejs %>
-<% include _include/extra_nav.ejs %>
 
-<%
-function getFeaturedImage() {
-    var featuredImage = page.featured_image;
-    if (!featuredImage) return '';
-    if (featuredImage.startsWith("http://") || featuredImage.startsWith("https://")) return featuredImage;
-    return config.root + page.path + featuredImage;
-}
-%>
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Python(十四) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="正则表达式(Regular Expression)是对字符串操作的一种逻辑公式。之前的章节我们已经提到过正则表达式，本篇我们就对正则表达式做一个详细的介绍。
+re.match
+re.match 尝试从字符串的起始位置匹配一个模式，如果...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?77787782">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="<%= page.featured_image ? 'post-head-wrapper' : 'post-head-wrapper-text-only' %>"
-                 style="background-image: url('<%= getFeaturedImage() %>')">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
                 <div class="post-title">
-                    <%= page.title %>
+                    Python(十四)
                     <div class="post-meta">
-                        <time datetime="<%= date_xml(page.date) %>" itemprop="datePublished">
-                            <%= date(page.date, "YYYY-MM-DD HH:mm") %>
+                        <time datetime="2019-04-28T00:00:00.000Z" itemprop="datePublished">
+                            2019-04-28 00:00
                         </time>&nbsp;
-                        <% if (page.categories && page.categories.length){ %>
-                        <% count = page.categories.length %>
-                        <i class="material-icons" style="">folder</i>
-                        <% page.categories.forEach(function(category, index) { %>
-                        <a href='<%= config.root + category.path %>'><%= category.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
     
-                        <% if (page.tags && page.tags.length){ %>
-                        <% count = page.tags.length %>
-                        <i class="material-icons" style="">label</i>
-                        <% page.tags.forEach(function(tag, index) { %>
-                        <a href='<%= config.root + tag.path %>'><%= tag.name %></a><%= (count !== index + 1) ? ', ' : '' %>
-                        <% }); %>
-                        <% } %>
+                        
                     </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <%- page.content %>
+                    <p>正则表达式(Regular Expression)是对字符串操作的一种逻辑公式。之前的章节我们已经提到过正则表达式，本篇我们就对正则表达式做一个详细的介绍。</p>
+<h2 id="re-match"><a href="#re-match" class="headerlink" title="re.match"></a>re.match</h2><hr>
+<p>re.match 尝试从字符串的起始位置匹配一个模式，如果匹配不成功，则返回 None。</p>
+<h3 id="最常规匹配"><a href="#最常规匹配" class="headerlink" title="最常规匹配"></a>最常规匹配</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><br>content = <span class="hljs-string">&#x27;Hello 123 4567 Regex Demo&#x27;</span><br>result = re.match(<span class="hljs-string">r&#x27;^Hello\s\d\d\d\s\d&#123;4&#125;\s\w&#123;5&#125;.*Demo$&#x27;</span>, content)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># &lt;re.Match object; span=(0, 25), match=&#x27;Hello 123 4567 Regex Demo&#x27;&gt;</span><br><br><span class="hljs-built_in">print</span>(result.group())<br><span class="hljs-comment"># &#x27;Hello 123 4567 Regex Demo&#x27;</span><br><br><span class="hljs-built_in">print</span>(result.span())<br><span class="hljs-comment"># (0, 25)</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="泛匹配"><a href="#泛匹配" class="headerlink" title="泛匹配"></a>泛匹配</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><br>content = <span class="hljs-string">&#x27;Hello 123 4567 Regex Demo&#x27;</span><br>result = re.match(<span class="hljs-string">r&#x27;^Hello.*Demo$&#x27;</span>, content)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># &lt;re.Match object; span=(0, 25), match=&#x27;Hello 123 4567 Regex Demo&#x27;&gt;</span><br><br><span class="hljs-built_in">print</span>(result.group())<br><span class="hljs-comment"># &#x27;Hello 123 4567 Regex Demo&#x27;</span><br><br><span class="hljs-built_in">print</span>(result.span())<br><span class="hljs-comment"># (0, 25)</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="匹配目标"><a href="#匹配目标" class="headerlink" title="匹配目标"></a>匹配目标</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><br>content = <span class="hljs-string">&#x27;BIT 150001&#x27;</span><br>result = re.match(<span class="hljs-string">r&#x27;1\d&#123;5&#125;&#x27;</span>, content)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># &lt;re.Match object; span=(4, 10), match=&#x27;150001&#x27;&gt;</span><br> <br><span class="hljs-built_in">print</span>(result.group(<span class="hljs-number">0</span>)) <span class="hljs-comment"># group(0) 取到的是第一个匹配字符串</span><br><span class="hljs-comment"># &#x27;150001&#x27;</span><br><br><span class="hljs-built_in">print</span>(result.group(<span class="hljs-number">1</span>)) <span class="hljs-comment"># group(1) 取到的是第一个分组匹配的字符串，如果没有括号分组，group(0) 与 group(1) 相同</span><br><span class="hljs-comment"># &#x27;150001&#x27;</span><br><br><span class="hljs-built_in">print</span>(result.span())<br><span class="hljs-comment"># (4, 10)</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="贪婪匹配"><a href="#贪婪匹配" class="headerlink" title="贪婪匹配"></a>贪婪匹配</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><br>content = <span class="hljs-string">&#x27;PYANBNCN&#x27;</span><br>result = re.match(<span class="hljs-string">r&#x27;PY.*N&#x27;</span>, content)<br><span class="hljs-built_in">print</span>(result.group()) <span class="hljs-comment"># 贪婪匹配总是尽可能匹配多</span><br><span class="hljs-comment"># &#x27;PYANBNCN&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="非贪婪匹配"><a href="#非贪婪匹配" class="headerlink" title="非贪婪匹配"></a>非贪婪匹配</h3><p>非贪婪匹配可用于的操作符有: </p>
+<ul>
+<li>*?</li>
+<li>+?</li>
+<li>??</li>
+<li>{m,n}?</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><br>content = <span class="hljs-string">&#x27;PYANBNCN&#x27;</span><br>result = re.match(<span class="hljs-string">r&#x27;PY.*?N&#x27;</span>, content)<br><span class="hljs-built_in">print</span>(result.group()) <span class="hljs-comment"># 非贪婪匹配总是尽可能匹配少，? 我们可以看作是优先级的意思</span><br><span class="hljs-comment"># &#x27;PYAN&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="匹配模式"><a href="#匹配模式" class="headerlink" title="匹配模式"></a>匹配模式</h3><p>常见的匹配模式有: </p>
+<ul>
+<li>re.I: 忽略大小写，即 [a-z] 也可以匹配大写字母</li>
+<li>re.M: 当有多行文本，^ 每一行都会进行匹配</li>
+<li>re.S: . 可以忽略换行符进行匹配</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><br>content = <span class="hljs-string">&quot;&quot;&quot;Hello 1234567 </span><br><span class="hljs-string">Regex Demo</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br>result = re.match(<span class="hljs-string">r&#x27;He.*?(\d+).*?Demo$&#x27;</span>, content)<br><span class="hljs-built_in">print</span>(result) <span class="hljs-comment"># . 匹配除换行之外的任意字符</span><br><span class="hljs-comment"># None</span><br><br>result = re.match(<span class="hljs-string">r&#x27;He.*?(\d+).*?Demo$&#x27;</span>, content, re.S)<br><span class="hljs-comment"># &lt;re.Match object; span=(0, 24), match=&#x27;Hello 1234567\nRegex Demo&#x27;&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="转义"><a href="#转义" class="headerlink" title="转义"></a>转义</h3><p>我们在使用正则表达式时，最好使用原生字符串: </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><br>content = <span class="hljs-string">&#x27;price is $5.00&#x27;</span><br>result = re.match(<span class="hljs-string">&#x27;price is $5.00&#x27;</span>, content)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># None</span><br><br>result = re.match(<span class="hljs-string">&#x27;price is \$5\.00&#x27;</span>, content)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># &lt;re.Match object; span=(0, 14), match=&#x27;price is $5.00&#x27;&gt;</span><br><br>result = re.match(<span class="hljs-string">r&#x27;price is $5.00&#x27;</span>, content)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># &lt;re.Match object; span=(0, 14), match=&#x27;price is $5.00&#x27;&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="常见示例"><a href="#常见示例" class="headerlink" title="常见示例"></a>常见示例</h3><figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># IP 地址匹配</span><br>ip_pattern = <span class="hljs-string">r&#x27;(([1-9]?[0-9]|1\d&#123;2&#125;|2[0-4]\d|25[0-5]).)&#123;3&#125;([1-9]?[0-9]|1\d&#123;2&#125;|2[0-4]\d|25[0-5])&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="re-search"><a href="#re-search" class="headerlink" title="re.search"></a>re.search</h2><hr>
+<p>re.search 会扫描整个字符串并返回第一个成功的匹配。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><br>content = <span class="hljs-string">&#x27;ABC Hello 1234567 Regex Demo DEF&#x27;</span><br>result = re.search(<span class="hljs-string">r&#x27;He.*?(\d+)\s.*Demo&#x27;</span>, content)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># &lt;re.Match object; span=(4, 28), match=&#x27;Hello 1234567 Regex Demo&#x27;&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="re-findall"><a href="#re-findall" class="headerlink" title="re.findall"></a>re.findall</h2><hr>
+<p>re.findall 扫描整个字符串，以列表的形式返回所有匹配的子串。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">html = <span class="hljs-string">r&#x27;&#x27;&#x27;&lt;html&gt;</span><br><span class="hljs-string">    &lt;li&gt;</span><br><span class="hljs-string">        &lt;a href=&quot;/1.mp3&quot;&gt;偏偏喜欢你&lt;/a&gt;</span><br><span class="hljs-string">    &lt;/li&gt;</span><br><span class="hljs-string">    &lt;li&gt;&lt;a href=&quot;/2.mp3&quot;&gt;山丘&lt;/a&gt;&lt;/li&gt;</span><br><span class="hljs-string">    &lt;li&gt;&lt;a href=&quot;/3.mp3&quot;&gt;领悟&lt;/a&gt;&lt;/li&gt;</span><br><span class="hljs-string">    &lt;li&gt;&lt;a href=&quot;/4.mp3&quot;&gt;BUGs&lt;/a&gt;&lt;/li&gt;</span><br><span class="hljs-string">&lt;html&gt;&#x27;&#x27;&#x27;</span><br><br>results = re.findall(<span class="hljs-string">r&#x27;&lt;a\shref=&quot;(.*?)&quot;&gt;(.*?)&lt;/a&gt;&#x27;</span>, html, re.S)<br><span class="hljs-built_in">print</span>(results)<br><span class="hljs-comment"># [(&#x27;/1.mp3&#x27;, &#x27;偏偏喜欢你&#x27;), (&#x27;/2.mp3&#x27;, &#x27;山丘&#x27;), (&#x27;/3.mp3&#x27;, &#x27;领悟&#x27;), (&#x27;/4.mp3&#x27;, &#x27;BUGs&#x27;)]</span><br><span class="hljs-keyword">for</span> result <span class="hljs-keyword">in</span> results:<br>    <span class="hljs-built_in">print</span>(result[<span class="hljs-number">0</span>], result[<span class="hljs-number">1</span>])<br></code></pre></td></tr></table></figure>
+
+<h2 id="re-compile"><a href="#re-compile" class="headerlink" title="re.compile"></a>re.compile</h2><hr>
+<p>将正则字符串编译成正则表达式对象，便于复用。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><br>content = <span class="hljs-string">&#x27;ABC Hello 1234567 Regex Demo DEF&#x27;</span><br><br>pattern = re.<span class="hljs-built_in">compile</span>(<span class="hljs-string">r&#x27;Hello.*Demo&#x27;</span>, re.S)<br>result = re.search(pattern, content)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># &lt;re.Match object; span=(4, 28), match=&#x27;Hello 1234567 Regex Demo&#x27;&gt;</span><br></code></pre></td></tr></table></figure>
                 </div>
             </div>
     
-            <% include _include/post_pagination.ejs %>
+            <nav class="post-pagination">
     
-            <% include _include/comment_templates.ejs %>
+    <a class="newer-posts" href="/Python(%E5%8D%81%E4%BA%94)/">
+        Previous post<br>Python(十五)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/Python(%E5%8D%81%E4%B8%89)/">
+        Next post<br>Python(十三)
+    </a>
+    
+</nav>
+
+    
+            
+
+
         </div>
     </div>
-    <% include _include/single_column_footer.ejs %>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
 </div>
 
-<% include _include/container_tail.ejs %>
-<% if(!page.no_comments) { %>
-<% include _include/comment_includes.ejs %>
-<% } %>
-<% include _include/tail.ejs %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?46903304"></script>
+
+
+
+</body>
+</html>
