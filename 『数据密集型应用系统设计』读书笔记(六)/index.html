@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>『数据密集型应用系统设计』读书笔记(六) - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="前一章我们讨论了复制技术，即在不同节点上保存相同数据的多个副本。然而，面对一些海晕数据集或非常高的查询压力， 复制技术还不够， 我们还需要将数据拆分成为分...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?87603187">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper"
+                 style="background-image: url('https://cdn.jsdelivr.net/gh/1ess/cdn/blogImg/Blog198.jpg')">
+                <div class="post-title">
+                    『数据密集型应用系统设计』读书笔记(六)
+                    <div class="post-meta">
+                        <time datetime="2022-01-03T00:00:00.000Z" itemprop="datePublished">
+                            2022-01-03
+                        </time>&nbsp;
+                        
+    
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>前一章我们讨论了复制技术，即在不同节点上保存相同数据的多个副本。然而，面对一些<br>海晕数据集或非常高的查询压力， 复制技术还不够， 我们还需要将数据拆分成为分<br>区， 也称为分片。</p>
+<h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><hr>
+<p>复制意味着在通过网络连接的多台机器上保留相同数据的副本。我们希望能复制数据，可能出于各种各样的原因: </p>
+<ol>
+<li>使得数据与用户在地理上接近，从而减少延迟</li>
+<li>即使系统的一部分出现故障，系统也能继续工作</li>
+<li>伸缩可以接受读请求的机器数量</li>
+</ol>
+<p>本章假设数据集非常小，每台机器都可以保存整个数据集的副本。之后的章节我们还会讨论对单个机器来说太大的数据集的分割。</p>
+<p>如果复制中的数据不会随时间而改变，那复制就很简单: 将数据复制到每个节点一次就可以了。</p>
+<p>复制的困难之处在于处理复制数据的变更，这就是本章的重点。我们主要讨论<strong>单领导者</strong>(single leader)的变更复制算法。</p>
+<h2 id="领导者与追随者"><a href="#领导者与追随者" class="headerlink" title="领导者与追随者"></a>领导者与追随者</h2><hr>
+<p>存储数据库副本的每个节点称为<strong>副本</strong>(replica)。<br>当存在多个副本时，就会出现一个问题: <strong>如何确保所有数据都落在了所有的副本上</strong>。</p>
+<p>每一次向数据库的写入操作都需要传播到所有副本上，否则副本就会包含不一样的数据。最常见的解决方案被称为<strong>基于领导者的复制</strong>(leader-based replication)，也称为<strong>主从(master/slave)复制</strong>。</p>
+<p>工作原理如下: </p>
+<ol>
+<li>副本之一被指定为<strong>领导者</strong>(leader)，也称为<strong>主库</strong>(master|primary)。当客户端要向数据库写入时，它必须将请求发送给领导者，领导者会将新数据写入其本地存储</li>
+<li>其他副本被称为<strong>追随者</strong>(followers)，亦称为<strong>从库</strong>(slaves)。每当领导者将新数据写入本地存储时，它也会将数据变更发送给所有的追随者，称之为复制日志。每个跟随者从领导者拉取日志，并相应更新其本地数据库副本，方法是按照领导者处理的相同顺序应用所有写入</li>
+<li>当客户想要从数据库中读取数据时，它可以向领导者或追随者查询。但只有领导者才能接受写操作</li>
+</ol>
+<p>这种复制模式是许多关系数据库的内置功能，例如，PostgreSQL、MySQL 等。</p>
+<h3 id="同步复制与异步复制"><a href="#同步复制与异步复制" class="headerlink" title="同步复制与异步复制"></a>同步复制与异步复制</h3><p>复制系统的一个重要细节是: 复制是<strong>同步</strong>(synchronously)发生还是<strong>异步</strong>(asynchronously)发生。在关系型数据库中这通常是一个配置项，其他系统通常硬编码为其中一个。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig5-2.png"></p>
+<p>在上图示例中，从库 1 的复制是同步的: 在向用户报告写入成功，并使结果对其他用户可见之前，主库需要等待从库 1 的确认，确保从库1已经收到写入操作。以及在使写入对其他客户端可见之前接收到写入。从库 2 的复制是异步的: 主库发送消息，但不等待从库的响应。</p>
+<p>在这幅图中，从库 2 处理消息前存在一个显著的延迟。通常情况下，复制的速度相当快: 大多数数据库系统能在一秒向从库应用变更，但它们不能提供复制用时的保证。</p>
+<p>通常情况下，基于领导者的复制都配置为完全异步，异步复制已经被广泛使用了。</p>
+<h3 id="设置新从库"><a href="#设置新从库" class="headerlink" title="设置新从库"></a>设置新从库</h3><p>有时候我们可能需要设置一个新的从库: 也许是为了增加副本的数量，或替换失败的节点。<br>如何确保新的从库拥有主库数据的精确副本呢？客户端不断向数据库写入数据，数据总是在不断变化，标准的数据副本会在不同的时间点总是不一样。复制的结果可能没有任何意义。</p>
+<p>我们可以通过锁定数据库，使其在该段时间内不可用于写入来使磁盘上的文件保持一致，但是这会违背高可用的目标。<br>但是通常，拉起新的从库通常并不需要停机。过程如下: </p>
+<ol>
+<li>在某个时刻获取主库的一致性快照，而不必锁定整个数据库。大多数数据库都具有这个功能，因为它是备份必需的</li>
+<li>将快照复制到新的从库节点</li>
+<li>从库连接到主库，并拉取快照之后发生的所有数据变更。这要求快照与主库复制日志中的位置精确关联。该位置在不同数据库有不同的名称: 例如，PostgreSQL 将其称为<strong>日志序列号</strong>(log sequence number, LSN)，MySQL 将其称为<strong>二进制日志坐标</strong>(binlog coordinates)</li>
+<li>当从库处理完快照之后积压的数据变更，就可以继续处理主库产生的数据变化了</li>
+</ol>
+<h3 id="处理节点宕机"><a href="#处理节点宕机" class="headerlink" title="处理节点宕机"></a>处理节点宕机</h3><p>系统中的任何节点都可能宕机，可能因为意外的故障，也可能由于计划内的维护。那么即使发生宕机，我们的目标是，即使个别节点失效，也能保持整个系统运行，并尽可能控制节点停机带来的影响。</p>
+<h4 id="从库失效-追赶恢复"><a href="#从库失效-追赶恢复" class="headerlink" title="从库失效: 追赶恢复"></a>从库失效: 追赶恢复</h4><p>在其本地磁盘上，每个从库记录从主库收到的数据变更。如果从库崩溃并重新启动，或者主库和从库之间的网络暂时中断，从库可以从日志中知道，在发生故障之前处理的最后一个事务。因此，从库可以连接到主库，并请求在从库断开期间发生的所有数据变更。等其赶上主库后，就可以像以前一样继续接收数据变更流。</p>
+<h4 id="主库失效-故障切换"><a href="#主库失效-故障切换" class="headerlink" title="主库失效: 故障切换"></a>主库失效: 故障切换</h4><p>主库失效则相对复杂，其中一个从库需要被提升为新的主库，需要重新配置客户端，以将它们的写操作发送给新的主库，其他从库需要开始拉取来自新主库的数据变更。<br>故障切换可以手动进行或自动进行。</p>
+<p>自动故障切换过程通常由以下步骤组成: </p>
+<ol>
+<li>确认主库失效。大多数系统只是简单使用<strong>超时</strong>判断失效</li>
+<li>选择一个新的主库。一般可以通过选举过程(主库由剩余副本以多数选举产生)来完成。主库的最佳人选通常是拥有旧主库最新数据副本的从库。让所有的节点同意一个新的领导者，是一个共识问题，将在之后章节详细讨论</li>
+<li>重新配置系统以启用新的主库。客户端现在需要将它们的写请求发送给新主库。系统需要确保旧主库意识到新主库的存在，并成为一个从库</li>
+</ol>
+<p>节点故障、不可靠的网络、对副本一致性、持久性、可用性和延迟的权衡，这些问题实际上是分布式系统中的基本问题，我们将会在之后章节详细讨论。</p>
+<h3 id="复制日志的实现"><a href="#复制日志的实现" class="headerlink" title="复制日志的实现"></a>复制日志的实现</h3><p>基于主库的复制底层有好几种不同的复制方式，大概分为: </p>
+<ol>
+<li>基于语句的复制</li>
+<li>传输预写式日志(WAL)</li>
+<li>逻辑日志复制(基于行)</li>
+<li>基于触发器的复制</li>
+</ol>
+<h3 id="复制延迟问题"><a href="#复制延迟问题" class="headerlink" title="复制延迟问题"></a>复制延迟问题</h3><p>容忍节点故障只是需要复制的一个原因，另一个原因是可伸缩性和延迟。</p>
+<p>基于主库的复制要求所有写入都由单个节点处理，但只读查询可以由任何副本处理。所以对于读多写少的场景，我们可以选择创建很多从库，并将读请求分散到所有的从库上去。这样能减小主库的负载，并允许向最近的副本发送读请求。</p>
+<p>在这种伸缩体系结构中，只需添加更多的追随者，就可以提高只读请求的服务容量。但是，这种方法实际上只适用于异步复制。如果尝试同步复制到所有追随者，则单个节点故障或网络中断将使整个系统无法写入。</p>
+<p>不过，当应用程序从异步从库读取时，如果从库落后，它可能会看到过时的信息。这会导致数据库中出现明显的不一致。同时对主库和从库执行相同的查询，可能得到不同的结果，因为并非所有的写入都反映在从库中。这种不一致只是一个暂时的状态 —— 如果停止写入数据库并等待一段时间，从库最终会赶上并与主库保持一致。出于这个原因，这种效应被称为<strong>最终一致性</strong>。</p>
+<p>因为滞后时间不确定而引入的不一致性，不仅是一个理论问题，更是应用设计中会遇到的真实问题。</p>
+<p>我们介绍三个由复制延迟问题产生的例子，并简述解决这些问题的一些方法。</p>
+<h4 id="读己之写"><a href="#读己之写" class="headerlink" title="读己之写"></a>读己之写</h4><p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig5-3.png"></p>
+<p>用户写入后从旧副本中读取数据。需要写后读(read-after-write)的一致性来防止这种异常。这是一个保证，如果用户重新加载页面，他们总会看到他们自己提交的任何更新。它不会对其他用户的写入做出承诺，其他用户的更新可能稍等才会看到。</p>
+<p>如何实现读后一致性有各种可能的技术，下面是一些常见方式: </p>
+<ol>
+<li>读用户可能已经修改过的内容时，都从主库读</li>
+<li>如果应用中的大部分内容都可能被用户编辑，在这种情况下可以使用其他标准来决定是否从主库读取。例如可以跟踪上次更新的时间，在上次更新后的一分钟内，从主库读</li>
+<li>客户端可以记住最近一次写入的时间戳，系统需要确保从库为该用户提供任何查询时，该时间戳前的变更都已经传播到了本从库中</li>
+</ol>
+<h4 id="单调读"><a href="#单调读" class="headerlink" title="单调读"></a>单调读</h4><p>从异步从库读取第二个异常例子是，用户可能会遇到<strong>时光倒流</strong>。<br>如果用户从不同从库进行多次读取，就可能发生这种情况:<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig5-4.png"></p>
+<p>用户首先从新副本读取，然后从旧副本读取。为了防止这种异常，我们需要单调的读取。</p>
+<p>单调读保证这种异常不会发生。这是一个比<strong>强一致性</strong>(strong consistency)更弱，但比<strong>最终一致性</strong>(eventual consistency)更强的保证。<br>例如，可以基于用户 ID 的散列来选择副本，而不是随机选择副本。但是，如果该副本失败，用户的查询将需要重新路由到另一个副本。</p>
+<h4 id="一致前缀读"><a href="#一致前缀读" class="headerlink" title="一致前缀读"></a>一致前缀读</h4><p>第三个复制延迟例子违反了因果律。如果某些分区的复制速度慢于其他分区，那么观察者在看到问题之前可能会看到答案。防止这种异常，需要另一种类型的保证: <strong>一致前缀读</strong>。<br>这个保证是说: 如果一系列写入按某个顺序发生，那么任何人读取这些写入时，也会以同样的顺序出现。<br>一种解决方案是，确保任何因果相关的写入都写入相同的分区。</p>
+<h3 id="复制延迟的解决方案"><a href="#复制延迟的解决方案" class="headerlink" title="复制延迟的解决方案"></a>复制延迟的解决方案</h3><p>在使用最终一致的系统时，如果复制延迟增加到几分钟甚至几小时，则应该考虑应用程序的行为。如果答案是可以接受，那就没问题。但如果结果对于用户来说是不好体验，那么设计系统来提供更强的保证是很重要的，例如<strong>写后读</strong>。</p>
+
+                </div>
+            </div>
+    
+            <nav class="post-pagination">
+    
+    <a class="newer-posts" href="/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%83)/">
+        Previous post<br>『数据密集型应用系统设计』读书笔记(七)
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%BA%94)/">
+        Next post<br>『数据密集型应用系统设计』读书笔记(五)
+    </a>
+    
+</nav>
+
+    
+            
+
+
+        </div>
+    </div>
+    <div class="single-column-footer">
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?7136885"></script>
+
+
+
+</body>
+</html>
