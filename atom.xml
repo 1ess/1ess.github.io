@@ -6,7 +6,7 @@
   <link href="https://1ess.github.io/atom.xml" rel="self"/>
   
   <link href="https://1ess.github.io/"/>
-  <updated>2022-01-30T14:54:57.624Z</updated>
+  <updated>2022-01-30T14:57:18.589Z</updated>
   <id>https://1ess.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://1ess.github.io/Synchronous%20and%20Asynchronous%20Blocking%20and%20Non-Blocking/"/>
     <id>https://1ess.github.io/Synchronous%20and%20Asynchronous%20Blocking%20and%20Non-Blocking/</id>
     <published>2022-03-12T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.624Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -43,7 +43,7 @@
     <link href="https://1ess.github.io/SQL%20%E7%BB%8F%E5%85%B8%E7%BB%83%E4%B9%A0%E9%A2%98/"/>
     <id>https://1ess.github.io/SQL%20%E7%BB%8F%E5%85%B8%E7%BB%83%E4%B9%A0%E9%A2%98/</id>
     <published>2022-03-10T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.624Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -65,7 +65,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%8D%81%E4%B8%80)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%8D%81%E4%B8%80)/</id>
     <published>2022-02-26T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
     
@@ -78,7 +78,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%8D%81)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%8D%81)/</id>
     <published>2022-02-22T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
     
@@ -91,7 +91,20 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B9%9D)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B9%9D)/</id>
     <published>2022-02-16T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>『数据密集型应用系统设计』读书笔记(八)</title>
+    <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%85%AB)/"/>
+    <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%85%AB)/</id>
+    <published>2022-02-10T00:00:00.000Z</published>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
     
@@ -104,7 +117,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%83)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%83)/</id>
     <published>2022-01-30T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -125,7 +138,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%85%AD)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%85%AD)/</id>
     <published>2022-01-28T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -143,24 +156,11 @@
   </entry>
   
   <entry>
-    <title>『数据密集型应用系统设计』读书笔记(八)</title>
-    <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%85%AB)/"/>
-    <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%85%AB)/</id>
-    <published>2022-01-10T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
-    
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>『数据密集型应用系统设计』读书笔记(五)</title>
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%BA%94)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%BA%94)/</id>
     <published>2021-12-26T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -182,7 +182,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%9B%9B)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%9B%9B)/</id>
     <published>2021-12-20T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -204,7 +204,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%89)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%89)/</id>
     <published>2021-12-19T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -225,7 +225,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%BA%8C)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%BA%8C)/</id>
     <published>2021-12-18T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -250,7 +250,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%80)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%80)/</id>
     <published>2021-12-15T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -272,7 +272,7 @@
     <link href="https://1ess.github.io/%E9%94%81/"/>
     <id>https://1ess.github.io/%E9%94%81/</id>
     <published>2021-10-18T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -294,7 +294,7 @@
     <link href="https://1ess.github.io/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
     <id>https://1ess.github.io/%E8%99%9A%E6%8B%9F%E5%8C%96/</id>
     <published>2021-08-16T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -319,7 +319,7 @@
     <link href="https://1ess.github.io/%E5%87%BA%E5%B7%AE/"/>
     <id>https://1ess.github.io/%E5%87%BA%E5%B7%AE/</id>
     <published>2021-07-11T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -341,7 +341,7 @@
     <link href="https://1ess.github.io/%E5%A4%A7%E8%BF%9E%E4%B9%8B%E8%A1%8C/"/>
     <id>https://1ess.github.io/%E5%A4%A7%E8%BF%9E%E4%B9%8B%E8%A1%8C/</id>
     <published>2021-05-06T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -363,7 +363,7 @@
     <link href="https://1ess.github.io/%E4%B9%8C%E9%B8%A6%20%E4%B9%8C%E9%B8%A6%20%E5%8F%AB/"/>
     <id>https://1ess.github.io/%E4%B9%8C%E9%B8%A6%20%E4%B9%8C%E9%B8%A6%20%E5%8F%AB/</id>
     <published>2021-04-06T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -385,7 +385,7 @@
     <link href="https://1ess.github.io/2021%20%E5%9F%BA%E9%87%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%8F%8A%E6%8A%95%E8%B5%84%E7%AD%96%E7%95%A5/"/>
     <id>https://1ess.github.io/2021%20%E5%9F%BA%E9%87%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%8F%8A%E6%8A%95%E8%B5%84%E7%AD%96%E7%95%A5/</id>
     <published>2021-03-15T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
@@ -406,7 +406,7 @@
     <link href="https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%20From%20Zero%20To%20Hero(%E5%85%AB)/"/>
     <id>https://1ess.github.io/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%20From%20Zero%20To%20Hero(%E5%85%AB)/</id>
     <published>2021-03-03T00:00:00.000Z</published>
-    <updated>2022-01-30T14:54:57.620Z</updated>
+    <updated>2022-01-30T14:57:18.589Z</updated>
     
     
       
