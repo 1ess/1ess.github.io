@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>设计模式-装饰器 - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="装饰器模式(Decorator Pattern)是一种结构型设计模式，允许你通过将对象放入包含行为的特殊封装对象中来为原对象绑定新的行为。
+解释
+当你需要...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?24471124">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper"
+                 style="background-image: url('https://cdn.jsdelivr.net/gh/1ess/cdn/blogImg/Blog215.png')">
+                <div class="post-title">
+                    设计模式-装饰器
+                    <div class="post-meta">
+                        <time datetime="2022-02-21T00:00:00.000Z" itemprop="datePublished">
+                            2022-02-21
+                        </time>&nbsp;
+                        
+    
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>装饰器模式(Decorator Pattern)是一种结构型设计模式，允许你通过将对象放入包含行为的特殊封装对象中来为原对象绑定新的行为。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><hr>
+<p>当你需要更改一个对象的行为时，第一个想法就是继承所属的类。但是，继承可能引发的几个严重问题: </p>
+<ol>
+<li>继承是静态的。你无法在运行时更改已有对象的行为，只能使用由不同子类创建的对象来替代当前的整个对象</li>
+<li>子类只能有一个父类。大部分编程语言不允许一个类同时继承多个类的行为</li>
+</ol>
+<p>另一种方法是用<strong>聚合或组合</strong>，而不是继承。<br>一个对象包含指向另一个对象的引用，并将部分工作委派给引用对象。你可以使用这个方式在运行时改变容器的行为。</p>
+<p>聚合: 对象 A 包含对象 B。B 可以独立于 A 存在。<br>组合: 对象 A 由对象 B 构成。A 负责管理 B 的生命周期。B 无法独立于 A 存在。<br>注意: <strong>聚合(或组合)组合是许多设计模式背后的关键原则</strong>。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp9-1.png"></p>
+<h2 id="装饰器模式-UML"><a href="#装饰器模式-UML" class="headerlink" title="装饰器模式 UML"></a>装饰器模式 UML</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp9-2.png"></p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><hr>
+<ol>
+<li>如果你希望在无需修改代码的情况下即可使用对象，且希望在运行时为对象新增额外的行为，可以使用装饰器模式</li>
+<li>如果用继承来扩展对象行为的方案难以实现或者根本不可行，例如许多编程语言使用 final 最终关键字来限制对某个类的进一步扩展。复用最终类已有行为的唯一方法是使用装饰器模式</li>
+</ol>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><hr>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title">DecoratorPatternDemo</span> <br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Component</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-built_in">string</span> <span class="hljs-title">Operation</span>(<span class="hljs-params"></span>)</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">ConcreteComponent</span> : <span class="hljs-title">Component</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">string</span> <span class="hljs-title">Operation</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;ConcreteComponent&quot;</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Decorator</span> : <span class="hljs-title">Component</span><br>    &#123;<br>        <span class="hljs-keyword">protected</span> Component _component;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Decorator</span>(<span class="hljs-params">Component component</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._component = component;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">SetComponent</span>(<span class="hljs-params">Component component</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._component = component;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">string</span> <span class="hljs-title">Operation</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._component != <span class="hljs-literal">null</span>)<br>            &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._component.Operation();<br>            &#125;<br>            <span class="hljs-keyword">else</span><br>            &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-built_in">string</span>.Empty;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">ConcreteDecoratorA</span> : <span class="hljs-title">Decorator</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ConcreteDecoratorA</span>(<span class="hljs-params">Component comp</span>) : <span class="hljs-title">base</span>(<span class="hljs-params">comp</span>)</span><br>        &#123;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">string</span> <span class="hljs-title">Operation</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">$&quot;ConcreteDecoratorA(<span class="hljs-subst">&#123;<span class="hljs-keyword">base</span>.Operation()&#125;</span>)&quot;</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">ConcreteDecoratorB</span> : <span class="hljs-title">Decorator</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ConcreteDecoratorB</span>(<span class="hljs-params">Component comp</span>) : <span class="hljs-title">base</span>(<span class="hljs-params">comp</span>)</span><br>        &#123;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">string</span> <span class="hljs-title">Operation</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">$&quot;ConcreteDecoratorB(<span class="hljs-subst">&#123;<span class="hljs-keyword">base</span>.Operation()&#125;</span>)&quot;</span>;<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Client</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ClientCode</span>(<span class="hljs-params">Component component</span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;RESULT: &quot;</span> + component.Operation());<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] args</span>)</span><br>        &#123;<br>            Client client = <span class="hljs-keyword">new</span> Client();<br><br>            <span class="hljs-keyword">var</span> simple = <span class="hljs-keyword">new</span> ConcreteComponent();<br>            Console.WriteLine(<span class="hljs-string">&quot;Client: I get a simple component:&quot;</span>);<br>            client.ClientCode(simple);<br>            Console.WriteLine();<br><br>            ConcreteDecoratorA decorator1 = <span class="hljs-keyword">new</span> ConcreteDecoratorA(simple);<br>            ConcreteDecoratorB decorator2 = <span class="hljs-keyword">new</span> ConcreteDecoratorB(decorator1);<br>            Console.WriteLine(<span class="hljs-string">&quot;Client: Now I&#x27;ve got a decorated component:&quot;</span>);<br>            client.ClientCode(decorator2);<br>            <span class="hljs-comment">// output</span><br><br>            <span class="hljs-comment">// Client: I get a simple component:</span><br>            <span class="hljs-comment">// RESULT: ConcreteComponent</span><br><br>            <span class="hljs-comment">// Client: Now I&#x27;ve got a decorated component:</span><br>            <span class="hljs-comment">// RESULT: ConcreteDecoratorB(ConcreteDecoratorA(ConcreteComponent))</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                </div>
+            </div>
+    
+            <nav class="post-pagination">
+    
+    <a class="newer-posts" href="/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88/">
+        Previous post<br>设计模式-组合
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5/">
+        Next post<br>设计模式-桥接
+    </a>
+    
+</nav>
+
+    
+            
+
+
+        </div>
+    </div>
+    <div class="single-column-footer">
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?33320498"></script>
+
+
+
+</body>
+</html>
