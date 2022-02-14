@@ -1,0 +1,227 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>设计模式-享元 - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="享元模式(Flyweight Pattern)是一种结构型设计模式，它摒弃了在每个对象中保存所有数据的方式，通过共享多个对象所共有的相同状态，让你能在有限...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?51873438">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper"
+                 style="background-image: url('https://cdn.jsdelivr.net/gh/1ess/cdn/blogImg/Blog217.png')">
+                <div class="post-title">
+                    设计模式-享元
+                    <div class="post-meta">
+                        <time datetime="2022-02-24T00:00:00.000Z" itemprop="datePublished">
+                            2022-02-24
+                        </time>&nbsp;
+                        
+    
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>享元模式(Flyweight Pattern)是一种结构型设计模式，它摒弃了在每个对象中保存所有数据的方式，通过共享多个对象所共有的相同状态，让你能在有限的内存容量中载入更多对象。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><hr>
+<p>对象的常量数据通常被称为<strong>内在状态</strong>，其位于对象中，其他对象只能读取但不能修改其数值。而对象的其他状态常常能被其他对象从外部改变，因此被称为<strong>外在状态</strong>。享元模式建议不在对象中存储外在状态，而是将其传递给依赖于它的一个特殊方法。程序只在对象中保存内在状态，以方便在不同情景下重用。 </p>
+<p>为了能更方便地访问各种享元，你可以创建一个工厂方法来管理已有享元对象的缓存池。工厂方法从客户端处接收目标享元对象的内在状态作为参数，如果它能在缓存池中找到所需享元，则将其返回给客户端，如果没有找到，它就会新建一个享元，并将其添加到缓存池中。</p>
+<h2 id="享元模式-UML"><a href="#享元模式-UML" class="headerlink" title="享元模式 UML"></a>享元模式 UML</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp11-1.png"></p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><hr>
+<ol>
+<li>仅在程序必须支持大量对象且没有足够的内存容量时使用享元模式</li>
+</ol>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><hr>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title">FlyweightPatternDemo</span> <br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Flyweight</span><br>    &#123;<br>        <span class="hljs-keyword">private</span> Car _sharedState;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Flyweight</span>(<span class="hljs-params">Car car</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._sharedState = car;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Operation</span>(<span class="hljs-params">Car uniqueState</span>)</span><br>        &#123;<br>            <span class="hljs-built_in">string</span> s = JsonConvert.SerializeObject(<span class="hljs-keyword">this</span>._sharedState);<br>            <span class="hljs-built_in">string</span> u = JsonConvert.SerializeObject(uniqueState);<br>            Console.WriteLine(<span class="hljs-string">$&quot;Flyweight: Displaying shared <span class="hljs-subst">&#123;s&#125;</span> and unique <span class="hljs-subst">&#123;u&#125;</span> state.&quot;</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">FlyweightFactory</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">List</span>&lt;<span class="hljs-title">Tuple</span>&lt;<span class="hljs-title">Flyweight</span>, <span class="hljs-title">string</span>&gt;&gt; flyweights</span> = <span class="hljs-keyword">new</span> List&lt;Tuple&lt;Flyweight, <span class="hljs-built_in">string</span>&gt;&gt;();<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">FlyweightFactory</span>(<span class="hljs-params"><span class="hljs-keyword">params</span> Car[] args</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> elem <span class="hljs-keyword">in</span> args)<br>            &#123;<br>                flyweights.Add(<span class="hljs-keyword">new</span> Tuple&lt;Flyweight, <span class="hljs-built_in">string</span>&gt;(<span class="hljs-keyword">new</span> Flyweight(elem), <span class="hljs-keyword">this</span>.getKey(elem)));<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> <span class="hljs-title">getKey</span>(<span class="hljs-params">Car key</span>)</span><br>        &#123;<br>            List&lt;<span class="hljs-built_in">string</span>&gt; elements = <span class="hljs-keyword">new</span> List&lt;<span class="hljs-built_in">string</span>&gt;();<br><br>            elements.Add(key.Model);<br>            elements.Add(key.Color);<br>            elements.Add(key.Company);<br><br>            <span class="hljs-keyword">if</span> (key.Owner != <span class="hljs-literal">null</span> &amp;&amp; key.Number != <span class="hljs-literal">null</span>)<br>            &#123;<br>                elements.Add(key.Number);<br>                elements.Add(key.Owner);<br>            &#125;<br><br>            elements.Sort();<br><br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">string</span>.Join(<span class="hljs-string">&quot;_&quot;</span>, elements);<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> Flyweight <span class="hljs-title">GetFlyweight</span>(<span class="hljs-params">Car sharedState</span>)</span><br>        &#123;<br>            <span class="hljs-built_in">string</span> key = <span class="hljs-keyword">this</span>.getKey(sharedState);<br><br>            <span class="hljs-keyword">if</span> (flyweights.Where(t =&gt; t.Item2 == key).Count() == <span class="hljs-number">0</span>)<br>            &#123;<br>                Console.WriteLine(<span class="hljs-string">&quot;FlyweightFactory: Can&#x27;t find a flyweight, creating new one.&quot;</span>);<br>                <span class="hljs-keyword">this</span>.flyweights.Add(<span class="hljs-keyword">new</span> Tuple&lt;Flyweight, <span class="hljs-built_in">string</span>&gt;(<span class="hljs-keyword">new</span> Flyweight(sharedState), key));<br>            &#125;<br>            <span class="hljs-keyword">else</span><br>            &#123;<br>                Console.WriteLine(<span class="hljs-string">&quot;FlyweightFactory: Reusing existing flyweight.&quot;</span>);<br>            &#125;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.flyweights.Where(t =&gt; t.Item2 == key).FirstOrDefault().Item1;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">listFlyweights</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">var</span> count = flyweights.Count;<br>            Console.WriteLine(<span class="hljs-string">$&quot;\nFlyweightFactory: I have <span class="hljs-subst">&#123;count&#125;</span> flyweights:&quot;</span>);<br>            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> flyweight <span class="hljs-keyword">in</span> flyweights)<br>            &#123;<br>                Console.WriteLine(flyweight.Item2);<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Car</span><br>    &#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Owner &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Number &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Company &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Model &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Color &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] args</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">var</span> factory = <span class="hljs-keyword">new</span> FlyweightFactory(<br>                <span class="hljs-keyword">new</span> Car &#123; Company = <span class="hljs-string">&quot;Chevrolet&quot;</span>, Model = <span class="hljs-string">&quot;Camaro2018&quot;</span>, Color = <span class="hljs-string">&quot;pink&quot;</span> &#125;,<br>                <span class="hljs-keyword">new</span> Car &#123; Company = <span class="hljs-string">&quot;Mercedes Benz&quot;</span>, Model = <span class="hljs-string">&quot;C300&quot;</span>, Color = <span class="hljs-string">&quot;black&quot;</span> &#125;,<br>                <span class="hljs-keyword">new</span> Car &#123; Company = <span class="hljs-string">&quot;Mercedes Benz&quot;</span>, Model = <span class="hljs-string">&quot;C500&quot;</span>, Color = <span class="hljs-string">&quot;red&quot;</span> &#125;,<br>                <span class="hljs-keyword">new</span> Car &#123; Company = <span class="hljs-string">&quot;BMW&quot;</span>, Model = <span class="hljs-string">&quot;M5&quot;</span>, Color = <span class="hljs-string">&quot;red&quot;</span> &#125;,<br>                <span class="hljs-keyword">new</span> Car &#123; Company = <span class="hljs-string">&quot;BMW&quot;</span>, Model = <span class="hljs-string">&quot;X6&quot;</span>, Color = <span class="hljs-string">&quot;white&quot;</span> &#125;<br>            );<br>            factory.listFlyweights();<br><br>            addCarToPoliceDatabase(factory, <span class="hljs-keyword">new</span> Car &#123;<br>                Number = <span class="hljs-string">&quot;CL234IR&quot;</span>,<br>                Owner = <span class="hljs-string">&quot;James Doe&quot;</span>,<br>                Company = <span class="hljs-string">&quot;BMW&quot;</span>,<br>                Model = <span class="hljs-string">&quot;M5&quot;</span>,<br>                Color = <span class="hljs-string">&quot;red&quot;</span><br>            &#125;);<br><br>            addCarToPoliceDatabase(factory, <span class="hljs-keyword">new</span> Car &#123;<br>                Number = <span class="hljs-string">&quot;CL234IR&quot;</span>,<br>                Owner = <span class="hljs-string">&quot;James Doe&quot;</span>,<br>                Company = <span class="hljs-string">&quot;BMW&quot;</span>,<br>                Model = <span class="hljs-string">&quot;X1&quot;</span>,<br>                Color = <span class="hljs-string">&quot;red&quot;</span><br>            &#125;);<br><br>            factory.listFlyweights();<br>            <span class="hljs-comment">// output</span><br><br>            <span class="hljs-comment">// FlyweightFactory: I have 5 flyweights:</span><br>            <span class="hljs-comment">// Camaro2018_Chevrolet_pink</span><br>            <span class="hljs-comment">// black_C300_Mercedes Benz</span><br>            <span class="hljs-comment">// C500_Mercedes Benz_red</span><br>            <span class="hljs-comment">// BMW_M5_red</span><br>            <span class="hljs-comment">// BMW_white_X6</span><br><br>            <span class="hljs-comment">// Client: Adding a car to database.</span><br>            <span class="hljs-comment">// FlyweightFactory: Reusing existing flyweight.</span><br>            <span class="hljs-comment">// Flyweight: Displaying shared &#123;&quot;Owner&quot;:null,&quot;Number&quot;:null,&quot;Company&quot;:&quot;BMW&quot;,&quot;Model&quot;:&quot;M5&quot;,&quot;Color&quot;:&quot;red&quot;&#125; and unique &#123;&quot;Owner&quot;:&quot;James Doe&quot;,&quot;Number&quot;:&quot;CL234IR&quot;,&quot;Company&quot;:&quot;BMW&quot;,&quot;Model&quot;:&quot;M5&quot;,&quot;Color&quot;:&quot;red&quot;&#125; state.</span><br><br>            <span class="hljs-comment">// Client: Adding a car to database.</span><br>            <span class="hljs-comment">// FlyweightFactory: Can&#x27;t find a flyweight, creating new one.</span><br>            <span class="hljs-comment">// Flyweight: Displaying shared &#123;&quot;Owner&quot;:null,&quot;Number&quot;:null,&quot;Company&quot;:&quot;BMW&quot;,&quot;Model&quot;:&quot;X1&quot;,&quot;Color&quot;:&quot;red&quot;&#125; and unique &#123;&quot;Owner&quot;:&quot;James Doe&quot;,&quot;Number&quot;:&quot;CL234IR&quot;,&quot;Company&quot;:&quot;BMW&quot;,&quot;Model&quot;:&quot;X1&quot;,&quot;Color&quot;:&quot;red&quot;&#125; state.</span><br><br>            <span class="hljs-comment">// FlyweightFactory: I have 6 flyweights:</span><br>            <span class="hljs-comment">// Camaro2018_Chevrolet_pink</span><br>            <span class="hljs-comment">// black_C300_Mercedes Benz</span><br>            <span class="hljs-comment">// C500_Mercedes Benz_red</span><br>            <span class="hljs-comment">// BMW_M5_red</span><br>            <span class="hljs-comment">// BMW_white_X6</span><br>            <span class="hljs-comment">// BMW_red_X1</span><br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addCarToPoliceDatabase</span>(<span class="hljs-params">FlyweightFactory factory, Car car</span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;\nClient: Adding a car to database.&quot;</span>);<br><br>            <span class="hljs-keyword">var</span> flyweight = factory.GetFlyweight(<span class="hljs-keyword">new</span> Car &#123;<br>                Color = car.Color,<br>                Model = car.Model,<br>                Company = car.Company<br>            &#125;);<br><br>            flyweight.Operation(car);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                </div>
+            </div>
+    
+            <nav class="post-pagination">
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%97%A8%E9%9D%A2/">
+        Next post<br>设计模式-门面
+    </a>
+    
+</nav>
+
+    
+            
+
+
+        </div>
+    </div>
+    <div class="single-column-footer">
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?15469158"></script>
+
+
+
+</body>
+</html>
