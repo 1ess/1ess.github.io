@@ -6,7 +6,7 @@
   <link href="https://1ess.github.io/atom.xml" rel="self"/>
   
   <link href="https://1ess.github.io/"/>
-  <updated>2022-02-17T06:22:23.182Z</updated>
+  <updated>2022-02-17T10:07:58.920Z</updated>
   <id>https://1ess.github.io/</id>
   
   <author>
@@ -17,11 +17,33 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>设计模式-责任链</title>
+    <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%B4%A3%E4%BB%BB%E9%93%BE/"/>
+    <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%B4%A3%E4%BB%BB%E9%93%BE/</id>
+    <published>2022-02-26T00:00:00.000Z</published>
+    <updated>2022-02-17T10:07:58.920Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;责任链模式(Chain of Responsibility Pattern)是一种行为型设计模式，允许你将请求沿着处理者链进行发送。收到请求后，每个处理者均可对请求进行处理，或将其传递给链上的下个处理者。&lt;/p&gt;
+&lt;h2 id=&quot;解释&quot;&gt;&lt;a href=&quot;#解释&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>设计模式-代理</title>
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BB%A3%E7%90%86/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BB%A3%E7%90%86/</id>
     <published>2022-02-25T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.182Z</updated>
+    <updated>2022-02-17T10:07:58.920Z</updated>
     
     
       
@@ -43,7 +65,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%AB%E5%85%83/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%AB%E5%85%83/</id>
     <published>2022-02-24T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.182Z</updated>
+    <updated>2022-02-17T10:07:58.920Z</updated>
     
     
       
@@ -65,7 +87,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%97%A8%E9%9D%A2/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%97%A8%E9%9D%A2/</id>
     <published>2022-02-23T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.920Z</updated>
     
     
       
@@ -87,7 +109,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A3%85%E9%A5%B0%E5%99%A8/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A3%85%E9%A5%B0%E5%99%A8/</id>
     <published>2022-02-22T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.920Z</updated>
     
     
       
@@ -109,7 +131,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88/</id>
     <published>2022-02-21T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.920Z</updated>
     
     
       
@@ -131,7 +153,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5/</id>
     <published>2022-02-20T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.920Z</updated>
     
     
       
@@ -153,7 +175,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%80%82%E9%85%8D%E5%99%A8/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%80%82%E9%85%8D%E5%99%A8/</id>
     <published>2022-02-19T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.920Z</updated>
     
     
       
@@ -175,7 +197,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B/</id>
     <published>2022-02-18T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.920Z</updated>
     
     
       
@@ -197,7 +219,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B/</id>
     <published>2022-02-17T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.920Z</updated>
     
     
       
@@ -219,7 +241,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%94%9F%E6%88%90%E5%99%A8/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%94%9F%E6%88%90%E5%99%A8/</id>
     <published>2022-02-16T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.916Z</updated>
     
     
       
@@ -241,7 +263,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82/</id>
     <published>2022-02-15T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.916Z</updated>
     
     
       
@@ -263,7 +285,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95/</id>
     <published>2022-02-14T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.916Z</updated>
     
     
       
@@ -285,7 +307,7 @@
     <link href="https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A6%82%E8%BF%B0/"/>
     <id>https://1ess.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A6%82%E8%BF%B0/</id>
     <published>2022-02-13T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.916Z</updated>
     
     
       
@@ -308,7 +330,7 @@
     <link href="https://1ess.github.io/Synchronous%20and%20Asynchronous%20Blocking%20and%20Non-Blocking/"/>
     <id>https://1ess.github.io/Synchronous%20and%20Asynchronous%20Blocking%20and%20Non-Blocking/</id>
     <published>2022-02-12T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.916Z</updated>
     
     
       
@@ -330,7 +352,7 @@
     <link href="https://1ess.github.io/SQL%20%E7%BB%8F%E5%85%B8%E7%BB%83%E4%B9%A0%E9%A2%98/"/>
     <id>https://1ess.github.io/SQL%20%E7%BB%8F%E5%85%B8%E7%BB%83%E4%B9%A0%E9%A2%98/</id>
     <published>2022-02-10T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.916Z</updated>
     
     
       
@@ -352,7 +374,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%8D%81%E4%B8%80)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%8D%81%E4%B8%80)/</id>
     <published>2022-02-05T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.916Z</updated>
     
     
       
@@ -374,7 +396,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%8D%81)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%8D%81)/</id>
     <published>2022-02-04T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.916Z</updated>
     
     
       
@@ -397,7 +419,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B9%9D)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B9%9D)/</id>
     <published>2022-02-03T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.916Z</updated>
     
     
       
@@ -419,7 +441,7 @@
     <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%85%AB)/"/>
     <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E5%85%AB)/</id>
     <published>2022-02-02T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
+    <updated>2022-02-17T10:07:58.916Z</updated>
     
     
       
@@ -428,27 +450,6 @@
         
     <summary type="html">&lt;p&gt;分布式系统与在单节点上的软件有着非常显著的区别，你会碰到五花八门、千奇百怪的问题所导致的各种故障。本章我们将了解这些实践中所出现的问题，充分认识眼前的挑战。&lt;/p&gt;
 &lt;p&gt;作为开发者，我们的核心任务是&lt;strong&gt;构建可靠的系统&lt;/strong&gt;，即使系统面临各种出错可能</summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>『数据密集型应用系统设计』读书笔记(七)</title>
-    <link href="https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%83)/"/>
-    <id>https://1ess.github.io/%E3%80%8E%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0(%E4%B8%83)/</id>
-    <published>2022-01-30T00:00:00.000Z</published>
-    <updated>2022-02-17T06:22:23.178Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;在一个苛刻的数据存储环境中，会有许多可能出错的情况:</summary>
         
       
     
