@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>设计模式-命令 - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="命令模式(Command Pattern)是一种行为型设计模式，它可将请求转换为一个包含与请求相关的所有信息的独立对象。该转换让你能根据不同的请求将方法参...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?64725671">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper"
+                 style="background-image: url('https://cdn.jsdelivr.net/gh/1ess/cdn/blogImg/Blog220.png')">
+                <div class="post-title">
+                    设计模式-命令
+                    <div class="post-meta">
+                        <time datetime="2022-02-27T00:00:00.000Z" itemprop="datePublished">
+                            2022-02-27
+                        </time>&nbsp;
+                        
+    
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>命令模式(Command Pattern)是一种行为型设计模式，它可将请求转换为一个包含与请求相关的所有信息的独立对象。该转换让你能根据不同的请求将方法参数化、 延迟请求执行或将其放入队列中，且能实现可撤销操作。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><hr>
+<p>优秀的软件设计通常会将关注点进行分离，而这往往会导致软件的分层。<br>最常见的例子: 一层负责用户图像界面，另一层负责业务逻辑。GUI 层负责在屏幕上渲染图形，捕获所有输入并显示用户和程序工作的结果。用户操作时，GUI 层会将工作委派给业务逻辑底层处理。<br>代码中的结构为: 一个 GUI 对象传递一些参数来调用一个业务逻辑对象。这个过程通常被描述为一个对象发送请求给另一个对象。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp14-1.png"></p>
+<p>命令模式建议 GUI 对象不直接提交这些请求。你应该将请求的所有细节抽取出来组成命令类，该类中仅包含一个用于触发请求的方法。命令对象负责连接不同的 GUI 和业务逻辑对象。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp14-2.png"></p>
+<p>下一步是让所有命令实现相同的接口。该接口通常只有一个没有任何参数的执行方法，让你能在不和具体命令类耦合的情况下使用同一请求发送者执行不同命令。</p>
+<p>GUI 对象可以给业务层对象提供一些参数。但执行命令方法没有任何参数，所以我们如何将请求的详情发送给接收者呢？答案是: 使用数据对命令进行预先配置，或者让其能够自行获取数据。</p>
+<p>命令成为了减少 GUI 和业务逻辑层之间耦合的中间层。 </p>
+<h2 id="命令模式-UML"><a href="#命令模式-UML" class="headerlink" title="命令模式 UML"></a>命令模式 UML</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp14-3.png"></p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><hr>
+<ol>
+<li>如果你需要通过操作来参数化对象，可使用命令模式</li>
+<li>如果你想要将操作放入队列中、操作的执行或者远程执行操作，可使用命令模式</li>
+<li>如果你想要实现操作回滚功能，可使用命令模式</li>
+</ol>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><hr>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title">CommandPatternDemo</span> <br>&#123;<br>     <span class="hljs-comment">// The Command interface declares a method for executing a command.</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">ICommand</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Execute</span>(<span class="hljs-params"></span>)</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// Some commands can implement simple operations on their own.</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">SimpleCommand</span> : <span class="hljs-title">ICommand</span><br>    &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> _payload = <span class="hljs-built_in">string</span>.Empty;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SimpleCommand</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> payload</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._payload = payload;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Execute</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">$&quot;SimpleCommand: See, I can do simple things like printing (<span class="hljs-subst">&#123;<span class="hljs-keyword">this</span>._payload&#125;</span>)&quot;</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// However, some commands can delegate more complex operations to other</span><br>    <span class="hljs-comment">// objects, called &quot;receivers.&quot;</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">ComplexCommand</span> : <span class="hljs-title">ICommand</span><br>    &#123;<br>        <span class="hljs-keyword">private</span> Receiver _receiver;<br><br>        <span class="hljs-comment">// Context data, required for launching the receiver&#x27;s methods.</span><br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> _a;<br><br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> _b;<br><br>        <span class="hljs-comment">// Complex commands can accept one or several receiver objects along</span><br>        <span class="hljs-comment">// with any context data via the constructor.</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ComplexCommand</span>(<span class="hljs-params">Receiver receiver, <span class="hljs-built_in">string</span> a, <span class="hljs-built_in">string</span> b</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._receiver = receiver;<br>            <span class="hljs-keyword">this</span>._a = a;<br>            <span class="hljs-keyword">this</span>._b = b;<br>        &#125;<br><br>        <span class="hljs-comment">// Commands can delegate to any methods of a receiver.</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Execute</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;ComplexCommand: Complex stuff should be done by a receiver object.&quot;</span>);<br>            <span class="hljs-keyword">this</span>._receiver.DoSomething(<span class="hljs-keyword">this</span>._a);<br>            <span class="hljs-keyword">this</span>._receiver.DoSomethingElse(<span class="hljs-keyword">this</span>._b);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// The Receiver classes contain some important business logic. They know how</span><br>    <span class="hljs-comment">// to perform all kinds of operations, associated with carrying out a</span><br>    <span class="hljs-comment">// request. In fact, any class may serve as a Receiver.</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Receiver</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DoSomething</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> a</span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">$&quot;Receiver: Working on (<span class="hljs-subst">&#123;a&#125;</span>.)&quot;</span>);<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DoSomethingElse</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> b</span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">$&quot;Receiver: Also working on (<span class="hljs-subst">&#123;b&#125;</span>.)&quot;</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// The Invoker is associated with one or several commands. It sends a</span><br>    <span class="hljs-comment">// request to the command.</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Invoker</span><br>    &#123;<br>        <span class="hljs-keyword">private</span> ICommand _onStart;<br><br>        <span class="hljs-keyword">private</span> ICommand _onFinish;<br><br>        <span class="hljs-comment">// Initialize commands.</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">SetOnStart</span>(<span class="hljs-params">ICommand command</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._onStart = command;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">SetOnFinish</span>(<span class="hljs-params">ICommand command</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._onFinish = command;<br>        &#125;<br><br>        <span class="hljs-comment">// The Invoker does not depend on concrete command or receiver classes.</span><br>        <span class="hljs-comment">// The Invoker passes a request to a receiver indirectly, by executing a</span><br>        <span class="hljs-comment">// command.</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DoSomethingImportant</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;Invoker: Does anybody want something done before I begin?&quot;</span>);<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._onStart <span class="hljs-keyword">is</span> ICommand)<br>            &#123;<br>                <span class="hljs-keyword">this</span>._onStart.Execute();<br>            &#125;<br>            <br>            Console.WriteLine(<span class="hljs-string">&quot;Invoker: ...doing something really important...&quot;</span>);<br>            <br>            Console.WriteLine(<span class="hljs-string">&quot;Invoker: Does anybody want something done after I finish?&quot;</span>);<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._onFinish <span class="hljs-keyword">is</span> ICommand)<br>            &#123;<br>                <span class="hljs-keyword">this</span>._onFinish.Execute();<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] args</span>)</span><br>        &#123;<br>            <span class="hljs-comment">// The client code can parameterize an invoker with any commands.</span><br>            Invoker invoker = <span class="hljs-keyword">new</span> Invoker();<br>            invoker.SetOnStart(<span class="hljs-keyword">new</span> SimpleCommand(<span class="hljs-string">&quot;Say Hi!&quot;</span>));<br>            Receiver receiver = <span class="hljs-keyword">new</span> Receiver();<br>            invoker.SetOnFinish(<span class="hljs-keyword">new</span> ComplexCommand(receiver, <span class="hljs-string">&quot;Send email&quot;</span>, <span class="hljs-string">&quot;Save report&quot;</span>));<br><br>            invoker.DoSomethingImportant();<br>            <span class="hljs-comment">// output </span><br><br>            <span class="hljs-comment">// Invoker: Does anybody want something done before I begin?</span><br>            <span class="hljs-comment">// SimpleCommand: See, I can do simple things like printing (Say Hi!)</span><br>            <span class="hljs-comment">// Invoker: ...doing something really important...</span><br>            <span class="hljs-comment">// Invoker: Does anybody want something done after I finish?</span><br>            <span class="hljs-comment">// ComplexCommand: Complex stuff should be done by a receiver object.</span><br>            <span class="hljs-comment">// Receiver: Working on (Send email.)</span><br>            <span class="hljs-comment">// Receiver: Also working on (Save report.)</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                </div>
+            </div>
+    
+            <nav class="post-pagination">
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%B4%A3%E4%BB%BB%E9%93%BE/">
+        Next post<br>设计模式-责任链
+    </a>
+    
+</nav>
+
+    
+            
+
+
+        </div>
+    </div>
+    <div class="single-column-footer">
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?57002716"></script>
+
+
+
+</body>
+</html>
