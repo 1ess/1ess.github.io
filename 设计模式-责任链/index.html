@@ -20,7 +20,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?1092115">
+<link rel="stylesheet" href="/css/journal.css?69796841">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -177,8 +177,8 @@
 <p>与许多其他行为设计模式一样，责任链会将特定行为转换为被称作处理者的独立对象。<br>模式建议你将这些处理者连成一条链。链上的每个处理者都有一个成员变量来保存对于下一处理者的引用。除了处理请求外，处理者还负责沿着链传递请求。请求会在链上移动，直至所有处理者都有机会对其进行处理。</p>
 <p>最重要的是: <strong>处理者可以决定不再沿着链传递请求，这可高效地取消所有后续处理步骤</strong>。</p>
 <p>不过还有一种稍微不同的方式(也是更经典一种)，那就是处理者接收到请求后自行决定是否能够对其进行处理。如果自己能够处理，处理者就不再继续传递请求。因此在这种情况下，每个请求要么最多有一个处理者对其进行处理，要么没有任何处理者对其进行处理。在处理图形用户界面元素栈中的事件时，这种方式非常常见。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp13-1.png"></p>
-<h2 id="代理模式-UML"><a href="#代理模式-UML" class="headerlink" title="代理模式 UML"></a>代理模式 UML</h2><hr>
-<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp12-1.png"></p>
+<h2 id="责任链模式-UML"><a href="#责任链模式-UML" class="headerlink" title="责任链模式 UML"></a>责任链模式 UML</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp13-2.png"></p>
 <h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><hr>
 <ol>
 <li>当程序需要使用不同方式处理不同种类请求，而且请求类型和顺序预先未知时，可以使用责任链模式</li>
@@ -226,7 +226,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?18647691"></script>
+<script src="/js/journal.js?53211396"></script>
 
 
 
