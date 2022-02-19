@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>设计模式-迭代器 - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="迭代器模式(Iterator Pattern)是一种行为型设计模式，让你能在不暴露集合底层表现形式(列表、栈和树等)的情况下遍历集合中所有的元素。
+解释
+...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?96632435">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper"
+                 style="background-image: url('https://cdn.jsdelivr.net/gh/1ess/cdn/blogImg/Blog221.png')">
+                <div class="post-title">
+                    设计模式-迭代器
+                    <div class="post-meta">
+                        <time datetime="2022-02-28T00:00:00.000Z" itemprop="datePublished">
+                            2022-02-28
+                        </time>&nbsp;
+                        
+    
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>迭代器模式(Iterator Pattern)是一种行为型设计模式，让你能在不暴露集合底层表现形式(列表、栈和树等)的情况下遍历集合中所有的元素。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><hr>
+<p>集合是编程中最常使用的数据类型之一。无论集合的构成方式如何，它都必须提供某种访问元素的方式，便于其他代码使用其中的元素。集合应提供一种能够遍历元素的方式，且保证它不会周而复始地访问同一个元素。</p>
+<p>迭代器模式的主要思想是<strong>将集合的遍历行为抽取为单独的迭代器对象</strong>。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp15-1.png"></p>
+<p>除实现自身算法外，迭代器还封装了遍历操作的所有细节，多个迭代器可以在相互独立的情况下同时访问集合。<br>迭代器通常会提供一个获取集合元素的基本方法。客户端可不断调用该方法直至它不返回任何内容，这意味着迭代器已经遍历了所有元素。</p>
+<p>所有迭代器必须实现相同的接口。这样一来，只要有合适的迭代器，客户端代码就能兼容任何类型的集合或遍历算法。如果你需要采用特殊方式来遍历集合，只需创建一个新的迭代器类即可，无需对集合或客户端进行修改。</p>
+<h2 id="迭代器模式-UML"><a href="#迭代器模式-UML" class="headerlink" title="迭代器模式 UML"></a>迭代器模式 UML</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp15-2.png"></p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><hr>
+<ol>
+<li>当集合背后为复杂的数据结构，且你希望对客户端隐藏其复杂性时，可以使用迭代器模式</li>
+<li>使用该模式可以减少程序中重复的遍历代码</li>
+<li>如果你希望代码能够遍历不同的甚至是无法预知的数据结构，可以使用迭代器模式</li>
+</ol>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><hr>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title">IteratorPatternDemo</span> <br>&#123;<br>    <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Iterator</span> : <span class="hljs-title">IEnumerator</span><br>    &#123;<br>        <span class="hljs-built_in">object</span> IEnumerator.Current =&gt; Current();<br><br>        <span class="hljs-comment">// Returns the key of the current element</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-built_in">int</span> <span class="hljs-title">Key</span>(<span class="hljs-params"></span>)</span>;<br>        <br>        <span class="hljs-comment">// Returns the current element</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-built_in">object</span> <span class="hljs-title">Current</span>(<span class="hljs-params"></span>)</span>;<br>        <br>        <span class="hljs-comment">// Move forward to next element</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">MoveNext</span>(<span class="hljs-params"></span>)</span>;<br>        <br>        <span class="hljs-comment">// Rewinds the Iterator to the first element</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Reset</span>(<span class="hljs-params"></span>)</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">IteratorAggregate</span> : <span class="hljs-title">IEnumerable</span><br>    &#123;<br>        <span class="hljs-comment">// Returns an Iterator or another IteratorAggregate for the implementing</span><br>        <span class="hljs-comment">// object.</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> IEnumerator <span class="hljs-title">GetEnumerator</span>(<span class="hljs-params"></span>)</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// Concrete Iterators implement various traversal algorithms. These classes</span><br>    <span class="hljs-comment">// store the current traversal position at all times.</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">AlphabeticalOrderIterator</span> : <span class="hljs-title">Iterator</span><br>    &#123;<br>        <span class="hljs-keyword">private</span> WordsCollection _collection;<br>        <br>        <span class="hljs-comment">// Stores the current traversal position. An iterator may have a lot of</span><br>        <span class="hljs-comment">// other fields for storing iteration state, especially when it is</span><br>        <span class="hljs-comment">// supposed to work with a particular kind of collection.</span><br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">int</span> _position = <span class="hljs-number">-1</span>;<br>        <br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">bool</span> _reverse = <span class="hljs-literal">false</span>;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AlphabeticalOrderIterator</span>(<span class="hljs-params">WordsCollection collection, <span class="hljs-built_in">bool</span> reverse = <span class="hljs-literal">false</span></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._collection = collection;<br>            <span class="hljs-keyword">this</span>._reverse = reverse;<br><br>            <span class="hljs-keyword">if</span> (reverse)<br>            &#123;<br>                <span class="hljs-keyword">this</span>._position = collection.getItems().Count;<br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">object</span> <span class="hljs-title">Current</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._collection.getItems()[_position];<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">int</span> <span class="hljs-title">Key</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._position;<br>        &#125;<br>        <br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">MoveNext</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-built_in">int</span> updatedPosition = <span class="hljs-keyword">this</span>._position + (<span class="hljs-keyword">this</span>._reverse ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>);<br><br>            <span class="hljs-keyword">if</span> (updatedPosition &gt;= <span class="hljs-number">0</span> &amp;&amp; updatedPosition &lt; <span class="hljs-keyword">this</span>._collection.getItems().Count)<br>            &#123;<br>                <span class="hljs-keyword">this</span>._position = updatedPosition;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125;<br>            <span class="hljs-keyword">else</span><br>            &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Reset</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._position = <span class="hljs-keyword">this</span>._reverse ? <span class="hljs-keyword">this</span>._collection.getItems().Count - <span class="hljs-number">1</span> : <span class="hljs-number">0</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// Concrete Collections provide one or several methods for retrieving fresh</span><br>    <span class="hljs-comment">// iterator instances, compatible with the collection class.</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">WordsCollection</span> : <span class="hljs-title">IteratorAggregate</span><br>    &#123;<br>        List&lt;<span class="hljs-built_in">string</span>&gt; _collection = <span class="hljs-keyword">new</span> List&lt;<span class="hljs-built_in">string</span>&gt;();<br>        <br>        <span class="hljs-built_in">bool</span> _direction = <span class="hljs-literal">false</span>;<br>        <br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ReverseDirection</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            _direction = !_direction;<br>        &#125;<br>        <br>        <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">getItems</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> _collection;<br>        &#125;<br>        <br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddItem</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> item</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._collection.Add(item);<br>        &#125;<br>        <br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> IEnumerator <span class="hljs-title">GetEnumerator</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> AlphabeticalOrderIterator(<span class="hljs-keyword">this</span>, _direction);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] args</span>)</span><br>        &#123;<br>            <span class="hljs-comment">// The client code may or may not know about the Concrete Iterator</span><br>            <span class="hljs-comment">// or Collection classes, depending on the level of indirection you</span><br>            <span class="hljs-comment">// want to keep in your program.</span><br>            <span class="hljs-keyword">var</span> collection = <span class="hljs-keyword">new</span> WordsCollection();<br>            collection.AddItem(<span class="hljs-string">&quot;First&quot;</span>);<br>            collection.AddItem(<span class="hljs-string">&quot;Second&quot;</span>);<br>            collection.AddItem(<span class="hljs-string">&quot;Third&quot;</span>);<br><br>            Console.WriteLine(<span class="hljs-string">&quot;Straight traversal:&quot;</span>);<br><br>            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> element <span class="hljs-keyword">in</span> collection)<br>            &#123;<br>                Console.WriteLine(element);<br>            &#125;<br><br>            Console.WriteLine(<span class="hljs-string">&quot;\nReverse traversal:&quot;</span>);<br><br>            collection.ReverseDirection();<br><br>            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> element <span class="hljs-keyword">in</span> collection)<br>            &#123;<br>                Console.WriteLine(element);<br>            &#125;<br>            <span class="hljs-comment">// output</span><br><br>            <span class="hljs-comment">// Straight traversal:</span><br>            <span class="hljs-comment">// First</span><br>            <span class="hljs-comment">// Second</span><br>            <span class="hljs-comment">// Third</span><br><br>            <span class="hljs-comment">// Reverse traversal:</span><br>            <span class="hljs-comment">// Third</span><br>            <span class="hljs-comment">// Second</span><br>            <span class="hljs-comment">// First</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                </div>
+            </div>
+    
+            <nav class="post-pagination">
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%91%BD%E4%BB%A4/">
+        Next post<br>设计模式-命令
+    </a>
+    
+</nav>
+
+    
+            
+
+
+        </div>
+    </div>
+    <div class="single-column-footer">
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?14869253"></script>
+
+
+
+</body>
+</html>
