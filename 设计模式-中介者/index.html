@@ -1,0 +1,228 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>设计模式-中介者 - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="中介者模式(Mediator Pattern)是一种行为型设计模式，能让你减少对象之间混乱无序的依赖关系。该模式会限制对象之间的直接交互，迫使它们通过一个...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?46698745">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper"
+                 style="background-image: url('https://cdn.jsdelivr.net/gh/1ess/cdn/blogImg/Blog222.png')">
+                <div class="post-title">
+                    设计模式-中介者
+                    <div class="post-meta">
+                        <time datetime="2022-03-01T00:00:00.000Z" itemprop="datePublished">
+                            2022-03-01
+                        </time>&nbsp;
+                        
+    
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>中介者模式(Mediator Pattern)是一种行为型设计模式，能让你减少对象之间混乱无序的依赖关系。该模式会限制对象之间的直接交互，迫使它们通过一个中介者对象进行合作。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><hr>
+<p>中介者模式让你能在单个中介者对象中封装多个对象间的复杂关系网。类所拥有的依赖关系越少，就越易于修改、扩展或复用。</p>
+<h2 id="中介者模式-UML"><a href="#中介者模式-UML" class="headerlink" title="中介者模式 UML"></a>中介者模式 UML</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp16-1.png"></p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><hr>
+<ol>
+<li>当一些对象和其他对象紧密耦合以致难以对其进行修改时，可使用中介者模式</li>
+<li>当组件因过于依赖其他组件而无法在不同应用中复用时，可使用中介者模式</li>
+<li>如果为了能在不同情景下复用一些基本行为，导致你需要被迫创建大量组件子类时，可使用中介者模式</li>
+</ol>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><hr>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title">MediatorPatternDemo</span> <br>&#123;<br>    <span class="hljs-comment">// The Mediator interface declares a method used by components to notify the</span><br>    <span class="hljs-comment">// mediator about various events. The Mediator may react to these events and</span><br>    <span class="hljs-comment">// pass the execution to other components.</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IMediator</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Notify</span>(<span class="hljs-params"><span class="hljs-built_in">object</span> sender, <span class="hljs-built_in">string</span> ev</span>)</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// Concrete Mediators implement cooperative behavior by coordinating several</span><br>    <span class="hljs-comment">// components.</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">ConcreteMediator</span> : <span class="hljs-title">IMediator</span><br>    &#123;<br>        <span class="hljs-keyword">private</span> Component1 _component1;<br><br>        <span class="hljs-keyword">private</span> Component2 _component2;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ConcreteMediator</span>(<span class="hljs-params">Component1 component1, Component2 component2</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._component1 = component1;<br>            <span class="hljs-keyword">this</span>._component1.SetMediator(<span class="hljs-keyword">this</span>);<br>            <span class="hljs-keyword">this</span>._component2 = component2;<br>            <span class="hljs-keyword">this</span>._component2.SetMediator(<span class="hljs-keyword">this</span>);<br>        &#125; <br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Notify</span>(<span class="hljs-params"><span class="hljs-built_in">object</span> sender, <span class="hljs-built_in">string</span> ev</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">if</span> (ev == <span class="hljs-string">&quot;A&quot;</span>)<br>            &#123;<br>                Console.WriteLine(<span class="hljs-string">&quot;Mediator reacts on A and triggers folowing operations:&quot;</span>);<br>                <span class="hljs-keyword">this</span>._component2.DoC();<br>            &#125;<br>            <span class="hljs-keyword">if</span> (ev == <span class="hljs-string">&quot;D&quot;</span>)<br>            &#123;<br>                Console.WriteLine(<span class="hljs-string">&quot;Mediator reacts on D and triggers following operations:&quot;</span>);<br>                <span class="hljs-keyword">this</span>._component1.DoB();<br>                <span class="hljs-keyword">this</span>._component2.DoC();<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// The Base Component provides the basic functionality of storing a</span><br>    <span class="hljs-comment">// mediator&#x27;s instance inside component objects.</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">BaseComponent</span><br>    &#123;<br>        <span class="hljs-keyword">protected</span> IMediator _mediator;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">BaseComponent</span>(<span class="hljs-params">IMediator mediator = <span class="hljs-literal">null</span></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._mediator = mediator;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">SetMediator</span>(<span class="hljs-params">IMediator mediator</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._mediator = mediator;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// Concrete Components implement various functionality. They don&#x27;t depend on</span><br>    <span class="hljs-comment">// other components. They also don&#x27;t depend on any concrete mediator</span><br>    <span class="hljs-comment">// classes.</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Component1</span> : <span class="hljs-title">BaseComponent</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DoA</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;Component 1 does A.&quot;</span>);<br><br>            <span class="hljs-keyword">this</span>._mediator.Notify(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;A&quot;</span>);<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DoB</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;Component 1 does B.&quot;</span>);<br><br>            <span class="hljs-keyword">this</span>._mediator.Notify(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;B&quot;</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Component2</span> : <span class="hljs-title">BaseComponent</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DoC</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;Component 2 does C.&quot;</span>);<br><br>            <span class="hljs-keyword">this</span>._mediator.Notify(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;C&quot;</span>);<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DoD</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;Component 2 does D.&quot;</span>);<br><br>            <span class="hljs-keyword">this</span>._mediator.Notify(<span class="hljs-keyword">this</span>, <span class="hljs-string">&quot;D&quot;</span>);<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] args</span>)</span><br>        &#123;<br>            Component1 component1 = <span class="hljs-keyword">new</span> Component1();<br>            Component2 component2 = <span class="hljs-keyword">new</span> Component2();<br>            <span class="hljs-keyword">new</span> ConcreteMediator(component1, component2);<br><br>            Console.WriteLine(<span class="hljs-string">&quot;Client triggets operation A.&quot;</span>);<br>            component1.DoA();<br><br>            Console.WriteLine();<br><br>            Console.WriteLine(<span class="hljs-string">&quot;Client triggers operation D.&quot;</span>);<br>            component2.DoD();<br>            <span class="hljs-comment">// output</span><br><br>            <span class="hljs-comment">// Client triggers operation A.</span><br>            <span class="hljs-comment">// Component 1 does A.</span><br>            <span class="hljs-comment">// Mediator reacts on A and triggers following operations:</span><br>            <span class="hljs-comment">// Component 2 does C.</span><br><br>            <span class="hljs-comment">// Client triggers operation D.</span><br>            <span class="hljs-comment">// Component 2 does D.</span><br>            <span class="hljs-comment">// Mediator reacts on D and triggers following operations:</span><br>            <span class="hljs-comment">// Component 1 does B.</span><br>            <span class="hljs-comment">// Component 2 does C.</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                </div>
+            </div>
+    
+            <nav class="post-pagination">
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%BF%AD%E4%BB%A3%E5%99%A8/">
+        Next post<br>设计模式-迭代器
+    </a>
+    
+</nav>
+
+    
+            
+
+
+        </div>
+    </div>
+    <div class="single-column-footer">
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?90190801"></script>
+
+
+
+</body>
+</html>
