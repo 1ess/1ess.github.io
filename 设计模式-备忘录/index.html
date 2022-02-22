@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>设计模式-备忘录 - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="备忘录模式(Memento Pattern)是一种行为型设计模式，允许在不暴露对象实现细节的情况下保存和恢复对象之前的状态。
+解释
+备忘录模式将创建状态快...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?51924688">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper"
+                 style="background-image: url('https://cdn.jsdelivr.net/gh/1ess/cdn/blogImg/Blog223.png')">
+                <div class="post-title">
+                    设计模式-备忘录
+                    <div class="post-meta">
+                        <time datetime="2022-03-02T00:00:00.000Z" itemprop="datePublished">
+                            2022-03-02
+                        </time>&nbsp;
+                        
+    
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>备忘录模式(Memento Pattern)是一种行为型设计模式，允许在不暴露对象实现细节的情况下保存和恢复对象之前的状态。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><hr>
+<p>备忘录模式将创建状态快照(Snapshot)的工作委派给实际状态的拥有者原发器(Originator)对象。这样其他对象就不再需要从”外部”复制编辑器状态了，编辑器类拥有其状态的完全访问权，因此可以自行生成快照。</p>
+<p>模式建议将对象状态的副本存储在一个名为备忘录(Memento)的特殊对象中。除了创建备忘录的对象外，任何对象都不能访问备忘录的内容。</p>
+<h2 id="备忘录模式-UML"><a href="#备忘录模式-UML" class="headerlink" title="备忘录模式 UML"></a>备忘录模式 UML</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp17-1.png"></p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><hr>
+<ol>
+<li>当你需要创建对象状态快照来恢复其之前的状态时，可以使用备忘录模式</li>
+<li>当直接访问对象的成员变量、获取器或设置器将导致封装被突破时，可以使用该模式</li>
+</ol>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><hr>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title">MementoPatternDemo</span> <br>&#123;<br>    <span class="hljs-comment">// The Originator holds some important state that may change over time. It</span><br>    <span class="hljs-comment">// also defines a method for saving the state inside a memento and another</span><br>    <span class="hljs-comment">// method for restoring the state from it.</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Originator</span><br>    &#123;<br>        <span class="hljs-comment">// For the sake of simplicity, the originator&#x27;s state is stored inside a</span><br>        <span class="hljs-comment">// single variable.</span><br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> _state;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Originator</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> state</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._state = state;<br>            Console.WriteLine(<span class="hljs-string">&quot;Originator: My initial state is: &quot;</span> + state);<br>        &#125;<br><br>        <span class="hljs-comment">// The Originator&#x27;s business logic may affect its internal state.</span><br>        <span class="hljs-comment">// Therefore, the client should backup the state before launching</span><br>        <span class="hljs-comment">// methods of the business logic via the save() method.</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DoSomething</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;Originator: I&#x27;m doing something important.&quot;</span>);<br>            <span class="hljs-keyword">this</span>._state = <span class="hljs-keyword">this</span>.GenerateRandomString(<span class="hljs-number">30</span>);<br>            Console.WriteLine(<span class="hljs-string">$&quot;Originator: and my state has changed to: <span class="hljs-subst">&#123;_state&#125;</span>&quot;</span>);<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> <span class="hljs-title">GenerateRandomString</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> length = <span class="hljs-number">10</span></span>)</span><br>        &#123;<br>            <span class="hljs-built_in">string</span> allowedSymbols = <span class="hljs-string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>;<br>            <span class="hljs-built_in">string</span> result = <span class="hljs-built_in">string</span>.Empty;<br><br>            <span class="hljs-keyword">while</span> (length &gt; <span class="hljs-number">0</span>)<br>            &#123;<br>                result += allowedSymbols[<span class="hljs-keyword">new</span> Random().Next(<span class="hljs-number">0</span>, allowedSymbols.Length)];<br><br>                Thread.Sleep(<span class="hljs-number">12</span>);<br><br>                length--;<br>            &#125;<br><br>            <span class="hljs-keyword">return</span> result;<br>        &#125;<br><br>        <span class="hljs-comment">// Saves the current state inside a memento.</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> IMemento <span class="hljs-title">Save</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ConcreteMemento(<span class="hljs-keyword">this</span>._state);<br>        &#125;<br><br>        <span class="hljs-comment">// Restores the Originator&#x27;s state from a memento object.</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Restore</span>(<span class="hljs-params">IMemento memento</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">if</span> (!(memento <span class="hljs-keyword">is</span> ConcreteMemento))<br>            &#123;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;Unknown memento class &quot;</span> + memento.ToString());<br>            &#125;<br><br>            <span class="hljs-keyword">this</span>._state = memento.GetState();<br>            Console.Write(<span class="hljs-string">$&quot;Originator: My state has changed to: <span class="hljs-subst">&#123;_state&#125;</span>&quot;</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// The Memento interface provides a way to retrieve the memento&#x27;s metadata,</span><br>    <span class="hljs-comment">// such as creation date or name. However, it doesn&#x27;t expose the</span><br>    <span class="hljs-comment">// Originator&#x27;s state.</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IMemento</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">GetName</span>(<span class="hljs-params"></span>)</span>;<br><br>        <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">GetState</span>(<span class="hljs-params"></span>)</span>;<br><br>        <span class="hljs-function">DateTime <span class="hljs-title">GetDate</span>(<span class="hljs-params"></span>)</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// The Concrete Memento contains the infrastructure for storing the</span><br>    <span class="hljs-comment">// Originator&#x27;s state.</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">ConcreteMemento</span> : <span class="hljs-title">IMemento</span><br>    &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> _state;<br><br>        <span class="hljs-keyword">private</span> DateTime _date;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ConcreteMemento</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> state</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._state = state;<br>            <span class="hljs-keyword">this</span>._date = DateTime.Now;<br>        &#125;<br><br>        <span class="hljs-comment">// The Originator uses this method when restoring its state.</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> <span class="hljs-title">GetState</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._state;<br>        &#125;<br>        <br>        <span class="hljs-comment">// The rest of the methods are used by the Caretaker to display</span><br>        <span class="hljs-comment">// metadata.</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> <span class="hljs-title">GetName</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">$&quot;<span class="hljs-subst">&#123;<span class="hljs-keyword">this</span>._date&#125;</span> / (<span class="hljs-subst">&#123;<span class="hljs-keyword">this</span>._state.Substring(<span class="hljs-number">0</span>, <span class="hljs-number">9</span>)&#125;</span>)...&quot;</span>;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> DateTime <span class="hljs-title">GetDate</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._date;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// The Caretaker doesn&#x27;t depend on the Concrete Memento class. Therefore, it</span><br>    <span class="hljs-comment">// doesn&#x27;t have access to the originator&#x27;s state, stored inside the memento.</span><br>    <span class="hljs-comment">// It works with all mementos via the base Memento interface.</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Caretaker</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">List</span>&lt;<span class="hljs-title">IMemento</span>&gt; _mementos</span> = <span class="hljs-keyword">new</span> List&lt;IMemento&gt;();<br><br>        <span class="hljs-keyword">private</span> Originator _originator = <span class="hljs-literal">null</span>;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Caretaker</span>(<span class="hljs-params">Originator originator</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">this</span>._originator = originator;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Backup</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;\nCaretaker: Saving Originator&#x27;s state...&quot;</span>);<br>            <span class="hljs-keyword">this</span>._mementos.Add(<span class="hljs-keyword">this</span>._originator.Save());<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Undo</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._mementos.Count == <span class="hljs-number">0</span>)<br>            &#123;<br>                <span class="hljs-keyword">return</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">var</span> memento = <span class="hljs-keyword">this</span>._mementos.Last();<br>            <span class="hljs-keyword">this</span>._mementos.Remove(memento);<br><br>            Console.WriteLine(<span class="hljs-string">&quot;Caretaker: Restoring state to: &quot;</span> + memento.GetName());<br><br>            <span class="hljs-keyword">try</span><br>            &#123;<br>                <span class="hljs-keyword">this</span>._originator.Restore(memento);<br>            &#125;<br>            catch (Exception)<br>            &#123;<br>                <span class="hljs-keyword">this</span>.Undo();<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ShowHistory</span>(<span class="hljs-params"></span>)</span><br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;Caretaker: Here&#x27;s the list of mementos:&quot;</span>);<br><br>            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> memento <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>._mementos)<br>            &#123;<br>                Console.WriteLine(memento.GetName());<br>            &#125;<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>    &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] args</span>)</span><br>        &#123;<br>            <span class="hljs-comment">// Client code.</span><br>            Originator originator = <span class="hljs-keyword">new</span> Originator(<span class="hljs-string">&quot;Super-duper-super-puper-super.&quot;</span>);<br>            Caretaker caretaker = <span class="hljs-keyword">new</span> Caretaker(originator);<br><br>            caretaker.Backup();<br>            originator.DoSomething();<br><br>            caretaker.Backup();<br>            originator.DoSomething();<br><br>            caretaker.Backup();<br>            originator.DoSomething();<br><br>            Console.WriteLine();<br>            caretaker.ShowHistory();<br><br>            Console.WriteLine(<span class="hljs-string">&quot;\nClient: Now, let&#x27;s rollback!\n&quot;</span>);<br>            caretaker.Undo();<br><br>            Console.WriteLine(<span class="hljs-string">&quot;\n\nClient: Once more!\n&quot;</span>);<br>            caretaker.Undo();<br><br>            Console.WriteLine();<br>            <span class="hljs-comment">// output</span><br><br>            <span class="hljs-comment">// Originator: My initial state is: Super-duper-super-puper-super.</span><br><br>            <span class="hljs-comment">// Caretaker: Saving Originator&#x27;s state...</span><br>            <span class="hljs-comment">// Originator: I&#x27;m doing something important.</span><br>            <span class="hljs-comment">// Originator: and my state has changed to: oGyQIIatlDDWNgYYqJATTmdwnnGZQj</span><br><br>            <span class="hljs-comment">// Caretaker: Saving Originator&#x27;s state...</span><br>            <span class="hljs-comment">// Originator: I&#x27;m doing something important.</span><br>            <span class="hljs-comment">// Originator: and my state has changed to: jBtMDDWogzzRJbTTmEwOOhZrjjBULe</span><br><br>            <span class="hljs-comment">// Caretaker: Saving Originator&#x27;s state...</span><br>            <span class="hljs-comment">// Originator: I&#x27;m doing something important.</span><br>            <span class="hljs-comment">// Originator: and my state has changed to: exoHyyRkbuuNEXOhhArKccUmexPPHZ</span><br><br>            <span class="hljs-comment">// Caretaker: Here&#x27;s the list of mementos:</span><br>            <span class="hljs-comment">// 12.06.2018 15:52:45 / (Super-dup...)</span><br>            <span class="hljs-comment">// 12.06.2018 15:52:46 / (oGyQIIatl...)</span><br>            <span class="hljs-comment">// 12.06.2018 15:52:46 / (jBtMDDWog...)</span><br><br>            <span class="hljs-comment">// Client: Now, let&#x27;s rollback!</span><br><br>            <span class="hljs-comment">// Caretaker: Restoring state to: 12.06.2018 15:52:46 / (jBtMDDWog...)</span><br>            <span class="hljs-comment">// Originator: My state has changed to: jBtMDDWogzzRJbTTmEwOOhZrjjBULe</span><br><br>            <span class="hljs-comment">// Client: Once more!</span><br><br>            <span class="hljs-comment">// Caretaker: Restoring state to: 12.06.2018 15:52:46 / (oGyQIIatl...)</span><br>            <span class="hljs-comment">// Originator: My state has changed to: oGyQIIatlDDWNgYYqJATTmdwnnGZQj</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                </div>
+            </div>
+    
+            <nav class="post-pagination">
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%AD%E4%BB%8B%E8%80%85/">
+        Next post<br>设计模式-中介者
+    </a>
+    
+</nav>
+
+    
+            
+
+
+        </div>
+    </div>
+    <div class="single-column-footer">
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?13594194"></script>
+
+
+
+</body>
+</html>
