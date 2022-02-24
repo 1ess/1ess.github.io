@@ -4,12 +4,12 @@
 <html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Nginx(五) - A Sort Of A Blog</title>
+    <title>LeetCode-Longest Substring Without Repeating Characters - A Sort Of A Blog</title>
 <meta charset="utf-8">
 <meta name="X-UA-Compatible" content="IE=edge">
 <meta name="author" content="Stephen Chang">
-<meta name="description" content="本篇，我们来介绍一下 nginx.conf 中的压缩配置 —— gzip。
-在 Nginx 配置文件中可以配置 gzip 的使用，相关指令可以在配置文件的...">
+<meta name="description" content="题目
+Given a string, find the length of the longest substring without repeating...">
 <meta name="keywords" content="">
 
 <link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
@@ -21,7 +21,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?31511202">
+<link rel="stylesheet" href="/css/journal.css?16162822">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -157,12 +157,12 @@
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
             <div class="post-head-wrapper"
-                 style="background-image: url('https://cdn.jsdelivr.net/gh/1ess/cdn/blogImg/Blog129.jpg')">
+                 style="background-image: url('https://cdn.jsdelivr.net/gh/1ess/cdn/blogImg/Blog230.jpg')">
                 <div class="post-title">
-                    Nginx(五)
+                    LeetCode-Longest Substring Without Repeating Characters
                     <div class="post-meta">
-                        <time datetime="2019-09-25T00:00:00.000Z" itemprop="datePublished">
-                            2019-09-25
+                        <time datetime="2022-03-11T00:00:00.000Z" itemprop="datePublished">
+                            2022-03-11
                         </time>&nbsp;
                         
     
@@ -173,53 +173,22 @@
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>本篇，我们来介绍一下 nginx.conf 中的压缩配置 —— gzip。</p>
-<p>在 Nginx 配置文件中可以配置 gzip 的使用，相关指令可以在配置文件的 http 块、server 块或者 location 块中设置。</p>
-<h2 id="gzip-基本指令"><a href="#gzip-基本指令" class="headerlink" title="gzip 基本指令"></a>gzip 基本指令</h2><hr>
-<h3 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h3><p>该指令用于开启或关闭 gzip 功能，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">gzip</span> <span class="hljs-literal">on</span> | <span class="hljs-literal">off</span>;<br></code></pre></td></tr></table></figure>
+                    <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><hr>
+<p>Given a string, find the length of the longest substring without repeating characters.</p>
+<p>Example: </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">Input: <span class="hljs-string">&quot;abcabcbb&quot;</span><br>Output: 3 <br>Explanation: The answer is <span class="hljs-string">&quot;abc&quot;</span>, with the length of 3. <br><br>Input: <span class="hljs-string">&quot;bbbbb&quot;</span><br>Output: 1<br>Explanation: The answer is <span class="hljs-string">&quot;b&quot;</span>, with the length of 1.<br><br>Input: <span class="hljs-string">&quot;pwwkew&quot;</span><br>Output: 3<br>Explanation: The answer is <span class="hljs-string">&quot;wke&quot;</span>, with the length of 3. <br>             Note that the answer must be a substring, <span class="hljs-string">&quot;pwke&quot;</span> is a subsequence and not a substring.<br></code></pre></td></tr></table></figure>
 
-<p>默认情况下，该指令为 off，即不启用 gzip 功能。</p>
-<h3 id="gzip-buffer"><a href="#gzip-buffer" class="headerlink" title="gzip_buffer"></a>gzip_buffer</h3><p>该指令用于设置 gzip 压缩文件使用的缓冲空间大小，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">gzip_buffer</span> &#123;number&#125; &#123;size&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>其中，number 为缓冲空间的个数，size 为每个缓冲空间的大小。默认情况下，number * size 为 128: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">gzip_buffer</span> <span class="hljs-number">32</span> <span class="hljs-number">4K</span> | <span class="hljs-number">16</span> <span class="hljs-number">8K</span>;<br></code></pre></td></tr></table></figure>
-
-<h3 id="gzip-comp-level"><a href="#gzip-comp-level" class="headerlink" title="gzip_comp_level"></a>gzip_comp_level</h3><p>该指令用于设置压缩程度，级别范围是 1 到 9，级别 1 表示压缩程度最高，压缩效率最低，最费时间。语法结构为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">gzip_comp_level</span> &#123;level&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>gzip 的默认压缩级别为 1。</p>
-<h3 id="gzip-min-length"><a href="#gzip-min-length" class="headerlink" title="gzip_min_length"></a>gzip_min_length</h3><p>gzip 功能对大数据的压缩效果明显，但是如果数据很小，可能出现越压缩数据越大的情况。因此，应根据响应的大小选择性开启 gzip 功能。该指令设置响应字节数，当响应字节数大于该值时，才启用 gzip 压缩。</p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">gzip_min_length</span> &#123;length&#125;;<br></code></pre></td></tr></table></figure>
-
-<p>默认设置为 20，我们一般设置为 1K 以上: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">gzip_min_length</span> <span class="hljs-number">1024</span>;<br></code></pre></td></tr></table></figure>
-
-<h3 id="gzip-types"><a href="#gzip-types" class="headerlink" title="gzip_types"></a>gzip_types</h3><p>Nginx 服务器可以根据响应的 MIME 类型选择性地开启 gzip 功能，语法为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">gzip_types</span> &#123;mime_type&#125; ...;<br></code></pre></td></tr></table></figure>
-
-<p>默认 mime_type 变量为 text/html，我们可以设置为 *，表示对所有的数据开启 gzip，我们一般设置为: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">gzip_types</span> text/plain application/x-javascript text/css text/html application/xml;<br></code></pre></td></tr></table></figure>
-
-<h3 id="gzip-vary"><a href="#gzip-vary" class="headerlink" title="gzip_vary"></a>gzip_vary</h3><p>该指令用于设置使用 gzip 功能时，是否发送带有 accept-encoding 的响应字段: </p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">gzip_vary</span> <span class="hljs-literal">on</span> | <span class="hljs-literal">off</span>;<br></code></pre></td></tr></table></figure>
-
-<p>gzip_vary 的默认配置为 off。</p>
-
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><hr>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// solution 1</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> <span class="hljs-title">LengthOfLongestSubstring</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> s</span>)</span> &#123;<br>        <span class="hljs-keyword">var</span> <span class="hljs-keyword">set</span> = <span class="hljs-keyword">new</span> HashSet&lt;<span class="hljs-built_in">char</span>&gt;();<br>        <span class="hljs-keyword">var</span> n = s.Length;<br>        <span class="hljs-keyword">var</span> ans = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">var</span> l = <span class="hljs-number">-1</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">set</span>.Contains(s[i])) &#123;<br>                <span class="hljs-keyword">while</span> (<span class="hljs-keyword">set</span>.Contains(s[i])) &#123;<br>                    <span class="hljs-keyword">set</span>.Remove(s[++l]);<br>                &#125;<br>            &#125;<br>            <span class="hljs-keyword">set</span>.Add(s[i]);<br>            ans = Math.Max(ans, i - l);<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
                 </div>
             </div>
     
             <nav class="post-pagination">
     
-    <a class="newer-posts" href="/Nginx(%E5%85%AD)/">
-        Previous post<br>Nginx(六)
-    </a>
-    
     <span class="page-number"></span>
     
-    <a class="older-posts" href="/Nginx(%E5%9B%9B)/">
-        Next post<br>Nginx(四)
+    <a class="older-posts" href="/LeetCode-Add%20Two%20Numbers/">
+        Next post<br>LeetCode-Add Two Numbers
     </a>
     
 </nav>
@@ -246,7 +215,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?94886015"></script>
+<script src="/js/journal.js?11663721"></script>
 
 
 
