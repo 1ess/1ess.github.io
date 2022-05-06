@@ -22,7 +22,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?48561792">
+<link rel="stylesheet" href="/css/journal.css?82524091">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -204,21 +204,24 @@
 <li>当读写锁被加了读锁时，其他线程对该锁加写锁会阻塞，加读锁会成功。</li>
 </ol>
 <h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><p>自旋锁(SpinLock)，更为通俗的一个词是<strong>忙等待</strong>(busy waiting)，这是与互斥锁最大的区别。自旋锁不会引起线程休眠，当共享资源的状态不满足的时候，自旋锁会不停地循环检测状态。这既是优点也是缺点，不休眠就不会引起上下文切换，但是会比较浪费 CPU 资源。自旋锁的意义在于优化一些短时间的锁。</p>
-<h2 id="锁与数据库隔离级别的关系"><a href="#锁与数据库隔离级别的关系" class="headerlink" title="锁与数据库隔离级别的关系"></a>锁与数据库隔离级别的关系</h2><p>同应用锁一样，数据库锁中最基本的也有读写锁: </p>
+<h2 id="锁与数据库隔离级别的关系"><a href="#锁与数据库隔离级别的关系" class="headerlink" title="锁与数据库隔离级别的关系"></a>锁与数据库隔离级别的关系</h2><p>数据库中有三种并发控制的技术: </p>
+<ul>
+<li>严格的两段锁(2PL): 事务在读任何数据之前需要一个共享锁，而在写之前需要一个排他锁。一个事务所拥有的锁，会一直保持到事务结束时才自动释放。</li>
+<li>多版本并发控制(MVCC): 事务不使用锁控制机制，我们为过去某一时间点的数据库状态保存一个一致的副本，即便在某一固定时间点之后数据库状态发生了改变，我们也可以读到数据库的一个过去的状态。</li>
+<li>乐观并发控制(OCC): 该方法允许多个事务在无阻塞的情况下读或者更新一个数据项。事务会保存自身的读写历史，在一个事务提交前，必须通过检查其读写历史来判断是否发生了隔离性冲突。若发生，则发生冲突的其中一个事务必须回滚。</li>
+</ul>
+<h3 id="两段锁"><a href="#两段锁" class="headerlink" title="两段锁"></a>两段锁</h3><p>同应用锁一样，数据库锁中最基本的也有读写锁: </p>
 <ol>
 <li>共享锁: 又称 S 锁、读锁，事务 A 对一个资源加了 S 锁后其他事务仍能共享读该资源，但不能对其进行写，直到 A 释放锁为止。</li>
 <li>排它锁: 又称 X 锁、写锁，事务 A 对一个资源加了 X 锁后只有 A 本身能对该资源进行读和写操作，其他事务对该资源的读和写操作都将被阻塞，直到 A 释放锁为止</li>
 </ol>
-<p>我们之前讲过，数据库的 4 种隔离级别，分别是: </p>
+<p>2PL 又分为两个阶段：</p>
 <ol>
-<li>READ UNCOMMITTED</li>
-<li>READ COMMITTED</li>
-<li>REPEATABLE READ</li>
-<li>SERIALIZABLE</li>
+<li>Growing: 仅获取锁或者拒绝获取锁的请求</li>
+<li>Shrinking: 只允许释放锁</li>
 </ol>
-<p>一句话解释: <strong>数据库事务不同的隔离级别对锁的使用是不同的，锁的应用最终导致不同事务的隔离级别</strong>。<br>我们还要注意，数据库不同隔离级别的加锁和释放锁的过程由数据库自身来维护，不需要我们人为干涉。<br>还要注意，现代数据库的对于 READ COMMITTED、REPEATABLE READ 两种隔离级别采用 MVCC 策略实现以提升效率。</p>
-<h3 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h3><p>要解决冲突，可以使用完全基于锁的并发控制，比如 2PL，这种方式开销比较高，而且无法避免死锁。因此出现多版本并发控制(MVCC)。是一种用来解决读写冲突的无锁并发控制，在读操作不阻塞写操作，写操作不阻塞读操作的同时，避免了脏读和不可重复读。<br>对于写写冲突，我们可以使用 MVCC + 2PL 进行控制。</p>
-<h3 id="OCC"><a href="#OCC" class="headerlink" title="OCC"></a>OCC</h3><p>乐观并发控制(OCC)是一种用来解决写写冲突的无锁并发控制，先进行修改，在提交事务前，检查一下事务开始后，有没有新提交改变，如果没有就提交，如果有就放弃并重试。</p>
+<h3 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h3><p>要解决冲突，可以使用完全基于锁的并发控制，比如 2PL，这种方式开销比较高，而且无法避免死锁。因此出现多版本并发控制(MVCC)。是一种用来解决读写冲突的无锁并发控制，在读操作不阻塞写操作，写操作不阻塞读操作的同时，避免了脏读和不可重复读。</p>
+<h3 id="OCC"><a href="#OCC" class="headerlink" title="OCC"></a>OCC</h3><p>乐观并发控制(OCC)是一种用来解决写写冲突的无锁并发控制，先进行修改，在提交事务前，检查一下事务开始后，有没有新提交改变，如果没有就提交，如果有就放弃并重试。<br>由于 OCC 避免了锁等待，因此，当事务之间真正发生冲突时将会产生很高的惩罚代价。当冲突频繁发生时，过多的回滚和重试会严重降低性能，这时，OCC 就不是一个好的选择了。</p>
 <h3 id="隔离级别的使用"><a href="#隔离级别的使用" class="headerlink" title="隔离级别的使用"></a>隔离级别的使用</h3><p>对于 READ UNCOMMITTED 和 SERIALIZABLE，我们使用极少，因为对于 READ UNCOMMITTED，可以读到未提交的读，与我们应用事务的初衷不符，基本上不会使用该隔离等级。而对于 SERIALIZABLE 完全基于锁的并发控制，很少有文章会详细介绍 SERIALIZABLE 隔离级别，真相是：对很多数据库来说，Serializable就是个形象工程，在 RC、RR 隔离级别下，不带 for share (lock in share mode) / for update的 select 称为 plain select，从快照中读取数据的同时，其它线程可以并发写数据到数据库，读写不冲突。而在 SERIALIZABLE 隔离级别下，所有的 select 都会加读写锁，不存在 plain select，读写无法并行。此时数据库的吞吐量和响应时间相比其它弱隔离级别下降很多，访问延迟很难确定。</p>
 <h3 id="不同-SQL-语句对加锁的影响"><a href="#不同-SQL-语句对加锁的影响" class="headerlink" title="不同 SQL 语句对加锁的影响"></a>不同 SQL 语句对加锁的影响</h3><p>不同的 SQL 语句当然会加不同的锁，总结起来主要分为五种情况: </p>
 <ul>
@@ -228,82 +231,6 @@
 <li>常见的 DML 语句(如 INSERT、DELETE、UPDATE)为当前读，加 X 锁；</li>
 <li>常见的 DDL 语句(如 ALTER、CREATE 等)加表级锁，且这些语句为隐式提交，不能回滚。</li>
 </ul>
-<h2 id="单纯使用锁实现不同隔离级别的示例"><a href="#单纯使用锁实现不同隔离级别的示例" class="headerlink" title="单纯使用锁实现不同隔离级别的示例"></a>单纯使用锁实现不同隔离级别的示例</h2><p>我们有如下User表，用于之后的示例: </p>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>age</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>10</td>
-</tr>
-<tr>
-<td>2</td>
-<td>20</td>
-</tr>
-<tr>
-<td>3</td>
-<td>30</td>
-</tr>
-</tbody></table>
-<h3 id="READ-UNCOMMITTED-隔离级别锁"><a href="#READ-UNCOMMITTED-隔离级别锁" class="headerlink" title="READ UNCOMMITTED 隔离级别锁"></a>READ UNCOMMITTED 隔离级别锁</h3><p>READ UNCOMMITTED 规定: </p>
-<ul>
-<li>事务 A 对当前被读取的数据不加锁</li>
-<li>事务 A 开始更新一行数据时，必须先对其加 X 锁，直到事务结束才释放</li>
-</ul>
-<p>示例: </p>
-<ol>
-<li><p>事务 A、B 将数据库修改隔离级别为 READ UNCOMMITTED，事务 A 查询 id 为 3 的用户的 age</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">set</span> session transaction isolation level read uncommitted;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> @<span class="hljs-variable">@TX</span>_ISOLATION<br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span>  @<span class="hljs-variable">@TX</span>_ISOLATION  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span> READ<span class="hljs-operator">-</span>UNCOMMITTED <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">start</span> transaction;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> age <span class="hljs-keyword">from</span> `<span class="hljs-keyword">user</span>` <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>  id  <span class="hljs-operator">|</span>  age  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>   <span class="hljs-number">3</span>  <span class="hljs-operator">|</span>   <span class="hljs-number">30</span>  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br></code></pre></td></tr></table></figure></li>
-<li><p>事务 B 对 id 为 3 的用户的 age 进行更新</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">set</span> session transaction isolation level read uncommitted;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> @<span class="hljs-variable">@TX</span>_ISOLATION<br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span>  @<span class="hljs-variable">@TX</span>_ISOLATION  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span> READ<span class="hljs-operator">-</span>UNCOMMITTED <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">start</span> transaction;<br><br>mysql<span class="hljs-operator">&gt;</span> update `<span class="hljs-keyword">user</span>` <span class="hljs-keyword">set</span> age<span class="hljs-operator">=</span><span class="hljs-number">40</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure></li>
-<li><p>B 事务未提交，在 A 事务中再进行一次查询，发现结果已经被修改</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> age <span class="hljs-keyword">from</span> `<span class="hljs-keyword">user</span>` <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>  id  <span class="hljs-operator">|</span>  age  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>   <span class="hljs-number">3</span>  <span class="hljs-operator">|</span>   <span class="hljs-number">40</span>  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br></code></pre></td></tr></table></figure></li>
-<li><p>在 A 事务中再进行一次更新，发现被阻塞</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> update `<span class="hljs-keyword">user</span>` <span class="hljs-keyword">set</span> age<span class="hljs-operator">=</span><span class="hljs-number">50</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure></li>
-</ol>
-<p>由此可以看出 READ UNCOMMITTED 隔离级别，对于读操作不加锁，写操作加 X 锁，会产生脏读问题。</p>
-<h3 id="READ-COMMITTED-隔离级别锁"><a href="#READ-COMMITTED-隔离级别锁" class="headerlink" title="READ COMMITTED 隔离级别锁"></a>READ COMMITTED 隔离级别锁</h3><p>使用 MVCC 前，READ COMMITTED 隔离级别锁应用为: </p>
-<ul>
-<li>事务 A 对当前被读取的数据加共享锁，一旦读完该行，立即释放该共享锁</li>
-<li>事务 A 在更新某行数据时，必须对其加上排他锁，直到事务结束才释放</li>
-</ul>
-<p>示例: </p>
-<ol>
-<li><p>事务 A、B 将数据库修改隔离级别为 READ COMMITTED，事务 A 查询 id 为 3 的用户的 age</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">set</span> session transaction isolation level read committed;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> @<span class="hljs-variable">@TX</span>_ISOLATION<br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span>  @<span class="hljs-variable">@TX</span>_ISOLATION  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span>  READ<span class="hljs-operator">-</span>COMMITTED  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">start</span> transaction;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> age <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>  id  <span class="hljs-operator">|</span>  age  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>   <span class="hljs-number">3</span>  <span class="hljs-operator">|</span>   <span class="hljs-number">30</span>  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br></code></pre></td></tr></table></figure></li>
-<li><p>事务 B 对 id 为 3 的用户的 age 进行更新</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">set</span> session transaction isolation level read committed;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> @<span class="hljs-variable">@TX</span>_ISOLATION<br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span>  @<span class="hljs-variable">@TX</span>_ISOLATION  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span>  READ<span class="hljs-operator">-</span>COMMITTED  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">start</span> transaction;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> age <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>  id  <span class="hljs-operator">|</span>  age  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>   <span class="hljs-number">3</span>  <span class="hljs-operator">|</span>   <span class="hljs-number">30</span>  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><br>mysql<span class="hljs-operator">&gt;</span> update <span class="hljs-keyword">user</span> <span class="hljs-keyword">set</span> age<span class="hljs-operator">=</span><span class="hljs-number">40</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> age <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>  id  <span class="hljs-operator">|</span>  age  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>   <span class="hljs-number">3</span>  <span class="hljs-operator">|</span>   <span class="hljs-number">40</span>  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br></code></pre></td></tr></table></figure></li>
-<li><p>B 事务未提交，在事务 A 中再进行一次查询，发现被阻塞</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> age <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure></li>
-<li><p>B 事务提交后，在事务 A 中再进行一次查询</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> age <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>  id  <span class="hljs-operator">|</span>  age  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>   <span class="hljs-number">3</span>  <span class="hljs-operator">|</span>   <span class="hljs-number">40</span>  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br></code></pre></td></tr></table></figure></li>
-</ol>
-<p>这个示例也验证了我们如上所说的加锁结果，但是我们会发现一个问题，那就是同一事务读取相同数据的值也可能不同，这个现象称为<strong>不可重复读</strong>。</p>
-<h3 id="REPEATABLE-READ-隔离级别锁"><a href="#REPEATABLE-READ-隔离级别锁" class="headerlink" title="REPEATABLE READ 隔离级别锁"></a>REPEATABLE READ 隔离级别锁</h3><p>使用 MVCC 前，REPEATABLE READ 隔离级别锁应用为: </p>
-<ul>
-<li>事务 A 在读取某行数据时，必须对其加上共享锁，直到事务结束才释放</li>
-<li>事务 A 在更新某行数据时，必须对其加上排他锁，直到事务结束才释放</li>
-</ul>
-<p>事务 A 在加的是共享锁，并且要到事务结束才会释放该锁，也就意味着 A 在两次读取数据期间，事务不能对该数据进行更改，从而解决了不可重复读。</p>
-<p>示例: </p>
-<ol>
-<li><p>事务 A、B 将数据库修改隔离级别为 REPEATABLE READ，事务 A 查询 id 为 3 的用户的 age</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">set</span> session transaction isolation level read committed;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> @<span class="hljs-variable">@TX</span>_ISOLATION<br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span>  @<span class="hljs-variable">@TX</span>_ISOLATION  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span>  READ<span class="hljs-operator">-</span>COMMITTED  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">start</span> transaction;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> age <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>  id  <span class="hljs-operator">|</span>  age  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>   <span class="hljs-number">3</span>  <span class="hljs-operator">|</span>   <span class="hljs-number">30</span>  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br></code></pre></td></tr></table></figure></li>
-<li><p>事务 B 对 id 为 3 的用户的 age 进行更新会阻塞</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">set</span> session transaction isolation level read committed;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> @<span class="hljs-variable">@TX</span>_ISOLATION<br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span>  @<span class="hljs-variable">@TX</span>_ISOLATION  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><span class="hljs-operator">|</span>  READ<span class="hljs-operator">-</span>COMMITTED  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------------+</span><br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">start</span> transaction;<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> age <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>  id  <span class="hljs-operator">|</span>  age  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>   <span class="hljs-number">3</span>  <span class="hljs-operator">|</span>   <span class="hljs-number">30</span>  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><br>mysql<span class="hljs-operator">&gt;</span> update <span class="hljs-keyword">user</span> <span class="hljs-keyword">set</span> age<span class="hljs-operator">=</span><span class="hljs-number">40</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure></li>
-<li><p>B 事务未提交，在事务 A 中再进行一次查询，发现结果未被修改</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> age <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>  id  <span class="hljs-operator">|</span>  age  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br><span class="hljs-operator">|</span>   <span class="hljs-number">3</span>  <span class="hljs-operator">|</span>   <span class="hljs-number">30</span>  <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------+-------+</span><br></code></pre></td></tr></table></figure></li>
-</ol>
-<p>我们从上例也可以看出使用锁进行隔离会影响并发效率，因此产生 MVCC 解决 REPEATABLE READ 下读写冲突问题来提升销量。根据可重复读的原理，其会引入新的问题: <strong>幻读</strong>。</p>
-<h3 id="SERIALIZABLE-隔离级别锁"><a href="#SERIALIZABLE-隔离级别锁" class="headerlink" title="SERIALIZABLE 隔离级别锁"></a>SERIALIZABLE 隔离级别锁</h3><ul>
-<li>事务在读取数据时，必须先对其加表级共享锁(注意这里是表级) ，直到事务结束才释放；</li>
-<li>事务在更新数据时，必须先对其加表级排他锁(注意这里是表级) ，直到事务结束才释放。</li>
-</ul>
-<p>通过在一次操作中对整张表进行加锁，从而其他事务对整张表既不能 insert，也不能 delete，所以不会有行记录的增加或减少，从而保证了当前事务两次读之间数据的一致性，解决了幻读问题。然而根据串行化的原理，其会导致写冲突，因此并发度急剧下降，一般不使用该隔离级别。</p>
 <h3 id="锁的算法"><a href="#锁的算法" class="headerlink" title="锁的算法"></a>锁的算法</h3><ul>
 <li>Record Lock: 单个行记录上的锁</li>
 <li>Gap Lock: 间隙锁，锁定一个范围，但不包含记录本身</li>
@@ -358,7 +285,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?7856031"></script>
+<script src="/js/journal.js?29118485"></script>
 
 
 
