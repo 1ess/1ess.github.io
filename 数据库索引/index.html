@@ -1,0 +1,259 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-tw" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>数据库索引 - A Sort Of A Blog</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Stephen Chang">
+<meta name="description" content="概述
+索引是辅助数据库存储引擎高效获取数据的数据结构。索引是在存储引擎中实现的，每种存储引擎的索引都不完全相同，并且每种存储引擎也不一定支持所有索引类型。...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?83856810">
+
+<script src="/js/loadCSS.js"></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="https://1ess.github.io">
+                Home
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/archives">
+                Archive
+            </a>
+            
+
+            
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            A Sort Of A Blog
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">A Sort Of A Blog</div>
+        <div class="single-column-header-subtitle">旧游无处不堪寻，无寻处，惟有少年心</div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            A Sort Of A Blog
+        </div>
+        <div class="nav-subtitle">
+            旧游无处不堪寻，无寻处，惟有少年心
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            Archive
+        </a>
+        
+
+        
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper-text-only">
+                <div class="post-title">
+                    数据库索引
+                    <div class="post-meta">
+                        <time datetime="2022-05-08T00:00:00.000Z" itemprop="datePublished">
+                            2022-05-08
+                        </time>&nbsp;
+                        
+    
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><hr>
+<p>索引是辅助数据库存储引擎高效获取数据的数据结构。索引是在存储引擎中实现的，每种存储引擎的索引都不完全相同，并且每种存储引擎也不一定支持所有索引类型。<br>例如，MySQL 的 MyISAM 和 InnoDB 存储引擎只支持 B+Tree 索引，而 Memory 存储引擎可以支持 Hash 和 B+Tree 索引。</p>
+<h2 id="底层数据结构"><a href="#底层数据结构" class="headerlink" title="底层数据结构"></a>底层数据结构</h2><hr>
+<h3 id="B-Tree-索引"><a href="#B-Tree-索引" class="headerlink" title="B+Tree 索引"></a>B+Tree 索引</h3><p>B+tree 是基于 Btree 的变体，有点是: </p>
+<ul>
+<li>B+tree 的非叶子结点只包含导航信息，不包含实际的值，因此在内存页中能够存放更多的 key</li>
+<li>B+tree 的所有的叶子结点和相连的节点使用链表相连，因此对整棵树的便利只需要一次线性遍历叶子结点即可</li>
+</ul>
+<h3 id="Hash-索引"><a href="#Hash-索引" class="headerlink" title="Hash 索引"></a>Hash 索引</h3><p>所有的商业数据库系统都实现了 B+Tree 索引。并且 Oracle 和 PostgreSQL 同时都支持等值查找的哈希索引。<br>Hash 索引结构的特殊性，其检索效率非常高，索引的检索可以一次定位。但是 Hash 索引本身由于其特殊性也带来了很多限制和弊端，只要有: </p>
+<ul>
+<li>Hash 索引仅仅能满足”=”、”IN”和”&lt;=&gt;”查询，不能使用范围查询</li>
+<li>Hash 索引遇到大量 Hash 值相等的情况时性能并不一定就会比 B+Tree 索引高</li>
+<li>Hash 索引不能利用部分索引键查询，对于组合索引，Hash 索引在计算 Hash 值的时候是组合索引键合并后再一起计算 Hash 值</li>
+</ul>
+<h3 id="LSMTree"><a href="#LSMTree" class="headerlink" title="LSMTree"></a>LSMTree</h3><p>LSMTree 是最近几年非常流行的存储引擎，全称是 log-structured merge-tree。其核心思想是充分了利用了磁盘批量的顺序写要远比随机写性能高出很多的特点。</p>
+<p>LSMTree 是一种写优化(即牺牲读性能)的数据结构。并且在此设计下，无法对事务有很好的支持。<br>Hbase、Cassandra、Leveldb 和 RocksDB 等数据库均使用了该索引方式。</p>
+<h2 id="MySQL-索引类型"><a href="#MySQL-索引类型" class="headerlink" title="MySQL 索引类型"></a>MySQL 索引类型</h2><hr>
+<p>根据叶子节点是否存储完整数据，将索引可以分为: </p>
+<ul>
+<li>聚簇索引: 完整存储数据</li>
+<li>二级索引: 也称为辅助索引，只存储索引字段和主键索引</li>
+</ul>
+<p>根据字段特性，将索引可以分为: </p>
+<ul>
+<li>主键索引</li>
+<li>唯一索引</li>
+<li>普通索引</li>
+<li>前缀索引</li>
+<li>全文索引</li>
+</ul>
+<p>根据组成索引的字段个数，将索引可以分为: </p>
+<ul>
+<li>单一索引</li>
+<li>复合索引(联合索引)</li>
+</ul>
+<h2 id="索引失效原因"><a href="#索引失效原因" class="headerlink" title="索引失效原因"></a>索引失效原因</h2><hr>
+<ul>
+<li>索引字段进行了隐式转换</li>
+<li>索引字段使用了表达式计算</li>
+<li>索引字段使用了函数</li>
+<li>like 后使用了左模糊匹配</li>
+<li>复合索引不符合最左匹配原则</li>
+</ul>
+
+                </div>
+            </div>
+    
+            <nav class="post-pagination">
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/LeetCode-Regular%20Expression%20Matching/">
+        Next post<br>LeetCode-Regular Expression Matching
+    </a>
+    
+</nav>
+
+    
+            
+
+
+        </div>
+    </div>
+    <div class="single-column-footer">
+    &copy; 2022 <a href="https://1ess.github.io">A Sort Of A Blog</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?25143903"></script>
+
+
+
+</body>
+</html>
