@@ -21,7 +21,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?93169593">
+<link rel="stylesheet" href="/css/journal.css?88606296">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -308,10 +308,10 @@
 <figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> customer_id<br><span class="hljs-keyword">FROM</span> customers<br><span class="hljs-keyword">WHERE</span> a <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;xx&#x27;</span><br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> b;<br></code></pre></td></tr></table></figure>
 
 <p>我们如果看明白下图，本节内容也就明白了。注意我是把 BTREE 转化为列表方便理解记忆。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/sql/165-1.png"></p>
+<p><img src="https://cdn.0xfee1dead.cn/contentImg/sql/165-1.png"></p>
 <h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><p>如果我们的查询只使用索引，而不用触碰表就可以完成，就称为覆盖索引。<br>覆盖索引的条件是，所选字段是索引以及从属索引。<br>我们可以看看是否可以将 WHERE 子句包含进索引，再看看 ORDER BY 子句是否可以包含进索引，最后看 SELECT 子句是否可以包含进索引。</p>
 <h3 id="索引维护"><a href="#索引维护" class="headerlink" title="索引维护"></a>索引维护</h3><p>索引可以显著提升查询效率，但是有优点就会有缺点，我们需要注意处理无用和重复索引。<br>MySQL 不会阻止我们生成重复索引，所以我们在新建索引之前要检查是否已经存在该索引。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/sql/165-2.png"></p>
+<p><img src="https://cdn.0xfee1dead.cn/contentImg/sql/165-2.png"></p>
 <p>要注意: 如果有 (a,b) 索引，(b,a) 和 b 索引都不是无用索引。<br>必须注意: 我们在新建索引之前，一定要检查，是不是可以扩展现有索引。</p>
 
                 </div>
@@ -353,7 +353,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?11376838"></script>
+<script src="/js/journal.js?13598361"></script>
 
 
 

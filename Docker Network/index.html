@@ -20,7 +20,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?62581989">
+<link rel="stylesheet" href="/css/journal.css?23252506">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -213,16 +213,16 @@
 <p>当我们从 box2 中 ping 172.17.0.2(容器 box1)的时候，在 box2 容器里，根据路由规则，数据包从 eth0 转发到 veth 上，该 veth 桥接在了 docker0 上，此时数据包到达了 docker0，docker0 扮演交换机角色并广播 ARP 请求寻找 172.17.0.2 的 mac 地址，而此时的 box1 的另一个 veth 设备桥接在了 docker0 上并收到该 ARP 请求，发现自己是 172.17.0.2，将其 mac 地址回复给 box2，此时的容器 box2 就可以和 box1 进行通讯了，并且在 box2 上可以查看到缓存的 172.17.0.2 的 mac 地址: </p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">/ <span class="hljs-comment"># arp -a</span><br>? (172.17.0.2) at 02:42:ac:11:00:02 [ether]  on eth0<br>? (172.17.0.1) at 02:42:df:95:ed:82 [ether]  on eth0<br></code></pre></td></tr></table></figure>
 
-<img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/docker/container2container.png" width="400px" alt="">
+<img src="https://cdn.0xfee1dead.cn/contentImg/docker/container2container.png" width="400px" alt="">
 
 <h4 id="容器与外部网络通讯"><a href="#容器与外部网络通讯" class="headerlink" title="容器与外部网络通讯"></a>容器与外部网络通讯</h4><p>了解了容器间的通讯，容器与主机间的通讯就容易理解了，如果在容器 box2 ping 与宿主机同一局域网的另一台主机 10.168.0.3，它发出去的数据包经过 docker0 网桥流向宿主机 eth0，eth0 在将数据包转发给与之相通的 10.168.0.3，于是 box2 就能和该主机节点进行通讯了。如果这个地址是公网地址，只要宿主机 eth0 能到达，容器 box2 都能与之通讯。</p>
-<img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/docker/container2Internet.png" width="400px" alt="">
+<img src="https://cdn.0xfee1dead.cn/contentImg/docker/container2Internet.png" width="400px" alt="">
 
 <h4 id="宿主机与容器通讯"><a href="#宿主机与容器通讯" class="headerlink" title="宿主机与容器通讯"></a>宿主机与容器通讯</h4><p>当宿主机访问容器时，数据包从 docker0 流入到与容器对应的 veth 设备，通过容器的 eth0 到达到容器内。</p>
-<img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/docker/host2container.png" width="400px" alt="">
+<img src="https://cdn.0xfee1dead.cn/contentImg/docker/host2container.png" width="400px" alt="">
 
 <h4 id="外部访问容器"><a href="#外部访问容器" class="headerlink" title="外部访问容器"></a>外部访问容器</h4><p>默认情况，其他外部网络(宿主机以外)无法访问到容器内的端口，通常的做法是使用 -p 选项来暴露容器端口到宿主机上，外部网络通过访问宿主机的端口从而访问到容器端口。本质上来说，该方式是使用 iptables 的 DNAT 功能，通过 iptables 规则转发实现的。</p>
-<img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/docker/internet2container.png" width="400px" alt="">
+<img src="https://cdn.0xfee1dead.cn/contentImg/docker/internet2container.png" width="400px" alt="">
 
 <h3 id="自定义-bridge"><a href="#自定义-bridge" class="headerlink" title="自定义 bridge"></a>自定义 bridge</h3><p>除了使用默认 docker0 作网桥以为还可以使用 docker network 相关命令自定义网桥: </p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><code class="hljs sh">docker network create 1ess-net<br></code></pre></td></tr></table></figure>
@@ -315,7 +315,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?36162284"></script>
+<script src="/js/journal.js?80262868"></script>
 
 
 

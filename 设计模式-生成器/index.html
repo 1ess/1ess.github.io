@@ -21,7 +21,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?14628465">
+<link rel="stylesheet" href="/css/journal.css?18149975">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -174,12 +174,12 @@
                 <div class="post-body">
                     <p>生成器模式(Builder Pattern)是一种创建型设计模式，使你能够<strong>分步骤创建复杂对象</strong>。该模式允许你<strong>使用相同的创建代码生成不同类型和形式</strong>的对象。</p>
 <h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><hr>
-<p>生成器模式建议将对象构造代码从产品类中抽取出来，并将其放在一个名为生成器的独立对象中。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp3-1.png"></p>
+<p>生成器模式建议将对象构造代码从产品类中抽取出来，并将其放在一个名为生成器的独立对象中。<br><img src="https://cdn.0xfee1dead.cn/contentImg/designpattern/dp3-1.png"></p>
 <p>该模式会将对象构造过程划分为一组步骤。每次创建对象时，你都需要通过生成器对象执行一系列步骤。重点在于你无需调用所有步骤，而只需调用创建特定对象配置所需的那些步骤即可。</p>
 <p>当你需要创建不同形式的产品时，其中的一些构造步骤可能需要不同的实现。在这种情况下，你可以创建多个不同的生成器，用不同方式实现一组相同的创建步骤。然后你就可以在创建过程中使用这些生成器(例如按顺序调用多个构造步骤)来生成不同类型的对象。</p>
 <p>你可以进一步将用于创建产品的一系列生成器步骤调用抽取成为单独的<strong>主管类</strong>。主管类可定义创建步骤的执行顺序，而生成器则提供这些步骤的实现。<br>严格来说，你的程序中并不一定需要主管类。客户端代码可直接以特定顺序调用创建步骤。不过，主管类中非常适合放入各种例行构造流程，以便在程序中反复使用。</p>
 <h2 id="生成器模式-UML"><a href="#生成器模式-UML" class="headerlink" title="生成器模式 UML"></a>生成器模式 UML</h2><hr>
-<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp3-2.png"></p>
+<p><img src="https://cdn.0xfee1dead.cn/contentImg/designpattern/dp3-2.png"></p>
 <h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><hr>
 <ol>
 <li>使用生成器模式可避免<strong>重叠构造函数</strong>的出现。生成器模式让你可以分步骤生成对象，而且允许你仅使用必须的步骤。应用该模式后，你再也不需要将几十个参数塞进构造函数里了</li>
@@ -227,7 +227,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?42220094"></script>
+<script src="/js/journal.js?11018357"></script>
 
 
 

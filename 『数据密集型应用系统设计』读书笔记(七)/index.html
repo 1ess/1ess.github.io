@@ -25,7 +25,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?79293958">
+<link rel="stylesheet" href="/css/journal.css?97622990">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -212,7 +212,7 @@
 <li>写数据库时，只会覆盖已成功提交的数据</li>
 </ol>
 <p>当有以下需求时，需要防止脏读:<br>如果事务需要更新多个对象，脏读意味着另一个事务可能会看到部分更新。观察到部分更新的数据可能会造成用户的困惑，并由此引发一些不必要的后续操作。</p>
-<h3 id="快照级别隔离与可重复读"><a href="#快照级别隔离与可重复读" class="headerlink" title="快照级别隔离与可重复读"></a>快照级别隔离与可重复读</h3><p>在使用读已提交隔离级别时，仍然有很多场景可能导致并发错误。如下:<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig7-6.png"></p>
+<h3 id="快照级别隔离与可重复读"><a href="#快照级别隔离与可重复读" class="headerlink" title="快照级别隔离与可重复读"></a>快照级别隔离与可重复读</h3><p>在使用读已提交隔离级别时，仍然有很多场景可能导致并发错误。如下:<br><img src="https://cdn.0xfee1dead.cn/contentImg/ddia/fig7-6.png"></p>
 <p>这种异常现象被称为不可重复读取。快照级别隔离是解决级上述问题最常见的手段。其总体想法是，每个事务都从数据库的一致性快照中读取。</p>
 <p>与读已提交隔离类似，快照级别隔离的实现通常采用写锁来防止脏写。但是，读取则不需要加锁。从性能角度看，快照级别隔离的一个关键点是读操作<br>不会阻止写操作。</p>
 <p>为了实现快照级别隔离，数据库采用了一种更为通用的机制。数据库保留了对象多个不同的提交版本，这种技术因此也被称为多版本并发控制(MVCC)。<br>需要注意: <strong>支持快照级别隔离的存储引擎往往直接采用 MVCC 来实现读已提交隔离</strong>，只保留对象的两个版本就足够了: 一个已提交的旧版本和尚未提交的新版本。</p>
@@ -266,7 +266,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?30159712"></script>
+<script src="/js/journal.js?69945220"></script>
 
 
 

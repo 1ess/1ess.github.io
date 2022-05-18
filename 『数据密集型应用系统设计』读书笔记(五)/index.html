@@ -21,7 +21,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?64318311">
+<link rel="stylesheet" href="/css/journal.css?3814043">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -194,7 +194,7 @@
 </ol>
 <p>这种复制模式是许多关系数据库的内置功能，例如，PostgreSQL、MySQL 等。</p>
 <h3 id="同步复制与异步复制"><a href="#同步复制与异步复制" class="headerlink" title="同步复制与异步复制"></a>同步复制与异步复制</h3><p>复制系统的一个重要细节是: 复制是<strong>同步</strong>(synchronously)发生还是<strong>异步</strong>(asynchronously)发生。在关系型数据库中这通常是一个配置项，其他系统通常硬编码为其中一个。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig5-2.png"></p>
+<p><img src="https://cdn.0xfee1dead.cn/contentImg/ddia/fig5-2.png"></p>
 <p>在上图示例中，从库 1 的复制是同步的: 在向用户报告写入成功，并使结果对其他用户可见之前，主库需要等待从库 1 的确认，确保从库1已经收到写入操作。以及在使写入对其他客户端可见之前接收到写入。从库 2 的复制是异步的: 主库发送消息，但不等待从库的响应。</p>
 <p>在这幅图中，从库 2 处理消息前存在一个显著的延迟。通常情况下，复制的速度相当快: 大多数数据库系统能在一秒向从库应用变更，但它们不能提供复制用时的保证。</p>
 <p>通常情况下，基于领导者的复制都配置为完全异步，异步复制已经被广泛使用了。</p>
@@ -229,7 +229,7 @@
 <p>不过，当应用程序从异步从库读取时，如果从库落后，它可能会看到过时的信息。这会导致数据库中出现明显的不一致。同时对主库和从库执行相同的查询，可能得到不同的结果，因为并非所有的写入都反映在从库中。这种不一致只是一个暂时的状态 —— 如果停止写入数据库并等待一段时间，从库最终会赶上并与主库保持一致。出于这个原因，这种效应被称为<strong>最终一致性</strong>。</p>
 <p>因为滞后时间不确定而引入的不一致性，不仅是一个理论问题，更是应用设计中会遇到的真实问题。</p>
 <p>我们介绍三个由复制延迟问题产生的例子，并简述解决这些问题的一些方法。</p>
-<h4 id="读己之写"><a href="#读己之写" class="headerlink" title="读己之写"></a>读己之写</h4><p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig5-3.png"></p>
+<h4 id="读己之写"><a href="#读己之写" class="headerlink" title="读己之写"></a>读己之写</h4><p><img src="https://cdn.0xfee1dead.cn/contentImg/ddia/fig5-3.png"></p>
 <p>用户写入后从旧副本中读取数据。需要写后读(read-after-write)的一致性来防止这种异常。这是一个保证，如果用户重新加载页面，他们总会看到他们自己提交的任何更新。它不会对其他用户的写入做出承诺，其他用户的更新可能稍等才会看到。</p>
 <p>如何实现读后一致性有各种可能的技术，下面是一些常见方式: </p>
 <ol>
@@ -237,7 +237,7 @@
 <li>如果应用中的大部分内容都可能被用户编辑，在这种情况下可以使用其他标准来决定是否从主库读取。例如可以跟踪上次更新的时间，在上次更新后的一分钟内，从主库读</li>
 <li>客户端可以记住最近一次写入的时间戳，系统需要确保从库为该用户提供任何查询时，该时间戳前的变更都已经传播到了本从库中</li>
 </ol>
-<h4 id="单调读"><a href="#单调读" class="headerlink" title="单调读"></a>单调读</h4><p>从异步从库读取第二个异常例子是，用户可能会遇到<strong>时光倒流</strong>。<br>如果用户从不同从库进行多次读取，就可能发生这种情况:<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig5-4.png"></p>
+<h4 id="单调读"><a href="#单调读" class="headerlink" title="单调读"></a>单调读</h4><p>从异步从库读取第二个异常例子是，用户可能会遇到<strong>时光倒流</strong>。<br>如果用户从不同从库进行多次读取，就可能发生这种情况:<br><img src="https://cdn.0xfee1dead.cn/contentImg/ddia/fig5-4.png"></p>
 <p>用户首先从新副本读取，然后从旧副本读取。为了防止这种异常，我们需要单调的读取。</p>
 <p>单调读保证这种异常不会发生。这是一个比<strong>强一致性</strong>(strong consistency)更弱，但比<strong>最终一致性</strong>(eventual consistency)更强的保证。<br>例如，可以基于用户 ID 的散列来选择副本，而不是随机选择副本。但是，如果该副本失败，用户的查询将需要重新路由到另一个副本。</p>
 <h4 id="一致前缀读"><a href="#一致前缀读" class="headerlink" title="一致前缀读"></a>一致前缀读</h4><p>第三个复制延迟例子违反了因果律。如果某些分区的复制速度慢于其他分区，那么观察者在看到问题之前可能会看到答案。防止这种异常，需要另一种类型的保证: <strong>一致前缀读</strong>。<br>这个保证是说: 如果一系列写入按某个顺序发生，那么任何人读取这些写入时，也会以同样的顺序出现。<br>一种解决方案是，确保任何因果相关的写入都写入相同的分区。</p>
@@ -282,7 +282,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?56457260"></script>
+<script src="/js/journal.js?87745345"></script>
 
 
 

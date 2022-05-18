@@ -20,7 +20,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?22337114">
+<link rel="stylesheet" href="/css/journal.css?72617991">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -173,13 +173,13 @@
                 <div class="post-body">
                     <p>命令模式(Command Pattern)是一种行为型设计模式，它可将请求转换为一个包含与请求相关的所有信息的独立对象。该转换让你能根据不同的请求将方法参数化、 延迟请求执行或将其放入队列中，且能实现可撤销操作。</p>
 <h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><hr>
-<p>优秀的软件设计通常会将关注点进行分离，而这往往会导致软件的分层。<br>最常见的例子: 一层负责用户图像界面，另一层负责业务逻辑。GUI 层负责在屏幕上渲染图形，捕获所有输入并显示用户和程序工作的结果。用户操作时，GUI 层会将工作委派给业务逻辑底层处理。<br>代码中的结构为: 一个 GUI 对象传递一些参数来调用一个业务逻辑对象。这个过程通常被描述为一个对象发送请求给另一个对象。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp14-1.png"></p>
-<p>命令模式建议 GUI 对象不直接提交这些请求。你应该将请求的所有细节抽取出来组成命令类，该类中仅包含一个用于触发请求的方法。命令对象负责连接不同的 GUI 和业务逻辑对象。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp14-2.png"></p>
+<p>优秀的软件设计通常会将关注点进行分离，而这往往会导致软件的分层。<br>最常见的例子: 一层负责用户图像界面，另一层负责业务逻辑。GUI 层负责在屏幕上渲染图形，捕获所有输入并显示用户和程序工作的结果。用户操作时，GUI 层会将工作委派给业务逻辑底层处理。<br>代码中的结构为: 一个 GUI 对象传递一些参数来调用一个业务逻辑对象。这个过程通常被描述为一个对象发送请求给另一个对象。<br><img src="https://cdn.0xfee1dead.cn/contentImg/designpattern/dp14-1.png"></p>
+<p>命令模式建议 GUI 对象不直接提交这些请求。你应该将请求的所有细节抽取出来组成命令类，该类中仅包含一个用于触发请求的方法。命令对象负责连接不同的 GUI 和业务逻辑对象。<br><img src="https://cdn.0xfee1dead.cn/contentImg/designpattern/dp14-2.png"></p>
 <p>下一步是让所有命令实现相同的接口。该接口通常只有一个没有任何参数的执行方法，让你能在不和具体命令类耦合的情况下使用同一请求发送者执行不同命令。</p>
 <p>GUI 对象可以给业务层对象提供一些参数。但执行命令方法没有任何参数，所以我们如何将请求的详情发送给接收者呢？答案是: 使用数据对命令进行预先配置，或者让其能够自行获取数据。</p>
 <p>命令成为了减少 GUI 和业务逻辑层之间耦合的中间层。 </p>
 <h2 id="命令模式-UML"><a href="#命令模式-UML" class="headerlink" title="命令模式 UML"></a>命令模式 UML</h2><hr>
-<p><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/designpattern/dp14-3.png"></p>
+<p><img src="https://cdn.0xfee1dead.cn/contentImg/designpattern/dp14-3.png"></p>
 <h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><hr>
 <ol>
 <li>如果你需要通过操作来参数化对象，可使用命令模式</li>
@@ -227,7 +227,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?70892835"></script>
+<script src="/js/journal.js?31722068"></script>
 
 
 

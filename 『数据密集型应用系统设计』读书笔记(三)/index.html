@@ -20,7 +20,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?96870974">
+<link rel="stylesheet" href="/css/journal.css?73766870">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -196,7 +196,7 @@
 <li>范围查询效率不高</li>
 </ul>
 <h3 id="SSTables-和-LSM-树"><a href="#SSTables-和-LSM-树" class="headerlink" title="SSTables 和 LSM 树"></a>SSTables 和 LSM 树</h3><p>在散列索引中，每个日志结构存储段都是一系列键值对。这些键值对按照它们写入的顺序排列，日志中稍后的值优先于日志中较早的相同键的值。除此之外，文件中键值对的顺序并不重要。</p>
-<p>现在我们可以对段文件的格式做一个简单的改变: 要求键值对的序列按键排序。我们把这个格式称为<strong>排序字符串表</strong>(Sorted String Table)，简称 SSTable。我们还要求每个键只在每个合并的段文件中出现一次。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig3-5.png"></p>
+<p>现在我们可以对段文件的格式做一个简单的改变: 要求键值对的序列按键排序。我们把这个格式称为<strong>排序字符串表</strong>(Sorted String Table)，简称 SSTable。我们还要求每个键只在每个合并的段文件中出现一次。<br><img src="https://cdn.0xfee1dead.cn/contentImg/ddia/fig3-5.png"></p>
 <p>如何让你的数据能够预先排好序呢？虽然在硬盘上维护有序结构也是可能的，但在内存保存则要容易得多。有许多可以使用的众所周知的树形数据结构，例如红黑树或 AVL 树。使用这些数据结构，你可以按任何顺序插入键，并按排序顺序读取它们。</p>
 <p>现在我们可以让我们的存储引擎以如下方式工作: </p>
 <ul>
@@ -211,10 +211,10 @@
 <h4 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h4><p>当查找数据库中不存在的键时，LSM 树算法可能会很慢: 你必须先检查内存表，然后查看从最近的到最旧的所有的段，然后才能确定这个键不存在。<br>为了优化这种访问，存储引擎通常使用额外的布隆过滤器(Bloom filters)。布隆过滤器是用于近似集合内容的高效内存数据结构，它可以告诉你数据库中是不是不存在某个键，从而为不存在的键节省掉许多不必要的硬盘读取操作。</p>
 <h3 id="B-树"><a href="#B-树" class="headerlink" title="B 树"></a>B 树</h3><p>从 1970 年被引入至今，B 树很好地经受了时间的考验。在几乎所有的关系数据库中，它们仍然是标准的索引实现，许多非关系数据库也会使用到 B 树。</p>
 <p>像 SSTables 一样，B 树保持按键排序的键值对，这允许高效的键值查找和范围查询。</p>
-<p>前面提到，日志结构索引将数据库分解为可变大小的段，通常是几兆字节或更大的大小，并且总是按顺序写入段。相比之下，B 树将数据库分解成固定大小的块(block)或页面(page)，传统上大小为 4KB，并且一次只能读取或写入一个页面。<br>每个页面都可以使用地址或位置来标识，这允许一个页面引用另一个页面 —— 类似于指针，但其实现在硬盘而不是在内存中。我们可以使用这些页面引用来构建一个页面树。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig3-6.png"></p>
+<p>前面提到，日志结构索引将数据库分解为可变大小的段，通常是几兆字节或更大的大小，并且总是按顺序写入段。相比之下，B 树将数据库分解成固定大小的块(block)或页面(page)，传统上大小为 4KB，并且一次只能读取或写入一个页面。<br>每个页面都可以使用地址或位置来标识，这允许一个页面引用另一个页面 —— 类似于指针，但其实现在硬盘而不是在内存中。我们可以使用这些页面引用来构建一个页面树。<br><img src="https://cdn.0xfee1dead.cn/contentImg/ddia/fig3-6.png"></p>
 <p>一个页面会被指定为 B 树的根；在索引中查找一个键时，就从这里开始。该页面包含几个键和对子页面的引用。每个子页面负责一段连续范围的键，引用之间的键，指明了引用子页面的键范围。<br>如上如所示，我们正在寻找键 251 ，所以我们知道我们需要跟踪边界 200 和 300 之间的页面引用。这将我们带到一个类似的页面，进一步将 200 到 300 的范围拆分到子范围。<br>最终，我们将到达某个包含单个键的页面(叶子页面，leaf page)，该页面或者直接包含每个键的值，或者包含了对可以找到值的页面的引用。</p>
 <p>在 B 树的一个页面中对子页面的引用的数量称为分支因子，上图中，分支因子是 6。在实践中，分支因子取决于存储页面引用和范围边界所需的空间量，但通常是几百个。</p>
-<p>如果要更新现有键的值，需要搜索包含该键的叶子页面，更改该页面中的值，并将该页面写回到硬盘(对该页面的任何引用都将保持有效)。<br>如果要添加一个新的键，需要找到其范围能包含新键的页面，并将其添加到该页面。如果页面中没有足够的可用空间容纳新键，则将其分成两个半满页面，并更新父页面以反映新的键范围分区，如下图所示:<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig3-7.png"></p>
+<p>如果要更新现有键的值，需要搜索包含该键的叶子页面，更改该页面中的值，并将该页面写回到硬盘(对该页面的任何引用都将保持有效)。<br>如果要添加一个新的键，需要找到其范围能包含新键的页面，并将其添加到该页面。如果页面中没有足够的可用空间容纳新键，则将其分成两个半满页面，并更新父页面以反映新的键范围分区，如下图所示:<br><img src="https://cdn.0xfee1dead.cn/contentImg/ddia/fig3-7.png"></p>
 <p>这个算法可以确保树保持平衡:<br>具有 n 个键的 B 树总是具有 O(logn) 的深度。大多数数据库可以放入一个三到四层的 B 树，所以你不需要追踪多个页面引用来找到你正在查找的页面。分支因子为 500 的 4KB 页面的四层树可以存储多达 256TB 的数据。</p>
 <h4 id="让-B-树更可靠"><a href="#让-B-树更可靠" class="headerlink" title="让 B 树更可靠"></a>让 B 树更可靠</h4><p>为了使数据库能处理异常崩溃的场景，B 树实现通常会带有一个额外的硬盘数据结构:<br>预写式日志(WAL，即 write-ahead log，也称为重做日志，即 redo log)。这是一个仅追加的文件，每个 B 树的修改在其能被应用到树本身的页面之前都必须先写入到该文件。</p>
 <p>另外还有一个更新页面的复杂情况是，如果多个线程要同时访问 B 树，则需要仔细的并发控制 —— 否则线程可能会看到树处于不一致的状态。这通常是通过使用锁存器(latches)保护树的数据结构来完成。</p>
@@ -245,7 +245,7 @@
 <p>起初，事务处理和分析查询使用了相同的数据库。在二十世纪八十年代末和九十年代初期，企业有停止使用 OLTP 系统进行分析的趋势，转而在单独的数据库上运行分析。这个单独的数据库被称为数据仓库(data warehouse)。</p>
 <h3 id="数据仓库"><a href="#数据仓库" class="headerlink" title="数据仓库"></a>数据仓库</h3><p>OLTP 系统往往对业务运作至关重要，因而通常会要求”高可用”与”低延迟”。通常不愿意让业务分析人员在 OLTP 数据库上运行临时的分析查询。相比之下，数据仓库是一个独立的数据库，分析人员可以查询他们想要的内容而不影响 OLTP 操作。</p>
 <p>数据仓库包含公司各种 OLTP 系统中所有的只读数据副本。从 OLTP 数据库中提取数据(使用定期的数据转储或连续的更新流)，转换成适合分析的模式，清理并加载到数据仓库中。</p>
-<p>将数据存入仓库的过程称为<strong>抽取-转换-加载</strong>(ETL)。<br><img src="https://cdn.jsdelivr.net/gh/1ess/cdn/contentImg/ddia/fig3-8.png"></p>
+<p>将数据存入仓库的过程称为<strong>抽取-转换-加载</strong>(ETL)。<br><img src="https://cdn.0xfee1dead.cn/contentImg/ddia/fig3-8.png"></p>
 <p>在典型的数据仓库中，表格通常非常宽: 事实表通常有 100 列以上，有时甚至有数百列。维度表也可以是非常宽的，因为它们包括了所有可能与分析相关的元数据。</p>
 <h2 id="列式存储"><a href="#列式存储" class="headerlink" title="列式存储"></a>列式存储</h2><hr>
 <p>如果事实表中有万亿行和数 PB 的数据，那么高效地存储和查询它们就成为一个具有挑战性的问题。维度表通常要小得多，所以在本节中我们将主要关注事实表的存储。</p>
@@ -295,7 +295,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?71508389"></script>
+<script src="/js/journal.js?59375498"></script>
 
 
 
